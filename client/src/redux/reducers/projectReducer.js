@@ -1,11 +1,9 @@
 import {ActionTypes} from '../constants/projects/action-types';
 
-
 function updateOne(projects, payload) {
     return projects.map((project) => {
         //obj.id will be equal to the payload id
       if (payload.id === project._id) {
-        console.log('should be updated')
       // update whatever you want
         let newProject = payload.project
       return newProject ;

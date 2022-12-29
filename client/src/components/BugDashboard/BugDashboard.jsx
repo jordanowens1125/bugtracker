@@ -1,25 +1,26 @@
 import React, { useMemo } from 'react'
-import { TextField } from '@material-ui/core'
 import {useState} from 'react'
 import Box from '@mui/material/Box';
-import api from '../../api/index'
 import { useSelector, useDispatch } from 'react-redux'
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import NativeSelect from '@mui/material/NativeSelect';
-import {selectedBug, setBugs} from '../../redux/actions/bugActions'
 import dayjs from 'dayjs'
 
+const setBugToUnassigned=(assignedTo)=>{
+    if(assignedTo){
+        if(assignedTo.length>0){
+            return true
+        }
+    }
+    return false 
+}
 
-const priorities =['Low','Medium','High']
-const statusOptions=['Open','In Progress', 'Closed','In Review','Assigned', 'Not Assigned',]
 const BugDashboard = () => {
     const bug =useSelector((state)=>state.currentBug)
+    const isAnyoneAssigned=setBugToUnassigned(bug.assignedTo)
+    //const email = bug.assignedTo.length>0||false
     const dispatch =useDispatch()
     let {_id,title, description, status,openDate, closeDate, creator,
         priority,assignedTo,relatedBugs,projectID,comments,closer,
         stepsToRecreate,history} = bug
-
     const [formInputData, setFormInputData] = useState({
         title:title,
         creator:creator,
@@ -38,46 +39,7 @@ const BugDashboard = () => {
     })
     useMemo(() => {
         setFormInputData(bug)
-    },[]);
-  const [editMode, setEditMode] = useState(false)
-
-  const handleInputChange=(e)=>{   
-    const inputFieldValue = e.target.value;
-    const inputFieldName =e.target.id||e.target.name
-    //if name is start or deadline change format to string 
-    const newInputValue = {...formInputData,[inputFieldName]:inputFieldValue}
-    setFormInputData(newInputValue);
-  }
-  const handleFormSubmit= async(e)=>{ 
-    e.preventDefault()  
-    const result = await api.bugs.updateBug(_id,formInputData)
-    setFormInputData(formInputData)
-    //update redux bug
-    apiCallToNewBug()
-    changeEditMode()
-    const updateBugs = await api.bugs.fetchBugs()
-    dispatch(setBugs(updateBugs))
- }
- const apiCallToNewBug=async()=>{
-    try{
-        const response = await api.bugs.fetchBug(_id)
-            //return 1 bug
-            dispatch(selectedBug(response))
-    }
-    catch(err){
-        console.log('Error', err)
-    }
- }
- const changeEditMode=()=>{
-    setEditMode(!editMode)
-    //these are opposite because the value editMode starts out undefined until rendered
-    if(editMode){
-        setFormInputData(bug)
-    }
-    else{
-        setFormInputData(formInputData)
-    }
- }
+    },[bug]);
     return (
         <>
         <Box
@@ -96,7 +58,10 @@ const BugDashboard = () => {
                 <h1> {dayjs(bug.openDate).format('YYYY-MM-DD')}</h1>
                 <h1> {bug.status}</h1>
                 <h1> {bug.priority}</h1>
-                <h1> {bug.assignedTo}</h1>
+                {isAnyoneAssigned?
+                <h1>{bug.assignedTo}</h1>
+                    :<h1>Unassigned</h1>
+                }
         </Box>
         </>  
     )

@@ -8,10 +8,10 @@ import TableRow from '@mui/material/TableRow';
 import Table from '@mui/material/Table';
 import {useSelector, useDispatch} from 'react-redux';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../../../api/index';
-import {setBugs} from '../../../redux/actions/bugActions'
-import {setProjects} from '../../../redux/actions/projectActions'
+import {setBugs,selectedBug} from '../../../redux/actions/bugActions'
+import {selectedProject, setProjects} from '../../../redux/actions/projectActions'
 import dayjs from 'dayjs'
 
 const BugsTable = () => {
@@ -19,21 +19,31 @@ const BugsTable = () => {
   const projects = useSelector((state)=>state.allProjects.projects)
   const bugs = useSelector((state)=>state.allBugs.bugs)
   const dispatch =useDispatch()
+  const navigate = useNavigate()
   const hasBugs = bugs.length>0
   //if there are no projects then there should not be any bugs
   useEffect(()=>{
-  },[])
+  },[bugs])
 
-  const handleDeleteClick=async(e)=>{
-    let [bugID,projectID] = (e.currentTarget.dataset.key).split(',')
-    await api.bugs.deleteBug(bugID,projectID)
-    //make modal popup
-    //update bugs for redux
-    const updatedProjects = await api.bugs.fetchBugs()
-    dispatch(setBugs(updatedProjects))
-    //update projects for redux
-    const newProjects = await api.projects.fetchProjects()
-    dispatch(setProjects(newProjects))
+  const handleEditClick=async(e)=>{
+    let bugID = (e.currentTarget.dataset.key)
+    const bug = await api.bugs.fetchBug(bugID)
+    const project = await api.projects.fetchProject(bug.projectID)
+    dispatch(selectedBug(bug))
+    dispatch(selectedProject(project))
+    navigate(`/bugs/${bugID}`)
+}
+
+const handleDeleteClick=async(e)=>{
+  let [bugID,projectID] = (e.currentTarget.dataset.key).split(',')
+  await api.bugs.deleteBug(bugID,projectID)
+  //make modal popup
+  //update bugs for redux
+  const updatedProjects = await api.bugs.fetchBugs()
+  dispatch(setBugs(updatedProjects))
+  //update projects for redux
+  const newProjects = await api.projects.fetchProjects()
+  dispatch(setProjects(newProjects))
 }
 
   return (
@@ -48,7 +58,7 @@ const BugsTable = () => {
                 <TableCell align="right">Open Date</TableCell>
                 <TableCell align="right">Priority</TableCell>
                 <TableCell align="right">Status</TableCell>
-                <TableCell align="right">ProjectID</TableCell> 
+                <TableCell align="right">Project</TableCell> 
                 <TableCell align="right"></TableCell>
                 <TableCell align="right"></TableCell>
             </TableRow>
@@ -65,9 +75,9 @@ const BugsTable = () => {
                     <TableCell align="right">{dayjs(bug.openDate).format('YYYY-MM-DD')}</TableCell>
                     <TableCell align="right">{bug.priority}</TableCell>
                     <TableCell align="right">{bug.status}</TableCell>
-                    <TableCell align="right">{bug.projectID}</TableCell>
-                    <TableCell  align="right"><Link to={`${bug._id}`}><button data-key={bug._id}>Edit</button></Link></TableCell>
-                    <TableCell align="right"><button onClick={handleDeleteClick} data-key={[bug._id,bug.projectID]}>Delete</button></TableCell>
+                    <TableCell align="right">{bug.projectID.title}</TableCell>
+                    <TableCell  align="right"><button data-key={bug._id} onClick ={handleEditClick}>Edit</button></TableCell>
+                    <TableCell align="right"><button onClick={handleDeleteClick} data-key={[bug._id,bug.projectID._id]}>Delete</button></TableCell>
                     </TableRow>
                     ))
             }</TableBody>

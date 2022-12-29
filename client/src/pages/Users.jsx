@@ -1,5 +1,4 @@
 import React from 'react'
-import SignIn from '../components/Auth/Login'
 import {GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
 import {auth} from '../../utils/firebase'
 import UsersTable from '../components/Users/UsersTable'

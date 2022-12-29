@@ -17,7 +17,7 @@ import Snackbar from '@mui/material/Snackbar';
 import { useTheme } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
 import {setProjects,selectedProject} from '../../../redux/actions/projectActions'
-
+import {setUsers} from '../../../redux/actions/userActions'
 const style = {
   position: 'absolute',
   top: '50%',
@@ -54,7 +54,6 @@ const MenuProps = {
     };
   }
 
-
 const EditProjectModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
@@ -83,17 +82,24 @@ const EditProjectModal = () => {
 const handleInputChange=(e)=>{ 
     const inputFieldValue = e.target.value;
     const inputFieldName =e.target.id||e.target.name//target name for the bugs select
-    //if name is start or deadline change format to string
     const newInputValue = {...formInputData,[inputFieldName]:inputFieldValue}
     setFormInputData(newInputValue);
 }
 
 const handleFormSubmit=async(e)=>{  
     e.preventDefault()
-    const result = await api.projects.updateProject(currentProject._id,formInputData)
+    const memberIDs = replaceEmailsWithIDs(formInputData.members,users)
+    //updated project
+    const newInputValue = {...formInputData,['members']:memberIDs}
+    //old version of project
+    let oldmembers = replaceEmailsWithIDs(currentProject.members,users)
+    let oldProject = {...currentProject,['members']:oldmembers}
+    const result = await api.projects.updateProject(currentProject._id,oldProject, newInputValue)
     dispatch(selectedProject(formInputData))
     const newProjects = await api.projects.fetchProjects()
     dispatch(setProjects(newProjects))
+    const newUsers = await api.users.fetchUsers()
+    dispatch(setUsers(newUsers))
     setAlertOpen(true)
     setModalOpen(false)
 }
@@ -161,6 +167,7 @@ function replaceEmailsWithIDs(emails, users) {
           name={'members'}
           multiple
           value={formInputData.members}//set to current personName list
+          //value={[]}
           onChange={handleInputChange}
           input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
           renderValue={(selected) => (

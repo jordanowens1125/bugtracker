@@ -4,8 +4,8 @@ import {removeUserFromProjects } from './projects';
 import {unAssignUserFromBugs} from './bugs'
 
 export const fetchUsers = async() => await axios.get(baseURL).then((response)=>{return(response.data)})
-export const createUser = async(newUser) => axios.post(`${baseURL}/create`,newUser)
-
+export const createUser = async(newUser) => await axios.post(`${baseURL}/create`,newUser)
+export const addUserComment=async(userID,commentID)=>await axios.put(`${baseURL}/addusercomment`,{userID:userID,commentID:commentID})
 export const updateUser = async(id, updatedUser) => 
     await axios.put(`${baseURL}/${id}`, updatedUser);
 
@@ -18,3 +18,6 @@ export const deleteUser = async(user) => await axios.delete(`${baseURL}/delete/$
 
 export const addUsersToProject= async(project)=> await axios.put(`${baseURL}/project/${project._id}`,project)
 export const unAssignUsersFromProject = async(project)=>await axios.put(`${baseURL}/removeproject`,project)
+
+export const assignBugToUser=async(bug)=>await axios.put(`${baseURL}/assignbugtouser/${bug.assignedTo}/${bug._id}`,bug)
+export const unAssignBugFromUser=async(bug)=>await axios.put(`${baseURL}/unassignbugfromuser`,bug)

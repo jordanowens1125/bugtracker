@@ -3,7 +3,9 @@ const Comment = require('../models/comment')
 
 const getComments = async (req,res)=>{
     try {
-        const comments = await Comment.find()
+        const comments = await Comment.find(
+            {bugID:req.params.bugID}
+        ).populate('creator')
         res.status(200).json(comments)
     } catch (error) {
         res.status(404).json({message:error})
@@ -12,11 +14,7 @@ const getComments = async (req,res)=>{
 
 const createComment = async(req,res)=>{
     try {
-        var commentID = mongoose.Types.ObjectId();
-        let comment=req.body
-        comment['_id']=commentID
-        console.log(comment)
-        const newComment = await Comment.create(comment)
+        const newComment = await Comment.create(req.body)
         res.status(200).json(newComment)
     } catch (error) {
         res.status(404).json({message:error})
@@ -57,7 +55,6 @@ const updateComment = async (req,res)=>{
                 closeDate,history,members,relatedComments,closer,
                 comments,projectID,stepsToRecreate
             })
-        //console.log(project)
         res.status(200).json(project)
     } catch (error) {
         res.status(404).json({message:error})
@@ -66,8 +63,18 @@ const updateComment = async (req,res)=>{
 
 const deleteBugComments = async (req,res)=>{
     try {
-        let bugid = req.params.bugid
-        const comments = await Comment.deleteMany({bugID:bugid,})
+        const comments = await Comment.deleteMany({bugID:req.params.bugid,})
+        res.status(200).json(comments)
+    } catch (error) {
+        res.status(404).json({message:error})
+    }
+}
+
+const deleteAllProjectComments = async (req,res)=>{
+    console.log(req.params)
+    try {
+        const comments = await Comment.deleteMany({projectID:req.params.projectid,})
+        console.log(comments)
         res.status(200).json(comments)
     } catch (error) {
         res.status(404).json({message:error})
@@ -76,4 +83,5 @@ const deleteBugComments = async (req,res)=>{
 
 module.exports = {getComments, createComment, deleteComment, 
     getComment,deleteBugComments,updateComment,deleteBugComments,
+    deleteAllProjectComments,
 }

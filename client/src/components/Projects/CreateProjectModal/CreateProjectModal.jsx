@@ -61,7 +61,7 @@ const CreateProjectModal = () => {
   const handleModalOpen = () => setModalOpen(true);
   const theme = useTheme();
   const dispatch =useDispatch()
-  const users = useSelector((state)=>state.allUsers.users)
+  const users = useSelector((state)=>state.allUsers.unAssignedUsers)
   const [formInputData, setFormInputData] = useState({
     title:'',
     description:'',
@@ -159,7 +159,7 @@ const handleAlertClose=(e,reason)=>{
             //multiline
             //error comes when multiline is added
             />
-            <FormControl sx={{ m: 1, width: 300 }}>
+        {/* <FormControl sx={{ m: 1, width: 300 }}>
         <InputLabel id="demo-multiple-chip-label">Members</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
@@ -188,7 +188,7 @@ const handleAlertClose=(e,reason)=>{
             </MenuItem>
           ))}
         </Select>
-        </FormControl>
+        </FormControl> */}
         <TextField
           id="start"
           label='Start'

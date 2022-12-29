@@ -13,14 +13,44 @@ function updateOne(users, payload) {
    })
 }
 
+const filterUsers = (users)=>{
+    //function to discern between members with projects and those without projects
+    const userList = []
+    const assignedUsers=[]
+    const unAssignedUsers=[]
+    for (let i=0;i<users.length;i++){
+      if(users[i].project.length>0){
+        users[i].projectDisplay = users[i].project[0].title
+      }else{
+        users[i].projectDisplay = '-'
+      }
+      if(users[i].project>0){
+        assignedUsers.push(users[i])
+      }
+      else{
+        unAssignedUsers.push(users[i])
+      }
+      userList.push(users[i])
+    }
+    return [userList,assignedUsers,unAssignedUsers]
+  }
+
 const initialState = {
     users: [],
-    stagedUsers:[],
+    userDisplayList:[],
+    assignedUsers:[],
+    unAssignedUsers:[],
 } 
 export const usersReducer = (state=initialState,{type,payload} ) =>{
     switch(type){
         case ActionTypes.SET_USERS:
-            return {...state, users:payload}; 
+            let [userList,assignedUsers,unAssignedUsers] = filterUsers(JSON.parse(JSON.stringify(payload)))
+
+            return {...state, users:payload,
+                userDisplayList:userList,
+                assignedUsers:assignedUsers,
+                unAssignedUsers:unAssignedUsers,
+            }; 
         case ActionTypes.DELETE_USER:
             let newUsers = state.users.filter(user=>user._id!==payload)
             return{...state,users:newUsers}

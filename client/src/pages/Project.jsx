@@ -4,18 +4,22 @@ import { useSelector, useDispatch } from 'react-redux'
 import {selectedProject,removeSelectedProject} from '../redux/actions/projectActions'
 import ProjectDashboard from '../components/ProjectDashboard/ProjectDashboard'
 import EditProjectModal from '../components/Projects/EditProjectModal/EditProjectModal'
-import axios from 'axios'
+import api from '../api/index'
 
 const Project = () => {
     const projectID =useParams().id
     const dispatch =useDispatch()
-    const projectURL = `http://localhost:8000/projects/${projectID}`;
 
     const fetchProjectDetails = async()=>{
         try{
-            const response = await axios.get(projectURL)
+            const project = await api.projects.fetchProject(projectID)
             //return 1 project
-            dispatch(selectedProject(response.data))
+            if(project.members.length>0){
+               let members = project.members.map(a => a.email);
+                project.members=members 
+            }
+            
+            dispatch(selectedProject(project))
         }
         catch(err){
             console.log('Error', err)
@@ -29,11 +33,10 @@ const Project = () => {
                 }
             }
     },[projectID])
-    const project =useSelector((state)=>state.project)
     
     return (
         <>
-            <ProjectDashboard project={project} />
+            <ProjectDashboard/>
             <EditProjectModal/>
         </>
         

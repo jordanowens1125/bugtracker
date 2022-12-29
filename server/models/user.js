@@ -12,7 +12,7 @@ const UserSchema = new Schema({
   },
   assignedBugs:[{type: Schema.Types.ObjectId, ref:'Bug'}],
   comments:[{type: Schema.Types.ObjectId, ref:'Comment'}],
-  projects:[{type: Schema.Types.ObjectId, ref:'Project'}],
+  project:[{type: Schema.Types.ObjectId, ref:'Project'}],
 });
 
 module.exports = mongoose.model('User',UserSchema)
