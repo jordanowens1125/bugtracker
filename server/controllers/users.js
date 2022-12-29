@@ -3,7 +3,7 @@ const User = require('../models/user')
 
 const getUsers = async (req,res)=>{
     try {
-        const users = await User.find()
+        const users = await User.find().populate('project')
         res.status(200).json(users)
     } catch (error) {
         res.status(404).json({message:error})
@@ -23,9 +23,10 @@ const createUser = async(req,res)=>{
 const deleteUser = async(req,res)=>{
     try {
         //remove this project from the users listed on it
-        let user = await User.findOneAndDelete(req.params.id)
+        let user = await User.findOneAndDelete({_id:req.params.id})
         //delete bugs associated with this project
         res.status(200).json(user)
+        //res.status(200).json()
     } catch (error) {
         res.status(404).json({message:error})
     }
@@ -82,11 +83,11 @@ const deleteUserFromProject = async (req,res)=>{
 const assignBugToUser= async(req,res)=>{
     try {
         let id = req.params.id
-        const user = await User.updateOne({_id:id},{
-            $push:{
-                assignedBugs:mongoose.Types.ObjectId(req.params.bugid)
-            }
-        })
+        const user = await User.updateOne(                
+            {_id:id},
+            {$addToSet:
+                {assignedBugs:req.params.bugid}}
+        )
         res.status(200).json(user)
     } catch (error) {
         res.status(404).json({message:error})
@@ -95,13 +96,19 @@ const assignBugToUser= async(req,res)=>{
 
 const unAssignBugFromUser= async(req,res)=>{
     try {
-        let id = req.params.id
-        const user = await User.updateOne({_id:id},{
+        console.log(req.body)
+        //assigedTo may be equal to Unassigned
+        const userID= req.body.assignedTo
+        if(userID!='Unassigned'){
+            const user = await User.updateOne({_id:userID},{
             $pull:{
-                assignedBugs:mongoose.Types.ObjectId(req.params.bugid)
+                assignedBugs:req.body._id
             }
         })
-        res.status(200).json(user)
+        console.log(user)
+        }
+        
+        res.status(200).json()
     } catch (error) {
         res.status(404).json({message:error})
     }
@@ -109,10 +116,9 @@ const unAssignBugFromUser= async(req,res)=>{
 
 const addUserComment= async(req,res)=>{
     try {
-        let id = req.params.id
-        const user = await User.updateOne({_id:id},{
+        const user = await User.updateOne({_id:req.body.userID},{
             $push:{
-                comments:mongoose.Types.ObjectId(req.params.commentid)
+                comments:req.body.commentID
             }
         })
         res.status(200).json(user)
@@ -141,7 +147,7 @@ const addUsersToProject = async(req,res)=>{
         for(let i=0;i<memberIDs.length;i++){
             await User.updateOne(
                 {_id:memberIDs[i]},
-                {$addToSet:{projects:projectID}}
+                {$addToSet:{project:projectID}}
             )
         }
         res.status(200).json()
@@ -154,9 +160,9 @@ const unAssignUsersFromProject = async(req,res)=>{
         const memberIDs= req.body.members
         const projectID = req.body._id
         for(let i=0;i<memberIDs.length;i++){
-            await User.updateOne(
-                {_id:memberIDs[i]},
-                {$pull:{projects:projectID}}
+            await User.updateMany(
+                {},
+                {$pull:{project:projectID}}
             )
         }
         res.status(200).json()

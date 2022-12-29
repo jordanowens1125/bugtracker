@@ -16,6 +16,7 @@ const ProjectSchema = new Schema({
   client:String,
   members:[{type: Schema.Types.ObjectId, ref:'User'}],
   bugs:[{type: Schema.Types.ObjectId, ref:'Bug'}],
+  comments:[{type: Schema.Types.ObjectId, ref:'Comment'}],
 });
 
 module.exports = mongoose.model('Project',ProjectSchema)

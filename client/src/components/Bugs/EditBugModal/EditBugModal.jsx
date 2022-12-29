@@ -1,7 +1,6 @@
 import React,{useState,useEffect,useMemo} from 'react'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import api from  '../../../api/index'
 import TextField from '@mui/material/TextField';
@@ -17,7 +16,8 @@ import Snackbar from '@mui/material/Snackbar';
 import { useTheme } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
 import { setBugs,selectedBug } from '../../../redux/actions/bugActions';
-import {setProjects} from '../../../redux/actions/projectActions'
+import {setProjects} from '../../../redux/actions/projectActions';
+import {setUsers} from '../../../redux/actions/userActions';
 
 const style = {
   position: 'absolute',
@@ -61,11 +61,12 @@ const EditBugModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const handleModalOpen = () => setModalOpen(true);
-  const projects = useSelector((state)=>state.allProjects.projects)
   const bugs = useSelector((state)=>state.allBugs.bugs)
   const currentBug = useSelector((state)=>state.currentBug)
-  const users = useSelector((state)=>state.allUsers.users)
-  //
+  const project = useSelector((state)=>state.project)
+  const members = project.members||false
+  //we will use this project to populate the potential members who can 
+  //be assigned this project
   const theme = useTheme();
   const dispatch =useDispatch()
   const [formInputData, setFormInputData] = useState({
@@ -81,12 +82,13 @@ const EditBugModal = () => {
     relatedBugs:[],//set by user optionally, can be updated
     stepsToRecreate:[],//set by user, can be updated
     priority:'Low',//set by user, can be updated *
-    assignedTo:null,//can be updated
+    assignedTo:'',//can be updated
     comments:[],
 })
-useMemo(()=>{
-    setFormInputData(currentBug)
+useMemo(async()=>{
+    setFormInputData(currentBug) 
 },[currentBug])
+
 const handleInputChange=(e)=>{ 
     const inputFieldValue = e.target.value;
     const inputFieldName =e.target.id||e.target.name//target name for the bugs select
@@ -97,12 +99,20 @@ const handleInputChange=(e)=>{
 
 const handleFormSubmit=async(e)=>{  
     e.preventDefault()
-    const result = await api.bugs.updateBug(currentBug._id,formInputData)
+    if(formInputData.assignedTo==''){
+      let newInputValue = {...formInputData}
+      delete newInputValue.assignedTo
+      await api.bugs.updateBug(currentBug,newInputValue)
+    }else{
+      const result = await api.bugs.updateBug(currentBug,formInputData)
+    }
     dispatch(selectedBug(formInputData))
     const newBugs = await api.bugs.fetchBugs()
     dispatch(setBugs(newBugs))
     const newProjects = await api.projects.fetchProjects()
     dispatch(setProjects(newProjects))
+    const newUsers = await api.users.fetchUsers()
+    dispatch(setUsers(newUsers))
     setAlertOpen(true)
     setModalOpen(false)
 }
@@ -130,7 +140,7 @@ const handleAlertClose=(e,reason)=>{
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-      <form onSubmit={(event) => handleFormSubmit(event)}> 
+      <form onSubmit={(event) => handleFormSubmit(event)}>
             <TextField
             required 
             label="Title"
@@ -172,6 +182,33 @@ const handleAlertClose=(e,reason)=>{
                 ))}
                 </Select>
             </FormControl> 
+            {members?
+              <FormControl sx={{ m: 1, width: 300 }}>
+                  <InputLabel id="demo-multiple-name-label">Assign</InputLabel>
+                  <Select
+                  id="assignedTo"
+                  name='assignedTo'
+                  value={formInputData.assignedTo}
+                  onChange={handleInputChange}
+                  input={<OutlinedInput label="assignedTo" />}
+                  >
+                  <MenuItem
+                  key=''
+                  value=''>{'None'}
+                  </MenuItem>
+                  {members.map((member) => (
+                      <MenuItem
+                          key={member._id}
+                          value={member._id}
+                          >
+                          {member.email}
+                      </MenuItem>
+                  ))}
+                  </Select>
+              </FormControl> :
+              <h1>loading</h1>
+            }
+            
             <FormControl sx={{ m: 1, width: 300 }}>
                 <InputLabel id="demo-multiple-chip-label">Related bugs</InputLabel>
                     <Select
@@ -208,7 +245,7 @@ const handleAlertClose=(e,reason)=>{
     </Modal>
     <Snackbar open={alertOpen} autoHideDuration={2000} onClose={handleAlertClose}>
         <Alert onClose={handleAlertClose} variant="filled" severity="success" sx={{ width: '100%' }}>
-            Bug {currentBug.title} was successfully edit       
+            Bug was successfully edited!      
         </Alert>
     </Snackbar>
   </div>

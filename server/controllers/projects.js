@@ -3,7 +3,7 @@ const Project = require('../models/project')
 
 const getProjects = async (req,res)=>{
     try {
-        const projects = await Project.find()
+        const projects = await Project.find().populate('bugs').populate('members')
         res.status(200).json(projects)
     } catch (error) {
         res.status(404).json({message:error})
@@ -21,7 +21,6 @@ const createProject = async(req,res)=>{
 
 const deleteProject = async(req,res)=>{
     try {
-        console.log(req.params.id)
         //remove this project from the users listed on it
         let project = await Project.findOneAndDelete({_id:req.params.id})
         //delete bugs associated with this project
@@ -34,7 +33,8 @@ const deleteProject = async(req,res)=>{
 const getProject = async (req,res)=>{
     try {
         let id = req.params.id
-        const project = await Project.findById(id)
+        const project = await Project.findById(id).populate('bugs').populate('members')
+
         res.status(200).json(project)
     } catch (error) {
         res.status(404).json({message:error})
@@ -82,14 +82,10 @@ const removeUserFromProjects = async(req,res)=>{
     //each project
     try {
         const userID= req.body._id
-        const projectIds= req.body.projects
-        for (let i=0;i<projectIds.length;i++){
-            console.log(projectIds[i])
             await Project.updateOne(
-                {_id:projectIds[i]},
+                {},
                 {$pull:{members:userID}}
             )
-        }
         res.status(200).json()
     } catch (error) {
         res.status(404).json({message:error})

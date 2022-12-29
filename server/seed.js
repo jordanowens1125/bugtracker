@@ -1,60 +1,34 @@
 const mongoose = require('mongoose')
 const User = require('./models/user')
+const Project = require('./models/project')
+const Bug = require('./models/bug')
+const Comment = require('./models/comment')
 require('dotenv').config({path:'./config/.env'})
 const connectDB = require('./config/db')
+const seedProjects = require('./seedFolder/projects')
+const seedUsers = require('./seedFolder/users')
+const seedBugs = require('./seedFolder/bugs')
+const seedComments = require('./seedFolder/comments')
 connectDB()
 
-
-const seedUsers=[
-    {
-        email:'hllam@live.com',
-    },
-    {
-        email:'jadavis@verizon.net',
-    },
-    {
-        email:'flaviog@msn.com',
-    },
-    {
-        email:'lenz@sbcglobal.net',
-    },
-    {
-        email:'glenz@sbcglobal.net',
-    },
-    {
-        email:'durist@comcast.net',
-    },
-    {
-        email:'stomv@hotmail.com',
-    },
-    {
-        email:'mschwartz@sbcglobal.net',
-    },
-    {
-        email:'bryanw@hotmail.com',
-    },
-    {
-        email:'chaikin@aol.com',
-    },
-    {
-        email:'phish@verizon.net',
-    },
-    {
-        email:'jramio@msn.com',
-    },
-    {
-        email:'pakaste@yahoo.ca',
-    },
-    {
-        email:'am@live.com',
-    },
-    {
-        email:'hll21232am@live.com',
-    },
-]
-
 const seedDB= async()=>{
-    await User.insertMany(seedUsers)
+    try{
+        await User.deleteMany({})
+        await User.insertMany(seedUsers)
+
+        await Project.deleteMany({})
+        await Project.insertMany(seedProjects) 
+
+        await Bug.deleteMany({})
+        await Bug.insertMany(seedBugs)
+
+        await Comment.deleteMany({})
+        await Comment.insertMany(seedComments)
+
+    }catch(err){
+        console.log(err)
+    }
+    
 }
 
 seedDB().then(()=>{

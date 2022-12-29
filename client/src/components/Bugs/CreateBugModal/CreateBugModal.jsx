@@ -199,6 +199,7 @@ const handleAlertClose=(e,reason)=>{
                 ))}
                 </Select>
             </FormControl>
+            
             <FormControl sx={{ m: 1, width: 300 }}>
                 <InputLabel id="demo-multiple-chip-label">Related bugs</InputLabel>
                     <Select
