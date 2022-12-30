@@ -1,11 +1,12 @@
-import React, { useMemo,useState } from 'react'
+import React, { useMemo,useState,useRef,useEffect } from 'react'
+import { ReactDOM } from 'react'
 import { useSelector } from 'react-redux'
 import api from '../../../api/index'
 import {Typography, Container, Paper,Box, Divider, Grid, List, ListItem, ListItemText, FormControl, TextField, IconButton} from "@mui/material"
 import SendIcon from '@mui/icons-material/Send';
 import { useDispatch } from 'react-redux'
-import { removeSelectedBug} from '../../../redux/actions/bugActions'
-
+import { removeSelectedBug, selectedBug} from '../../../redux/actions/bugActions'
+import Comment from '../Comment/Comment';
 const bugHasComments=(bug)=>{
     if(bug.comments){
         if(bug.comments.length>0){
@@ -21,9 +22,17 @@ const checkifCurrentBugIsFilled=(obj)=>{
     }
     return false;
 }
+const AlwaysScrollToBottom = () => {
+    const elementRef = useRef();
+    useEffect(() => elementRef.current.scrollIntoView());
+    return <div id='bottom' ref={elementRef} />;
+  };
 
+  const scrollToBottom = () => {
+    const section = document.querySelector( '#bottom' );
+    section.scrollIntoView( { behavior: 'smooth', block: 'start' } );
+  };
 const BugComments = () => {
-    const [chatMessages, setChatMessages]=useState([])
     const dispatch=useDispatch()
     const [chatInput,setChatInput]= useState({
         text:'',
@@ -42,8 +51,8 @@ const BugComments = () => {
         newComment.bugID=bug._id
         newComment.projectID=bug.projectID
         await api.comments.createComment(newComment)
-        const comments = await api.comments.fetchBugComments(bugID)
-        setChatMessages(comments)
+        const newBug = await api.bugs.fetchBug(bug._id)
+        dispatch(selectedBug(newBug))
         setChatInput({
             text:'',
             input:'',
@@ -66,25 +75,31 @@ const BugComments = () => {
             <Box p={3}>
                 <Typography variant='h4' gutterBottom>{bug.title}</Typography>
                 <button onClick={clearCurrentBug}>Clear Bug</button>
+                <button onClick={scrollToBottom}>Scroll Down</button>
                 <Divider/>
-                <Grid>
+                <Grid 
+                sx={{
+                    overflow: "hidden",
+                    overflowY: "scroll",
+                    maxHeight:500,
+                }}>
                      <Grid item>
                         <List>
                             {hasComments?
-                                <div>{bug.comments.map((comment)=>(
-                                    <div key={comment._id}>{comment.text}</div>
-                                ))}</div>
+                            <>
+                            <div>{bug.comments.map((comment)=>(
+                                    <div key={comment._id}>
+                                        <Comment comment={comment}/>
+                                    </div>
+                                ))}
+                            </div><AlwaysScrollToBottom />
+                            </>
+                            
                                 :<div>no comments</div>
                             }
                         </List>
                      </Grid>
-                     <Grid item>
-                        <FormControl fullWidth>
-                            <TextField value={'Jordan'}
-                            variant='outlined'/>
-                        </FormControl>
-                     </Grid>
-                     <Grid xs={9} item>
+                     <Grid xs={8} item>
                         <FormControl fullWidth>
                             <TextField 
                             id='text'
@@ -95,7 +110,7 @@ const BugComments = () => {
                             />
                         </FormControl>
                      </Grid>
-                     <Grid item>
+                     <Grid xs={4} item>
                         <IconButton
                         aria-label='send'
                         color='primary'
