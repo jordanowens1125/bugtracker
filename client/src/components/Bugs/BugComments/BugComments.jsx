@@ -1,9 +1,10 @@
 import React, { useMemo,useState } from 'react'
 import { useSelector } from 'react-redux'
 import api from '../../../api/index'
-import { useParams } from 'react-router-dom'
 import {Typography, Container, Paper,Box, Divider, Grid, List, ListItem, ListItemText, FormControl, TextField, IconButton} from "@mui/material"
 import SendIcon from '@mui/icons-material/Send';
+import { useDispatch } from 'react-redux'
+import { removeSelectedBug} from '../../../redux/actions/bugActions'
 
 const bugHasComments=(bug)=>{
     if(bug.comments){
@@ -13,9 +14,17 @@ const bugHasComments=(bug)=>{
     }
     return false 
 }
+const checkifCurrentBugIsFilled=(obj)=>{
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            return true;
+    }
+    return false;
+}
 
 const BugComments = () => {
     const [chatMessages, setChatMessages]=useState([])
+    const dispatch=useDispatch()
     const [chatInput,setChatInput]= useState({
         text:'',
         input:'',
@@ -41,27 +50,32 @@ const BugComments = () => {
         })
     }
     const bug =useSelector((state)=>state.currentBug)
+    const isThereACurrentBug=checkifCurrentBugIsFilled(bug)
     const currentUser =useSelector((state)=>state.currentUser)
     const hasComments=bugHasComments(bug)
-    const bugID =useParams().id
+    const clearCurrentBug=()=>{
+        console.log('hi')
+        dispatch(removeSelectedBug())
+    }
     useMemo(()=>{
-        async function fetchData(bugID){
-            const comments = await api.comments.fetchBugComments(bugID)
-            setChatMessages(comments)
-            return comments
-        }
-        fetchData(bugID)
     },[bug])
   return (
     <>
-        <Paper elevation={5}>
+    {isThereACurrentBug?
+    <Paper elevation={5}>
             <Box p={3}>
                 <Typography variant='h4' gutterBottom>{bug.title}</Typography>
+                <button onClick={clearCurrentBug}>Clear Bug</button>
                 <Divider/>
                 <Grid>
                      <Grid item>
                         <List>
-
+                            {hasComments?
+                                <div>{bug.comments.map((comment)=>(
+                                    <div key={comment._id}>{comment.text}</div>
+                                ))}</div>
+                                :<div>no comments</div>
+                            }
                         </List>
                      </Grid>
                      <Grid item>
@@ -91,17 +105,12 @@ const BugComments = () => {
                      </Grid>
                 </Grid>
             </Box>
-        </Paper>
-        {hasComments?
-        <div>{chatMessages.map((comment)=>(
-            <div key={comment._id}>{comment.text}</div>
-        ))}</div>
-        
-        :<div>no comments</div>
-        }
+        </Paper>:
+        <h1>Selected Bug Info</h1>
+
+    }
         
     </>
-    
   )
 }
 

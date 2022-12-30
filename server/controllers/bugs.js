@@ -3,7 +3,7 @@ const Bug = require('../models/bug')
 
 const getBugs = async (req,res)=>{
     try {
-        const bugs = await Bug.find().populate('projectID')
+        const bugs = await Bug.find().populate('projectID').populate('comments').populate('assignedTo')
         res.status(200).json(bugs)
     } catch (error) {
         res.status(404).json({message:error})

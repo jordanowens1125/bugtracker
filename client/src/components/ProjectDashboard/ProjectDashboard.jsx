@@ -1,22 +1,85 @@
 import React, { useMemo,useEffect,useState } from 'react'
 import Box from '@mui/material/Box';
 import { useSelector, useDispatch } from 'react-redux'
-import dayjs from 'dayjs'
+import './ProjectDashboard.css'
+import { Grid, Paper } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { DataGrid } from '@mui/x-data-grid';
+import {selectedBug} from '../../redux/actions/bugActions'
+const memberColumns = [
+    { field: '_id', headerName: 'ID', width: 90 },
+    {
+      field: 'fullName',
+      headerName: 'Full name',
+      description: 'This column has a value getter and is not sortable.',
+      sortable: false,
+      width: 160,
+      valueGetter: (params) =>
+        `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+    },
+    {
+      field: 'email',
+      headerName: 'Email',
+      width: 150,
+      editable: true,
+    },
+    {
+      field: 'role',
+      headerName: 'Role',
+      width: 100,
+      editable: true,
+    },
+    {
+        field: 'Bug Count',
+        headerName: 'Bug Count',
+        width: 100,
+        editable: true,
+        valueGetter:(params)=>
+            `${params.row.assignedBugs.length}`
+      },
+  ];
 
-//function to turn ids into emails for project members
-function replaceIDsWithEmails(ids, users) {
-    let userEmails =[];
-    if(ids){
-       if(ids.length>0){
-      for(let i=0;i<users.length;i++){
-        if(ids.includes(users[i]._id)){
-            userEmails.push(users[i].email)
-        }
-      } 
-    } 
-    }
-    return(userEmails)  
-  }
+const bugColumns = [
+    { field: '_id', headerName: 'ID', width: 90 },
+    {
+      field: 'title',
+      headerName: 'Title',
+      description: 'This column has a value getter and is not sortable.',
+      width: 150,
+    },
+    {
+      field: 'status',
+      headerName: 'Status',
+      width: 100,
+      editable: true,
+    },
+    {
+      field: 'openDate',
+      headerName: 'Open Date',
+      width: 100,
+      editable: true,
+    },
+    {
+        field: 'closeDate',
+        headerName: 'Close Date',
+        width: 100,
+        editable: true,
+      },
+      {
+        field: 'priority',
+        headerName: 'Priority',
+        width: 100,
+        editable: true,
+      },
+];
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }));
 
   function checkProject(project){
     if(project.bugs){
@@ -26,47 +89,56 @@ function replaceIDsWithEmails(ids, users) {
     }
   }
 
+  const findMatchingBug=(bugID,bugs)=>{
+    for(let i=0;i<bugs.length;i++){
+        if(bugs[i]._id==bugID){
+            return bugs[i]
+        }
+    }
+  }
+
 const ProjectDashboard = () => {
     const project =useSelector((state)=>state.project)
     const isCurrentProjectFilled = checkProject(project)
     const users =useSelector((state)=>state.allUsers.users)
-    const [formInputData, setFormInputData] = useState({
-        title:'',
-        description:'',
-        status:'',
-        startDate: '',
-        deadline: '',
-        history:'',
-        members:'',//replaceIDsWithEmails(members,users)
-        bugs:'',
-    })
+    const bugs = useSelector((state)=>state.allBugs.bugs)
+    const dispatch=useDispatch()
     useEffect(() => {
     },[project]);
+    
+    const handleRowClick=(e)=>{
+        const foundBug = findMatchingBug(e.id,bugs)
+        dispatch(selectedBug(foundBug))
+    }
     return (
         <>{isCurrentProjectFilled ?
-            <Box
-                component="form"
-                sx={{
-                    '& > :not(style)': { m: 1, width: '25ch' },
-                }}
-                noValidate
-                autoComplete="off"
-                >
-                    <h1>hiiiiiiii</h1>
-                    <h1>hiiiiiiii</h1>
-                    <h1> {project.title}</h1>
-                    <h1> {project.description}</h1>
-                    <h1> {project.startDate}</h1>
-                    <h1> {project.deadline}</h1>
-                    <h1> {project.status}</h1>
-                    {project.bugs.map((bug)=>(
-                        <h1 key={bug._id}>{bug.title}</h1>
-                    ))}
-                    {project.members.map((member)=>(
-                        <h1 key={member}>{member}</h1>
-                    ))}
-                    <h1> {project.history}</h1> 
-            </Box>:'Loading'
+            <Box className='project-dashboard' sx={{ height: 400, 
+            width: '100%',display: 'flex',paddingTop:'80px',}}>
+            <DataGrid
+              sx={{width:'50%'}}
+              rows={project.members}
+              columns={memberColumns}
+              getRowId={(row)=>row._id}
+              pageSize={6}
+              rowsPerPageOptions={[6]}
+              //checkboxSelection
+              disableSelectionOnClick
+              experimentalFeatures={{ newEditingApi: true }}
+            />
+            <DataGrid
+              sx={{width:'50%'}}
+              rows={project.bugs}
+              columns={bugColumns}
+              getRowId={(row)=>row._id}
+              pageSize={6}
+              rowsPerPageOptions={[6]}
+              //checkboxSelection
+              disableSelectionOnClick
+              experimentalFeatures={{ newEditingApi: true }}
+              onRowClick={handleRowClick}
+            />
+          </Box>
+            :'Loading'
         }
         </>  
     )

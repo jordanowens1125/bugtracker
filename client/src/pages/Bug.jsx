@@ -27,12 +27,12 @@ const Bug = () => {
     },[bugID])
     
     return (
-        <>
+        <div>
+            <h1>hi</h1><h1>hi</h1><h1>hi</h1><h1>hi</h1>
             <BugDashboard  />
-            <EditBugModal />
-            <BugComments/>
-        </>
-        
+            <div className="modal"><EditBugModal /></div>
+            <div className="comments"><BugComments/></div>
+        </div>
     )
 }
 

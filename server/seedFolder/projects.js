@@ -12,7 +12,7 @@ const seedProjects=[
         deadline:'2022-12-28',
         history:[],
         client:'',
-        bugs:["63ab7ace4e39c16c9b79e3ac"],
+        bugs:["63ab78cc81174e7f3a98fd0e"],
         members:['63a36a4d3f0f5cf676acf07c','63a36a4d3f0f5cf676acf07e','63a36a4d3f0f5cf676acf07d'], 
         comments:["63ab8d9e45c860aa510785bf"]
     }),
