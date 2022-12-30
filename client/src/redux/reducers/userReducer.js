@@ -24,7 +24,7 @@ const filterUsers = (users)=>{
       }else{
         users[i].projectDisplay = '-'
       }
-      if(users[i].project>0){
+      if(users[i].project.length>0){
         assignedUsers.push(users[i])
       }
       else{

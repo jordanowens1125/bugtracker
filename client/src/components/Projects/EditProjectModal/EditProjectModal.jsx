@@ -18,6 +18,10 @@ import { useTheme } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
 import {setProjects,selectedProject} from '../../../redux/actions/projectActions'
 import {setUsers} from '../../../redux/actions/userActions'
+import { Checkbox } from '@mui/material';
+import {ListItemText} from '@mui/material';
+import {Avatar} from '@mui/material';
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -57,8 +61,8 @@ const MenuProps = {
 const EditProjectModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
+  const [selectedUserIds, setSelectedUserIds]=useState([])
   const handleModalOpen = () => setModalOpen(true);
-  const bugs = useSelector((state)=>state.allBugs.bugs)
   const currentProject = useSelector((state)=>state.project)
   const users = useSelector((state)=>state.allUsers.users)
   const theme = useTheme();
@@ -75,8 +79,12 @@ const EditProjectModal = () => {
     completionDate:'',
     client:'',
 })
-  useMemo(()=>{
-    setFormInputData(currentProject)
+  useEffect(()=>{
+    if(currentProject.members){
+      const newInputValue= {...currentProject}
+      newInputValue.members = currentProject?.members.map(i=>i._id)
+      setFormInputData(newInputValue)
+    }
 },[currentProject])
 
 const handleInputChange=(e)=>{ 
@@ -88,14 +96,9 @@ const handleInputChange=(e)=>{
 
 const handleFormSubmit=async(e)=>{  
     e.preventDefault()
-    const memberIDs = replaceEmailsWithIDs(formInputData.members,users)
-    //updated project
-    const newInputValue = {...formInputData,['members']:memberIDs}
-    //old version of project
-    let oldmembers = replaceEmailsWithIDs(currentProject.members,users)
-    let oldProject = {...currentProject,['members']:oldmembers}
-    const result = await api.projects.updateProject(currentProject._id,oldProject, newInputValue)
-    dispatch(selectedProject(formInputData))
+    await api.projects.updateProject(currentProject._id,currentProject, formInputData)
+    const updatedProject = await api.projects.fetchProject(currentProject._id)
+    dispatch(selectedProject(updatedProject))
     const newProjects = await api.projects.fetchProjects()
     dispatch(setProjects(newProjects))
     const newUsers = await api.users.fetchUsers()
@@ -166,14 +169,13 @@ function replaceEmailsWithIDs(emails, users) {
           id="demo-multiple-chip"
           name={'members'}
           multiple
-          value={formInputData.members}//set to current personName list
-          //value={[]}
+          value={formInputData.members||[]}//set to current personName list
           onChange={handleInputChange}
           input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
-                <Chip key={value} label={value} />
+                <Chip  key={value} avatar={<Avatar></Avatar>} />
               ))}
             </Box>
           )}
@@ -182,10 +184,11 @@ function replaceEmailsWithIDs(emails, users) {
           {users.map((user) => (
             <MenuItem
               key={user._id}
-              value={user.email}
-              style={getStyles(user, user.email, theme)}
+              value={user._id}
+              label={user.email}
             >
-              {user.email}
+               <Checkbox checked={formInputData.members.includes(user._id)} />
+              <ListItemText  key={user._id} primary={user.email} />
             </MenuItem>
           ))}
         </Select>

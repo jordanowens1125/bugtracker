@@ -16,6 +16,8 @@ const CommentSchema = new Schema({
     type: Schema.Types.ObjectId, ref:'User',
     required:true,
   },
+  edited:{
+    type:Boolean,default:false},
 });
 
 module.exports = mongoose.model('Comment',CommentSchema)

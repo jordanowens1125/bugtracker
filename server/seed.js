@@ -16,14 +16,14 @@ const seedDB= async()=>{
         await User.deleteMany({})
         await User.insertMany(seedUsers)
 
-        await Project.deleteMany({})
-        await Project.insertMany(seedProjects) 
-
         await Bug.deleteMany({})
         await Bug.insertMany(seedBugs)
 
         await Comment.deleteMany({})
         await Comment.insertMany(seedComments)
+        
+        await Project.deleteMany({})
+        await Project.insertMany(seedProjects) 
 
     }catch(err){
         console.log(err)

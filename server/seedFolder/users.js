@@ -3,6 +3,13 @@ const User = require('../models/user')
 
 const seedUsers=[
     new User({
+        _id:mongoose.Types.ObjectId('000000000000000000000000'),
+        email:'deletedUser@live.com',
+        project:[],
+        assignedBugs:[],
+        comments:[],
+    }),
+    new User({
         _id:mongoose.Types.ObjectId('63a36a4d3f0f5cf676acf07c'),
         email:'hllam@live.com',
         project:["63ab7ace4e39c16c9b79e3ac"],
