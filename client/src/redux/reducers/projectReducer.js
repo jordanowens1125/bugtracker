@@ -33,12 +33,26 @@ export const projectsReducer = (state=initialState,{type,payload} ) =>{/*project
             return state;
     }
 }
+
 export const selectedProjectReducer =(state={},{type,payload})=>{
     switch(type){
         case ActionTypes.SELECTED_PROJECT:
             return {...state,...payload}
         case ActionTypes.REMOVE_SELECTED_PROJECT:
             return {}
+        case ActionTypes.AVAILABLE_MEMBERS:
+            return {...state,...payload}
+        default:
+            return state
+    }
+}
+
+export const availableMembersReducer =(state=[],{type,payload})=>{
+    switch(type){
+        case ActionTypes.AVAILABLE_MEMBERS:
+            return payload
+        case ActionTypes.REMOVE_AVAILABLE_MEMBERS:
+            return []
         default:
             return state
     }

@@ -18,7 +18,6 @@ export const removeSelectedProject =()=>{
     }
 }
 export const createProject = (project) =>{
-    //Do an api call when project has been created instead
     return {
         type:ActionTypes.CREATE_PROJECT,
         payload:project
@@ -34,5 +33,18 @@ export const deleteProject =(id)=>{
     return {
         type:ActionTypes.DELETE_PROJECT,
         payload:id
+    }
+}
+
+export const setAvailableMembers=(members)=>{
+    return{
+        type:ActionTypes.AVAILABLE_MEMBERS,
+        payload:members
+    }
+}
+
+export const removeAvailableMembers=()=>{
+    return{
+        type:ActionTypes.REMOVE_AVAILABLE_MEMBERS,
     }
 }

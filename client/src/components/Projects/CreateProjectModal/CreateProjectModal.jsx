@@ -1,7 +1,6 @@
 import React,{useEffect, useState} from 'react'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import api from  '../../../api/index'
 import TextField from '@mui/material/TextField';
@@ -61,7 +60,7 @@ const CreateProjectModal = () => {
   const handleModalOpen = () => setModalOpen(true);
   const theme = useTheme();
   const dispatch =useDispatch()
-  const users = useSelector((state)=>state.allUsers.unAssignedUsers)
+  const unAssignedUsers = useSelector((state)=>state.allUsers.unAssignedUsers)
   const [formInputData, setFormInputData] = useState({
     title:'',
     description:'',
@@ -71,6 +70,7 @@ const CreateProjectModal = () => {
     history:[],
     members:[],
     bugs:[],
+    client:'',
 })
 useEffect(()=>{
   
@@ -98,7 +98,7 @@ const handleInputChange=(e)=>{
   const handleFormSubmit =async(e)=>{
     e.preventDefault();
     //change list of members to ids here
-    const memberIds = replaceEmailsWithIDs(formInputData.members,users)
+    const memberIds = replaceEmailsWithIDs(formInputData.members,unAssignedUsers)
     const newInputValue = {...formInputData,['members']:memberIds}
     await api.projects.createProject(newInputValue)
     const newProjects = await api.projects.fetchProjects()
@@ -159,14 +159,14 @@ const handleAlertClose=(e,reason)=>{
             //multiline
             //error comes when multiline is added
             />
-        {/* <FormControl sx={{ m: 1, width: 300 }}>
+        <FormControl sx={{ m: 1, width: 300 }}>
         <InputLabel id="demo-multiple-chip-label">Members</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           name={'members'}
           multiple
-          value={formInputData.members}//set to current personName list
+          value={formInputData.members||[]}//set to current personName list
           onChange={handleInputChange}
           input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
           renderValue={(selected) => (
@@ -178,7 +178,7 @@ const handleAlertClose=(e,reason)=>{
           )}
           MenuProps={MenuProps}
         >
-          {users.map((user) => (
+          {unAssignedUsers.map((user) => (
             <MenuItem
               key={user._id}
               value={user.email}
@@ -188,7 +188,7 @@ const handleAlertClose=(e,reason)=>{
             </MenuItem>
           ))}
         </Select>
-        </FormControl> */}
+        </FormControl>
         <TextField
           id="start"
           label='Start'
