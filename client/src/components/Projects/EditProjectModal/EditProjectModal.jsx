@@ -1,7 +1,6 @@
 import React,{useState,useEffect,useMemo} from 'react'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import api from  '../../../api/index'
 import TextField from '@mui/material/TextField';
@@ -61,10 +60,10 @@ const MenuProps = {
 const EditProjectModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
-  const [selectedUserIds, setSelectedUserIds]=useState([])
   const handleModalOpen = () => setModalOpen(true);
   const currentProject = useSelector((state)=>state.project)
   const users = useSelector((state)=>state.allUsers.users)
+  const availableMembers = useSelector((state)=>state.availableMembers)
   const theme = useTheme();
   const dispatch =useDispatch()
   const [formInputData, setFormInputData] = useState({
@@ -79,7 +78,7 @@ const EditProjectModal = () => {
     completionDate:'',
     client:'',
 })
-  useEffect(()=>{
+  useMemo(()=>{
     if(currentProject.members){
       const newInputValue= {...currentProject}
       newInputValue.members = currentProject?.members.map(i=>i._id)
@@ -120,18 +119,6 @@ const handleAlertClose=(e,reason)=>{
     }
     setAlertOpen(false);
 }
-
-function replaceEmailsWithIDs(emails, users) {
-    let userIds =[];
-    if(emails.length>0){
-      for(let i=0;i<users.length;i++){
-        if(emails.includes(users[i].email)){
-            userIds.push(users[i]._id)
-        }
-      } 
-    }
-    return(userIds)  
-  }
 
   return (
     <div>
@@ -181,7 +168,7 @@ function replaceEmailsWithIDs(emails, users) {
           )}
           MenuProps={MenuProps}
         >
-          {users.map((user) => (
+          {availableMembers.map((user) => (
             <MenuItem
               key={user._id}
               value={user._id}
