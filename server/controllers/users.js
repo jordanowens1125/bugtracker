@@ -105,7 +105,6 @@ const unAssignBugFromUser= async(req,res)=>{
             }
         })
         }
-        
         res.status(200).json()
     } catch (error) {
         res.status(404).json({message:error})
@@ -168,9 +167,23 @@ const unAssignUsersFromProject = async(req,res)=>{
         res.status(404).json({message:err})
     }
 }
+const unAssignUserFromProject = async(req,res)=>{
+    try{//clear user bugs and project
+        const user = await User.updateOne(
+            {_id:req.body._id},
+            {project:[],
+            assignedBugs:[]}
+        )
+        console.log(user)
+        res.status(200).json()
+    }catch(err){
+        res.status(404).json({message:err})
+    }
+}
+
 
 module.exports = {getUsers, createUser, deleteUser, getUser,
     deleteUserFromProject,unAssignBugFromUser,assignBugToUser,
     addUserToProject,updateUser,removeUserComment,addUserComment,
-    addUsersToProject,unAssignUsersFromProject,
+    addUsersToProject,unAssignUsersFromProject,unAssignUserFromProject,
 }

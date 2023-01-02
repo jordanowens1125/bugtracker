@@ -9,7 +9,7 @@ const Comment = ({comment}) => {
   return (
     <div className={false ? 'message own':'message'}>
         <div className='messageTop'>
-            <img className='messageImg' src='' alt={comment.creator} />
+            <img className='messageImg' src={comment._id} alt='' />
             <p className='messageText'>{comment.text}</p>
         </div>
         <div className="messageBottom">1 hour ago</div>

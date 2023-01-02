@@ -13,20 +13,17 @@ export const createProject = async(newProject) => await axios.post(`${baseURL}/c
         }
     }
 )
-    
 export const updateProject = async(id, oldProject, updatedProject) => {
     await unAssignUsersFromProject(oldProject)
     await axios.put(`${baseURL}/${id}`, updatedProject);
     if(updatedProject.members.length>0){
         const rest = await addUsersToProject(updatedProject)
     }
-}
-    
+}   
 export const addBugToProject =async(id,newBugID)=> await axios.put(`${baseURL}/${id}/addnewbug`,{bugID:newBugID})
     .then((response)=>{
         return response.data
 })
-
 export const deleteBugFromProject =async(bugID,projectID)=> await axios.put(`${baseURL}/${projectID}/deletebug/${bugID}`)
 export const fetchProject  = async(id) => await axios.get(`${baseURL}/${id}`).then((response)=>{return response.data});;
 export const deleteProject = async(project) => await axios.delete(`${baseURL}/delete/${project._id}`).then(async()=>{
@@ -36,5 +33,4 @@ export const deleteProject = async(project) => await axios.delete(`${baseURL}/de
     await deleteAllProjectComments(project._id)
     await unAssignUsersFromProject(project)
 });
-
 export const removeUserFromProjects=async(user)=>await axios.put(`${baseURL}/removeuser`,user)

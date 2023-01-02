@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../../api/index'
 import dayjs from 'dayjs'
+import { Button } from '@mui/material';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -86,8 +87,8 @@ const ProjectsTable = () => {
                         <TableCell align="right">{dayjs(project.deadline).format('YYYY-MM-DD')}</TableCell>
                         <TableCell align="right">{project.members.length}</TableCell>
                         <TableCell align="right">{project.bugs.length}</TableCell>
-                        <TableCell  align="right"><Link to={`${project._id}`}><button data-key={project._id}>Edit</button></Link></TableCell>
-                        <TableCell align="right"><button onClick={handleDeleteClick} data-key={project._id}>Delete</button></TableCell>
+                        <TableCell  align="right"><Link to={`${project._id}`}><Button data-key={project._id} variant="contained">Edit</Button></Link></TableCell>
+                        <TableCell align="right"><Button onClick={handleDeleteClick} variant="contained" color="error" data-key={project._id}>Delete</Button></TableCell>
                         </TableRow>
                         ))
                 }</TableBody>
