@@ -16,20 +16,21 @@ export const createBug =(newBug) => axios.post(`${baseURL}/create`,newBug).then(
     return({project:project,newBug:bugResponse.data})
 })
 export const updateBug = async(currentBug, updatedBug) => {
-    await axios.put(`${baseURL}/${currentBug._id}`, updatedBug).then(async(response)=>{
-        //if they don't equal then 
-        if(updatedBug.assignedTo!==currentBug.assignedTo){
-        //check if the current bug has an assignedTo value
-        if(currentBug.assignedTo){
-            await unAssignBugFromUser(currentBug)
+    await axios.put(`${baseURL}/${currentBug._id}`, updatedBug)
+        .then(async(response)=>{
+            //if they don't equal then 
+            if(updatedBug.assignedTo!==currentBug.assignedTo){
+            //check if the current bug has an assignedTo value
+            if(currentBug.assignedTo){
+                await unAssignBugFromUser(currentBug)
+            }
+            if(updatedBug.assignedTo){
+                await assignBugToUser(updatedBug)
+            }
         }
-        if(updatedBug.assignedTo){
-            await assignBugToUser(updatedBug)
-        }
-    }
-    return (response.data)
-    //if they equal then do nothing
-    });
+        return (response.data)
+        //if they equal then do nothing
+        });
 }
     
 export const fetchBug = (id) => axios.get(`${baseURL}/${id}`)
@@ -45,9 +46,11 @@ export const deleteBug = (bugID,projectID) =>
             await deleteBugComments(bugID)
 });
 
-export const unAssignUserFromBugs=async(user)=>await axios.put(`${baseURL}/unassignuser`,user)
+export const unAssignUserFromBugs=async(user)=>
+    await axios.put(`${baseURL}/unassignuser`,user)
 
-export const addCommentToBug=async(bugID,commentID)=>await axios.put(`${baseURL}/addcomment`,{bugID:bugID,commentID:commentID})
-    .then((response)=>{
-        return response.data
-    })
+export const addCommentToBug=async(bugID,commentID)=>
+    await axios.put(`${baseURL}/addcomment`,{bugID:bugID,commentID:commentID})
+        .then((response)=>{
+            return response.data
+        })

@@ -14,7 +14,6 @@ const createBug = async(req,res)=>{
     try {
         var bugID = mongoose.Types.ObjectId();
         let bug=req.body
-        console.log(bug)
         if(bug.assignedTo==''){
             bug.assignedTo=[]
         }
@@ -94,21 +93,19 @@ const updateBug = async (req,res)=>{
         res.status(404).json({message:error})
     }
 }
-
 const unAssignUserFromBugs = async(req,res)=>{
     try{
-        //let bugIds= req.body.assignedBugs
-            const bugs= await Bug.updateMany(
-                {},
-                {$pull:{assignedTo:req.body._id}}
-            )
+        const bugs= await Bug.updateMany(
+            {},
+            {$pull:{assignedTo:req.body._id}}
+        )
+        console.log(bugs)
         res.status(200).json()
     }
     catch(err){
         res.status(404).json({message:err})
     }
 }
-
 module.exports = {getBugs, createBug, deleteBug, 
     getBug,deleteProjectBugs,updateBug,unAssignUserFromBugs,
     addCommentToBug,

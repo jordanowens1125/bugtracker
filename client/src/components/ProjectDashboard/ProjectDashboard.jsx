@@ -2,56 +2,14 @@ import React, { useMemo,useEffect,useState } from 'react'
 import Box from '@mui/material/Box';
 import { useSelector, useDispatch } from 'react-redux'
 import './ProjectDashboard.css'
-import { Grid, Paper } from '@mui/material';
+import { Grid, Paper ,Button} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { DataGrid } from '@mui/x-data-grid';
-import {selectedBug} from '../../redux/actions/bugActions'
-const memberColumns = [
-    { field: '_id', headerName: 'ID', width: 90 },
-    {
-      field: 'fullName',
-      headerName: 'Full name',
-      description: 'This column has a value getter and is not sortable.',
-      sortable: false,
-      width: 160,
-      valueGetter: (params) =>
-        `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-    },
-    {
-      field: 'email',
-      headerName: 'Email',
-      width: 150,
-      editable: true,
-    },
-    {
-      field: 'role',
-      headerName: 'Role',
-      width: 100,
-      editable: true,
-    },
-    {
-        field: 'Bug Count',
-        headerName: 'Bug Count',
-        width: 100,
-        editable: true,
-        valueGetter:(params)=>
-            `${params.row.assignedBugs.length}`
-      },
-      ,
-    {
-      field:'Remove User',
-        width: 100,
-        renderCell:(params)=>{
-          return(<button onClick={(e)=>removeUser(e,params.row)}>
-            Delete
-          </button>)
-        }
-      }
-  ];
+import api from '../../api/index'
+import {selectedBug, setBugs} from '../../redux/actions/bugActions'
+import {selectedProject,setProjects} from '../../redux/actions/projectActions'
+import {setUsers} from '../../redux/actions/userActions'
 
-  const removeUser=(e,row)=>{
-    console.log(row)
-  }
 const bugColumns = [
     { field: '_id', headerName: 'ID', width: 90 },
     {
@@ -86,14 +44,6 @@ const bugColumns = [
       },
 ];
 
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
-
   function checkProject(project){
     if(project.bugs){
         return true
@@ -113,13 +63,69 @@ const Item = styled(Paper)(({ theme }) => ({
 const ProjectDashboard = () => {
     const project =useSelector((state)=>state.project)
     const isCurrentProjectFilled = checkProject(project)
-    const users =useSelector((state)=>state.allUsers.users)
     const bugs = useSelector((state)=>state.allBugs.bugs)
+    const currentBug = useSelector((state)=>state.currentBug)
     const dispatch=useDispatch()
-    const [selectedUsers,setSelectedUsers]=useState([])
     useEffect(() => {
     },[project]);
-    
+
+    const removeUser=async(e,row)=>{
+      await api.users.unAssignUserFromProject(row)
+      const updatedUsers = await api.users.fetchUsers()
+      const updatedProjects = await api.projects.fetchProjects()
+      const updatedProject = await api.projects.fetchProject(row.project)
+      const updatedBugs = await api.bugs.fetchBugs()
+      if (currentBug.assignedTo){
+        const updatedBug = await api.bugs.fetchBug(currentBug._id)
+        dispatch(selectedBug(updatedBug))
+      }
+      dispatch(setBugs(updatedBugs))
+      dispatch(setUsers(updatedUsers))
+      dispatch(setProjects(updatedProjects))
+      dispatch(selectedProject(updatedProject))
+    }
+
+    const memberColumns = [
+      { field: '_id', headerName: 'ID', width: 90 },
+      {
+        field: 'fullName',
+        headerName: 'Full name',
+        description: 'This column has a value getter and is not sortable.',
+        sortable: false,
+        width: 160,
+        valueGetter: (params) =>
+          `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+      },
+      {
+        field: 'email',
+        headerName: 'Email',
+        width: 150,
+        editable: true,
+      },
+      {
+        field: 'role',
+        headerName: 'Role',
+        width: 100,
+        editable: true,
+      },
+      {
+          field: 'Bug Count',
+          headerName: 'Bug Count',
+          width: 100,
+          editable: true,
+          valueGetter:(params)=>
+              `${params.row.assignedBugs.length}`
+        },
+        ,
+      {
+        field:'Remove User',
+          width: 100,
+          renderCell:(params)=>{
+            return(
+            <Button onClick={(e)=>removeUser(e,params.row)} variant="contained" color="error" >Remove</Button>)
+          }
+        }
+    ];
     const handleRowClick=(e)=>{
         const foundBug = findMatchingBug(e.id,bugs)
         dispatch(selectedBug(foundBug))
@@ -138,7 +144,7 @@ const ProjectDashboard = () => {
               getRowId={(row)=>row._id}
               pageSize={6}
               rowsPerPageOptions={[6]}
-              checkboxSelection
+              //checkboxSelection
               disableSelectionOnClick
               experimentalFeatures={{ newEditingApi: true }}
             />

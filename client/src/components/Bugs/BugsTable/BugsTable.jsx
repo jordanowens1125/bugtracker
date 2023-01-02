@@ -13,6 +13,7 @@ import api from '../../../api/index';
 import {setBugs,selectedBug} from '../../../redux/actions/bugActions'
 import {selectedProject, setProjects} from '../../../redux/actions/projectActions'
 import dayjs from 'dayjs'
+import { Button } from '@mui/material';
 
 const BugsTable = () => {
   const [open, setOpen] = useState(false);
@@ -76,8 +77,8 @@ const handleDeleteClick=async(e)=>{
                     <TableCell align="right">{bug.priority}</TableCell>
                     <TableCell align="right">{bug.status}</TableCell>
                     <TableCell align="right">{bug.projectID.title}</TableCell>
-                    <TableCell  align="right"><button data-key={bug._id} onClick ={handleEditClick}>Edit</button></TableCell>
-                    <TableCell align="right"><button onClick={handleDeleteClick} data-key={[bug._id,bug.projectID._id]}>Delete</button></TableCell>
+                    <TableCell  align="right"><Button data-key={bug._id} variant="contained" onClick ={handleEditClick}>Edit</Button></TableCell>
+                    <TableCell align="right"><Button onClick={handleDeleteClick} variant="contained" color="error" data-key={[bug._id,bug.projectID._id]}>Delete</Button></TableCell>
                     </TableRow>
                     ))
             }</TableBody>

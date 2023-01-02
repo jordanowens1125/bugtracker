@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import { removeSelectedBug, selectedBug} from '../../../redux/actions/bugActions'
 import Comment from '../Comment/Comment';
 import EditBugModal from '../EditBugModal/EditBugModal';
+import { setUsers } from '../../../redux/actions/userActions';
 const bugHasComments=(bug)=>{
     if(bug.comments){
         if(bug.comments.length>0){
@@ -60,6 +61,8 @@ const BugComments = () => {
             text:'',
             input:'',
         })
+        const updatedUsers =await api.users.fetchUsers()
+        dispatch(setUsers(updatedUsers))
     }
     const bug =useSelector((state)=>state.currentBug)
     const isThereACurrentBug=checkifCurrentBugIsFilled(bug)
