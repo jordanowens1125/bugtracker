@@ -133,7 +133,7 @@ const ProjectDashboard = () => {
               pageSize={6}
               rowsPerPageOptions={[6]}
               //checkboxSelection
-              disableSelectionOnClick
+              //disableSelectionOnClick
               experimentalFeatures={{ newEditingApi: true }}
               onRowClick={handleRowClick}
             />

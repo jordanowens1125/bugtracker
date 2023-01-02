@@ -45,7 +45,6 @@ const getComment = async (req,res)=>{
 const updateComment = async (req,res)=>{
     try { 
         let _id = req.params.id
-        console.log(req.body)
         let {title,description,status,openDate,creator,priority,
             closeDate,history,members,relatedComments,closer,
             comments,projectID,stepsToRecreate} = req.body
@@ -71,10 +70,8 @@ const deleteBugComments = async (req,res)=>{
 }
 
 const deleteAllProjectComments = async (req,res)=>{
-    console.log(req.params)
     try {
         const comments = await Comment.deleteMany({projectID:req.params.projectid,})
-        console.log(comments)
         res.status(200).json(comments)
     } catch (error) {
         res.status(404).json({message:error})
