@@ -15,6 +15,9 @@ const createBug = async(req,res)=>{
         var bugID = mongoose.Types.ObjectId();
         let bug=req.body
         console.log(bug)
+        if(bug.assignedTo==''){
+            bug.assignedTo=[]
+        }
         bug['_id']=bugID
         const newBug = await Bug.create(bug)
         res.status(200).json(newBug)
@@ -50,7 +53,7 @@ const deleteBug = async(req,res)=>{
 const getBug = async (req,res)=>{
     try {
         let id = req.params.id
-        const bug = await Bug.findById(id).populate('comments')
+        const bug = await Bug.findById(id).populate('comments').populate('assignedTo')
         res.status(200).json(bug)
     } catch (error) {
         res.status(404).json({message:error})

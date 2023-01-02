@@ -17,7 +17,8 @@ import Snackbar from '@mui/material/Snackbar';
 import { useTheme } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
 import { setBugs,selectedBug } from '../../../redux/actions/bugActions';
-import {setProjects} from '../../../redux/actions/projectActions'
+import {selectedProject, setProjects} from '../../../redux/actions/projectActions'
+import { setUsers } from '../../../redux/actions/userActions';
 
 const style = {
   position: 'absolute',
@@ -30,6 +31,25 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+
+const checkifCurrentProjectIsFilled=(obj)=>{
+  for(var prop in obj) {
+      if(obj.hasOwnProperty(prop))
+          return true;
+  }
+  return false;
+}
+
+const checkIfCurrentProjectHasMembers=(obj)=>{
+  if(obj.members){
+    if(obj.members.length>0){
+      return true
+    }
+  }
+  else{
+    return false
+  }
+}
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -62,6 +82,9 @@ const CreateBugModal = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const handleModalOpen = () => setModalOpen(true);
   const projects = useSelector((state)=>state.allProjects.projects)
+  const currentProject = useSelector((state)=>state.project)
+  const isThereACurrentProject = checkifCurrentProjectIsFilled(currentProject)
+  const currentProjectHasMembers=checkIfCurrentProjectHasMembers(currentProject)
   const bugs = useSelector((state)=>state.allBugs.bugs)
   const theme = useTheme();
   const dispatch =useDispatch()
@@ -78,9 +101,22 @@ const CreateBugModal = () => {
     relatedBugs:[],//set by user optionally, can be updated
     stepsToRecreate:[],//set by user, can be updated
     priority:'Low',//set by user, can be updated *
-    assignedTo:null,//can be updated
+    assignedTo:'',//can be updated
     comments:[],
 })
+useEffect(()=>{
+  if(isThereACurrentProject){
+    const newInputValue= {...formInputData}
+    newInputValue.projectID=currentProject._id
+    setFormInputData(newInputValue)
+  }
+  else{
+    //clear the project section of modal
+    const newInputValue= {...formInputData}
+    newInputValue.projectID=''
+    setFormInputData(newInputValue)
+  }
+},[currentProject])
 const handleInputChange=(e)=>{  
     const inputFieldValue = e.target.value;
     const inputFieldName =e.target.id||e.target.name//target name for the bugs select
@@ -103,9 +139,18 @@ const handleFormSubmit=async(e)=>{
         relatedBugs:[],
         stepsToRecreate:[],
         priority:'Low',
+        assignedTo:[]
     }
-    const bugCreation = await api.bugs.createBug(formInputData)
-    dispatch(selectedBug(bugCreation))
+    const response = await api.bugs.createBug(formInputData)
+    if(response.newBug.assignedTo!=''){
+      const newUsers = await api.users.fetchUsers()
+      dispatch(setUsers(newUsers))
+      const newBug = await api.bugs.fetchBug(response.newBug._id)
+      dispatch(selectedBug(newBug))
+    }
+    else{
+      dispatch(selectedBug(formInputData))
+    }
     const newBugs = await api.bugs.fetchBugs()
     dispatch(setBugs(newBugs))
     const newProjects = await api.projects.fetchProjects()
@@ -113,6 +158,8 @@ const handleFormSubmit=async(e)=>{
     setAlertOpen(true)
     setModalOpen(false)
     setFormInputData({...resetFormData})
+    const updatedProject = await api.projects.fetchProject(currentProject._id)
+    dispatch(selectedProject(updatedProject))
 }
 const handleModalClose=(e,reason)=>{
     if (reason === 'clickaway') {
@@ -153,10 +200,10 @@ const handleAlertClose=(e,reason)=>{
             minRows={8}
             defaultValue=""
             onChange={handleInputChange}
-            //multiline
+            multiline
             //error comes when multiline is added
             />
-            <FormControl sx={{ m: 1, width: 300 }}>
+            <FormControl sx={{ m: 1, width: 300 }} disabled>
                 <InputLabel id="demo-multiple-name-label">Project</InputLabel>
                 <Select
                 id="projectID"
@@ -166,9 +213,6 @@ const handleAlertClose=(e,reason)=>{
                 input={<OutlinedInput label="Project" />}
                 required
                 >
-                {/* <MenuItem disabled value="" key=''>
-                    <em>Placeholder</em>
-                </MenuItem> */}
                 {projects.map((project) => (
                     <MenuItem
                         key={project._id}
@@ -179,6 +223,47 @@ const handleAlertClose=(e,reason)=>{
                 ))}
                 </Select>
             </FormControl>
+            {currentProjectHasMembers?
+              <FormControl sx={{ m: 1, width: 300 }}>
+                <InputLabel id="demo-multiple-name-label">Assign To</InputLabel>
+                <Select
+                id="assignedTo"
+                name='assignedTo'
+                value={formInputData.assignedTo}
+                onChange={handleInputChange}
+                input={<OutlinedInput label="Assigned To" />}
+                >
+                  <MenuItem
+                        value=''
+                        >
+                        None
+                    </MenuItem>
+                {currentProject.members.map((member) => (
+                    <MenuItem
+                        key={member._id}
+                        value={member._id}
+                        >
+                        {member.email}
+                    </MenuItem>
+                ))}
+                </Select>
+            </FormControl>:
+            <FormControl sx={{ m: 1, width: 300 }}>
+            <InputLabel id="demo-multiple-name-label">Assign To</InputLabel>
+            <Select
+            id="assignedTo"
+            name='assignedTo'
+            value={''}
+            input={<OutlinedInput label="Assigned To" />}
+            >
+            {<MenuItem
+                    value={''}
+                    >
+                    {'No members are on this project'}
+                </MenuItem>
+            }
+            </Select>
+        </FormControl>}
             <FormControl sx={{ m: 1, width: 300 }}>
                 <InputLabel id="demo-multiple-name-label">Priority</InputLabel>
                 <Select
@@ -199,7 +284,6 @@ const handleAlertClose=(e,reason)=>{
                 ))}
                 </Select>
             </FormControl>
-            
             <FormControl sx={{ m: 1, width: 300 }}>
                 <InputLabel id="demo-multiple-chip-label">Related bugs</InputLabel>
                     <Select

@@ -55,7 +55,6 @@ const updateProject = async (req,res)=>{
 }
 const addBugToProject = async(req,res)=>{
     try {
-        console.log(req.params)
         const project = await Project.findOneAndUpdate({_id:req.params.id},{$push:{bugs: req.body.bugID}}); 
         res.status(200).json(project)
     } catch (error) {

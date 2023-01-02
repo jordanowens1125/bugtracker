@@ -40,8 +40,6 @@ export const selectedProjectReducer =(state={},{type,payload})=>{
             return {...state,...payload}
         case ActionTypes.REMOVE_SELECTED_PROJECT:
             return {}
-        case ActionTypes.AVAILABLE_MEMBERS:
-            return {...state,...payload}
         default:
             return state
     }

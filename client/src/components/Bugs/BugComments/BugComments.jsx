@@ -1,12 +1,12 @@
-import React, { useMemo,useState,useRef,useEffect } from 'react'
-import { ReactDOM } from 'react'
+import React, { useState,useRef,useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import api from '../../../api/index'
-import {Typography, Container, Paper,Box, Divider, Grid, List, ListItem, ListItemText, FormControl, TextField, IconButton} from "@mui/material"
+import {Typography, Paper,Box, Divider, Grid, List, FormControl, TextField, IconButton} from "@mui/material"
 import SendIcon from '@mui/icons-material/Send';
 import { useDispatch } from 'react-redux'
 import { removeSelectedBug, selectedBug} from '../../../redux/actions/bugActions'
 import Comment from '../Comment/Comment';
+import EditBugModal from '../EditBugModal/EditBugModal';
 const bugHasComments=(bug)=>{
     if(bug.comments){
         if(bug.comments.length>0){
@@ -30,7 +30,10 @@ const AlwaysScrollToBottom = () => {
 
   const scrollToBottom = () => {
     const section = document.querySelector( '#bottom' );
-    section.scrollIntoView( { behavior: 'smooth', block: 'start' } );
+    if(section){
+        section.scrollIntoView( { behavior: 'smooth', block: 'start' } );
+    }
+    
   };
 const BugComments = () => {
     const dispatch=useDispatch()
@@ -63,10 +66,9 @@ const BugComments = () => {
     const currentUser =useSelector((state)=>state.currentUser)
     const hasComments=bugHasComments(bug)
     const clearCurrentBug=()=>{
-        console.log('hi')
         dispatch(removeSelectedBug())
     }
-    useMemo(()=>{
+    useEffect(()=>{
     },[bug])
   return (
     <>
@@ -76,6 +78,7 @@ const BugComments = () => {
                 <Typography variant='h4' gutterBottom>{bug.title}</Typography>
                 <button onClick={clearCurrentBug}>Clear Bug</button>
                 <button onClick={scrollToBottom}>Scroll Down</button>
+                <EditBugModal/>
                 <Divider/>
                 <Grid 
                 sx={{

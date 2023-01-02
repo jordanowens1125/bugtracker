@@ -16,7 +16,7 @@ import Snackbar from '@mui/material/Snackbar';
 import { useTheme } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
 import { setBugs,selectedBug } from '../../../redux/actions/bugActions';
-import {setProjects} from '../../../redux/actions/projectActions';
+import {selectedProject, setProjects} from '../../../redux/actions/projectActions';
 import {setUsers} from '../../../redux/actions/userActions';
 
 const style = {
@@ -82,11 +82,18 @@ const EditBugModal = () => {
     relatedBugs:[],//set by user optionally, can be updated
     stepsToRecreate:[],//set by user, can be updated
     priority:'Low',//set by user, can be updated *
-    assignedTo:'',//can be updated
+    assignedTo:[],//can be updated
     comments:[],
 })
 useMemo(async()=>{
-    setFormInputData(currentBug) 
+  if(currentBug.assignedTo){
+    const newInputValue= {...currentBug}
+    newInputValue.assignedTo = currentBug?.assignedTo.map(i=>i._id)
+    setFormInputData(newInputValue)
+  }
+  else{
+    setFormInputData(currentBug)
+  }
 },[currentBug])
 
 const handleInputChange=(e)=>{ 
@@ -97,16 +104,21 @@ const handleInputChange=(e)=>{
     setFormInputData(newInputValue);
 }
 
-const handleFormSubmit=async(e)=>{  
+const handleFormSubmit=async(e)=>{
     e.preventDefault()
     if(formInputData.assignedTo==''){
       let newInputValue = {...formInputData}
       delete newInputValue.assignedTo
       await api.bugs.updateBug(currentBug,newInputValue)
+      dispatch(selectedBug(formInputData))
     }else{
-      const result = await api.bugs.updateBug(currentBug,formInputData)
+      await api.bugs.updateBug(currentBug,formInputData)
+      const updatedBug= await api.bugs.fetchBug(currentBug._id)
+      dispatch(selectedBug(updatedBug))
     }
-    dispatch(selectedBug(formInputData))
+    //console.log(currentBug)
+    const updatedProject = await api.projects.fetchProject(project._id)
+    dispatch(selectedProject(updatedProject))
     const newBugs = await api.bugs.fetchBugs()
     dispatch(setBugs(newBugs))
     const newProjects = await api.projects.fetchProjects()
@@ -188,7 +200,7 @@ const handleAlertClose=(e,reason)=>{
                   <Select
                   id="assignedTo"
                   name='assignedTo'
-                  value={formInputData.assignedTo}
+                  value={formInputData.assignedTo||[]}
                   onChange={handleInputChange}
                   input={<OutlinedInput label="assignedTo" />}
                   >

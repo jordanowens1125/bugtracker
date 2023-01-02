@@ -96,7 +96,6 @@ const assignBugToUser= async(req,res)=>{
 
 const unAssignBugFromUser= async(req,res)=>{
     try {
-        console.log(req.body)
         //assigedTo may be equal to Unassigned
         const userID= req.body.assignedTo
         if(userID!='Unassigned'){
@@ -105,7 +104,6 @@ const unAssignBugFromUser= async(req,res)=>{
                 assignedBugs:req.body._id
             }
         })
-        console.log(user)
         }
         
         res.status(200).json()

@@ -62,9 +62,7 @@ const EditProjectModal = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const handleModalOpen = () => setModalOpen(true);
   const currentProject = useSelector((state)=>state.project)
-  const users = useSelector((state)=>state.allUsers.users)
   const availableMembers = useSelector((state)=>state.availableMembers)
-  const theme = useTheme();
   const dispatch =useDispatch()
   const [formInputData, setFormInputData] = useState({
     title:'',
@@ -119,7 +117,6 @@ const handleAlertClose=(e,reason)=>{
     }
     setAlertOpen(false);
 }
-
   return (
     <div>
     <Button onClick={handleModalOpen}>Edit Project</Button>

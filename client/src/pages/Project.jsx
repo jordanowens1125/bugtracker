@@ -6,6 +6,8 @@ import ProjectDashboard from '../components/ProjectDashboard/ProjectDashboard'
 import EditProjectModal from '../components/Projects/EditProjectModal/EditProjectModal'
 import api from '../api/index'
 import BugComments from '../components/Bugs/BugComments/BugComments'
+import { removeSelectedBug } from '../redux/actions/bugActions'
+import CreateBugModal from '../components/Bugs/CreateBugModal/CreateBugModal'
 
 const Project = () => {
     const projectID =useParams().id
@@ -24,6 +26,7 @@ const Project = () => {
                 return ()=>{
                     dispatch(removeSelectedProject())
                     dispatch(removeAvailableMembers())
+                    dispatch(removeSelectedBug())
                 }
             }
     },[projectID])
@@ -32,6 +35,7 @@ const Project = () => {
         <>
             <ProjectDashboard/>
             <EditProjectModal/>
+            <CreateBugModal/>
             <BugComments/>
         </>
         

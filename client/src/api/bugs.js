@@ -9,13 +9,16 @@ export const createBug =(newBug) => axios.post(`${baseURL}/create`,newBug).then(
     const projectID = (bugResponse.data.projectID)
     const bugID=bugResponse.data._id
     const project =await addBugToProject(projectID,bugID)
+    if(newBug.assignedTo.length>0){
+        assignBugToUser(bugResponse.data)
+    }
     //result holds the project
-    return({project:project,newBug:newBug})
+    return({project:project,newBug:bugResponse.data})
 })
 export const updateBug = async(currentBug, updatedBug) => {
-    await axios.put(`${baseURL}/${currentBug._id}`, updatedBug);
-    //if they don't equal then 
-    if(updatedBug.assignedTo!==currentBug.assignedTo){
+    await axios.put(`${baseURL}/${currentBug._id}`, updatedBug).then(async(response)=>{
+        //if they don't equal then 
+        if(updatedBug.assignedTo!==currentBug.assignedTo){
         //check if the current bug has an assignedTo value
         if(currentBug.assignedTo){
             await unAssignBugFromUser(currentBug)
@@ -24,7 +27,9 @@ export const updateBug = async(currentBug, updatedBug) => {
             await assignBugToUser(updatedBug)
         }
     }
+    return (response.data)
     //if they equal then do nothing
+    });
 }
     
 export const fetchBug = (id) => axios.get(`${baseURL}/${id}`)
