@@ -15,3 +15,4 @@ export const createComment= async(newComment)=>await axios.post(`${baseURL}/crea
 
 export const deleteBugComments=async(bugID)=>await axios.delete(`${baseURL}/bug/${bugID}`)
 export const deleteAllProjectComments=async(projectID)=>await axios.delete(`${baseURL}/project/${projectID}`)
+export const setDeletedUserComments=async(user)=>await axios.put(`${baseURL}/setdeletedusercomments`,user)

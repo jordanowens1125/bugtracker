@@ -2,6 +2,7 @@ import axios from 'axios'
 const baseURL = "http://localhost:8000/users";
 import {removeUserFromProjects } from './projects';
 import {unAssignUserFromBugs} from './bugs'
+import {setDeletedUserComments} from './comments'
 
 export const fetchUsers = async() => await axios.get(baseURL).then((response)=>{return(response.data)})
 export const createUser = async(newUser) => await axios.post(`${baseURL}/create`,newUser)
@@ -14,6 +15,9 @@ export const deleteUser = async(user) => await axios.delete(`${baseURL}/delete/$
     //remove user from projects 
     await removeUserFromProjects(user)
     await unAssignUserFromBugs(user)
+    if(user.comments.length>0){
+        await setDeletedUserComments(user)
+    }
 });
 
 export const addUsersToProject= async(project)=> await axios.put(`${baseURL}/project/${project._id}`,project)

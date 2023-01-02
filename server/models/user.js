@@ -7,7 +7,7 @@ const UserSchema = new Schema({
   email:  {type: String, required:true,}, 
   role: {
     type:String, 
-    enum:['admin', 'developer','viewer', ],
+    enum:['admin', 'developer','viewer', 'deleted'],
     default:'viewer',
   },
   assignedBugs:[{type: Schema.Types.ObjectId, ref:'Bug'}],
