@@ -37,8 +37,21 @@ const memberColumns = [
         valueGetter:(params)=>
             `${params.row.assignedBugs.length}`
       },
+      ,
+    {
+      field:'Remove User',
+        width: 100,
+        renderCell:(params)=>{
+          return(<button onClick={(e)=>removeUser(e,params.row)}>
+            Delete
+          </button>)
+        }
+      }
   ];
 
+  const removeUser=(e,row)=>{
+    console.log(row)
+  }
 const bugColumns = [
     { field: '_id', headerName: 'ID', width: 90 },
     {
@@ -103,6 +116,7 @@ const ProjectDashboard = () => {
     const users =useSelector((state)=>state.allUsers.users)
     const bugs = useSelector((state)=>state.allBugs.bugs)
     const dispatch=useDispatch()
+    const [selectedUsers,setSelectedUsers]=useState([])
     useEffect(() => {
     },[project]);
     
@@ -118,10 +132,13 @@ const ProjectDashboard = () => {
               sx={{width:'50%'}}
               rows={project.members}
               columns={memberColumns}
+              onSelectionModelChange={(ids)=>{
+                setSelectedUsers(ids)
+              }}
               getRowId={(row)=>row._id}
               pageSize={6}
               rowsPerPageOptions={[6]}
-              //checkboxSelection
+              checkboxSelection
               disableSelectionOnClick
               experimentalFeatures={{ newEditingApi: true }}
             />

@@ -8,6 +8,7 @@ const seedUsers=[
         project:[],
         assignedBugs:[],
         comments:[],
+        role:'deleted',
     }),
     new User({
         _id:mongoose.Types.ObjectId('63a36a4d3f0f5cf676acf07c'),

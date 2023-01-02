@@ -78,7 +78,21 @@ const deleteAllProjectComments = async (req,res)=>{
     }
 }
 
+const setDeletedUserComments = async (req,res)=>{
+    try {
+        console.log(req.body)
+        const comments = await Comment.updateMany(
+            {creator:req.body._id},
+            {$set:{'creator':mongoose.Types.ObjectId('000000000000000000000000')}}
+            )
+            console.log(comments)
+        res.status(200).json()
+    } catch (error) {
+        res.status(404).json({message:error})
+    }
+}
+
 module.exports = {getComments, createComment, deleteComment, 
     getComment,deleteBugComments,updateComment,deleteBugComments,
-    deleteAllProjectComments,
+    deleteAllProjectComments,setDeletedUserComments,
 }
