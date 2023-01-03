@@ -17,9 +17,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom"
 import {useAuthState} from 'react-firebase-hooks/auth'
 import { useEffect,useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useUserAuth } from '../context/userAuthContext';
 import { Alert } from '@mui/material';
+import { selectedUser } from '../redux/actions/userActions';
 
 function Copyright(props) {
     return (
@@ -34,6 +35,15 @@ function Copyright(props) {
     );
 }
 
+const searchForMember=(uid,users)=>{
+  for (let i=0;i<users.length;i++){
+    if (users[i].uid==uid){
+      return users[i]
+    }
+  }
+  return false
+}
+
 const theme = createTheme();
 
 const SignIn =()=>{
@@ -42,14 +52,13 @@ const SignIn =()=>{
     name:'',
     password:''
   })
-
+  const users =useSelector((state)=>state.allUsers.users)
   const {logIn,googleSignIn}=useUserAuth()
   const [error,setError]=useState('')
   const navigate = useNavigate()
   const dispatch=useDispatch()
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
     setError('')
     try {
       await logIn(formInputData.email,formInputData.password)
@@ -65,20 +74,32 @@ const SignIn =()=>{
   }
   },[user])
 
-  const SignInAsDemoDeveloper=()=>{
-    console.log('we in as a demo developer')
+  const SignInAsDemoDeveloper=async()=>{
+    setError('')
     try {
-      
+      const demoDeveloperPassword = import.meta.env.VITE_DEMO_DEVELOPER_PASSWORD
+      const demoDeveloperEmail = import.meta.env.VITE_DEMO_DEVELOPER_EMAIL
+      const result = await logIn(demoDeveloperEmail,demoDeveloperPassword)
+      const currentUser = searchForMember(result.user.uid,users)
+      dispatch(selectedUser(currentUser))
+      navigate('/')
     } catch (error) {
-      
+      console.log(error)
+      setError(error)
     }
   }
-  const SignInAsDemoAdmin=()=>{
-      console.log('we in as a demo admin')
+  const SignInAsDemoAdmin=async()=>{
+    setError('')
       try{
-
-      }catch{
-        
+          const demoAdminPassword = import.meta.env.VITE_DEMO_DEVELOPER_PASSWORD
+          const demoAdminEmail = import.meta.env.VITE_DEMO_DEVELOPER_EMAIL
+          const result =await logIn(demoAdminEmail,demoAdminPassword)
+          const currentUser = searchForMember(result.user.uid,users)
+          dispatch(selectedUser(currentUser))
+          navigate('/')
+      }catch(error){
+        console.log(error)
+      setError(error)
       }
   }
   //sign in with google
@@ -86,13 +107,21 @@ const SignIn =()=>{
     setError('')
     try{
       const result = await googleSignIn()
-      console.log(result)
+      const currentUser =searchForMember(result.user.uid,users)
+      if(currentUser){
+        dispatch(selectedUser(currentUser))
+      }
+      else{
+        // const createdUser = await api.users.createUser(newInputValue)
+        // const updatedUsers = await api.users.fetchUsers() 
+        // dispatch(selectedUser(currentUser))
+        // dispatch(setUsers(updatedUsers))
+      }
       navigate(`/`)
     }catch(error){
       setError(error.message)
     }
 }
-  
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
