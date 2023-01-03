@@ -22,7 +22,6 @@ import api from '../api/index'
 import { useUserAuth } from '../context/userAuthContext';
 import { Alert } from '@material-ui/lab';
 
-
 function Copyright(props) {
     return (
       <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -38,28 +37,19 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-async function writeUserData(name,password) {
-  const db = getDatabase();
-  const newUser = await push(ref(db, 'users/'), {
-    email: email,
-    password: password,
-  });
-  //get user id below
-  //console.log(newUser.key) 
-}
-
 const EMAIL_REGEX =1
 const PASSWORD_REGEX=1
 
 const Register =()=>{
   const [user,loading] = useAuthState(auth)
   const [formInputData,setFormInputData]=useState({
-    name:'',
-    password:''
+    email:'',
+    password:'',
+    uid:'',
   })
   const {signUp}=useUserAuth()
   const [error,setError]=useState('')
-
+  const isThereAnError=error!=''
   const handleInputChange=(e)=>{  
     const inputFieldValue = e.target.value;
     const inputFieldName =e.target.id||e.target.name//target name for the bugs select
@@ -86,14 +76,21 @@ const Register =()=>{
     }
 }
   const googleProvider = new GoogleAuthProvider();
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
     setError('')
     try {
-      await signUp(formInputData.email,formInputData.password)
-      api.users.createUser(formInputData)
+      const response =await signUp(formInputData.email,formInputData.password)
+      const newInputValue = {...formInputData}
+      newInputValue.uid=response.user.uid
+      setFormInputData(
+        {
+          email:'',
+          password:'',
+          uid:'',
+        }
+      )
+      const currentUser = await api.users.createUser(newInputValue) 
       navigate('/')
     } catch (e) {
       setError(e.message)
@@ -119,8 +116,7 @@ const Register =()=>{
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
-          {error && <Alert variant='filled' color='error'>{error}</Alert>}
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -143,6 +139,7 @@ const Register =()=>{
               autoComplete="current-password"
               onChange={handleInputChange}
             />
+             {error && <Alert variant='filled' color='error'>{error}</Alert>}
             <Button
               type="submit"
               fullWidth
