@@ -15,12 +15,14 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom"
 import {useAuthState} from 'react-firebase-hooks/auth'
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { getDatabase, push, ref, set } from "firebase/database";
 import { useState } from 'react';
 import api from '../api/index'
 import { useUserAuth } from '../context/userAuthContext';
 import { Alert } from '@material-ui/lab';
+import { selectedUser, setUsers } from '../redux/actions/userActions';
 
 function Copyright(props) {
     return (
@@ -47,6 +49,7 @@ const Register =()=>{
     password:'',
     uid:'',
   })
+  const dispatch = useDispatch()
   const {signUp}=useUserAuth()
   const [error,setError]=useState('')
   const isThereAnError=error!=''
@@ -90,7 +93,10 @@ const Register =()=>{
           uid:'',
         }
       )
-      const currentUser = await api.users.createUser(newInputValue) 
+      const currentUser = await api.users.createUser(newInputValue)
+      const updatedUsers = await api.users.fetchUsers() 
+      dispatch(selectedUser(currentUser))
+      dispatch(setUsers(updatedUsers))
       navigate('/')
     } catch (e) {
       setError(e.message)

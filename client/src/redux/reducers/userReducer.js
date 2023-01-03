@@ -73,7 +73,7 @@ export const usersReducer = (state=initialState,{type,payload} ) =>{
 }
 export const currentUserReducer =(state={},{type,payload})=>{
     switch(type){
-        case ActionTypes.CURRENT_USER:
+        case ActionTypes.SELECTED_USER:
             return {...state,...payload}
         case ActionTypes.LOGOUT:
             return {}
