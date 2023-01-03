@@ -5,7 +5,9 @@ import {unAssignUserFromBugs} from './bugs'
 import {setDeletedUserComments} from './comments'
 
 export const fetchUsers = async() => await axios.get(baseURL).then((response)=>{return(response.data)})
-export const createUser = async(newUser) => await axios.post(`${baseURL}/create`,newUser)
+export const createUser = async(newUser) => await axios.post(`${baseURL}/create`,newUser).then((response)=>{
+    return (response.data)
+})
 export const addUserComment=async(userID,commentID)=>await axios.put(`${baseURL}/addusercomment`,{userID:userID,commentID:commentID})
 export const updateUser = async(id, updatedUser) => 
     await axios.put(`${baseURL}/${id}`, updatedUser);
