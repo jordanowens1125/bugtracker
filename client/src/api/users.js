@@ -20,6 +20,8 @@ export const deleteUser = async(user) => await axios.delete(`${baseURL}/delete/$
     if(user.comments.length>0){
         await setDeletedUserComments(user)
     }
+    //delete user from firebase db
+    
 });
 export const clearUserBugs=async(user)=>await axios.put(`${baseURL}/clearuserbugs`,user)
 export const addUsersToProject= async(project)=> await axios.put(`${baseURL}/project/${project._id}`,project)
