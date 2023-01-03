@@ -39,7 +39,7 @@ const Navbar = () => {
           
           <Link to="/">
             <AdbIcon sx={{ display: { xs: 'flex', md: 'none', color:'white'}, mr: 1 }} />
-          </Link>
+          </Link> 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
           <Link to="/">
             <Button
@@ -70,7 +70,7 @@ const Navbar = () => {
               </Button>
             </Link>
           }
-          </Box>
+          </Box> 
         </Toolbar>
         </Container>
       </AppBar>
