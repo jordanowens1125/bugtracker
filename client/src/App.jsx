@@ -12,6 +12,7 @@ import SignIn from "./pages/SignIn"
 import Project from './pages/Project'
 import Register from './pages/Register'
 import Unauthorized from './pages/Unauthorized'
+import ForgotPassword from './pages/ForgotPassword'
 import {useAuthState} from 'react-firebase-hooks/auth'
 import {auth} from '../utils/firebase'
 import { useEffect } from "react";
@@ -46,7 +47,7 @@ function App() {
           <Route path="signin" element={<SignIn />} />
           <Route path="register" element={<Register />} />
           <Route path="unauthorized" element={<Unauthorized />} />
-
+          <Route path="forgotpassword" element={<ForgotPassword/>} /> 
           {/*We want to protect these routes */}
           {/* <Route index element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="bugs" element={<ProtectedRoute><Bugs /></ProtectedRoute>} />
@@ -62,7 +63,6 @@ function App() {
           <Route path="projects/:id" element={<Project/>} />
           <Route path="users" element={<Users/>} />
           <Route path="user" element={<User/>} /> 
-          
           {/*catch all */}
           <Route path="*" element={<NoPage />} />
         </Route>

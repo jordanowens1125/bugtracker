@@ -33,9 +33,9 @@ const Project = () => {
     
     return (
         <>
-            <ProjectDashboard/>
             <EditProjectModal/>
             <CreateBugModal/>
+            <ProjectDashboard/>
             <BugComments/>
         </>
         

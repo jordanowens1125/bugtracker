@@ -4,10 +4,7 @@ import ProjectsTable from '../components/Projects/ProjectsTable/ProjectsTable'
 const Projects = () => {
   return (
     <>
-    <h1>hi</h1>
-    <h1>hi</h1>
-    <h1>hi</h1>
-    <h1>hi</h1>
+      <h1>Projects</h1>
       <CreateProjectModal/>
       <ProjectsTable />
     </>

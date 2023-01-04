@@ -2,7 +2,6 @@
     display:flex;
     width:100%;
     align-items: center;
-    padding-top: 60px;
     gap: 20px;
 }
 .timeline{
