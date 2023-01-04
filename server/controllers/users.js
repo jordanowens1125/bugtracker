@@ -22,6 +22,8 @@ const createUser = async(req,res)=>{
 
 const deleteUser = async(req,res)=>{
     try {
+        console.log(req.body)
+        console.log(req.params)
         //remove this project from the users listed on it
         let user = await User.findOneAndDelete({_id:req.params.id})
         //delete bugs associated with this project

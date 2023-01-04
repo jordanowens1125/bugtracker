@@ -3,7 +3,7 @@ import { auth } from '../../utils/firebase'
 import {createUserWithEmailAndPassword,
     signInWithEmailAndPassword,signOut,
     onAuthStateChanged,GoogleAuthProvider,signInWithPopup,
-    sendPasswordResetEmail,
+    sendPasswordResetEmail,deleteUser,reauthenticateWithCredential
 } from 'firebase/auth'
 
 const userAuthContext = createContext()
@@ -22,6 +22,13 @@ export function UserAuthContextProvider({children}){
         const googleAuthProvider=new GoogleAuthProvider()
         return signInWithPopup(auth,googleAuthProvider)
     }
+    function removeUser(){
+        deleteUser(user).then(()=>{
+
+        }).catch((error)=>{
+            console.log(error)
+        })
+    }
         useEffect(()=>{
             const unsubscribe = onAuthStateChanged(auth,(currentUser)=>{
                 setUser(currentUser )
@@ -30,7 +37,10 @@ export function UserAuthContextProvider({children}){
                 unsubscribe()
             }
         },[])
-    return (<userAuthContext.Provider value ={{user,googleSignIn,signUp,logIn,logOut}}>{children}</userAuthContext.Provider>)
+    return (<userAuthContext.Provider 
+        value ={{user,googleSignIn,signUp,logIn,logOut,removeUser}}>
+        {children}
+        </userAuthContext.Provider>)
 }
 export const useUserAuth = () => {
     return useContext(userAuthContext)

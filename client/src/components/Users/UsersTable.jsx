@@ -57,7 +57,7 @@ const UsersTable = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
             <TableRow>
-                <TableCell>ID </TableCell>
+                <TableCell>UID </TableCell>
                 <TableCell align="right">Email</TableCell>
                 <TableCell align="right">Role</TableCell>
                 <TableCell align="right">Assigned Project</TableCell>  
@@ -72,7 +72,7 @@ const UsersTable = () => {
                     key={[user._id,user.email]}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                    <TableCell component="th" scope="row">{user._id} </TableCell>
+                    <TableCell component="th" scope="row">{user.uid} </TableCell>
                     <TableCell align="right">{user.email}</TableCell>
                     <TableCell align="right">{user.role}</TableCell>
                     <TableCell align="right">{user.projectDisplay}</TableCell>
