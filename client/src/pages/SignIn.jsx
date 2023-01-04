@@ -16,11 +16,12 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom"
 import {useAuthState} from 'react-firebase-hooks/auth'
-import { useEffect,useState } from 'react';
+import { useEffect,useState,useMemo} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useUserAuth } from '../context/userAuthContext';
 import { Alert } from '@mui/material';
 import { selectedUser } from '../redux/actions/userActions';
+import api from '../api/index'
 
 function Copyright(props) {
     return (
@@ -48,21 +49,23 @@ const theme = createTheme();
 
 const SignIn =()=>{
   const [user,loading] = useAuthState(auth)
+  const users =useSelector((state)=>state.allUsers.users)
+  const dispatch=useDispatch()
+  
   const [formInputData,setFormInputData]=useState({
     name:'',
     password:''
   })
-  const users =useSelector((state)=>state.allUsers.users)
+  
   const {logIn,googleSignIn}=useUserAuth()
   const [error,setError]=useState('')
   const navigate = useNavigate()
-  const dispatch=useDispatch()
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('')
     try {
       await logIn(formInputData.email,formInputData.password)
-      //dispatch(setUser())
       navigate('/')
     } catch (e) {
       setError(e.message)
@@ -70,7 +73,7 @@ const SignIn =()=>{
   }
   useEffect(()=>{
     if(user){
-    navigate('/')
+      navigate('/')
   }
   },[user])
 
@@ -104,19 +107,9 @@ const SignIn =()=>{
   }
   //sign in with google
   const GoogleLogin = async(e)=>{
-    setError('')
+    //setError('')
     try{
       const result = await googleSignIn()
-      const currentUser =searchForMember(result.user.uid,users)
-      if(currentUser){
-        dispatch(selectedUser(currentUser))
-      }
-      else{
-        // const createdUser = await api.users.createUser(newInputValue)
-        // const updatedUsers = await api.users.fetchUsers() 
-        // dispatch(selectedUser(currentUser))
-        // dispatch(setUsers(updatedUsers))
-      }
       navigate(`/`)
     }catch(error){
       setError(error.message)
@@ -201,7 +194,7 @@ const SignIn =()=>{
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="/forgotpassword" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>

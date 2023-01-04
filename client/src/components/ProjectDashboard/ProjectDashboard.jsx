@@ -133,9 +133,10 @@ const ProjectDashboard = () => {
     return (
         <>{isCurrentProjectFilled ?
             <Box className='project-dashboard' sx={{ height: 400, 
-            width: '100%',display: 'flex',paddingTop:'80px',}}>
+            width: '100%',display:{xs:'block',sm:'block',md:'block', lg:'flex'}}}
+            >
             <DataGrid
-              sx={{width:'50%'}}
+              sx={{width:{sm:'100%',md:'100%' }}}
               rows={project.members}
               columns={memberColumns}
               onSelectionModelChange={(ids)=>{
@@ -149,7 +150,7 @@ const ProjectDashboard = () => {
               experimentalFeatures={{ newEditingApi: true }}
             />
             <DataGrid
-              sx={{width:'50%'}}
+              sx={{width:{xs:'100%',sm:'100%',md:'100%' },marginTop:{xs:'10%',sm:'10%',md:'10%',lg:'0%'}}}
               rows={project.bugs}
               columns={bugColumns}
               getRowId={(row)=>row._id}

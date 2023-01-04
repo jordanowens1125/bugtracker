@@ -1,4 +1,4 @@
- import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import AdbIcon from '@mui/icons-material/Adb';
@@ -15,7 +15,7 @@ const Navbar = () => {
   const [user,loading] = useAuthState(auth)
   return (
     <>
-      <AppBar>
+      <AppBar >
       <Container maxWidth="xl">
         <Toolbar >
           <Link to="/">
