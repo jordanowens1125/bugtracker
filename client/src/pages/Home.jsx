@@ -3,14 +3,12 @@ import { useEffect,useState } from "react";
 import { useDispatch } from "react-redux";
 import { removeSelectedUser, selectedUser } from "../redux/actions/userActions";
 import { useSelector } from "react-redux";
-import {useAuthState} from 'react-firebase-hooks/auth'
-import {auth} from '../../utils/firebase'
+import { useUserAuth } from '../context/userAuthContext';
 import api from "../api";
 import { Button,Box } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { deleteUser,reauthenticateWithCredential  } from "firebase/auth";
 
 const style = {
   position: 'absolute',
@@ -37,9 +35,10 @@ const checkIfThisIsADemoUser=(user)=>{
 }
 
 const Home = () => {
-  const [user,logOut] = useAuthState(auth)
+  const {user,logOut,removeUser} = useUserAuth()
+  const currentUser = useSelector((state)=>state.currentUser)
   const isThisADemoUser=checkIfThisIsADemoUser(user)
-  const[formInputData,setFormInputData]=useState('')
+  const [formInputData,setFormInputData]=useState('')
   const [editMode,setEditMode]=useState('')
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -70,13 +69,13 @@ const Home = () => {
 
   const signOut =async()=>{
     try{
+      
       await logOut()
         dispatch(removeSelectedUser())
         navigate('/signin')
     }catch(e){
       console.log('Error: ',e)
-    }
-    
+    } 
   }
 
   const changeToEditMode =async()=>{
@@ -91,9 +90,9 @@ const Home = () => {
   }
   const deleteAccount=async()=>{
     try{
-      //const credential = promptForCredentials();
-      await deleteUser(user).then((response)=>{
-      })
+      
+      await api.users.deleteUser(currentUser)
+      await removeUser()
     }catch(e){
       console.log(e)
       console.log(e)
