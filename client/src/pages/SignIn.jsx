@@ -20,7 +20,7 @@ import { useEffect,useState,useMemo} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useUserAuth } from '../context/userAuthContext';
 import { Alert } from '@mui/material';
-import { selectedUser } from '../redux/actions/userActions';
+import { selectedUser, setUsers } from '../redux/actions/userActions';
 import api from '../api/index'
 
 function Copyright(props) {
@@ -51,16 +51,28 @@ const SignIn =()=>{
   const [user,loading] = useAuthState(auth)
   const users =useSelector((state)=>state.allUsers.users)
   const dispatch=useDispatch()
+  const findUserWithUID=async(user,users)=>{
+    for(let i=0;i<users.length;i++){
+      if(users[i].uid==user.uid){
+        dispatch(selectedUser(users[i]))
+        return ''
+      }
+    }
+    const newUser = {email:user.email,uid:user.uid}
+    const createdUser =await api.users.createUser(newUser)
+    dispatch(selectedUser(createdUser))
+    const updatedUsers=await api.users.fetchUsers()
+    dispatch(setUsers(updatedUsers))
+  }
   
   const [formInputData,setFormInputData]=useState({
-    name:'',
+    email:'',
     password:''
   })
   
   const {logIn,googleSignIn}=useUserAuth()
   const [error,setError]=useState('')
   const navigate = useNavigate()
-  
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('')
@@ -73,10 +85,17 @@ const SignIn =()=>{
   }
   useEffect(()=>{
     if(user){
+      findUserWithUID(user,users)
       navigate('/')
   }
   },[user])
-
+  const handleChange=(e)=>{
+    const inputFieldName=e.target.id
+    const inputFieldValue=e.target.value
+    const newInputValue={...formInputData}
+    newInputValue[inputFieldName]=inputFieldValue
+    setFormInputData(newInputValue)
+  }
   const SignInAsDemoDeveloper=async()=>{
     setError('')
     try {
@@ -107,9 +126,10 @@ const SignIn =()=>{
   }
   //sign in with google
   const GoogleLogin = async(e)=>{
-    //setError('')
+    setError('')
     try{
       const result = await googleSignIn()
+      findUserWithUID(result.user,users)
       navigate(`/`)
     }catch(error){
       setError(error.message)
@@ -157,6 +177,7 @@ const SignIn =()=>{
               label="Email Address"
               name="email"
               autoComplete="email"
+              onChange={handleChange}
               autoFocus
             />
             <TextField
@@ -168,6 +189,7 @@ const SignIn =()=>{
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={handleChange}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

@@ -23,18 +23,20 @@ import { setUsers} from "./redux/actions/userActions";
 import api from './api/index'
 import { UserAuthContextProvider } from "./context/userAuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import UpdatePassword from "./pages/UpdatePassword";
+import EditProfile from "./pages/EditProfile";
 
 function App() {
   const dispatch =useDispatch()
   const [user,loading] = useAuthState(auth)
   useEffect(()=>{
     async function fetchData(){
+      const users = await api.users.fetchUsers()
+      dispatch(setUsers(users))
       const projects = await api.projects.fetchProjects()
       dispatch(setProjects(projects))
       const bugs = await api.bugs.fetchBugs()
       dispatch(setBugs(bugs))
-      const users = await api.users.fetchUsers()
-      dispatch(setUsers(users))
     }
     fetchData()
   },[])
@@ -61,6 +63,8 @@ function App() {
           <Route path="bugs/:id" element={<Bug />} />
           <Route path="projects" element={<Projects />} />
           <Route path="projects/:id" element={<Project/>} />
+          <Route path="editprofile" element={<EditProfile />} />
+          <Route path="updatepassword" element={<UpdatePassword />} />
           <Route path="users" element={<Users/>} />
           <Route path="user" element={<User/>} /> 
           {/*catch all */}

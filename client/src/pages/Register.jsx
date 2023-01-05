@@ -15,9 +15,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom"
 import {useAuthState} from 'react-firebase-hooks/auth'
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { getDatabase, push, ref, set } from "firebase/database";
 import { useState } from 'react';
 import api from '../api/index'
 import { useUserAuth } from '../context/userAuthContext';
@@ -49,7 +48,21 @@ const Register =()=>{
     password:'',
     uid:'',
   })
+  const users =useSelector((state)=>state.allUsers.users)
   const dispatch = useDispatch()
+  const findUserWithUID=async(user,users)=>{
+    for(let i=0;i<users.length;i++){
+      if(users[i].uid==user.uid){
+        dispatch(selectedUser(users[i]))
+        return ''
+      }
+    }
+    const newUser = {email:user.email,uid:user.uid}
+    const createdUser =await api.users.createUser(newUser)
+    dispatch(selectedUser(createdUser))
+    const updatedUsers=await api.users.fetchUsers()
+    dispatch(setUsers(updatedUsers))
+  }
   const {signUp}=useUserAuth()
   const [error,setError]=useState('')
   const isThereAnError=error!=''
@@ -72,7 +85,7 @@ const Register =()=>{
     const googleProvider = new GoogleAuthProvider()
     try{
       const result = await signInWithPopup(auth,googleProvider)
-      console.log(result)
+      findUserWithUID(result.user,users)
       navigate(`/`)
     }catch(error){
       console.log('err:',error)
@@ -123,6 +136,7 @@ const Register =()=>{
             Sign Up
           </Typography>
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            {error && <Alert variant='filled' color='error'>{error}</Alert>}
             <TextField
               margin="normal"
               required
@@ -145,7 +159,7 @@ const Register =()=>{
               autoComplete="current-password"
               onChange={handleInputChange}
             />
-             {error && <Alert variant='filled' color='error'>{error}</Alert>}
+             
             <Button
               type="submit"
               fullWidth
