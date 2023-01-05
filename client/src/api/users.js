@@ -6,6 +6,7 @@ import {setDeletedUserComments} from './comments'
 
 export const fetchUsers = async() => await axios.get(baseURL).then((response)=>{return(response.data)})
 export const createUser = async(newUser) => await axios.post(`${baseURL}/create`,newUser).then((response)=>{
+        console.log('new user created')
     return (response.data)
 })
 export const addUserComment=async(userID,commentID)=>await axios.put(`${baseURL}/addusercomment`,{userID:userID,commentID:commentID})
@@ -14,7 +15,7 @@ export const updateUser = async(id, updatedUser) =>
 
 export const fetchUser  = async(id) => await axios.get(`${baseURL}/${id}`);
 export const deleteUser = async(user) => await axios.delete(`${baseURL}/delete/${user._id}`,user)
-    .then(async()=>{a
+    .then(async()=>{
         //remove user from projects 
         await removeUserFromProjects(user)
         await unAssignUserFromBugs(user)

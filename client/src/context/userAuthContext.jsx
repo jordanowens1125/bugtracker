@@ -3,9 +3,11 @@ import { auth } from '../../utils/firebase'
 import {createUserWithEmailAndPassword,
     signInWithEmailAndPassword,signOut,
     onAuthStateChanged,GoogleAuthProvider,signInWithPopup,
-    sendPasswordResetEmail,deleteUser,reauthenticateWithCredential
+    sendPasswordResetEmail,deleteUser,
+    reauthenticateWithCredential,updatePassword,
+    EmailAuthProvider,updateEmail,
+    getAuth,
 } from 'firebase/auth'
-
 const userAuthContext = createContext()
 export function UserAuthContextProvider({children}){
     const [user,setUser] = useState('')
@@ -29,6 +31,29 @@ export function UserAuthContextProvider({children}){
             console.log(error)
         })
     }
+    async function reauthenticateUser(userInfo){
+        const credentials =EmailAuthProvider.credential(userInfo.email,userInfo.password)
+         const response = await reauthenticateWithCredential(auth.currentUser,credentials)
+        .then(()=>{
+            return true
+        }).catch((error) => {
+            return error
+           });
+        return response
+    }
+    async function updateUserEmail(email){
+        const result = updateEmail(auth.currentUser, email).then(() => {
+            // Email updated!
+            // ...
+            return 'Email was successfully updated!'
+          }).catch((error) => {
+            // An error occurred
+            // ...
+            return error.message
+          });
+          return result
+        }
+
         useEffect(()=>{
             const unsubscribe = onAuthStateChanged(auth,(currentUser)=>{
                 setUser(currentUser )
@@ -38,7 +63,8 @@ export function UserAuthContextProvider({children}){
             }
         },[])
     return (<userAuthContext.Provider 
-        value ={{user,googleSignIn,signUp,logIn,logOut,removeUser}}>
+        value ={{user,googleSignIn,signUp,updateUserEmail,
+        logIn,logOut,removeUser,reauthenticateUser}}>
         {children}
         </userAuthContext.Provider>)
 }
