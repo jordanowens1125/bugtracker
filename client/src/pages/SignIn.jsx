@@ -1,5 +1,4 @@
 import React from 'react'
-import {GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
 import {auth} from '../../utils/firebase'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';

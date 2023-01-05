@@ -53,6 +53,19 @@ export function UserAuthContextProvider({children}){
           });
           return result
         }
+        async function updateUserPassword(password){
+            const result = updatePassword(auth.currentUser, password).then(() => {
+                // Email updated!
+                // ...
+                return 'Password was successfully updated!'
+              }).catch((error) => {
+                console.log(error)
+                // An error occurred
+                // ...
+                return error.message
+              });
+              return result
+            }
 
         useEffect(()=>{
             const unsubscribe = onAuthStateChanged(auth,(currentUser)=>{
@@ -64,6 +77,7 @@ export function UserAuthContextProvider({children}){
         },[])
     return (<userAuthContext.Provider 
         value ={{user,googleSignIn,signUp,updateUserEmail,
+            updateUserPassword,
         logIn,logOut,removeUser,reauthenticateUser}}>
         {children}
         </userAuthContext.Provider>)
