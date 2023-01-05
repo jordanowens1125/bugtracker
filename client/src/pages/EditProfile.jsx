@@ -1,7 +1,10 @@
 import React from 'react'
-import { Button,Box,TextField,Modal, Alert, Paper } from '@mui/material'
+import { Button,Box,TextField,Modal, Alert, Paper,Link } from '@mui/material'
 import { useState } from 'react'
 import { useUserAuth } from '../context/userAuthContext'
+import MuiAlert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import { useNavigate } from "react-router-dom"
 
 const style = {
   position: 'absolute',
@@ -15,13 +18,19 @@ const style = {
   p: 4,
 };
 
+ const MessageAlert = React.forwardRef(function Alert(props, ref) {
+   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+ });
+
 const EditProfile = () => {
-    const {user,removeUser,reauthenticateUser,googleSignIn,updateUserEmail} = useUserAuth()
+    const {user,removeUser,updateUserPassword,reauthenticateUser,
+      googleSignIn,updateUserEmail,logOut} = useUserAuth()
+    const navigate = useNavigate()
     const [message,setMessage]=useState('')
     const [open,setOpen]=useState(false)
-
+    const [alertOpen,setAlertOpen]= useState(false)
     const [editEmail,setEditEmail]=useState(false)
-    const [editPassword,setEditPassword]=useState(true)
+    const [editPassword,setEditPassword]=useState(false)
     const [newEmail,setNewEmail]=useState('')
     const [newPassword,setNewPassword]=useState({
       newpassword:'',
@@ -32,6 +41,10 @@ const EditProfile = () => {
         email:'',
         password:'',
     })
+
+    const handleAlertClose=()=>{
+      setAlertOpen(false)
+    }
 
     const handleAuthentication=async(e)=>{
             e.preventDefault()
@@ -64,6 +77,20 @@ const EditProfile = () => {
       setMessage(result)
       setEditEmail(false)
       setEmailorPassword('')
+      setAlertOpen(true)
+      logOut()
+      navigate('/signin')
+    }
+
+    const updatePassword=async(e)=>{
+      e.preventDefault()
+      setError('')
+      const result = await updateUserPassword(newPassword.newpassword)
+      console.log(result)
+      setEmailorPassword('')
+      setAlertOpen(true)
+      logOut()
+      navigate('/signin')
     }
 
     const handleClose = () => setOpen(false);
@@ -93,7 +120,7 @@ const EditProfile = () => {
       setOpen(false)
     }catch(error){
       setError(error.message)
-    }
+    }    
 }
   return (
     <>
@@ -110,13 +137,6 @@ const EditProfile = () => {
       >
         <Box component="form" sx={style} onSubmit={handleAuthentication}  
                 > 
-                <Button
-                        onClick={GoogleLogin}
-                        fullWidth
-                        variant="outlined"
-                        sx={{ mt: 3, mb: 2 }}
-                        >Verify Credentials Through Google
-                    </Button>
                     {error && <Alert variant='filled' color='error'>{error}</Alert>}
                     <TextField
                     margin="normal"
@@ -147,6 +167,13 @@ const EditProfile = () => {
                     sx={{ mt: 3, mb: 2 }}
                     >
                     Verify Credentials
+                    </Button>
+                    <Button
+                        onClick={GoogleLogin}
+                        fullWidth
+                        variant="outlined"
+                        sx={{ mt: 3, mb: 2 }}
+                        >Verify Credentials Through Google
                     </Button>
                 </Box>
            </Modal>
@@ -179,7 +206,7 @@ const EditProfile = () => {
             :
             <></>}
             {editPassword? 
-            <Paper component="form" onSubmit={updateEmail}  
+            <Paper component="form" onSubmit={updatePassword}  
                   > 
                   <div>Enter your new password</div>
                       <TextField
@@ -213,7 +240,16 @@ const EditProfile = () => {
                   </Paper>
             :
             <></>}
-            
+            <Button>
+              <Link href="/" variant="body2">
+                {"Back To Home"}
+              </Link>
+            </Button>
+            <Snackbar open={alertOpen} autoHideDuration={2000} onClose={handleAlertClose}>
+              <MessageAlert onClose={handleAlertClose} variant="filled" severity="success" sx={{ width: '100%' }}>
+                  test         
+              </MessageAlert>
+            </Snackbar>
     </>
   )
 }
