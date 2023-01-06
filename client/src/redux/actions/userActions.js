@@ -12,6 +12,18 @@ export const selectedUser = (user)=>{
         payload:user
     }
 }
+
+export const setLoginMethods = (methods)=>{
+    return {
+        type:ActionTypes.SET_LOGIN_METHODS,
+        payload:methods
+    }
+}
+export const removeLoginMethods = ()=>{
+    return {
+        type:ActionTypes.REMOVE_LOGIN_METHODS,
+    }
+}
 export const removeSelectedUser =()=>{
     return {
         type:ActionTypes.LOGOUT,

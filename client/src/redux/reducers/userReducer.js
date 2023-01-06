@@ -81,3 +81,13 @@ export const currentUserReducer =(state={},{type,payload})=>{
             return state
     }
 }
+export const loginMethodsReducer =(state=[],{type,payload})=>{
+  switch(type){
+      case ActionTypes.SET_LOGIN_METHODS:
+          return [...state,...payload]
+      case ActionTypes.REMOVE_LOGIN_METHODS:
+          return []
+      default:
+          return state
+  }
+}

@@ -47,10 +47,10 @@ const getUser = async (req,res)=>{
 const updateUser = async (req,res)=>{
     try {
         let id = req.params.id
-        let {name,password} = req.body
         const user = await User.findByIdAndUpdate(id,
-            {name,password}
+            {email:req.body.email}
         )
+        console.log(user)
         res.status(200).json(user)
     } catch (error) {
         res.status(404).json({message:error})

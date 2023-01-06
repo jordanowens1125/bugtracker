@@ -1,27 +1,16 @@
 import React from 'react'
-import {auth} from '../../utils/firebase'
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom"
-import {useAuthState} from 'react-firebase-hooks/auth'
 import { useEffect,useState,useMemo} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useUserAuth } from '../context/userAuthContext';
-import { Alert } from '@mui/material';
+import { Alert,Avatar,Button,CssBaseline,TextField,
+FormControlLabel,Checkbox,Link,Grid,Box
+,Typography,Container } from '@mui/material';
 import { selectedUser, setUsers } from '../redux/actions/userActions';
 import api from '../api/index'
-
+import { setLoginMethods } from '../redux/actions/userActions'
 function Copyright(props) {
     return (
       <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -47,7 +36,7 @@ const searchForMember=(uid,users)=>{
 const theme = createTheme();
 
 const SignIn =()=>{
-  const [user,loading] = useAuthState(auth)
+  const {user} = useUserAuth()
   const users =useSelector((state)=>state.allUsers.users)
   const dispatch=useDispatch()
   const findUserWithUID=async(user,users)=>{
@@ -69,14 +58,15 @@ const SignIn =()=>{
     password:''
   })
   
-  const {logIn,googleSignIn}=useUserAuth()
+  const {logIn,googleSignIn,getSignInMethods}=useUserAuth()
   const [error,setError]=useState('')
   const navigate = useNavigate()
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('')
     try {
-      await logIn(formInputData.email,formInputData.password)
+      const result = await logIn(formInputData.email,formInputData.password)
+
       navigate('/')
     } catch (e) {
       setError(e.message)

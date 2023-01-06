@@ -65,7 +65,6 @@ const Register =()=>{
   }
   const {signUp}=useUserAuth()
   const [error,setError]=useState('')
-  const isThereAnError=error!=''
   const handleInputChange=(e)=>{  
     const inputFieldValue = e.target.value;
     const inputFieldName =e.target.id||e.target.name//target name for the bugs select
