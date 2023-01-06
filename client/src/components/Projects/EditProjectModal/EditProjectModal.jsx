@@ -1,25 +1,14 @@
 import React,{useState,useEffect,useMemo} from 'react'
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
 import api from  '../../../api/index'
-import TextField from '@mui/material/TextField';
 import dayjs from 'dayjs'
 import { useDispatch, useSelector } from 'react-redux';
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import MuiAlert from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
 import { useTheme } from '@mui/material/styles';
-import Chip from '@mui/material/Chip';
 import {setProjects,selectedProject} from '../../../redux/actions/projectActions'
 import {setUsers} from '../../../redux/actions/userActions'
-import { Checkbox } from '@mui/material';
-import {ListItemText} from '@mui/material';
-import {Avatar} from '@mui/material';
+import {Avatar,Checkbox,ListItemText,Chip,
+  Snackbar,Select,FormControl,MenuItem,OutlinedInput,
+  InputLabel,Button,TextField,Modal,Box} from '@mui/material';
 
 const style = {
   position: 'absolute',

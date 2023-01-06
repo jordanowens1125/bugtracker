@@ -6,7 +6,7 @@ import {createUserWithEmailAndPassword,
     sendPasswordResetEmail,deleteUser,
     reauthenticateWithCredential,updatePassword,
     EmailAuthProvider,updateEmail,
-    getAuth,
+    getAuth,fetchSignInMethodsForEmail,
 } from 'firebase/auth'
 const userAuthContext = createContext()
 export function UserAuthContextProvider({children}){
@@ -45,11 +45,11 @@ export function UserAuthContextProvider({children}){
         const result = updateEmail(auth.currentUser, email).then(() => {
             // Email updated!
             // ...
-            return 'Email was successfully updated!'
+            return [true,'Email was successfully updated! Being redirected to signin page.']
           }).catch((error) => {
             // An error occurred
             // ...
-            return error.message
+            return [false, error.message]
           });
           return result
         }
@@ -57,16 +57,22 @@ export function UserAuthContextProvider({children}){
             const result = updatePassword(auth.currentUser, password).then(() => {
                 // Email updated!
                 // ...
-                return 'Password was successfully updated!'
+                return [true,'Password was successfully updated!']
               }).catch((error) => {
-                console.log(error)
                 // An error occurred
                 // ...
-                return error.message
+                return [false,error.message]
               });
               return result
             }
-
+            async function getSignInMethods(){
+                const result = await fetchSignInMethodsForEmail(auth,auth.currentUser.email).then((result)=>{
+                    return result
+                }).catch((error)=>{
+                    return error.message
+                })
+                  return result
+                }
         useEffect(()=>{
             const unsubscribe = onAuthStateChanged(auth,(currentUser)=>{
                 setUser(currentUser )
@@ -77,7 +83,7 @@ export function UserAuthContextProvider({children}){
         },[])
     return (<userAuthContext.Provider 
         value ={{user,googleSignIn,signUp,updateUserEmail,
-            updateUserPassword,
+            updateUserPassword,getSignInMethods,
         logIn,logOut,removeUser,reauthenticateUser}}>
         {children}
         </userAuthContext.Provider>)

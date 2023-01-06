@@ -11,9 +11,11 @@ export const createUser = async(newUser) => await axios.post(`${baseURL}/create`
 })
 export const addUserComment=async(userID,commentID)=>await axios.put(`${baseURL}/addusercomment`,{userID:userID,commentID:commentID})
 export const updateUser = async(id, updatedUser) => 
-    await axios.put(`${baseURL}/${id}`, updatedUser);
+    await axios.put(`${baseURL}/${id}`, updatedUser)
 
-export const fetchUser  = async(id) => await axios.get(`${baseURL}/${id}`);
+export const fetchUser  = async(id) => await axios.get(`${baseURL}/${id}`).then((response)=>{
+    return response.data
+});
 export const deleteUser = async(user) => await axios.delete(`${baseURL}/delete/${user._id}`,user)
     .then(async()=>{
         //remove user from projects 

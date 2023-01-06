@@ -1,10 +1,11 @@
-import React from 'react'
-import { Button,Box,TextField,Modal, Alert, Paper,Link } from '@mui/material'
-import { useState } from 'react'
+import { Button,Box,TextField,Modal, Alert, Paper,Link,Typography } from '@mui/material'
+import React,{ useState,useEffect } from 'react'
 import { useUserAuth } from '../context/userAuthContext'
-import MuiAlert from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
 import { useNavigate } from "react-router-dom"
+import {useDispatch, useSelector} from 'react-redux'
+import api from '../api/index'
+import { removeSelectedUser, setUsers } from '../redux/actions/userActions'
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const style = {
   position: 'absolute',
@@ -18,47 +19,68 @@ const style = {
   p: 4,
 };
 
- const MessageAlert = React.forwardRef(function Alert(props, ref) {
-   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
- });
-
 const EditProfile = () => {
-    const {user,removeUser,updateUserPassword,reauthenticateUser,
+    const {user,removeUser,updateUserPassword,reauthenticateUser,getSignInMethods,
       googleSignIn,updateUserEmail,logOut} = useUserAuth()
+    const dispatch=useDispatch()
+    const methods = useSelector((state)=>state.loginMethods)
+    let hasPassword;
+    let hasGoogleAuth;
+    if(methods.includes('google.com')){
+      hasGoogleAuth=true
+    }
+    if(methods.includes('password')){
+      hasPassword=true;
+    }
+
     const navigate = useNavigate()
     const [message,setMessage]=useState('')
     const [open,setOpen]=useState(false)
-    const [alertOpen,setAlertOpen]= useState(false)
     const [editEmail,setEditEmail]=useState(false)
     const [editPassword,setEditPassword]=useState(false)
+    const [deleteOpen,setDeleteOpen]=useState(false)
     const [newEmail,setNewEmail]=useState('')
+    const [authenticationError,setAuthenticationError]=useState('')
+    const [emailpasswordError, setEmailPasswordError]=useState('')
     const [newPassword,setNewPassword]=useState({
       newpassword:'',
       validatepassword:'',
-    })
-    const [emailorpassword,setEmailorPassword]=useState('')
+    }) 
+    const [emailordeleteororpassword,setEmailorDeleteorPassword]=useState('')
     const [formInputData,setFormInputData]=useState({
         email:'',
         password:'',
     })
+    const currentUser= useSelector((state)=>state.currentUser)
+    useEffect(()=>{
+      if(!user){
+        navigate('/')
+      }else{
 
-    const handleAlertClose=()=>{
-      setAlertOpen(false)
-    }
+      }
+    },[user])
 
     const handleAuthentication=async(e)=>{
             e.preventDefault()
+            setAuthenticationError('')
             const wasUserAuthenticated = await reauthenticateUser(formInputData)
             if(wasUserAuthenticated==true){
               setOpen(false)
-              if(emailorpassword=='password'){
+              if(emailordeleteororpassword=='password'){
                 setEditPassword(true)
               }
-              if(emailorpassword=='email'){
+              if(emailordeleteororpassword=='email'){
                 setEditEmail(true)
               }
+              if(emailordeleteororpassword=='delete'){
+                setDeleteOpen(true)
+              }
+            }
+            else{
+              setAuthenticationError(wasUserAuthenticated.message)
             }
         }
+
     const handleEmailInputChange=(e)=>{
       setNewEmail(e.target.value)
     }
@@ -72,30 +94,61 @@ const EditProfile = () => {
 
     const updateEmail=async(e)=>{
       e.preventDefault()
+      setMessage('')
+      setEmailPasswordError('')
       const result =await updateUserEmail(newEmail)
-      setError('')
-      setMessage(result)
-      setEditEmail(false)
-      setEmailorPassword('')
-      setAlertOpen(true)
-      logOut()
-      navigate('/signin')
+      
+      
+      if(result[0]){
+        const editedUser = {...currentUser}
+        editedUser['email']= newEmail
+        await api.users.updateUser(currentUser._id,editedUser)
+        const updatedUsers = await api.users.fetchUsers()
+        dispatch(setUsers(updatedUsers))
+        setMessage(result[1])              
+        setEditEmail(false)
+        setEmailorDeleteorPassword('')
+        setTimeout(()=>{
+          logOut()   
+          dispatch(removeSelectedUser())              
+          navigate('/signin')
+        },3000)
+      }
+      else{
+        setEmailPasswordError(result[1])
+      }
     }
 
     const updatePassword=async(e)=>{
       e.preventDefault()
-      setError('')
+      setMessage('')
+      setEmailPasswordError('')
       const result = await updateUserPassword(newPassword.newpassword)
-      console.log(result)
-      setEmailorPassword('')
-      setAlertOpen(true)
-      logOut()
-      navigate('/signin')
+      if(result[0]){
+        const editedUser = {...currentUser}
+        editedUser['email']= newEmail
+        await api.users.updateUser(currentUser._id,editedUser)
+        const updatedUsers = await api.users.fetchUsers()
+        dispatch(setUsers(updatedUsers))
+        setMessage(result[1])
+        setEditPassword(false)
+        setEmailorDeleteorPassword('')
+        setTimeout(()=>{
+          setMessage('')
+          logOut()           
+          dispatch(removeSelectedUser())      
+          navigate('/signin')
+        },3000)
+      }
+      else{
+        setEmailPasswordError(result[1])
+      }
     }
 
     const handleClose = () => setOpen(false);
-    
-    const [error,setError]=useState('')
+    const handleDeleteClose =()=>{
+      console.log()
+    }
     const handleAuthenticationChange=(e)=>{
         const inputFieldName=e.target.id
         const inputFieldValue=e.target.value
@@ -105,39 +158,82 @@ const EditProfile = () => {
     }
     const changeEmail=()=>{
         setOpen(true)
-        setEmailorPassword('email')
+        setEmailPasswordError('')
+        setEditPassword(false)
+        setEmailorDeleteorPassword('email')
+    }
+    const handleDeleteOpen=()=>{
+      setOpen(true)
+      setEmailPasswordError('')
+      setEditPassword(false)
+      setEditEmail(false)
+      setEmailorDeleteorPassword('delete')
     }
     const changePassword=()=>{
       setOpen(true)
-      setEmailorPassword('password')
+      setEmailPasswordError('')
+      setEditEmail(false)
+      setEmailorDeleteorPassword('password')
     }
     //sign in with google
   const GoogleLogin = async(e)=>{
-    setError('')
+    setAuthenticationError('')
     setMessage('')
     try{
       const result = await googleSignIn()
+      if(emailordeleteororpassword=='email'){
+        setEditEmail(true)
+      }
+      else if(emailordeleteororpassword=='delete'){
+        setDeleteOpen(true)
+      }
+      
       setOpen(false)
     }catch(error){
-      setError(error.message)
+      setAuthenticationError(error.message)
     }    
+}
+
+const deleteAccount=async()=>{
+  try{
+    await removeUser()
+    await api.users.deleteUser(currentUser)
+    dispatch(removeSelectedUser())
+    const updatedUsers = await api.users.fetchUsers()
+    dispatch(setUsers(updatedUsers))
+  }catch(e){
+    console.log(e)
+    console.log(e)
+    if(e.message =='(auth/requires-recent-login)'){
+      console.log(e.message)
+    }
+  } 
 }
   return (
     <>
         <div>Edit Profile</div>
-        <Button onClick={changeEmail}>Change Email</Button>                
+        <Button onClick={changeEmail}>Change Email</Button>     
+        {hasPassword?
         <Button onClick={changePassword}>Change Password</Button>
-        {message && <Alert variant='outlined' color='success'>{message}</Alert>}
+        :
+        <></>}           
+        <Button variant="contained" onClick={handleDeleteOpen} color='error' startIcon={<DeleteIcon />}>
+          Delete Account
+        </Button>
+        {message && <Alert severity='success'>{message}</Alert>}
+        {emailpasswordError && <Alert severity="error">{emailpasswordError}</Alert>}
         {open? 
         <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-      >
+        >
         <Box component="form" sx={style} onSubmit={handleAuthentication}  
                 > 
-                    {error && <Alert variant='filled' color='error'>{error}</Alert>}
+                <div>Please verify your credentials before editing your account!</div>
+                
+                    {authenticationError && <Alert severity="error">{authenticationError}</Alert>}
                     <TextField
                     margin="normal"
                     required
@@ -168,6 +264,7 @@ const EditProfile = () => {
                     >
                     Verify Credentials
                     </Button>
+                    {hasGoogleAuth?
                     <Button
                         onClick={GoogleLogin}
                         fullWidth
@@ -175,6 +272,8 @@ const EditProfile = () => {
                         sx={{ mt: 3, mb: 2 }}
                         >Verify Credentials Through Google
                     </Button>
+                    :
+                    <></>}
                 </Box>
            </Modal>
           :
@@ -182,7 +281,7 @@ const EditProfile = () => {
           {editEmail? 
           <Paper component="form" onSubmit={updateEmail}  
                   > 
-                  <div>Enter your new email</div>
+                  <div>Enter your new email below. Upon completion you will be redirected to the sign in page.</div>
                       <TextField
                       margin="normal"
                       required
@@ -245,11 +344,23 @@ const EditProfile = () => {
                 {"Back To Home"}
               </Link>
             </Button>
-            <Snackbar open={alertOpen} autoHideDuration={2000} onClose={handleAlertClose}>
-              <MessageAlert onClose={handleAlertClose} variant="filled" severity="success" sx={{ width: '100%' }}>
-                  test         
-              </MessageAlert>
-            </Snackbar>
+        <Modal
+            open={deleteOpen}
+            onClose={handleDeleteClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Are you sure you want to delete your account?
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            This cannot be undone!
+          </Typography>
+          <Button onClick={deleteAccount} variant='outlined' color='error'>Yes, Delete my account!</Button>
+          <Button onClick={''} variant='outlined' color='error'>No, I changed my mind!</Button>
+        </Box>
+      </Modal>
     </>
   )
 }

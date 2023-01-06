@@ -1,14 +1,12 @@
 import { useNavigate } from "react-router-dom"
 import { useEffect,useState } from "react";
 import { useDispatch } from "react-redux";
-import { removeSelectedUser, selectedUser,setUsers } from "../redux/actions/userActions";
+import { removeSelectedUser, selectedUser,setLoginMethods,setUsers } from "../redux/actions/userActions";
 import { useSelector } from "react-redux";
 import { useUserAuth } from '../context/userAuthContext';
 import api from "../api";
-import { Button,Box,Link } from "@mui/material";
+import { Button,Box,Typography,Modal } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 
 const style = {
   position: 'absolute',
@@ -36,13 +34,11 @@ const checkIfThisIsADemoUser=(user)=>{
 }
 
 const Home = () => {
-  const {user,logOut,removeUser} = useUserAuth()
+  const {user,logOut,removeUser,getSignInMethods} = useUserAuth()
   const users = useSelector((state)=>state.allUsers.users)
   const dispatch = useDispatch()
   const currentUser = useSelector((state)=>state.currentUser)
   const isThisADemoUser=checkIfThisIsADemoUser(user)
-  const [formInputData,setFormInputData]=useState('')
-  const [editMode,setEditMode]=useState('')
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -74,21 +70,15 @@ const Home = () => {
     } 
   }
 
-  const changeToEditMode =async()=>{
-    //set edit mode to true
-  }
-  //if they click cancel
-  const resetEditMode=async()=>{
-
-  }
-  const updatedAccount=async()=>{
-
+  const handleEditProfileClick=async()=>{
+    const methods = await getSignInMethods()
+    dispatch(setLoginMethods(methods))
+    navigate('/editprofile')
   }
   const deleteAccount=async()=>{
     try{
-      
-      await api.users.deleteUser(currentUser)
       await removeUser()
+      await api.users.deleteUser(currentUser)
       dispatch(removeSelectedUser())
       const updatedUsers = await api.users.fetchUsers()
       dispatch(setUsers(updatedUsers))
@@ -119,17 +109,19 @@ const Home = () => {
           <Button onClick={deleteAccount} variant='outlined' color='error'>Yes, Delete my account!</Button>
         </Box>
       </Modal>
-        {isThisADemoUser?<></> 
-        :<Button variant ='outlined'>
-          <Link href="/editprofile" variant="body2">
-            Edit Profile
-          </Link></Button>
+        {isThisADemoUser?<Button variant ='contained' disabled>
+          Edit Profile
+          </Button> 
+        :<Button onClick={handleEditProfileClick} variant ='outlined'>Edit Profile</Button>
         }
         <Button variant ='contained' onClick={signOut}>Sign Out</Button>
-        {isThisADemoUser?<></>:<Button variant="contained" onClick={handleOpen} color='error' startIcon={<DeleteIcon />}>
+        {isThisADemoUser?
+        <Button variant="contained" disabled  startIcon={<DeleteIcon />}>
+          Delete Account
+        </Button>:
+        <Button variant="contained" onClick={handleOpen} color='error' startIcon={<DeleteIcon />}>
           Delete Account
         </Button>} 
-        
       </>
       )
   };
