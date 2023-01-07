@@ -19,7 +19,7 @@ import { useEffect } from "react";
 import { useDispatch } from 'react-redux'
 import { setProjects } from "./redux/actions/projectActions";
 import { setBugs } from "./redux/actions/bugActions";
-import { setUsers} from "./redux/actions/userActions";
+import { setUsers,selectedUser} from "./redux/actions/userActions";
 import api from './api/index'
 import { UserAuthContextProvider } from "./context/userAuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -37,9 +37,20 @@ function App() {
       dispatch(setProjects(projects))
       const bugs = await api.bugs.fetchBugs()
       dispatch(setBugs(bugs))
+      const findUserWithUID=async(user,users)=>{
+        if(user){
+        for(let i=0;i<users.length;i++){
+            if(users[i].uid==user.uid){
+              dispatch(selectedUser(users[i]))
+              return ''
+            }
+          }
+        }
+      }
+      findUserWithUID(user,users)
     }
     fetchData()
-  },[])
+  },[user])
   return (
     <BrowserRouter>
     <UserAuthContextProvider>

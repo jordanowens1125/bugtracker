@@ -1,13 +1,14 @@
 import React, { useState,useRef,useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import api from '../../../api/index'
-import {Typography, Paper,Box, Divider, Grid, List, FormControl, TextField, IconButton} from "@mui/material"
+import {Typography, Button,Paper,Box, Divider, Grid, List, FormControl, TextField, IconButton} from "@mui/material"
 import SendIcon from '@mui/icons-material/Send';
 import { useDispatch } from 'react-redux'
 import { removeSelectedBug, selectedBug} from '../../../redux/actions/bugActions'
 import Comment from '../Comment/Comment';
 import EditBugModal from '../EditBugModal/EditBugModal';
 import { setUsers } from '../../../redux/actions/userActions';
+
 const bugHasComments=(bug)=>{
     if(bug.comments){
         if(bug.comments.length>0){
@@ -23,6 +24,23 @@ const checkifCurrentBugIsFilled=(obj)=>{
     }
     return false;
 }
+const checkIfUserCanMakeComments=(user,bug)=>{
+    if(user){
+        if(bug){
+            if(user.role=='admin'){
+                return true
+            }
+            else if(true){
+                if(bug.assignedTo){
+                    if(bug.assignedTo.includes(user._id)){
+                        return true
+                    }
+                }
+            }
+        }
+    }
+    return false
+}
 const AlwaysScrollToBottom = () => {
     const elementRef = useRef();
     useEffect(() => elementRef.current.scrollIntoView());
@@ -34,14 +52,27 @@ const AlwaysScrollToBottom = () => {
     if(section){
         section.scrollIntoView( { behavior: 'smooth', block: 'start' } );
     }
-    
   };
 const BugComments = () => {
-    const dispatch=useDispatch()
+    const currentUser =useSelector((state)=>state.currentUser)
+    const bug =useSelector((state)=>state.currentBug)
+    const isThereACurrentBug=checkifCurrentBugIsFilled(bug)
+    const hasComments=bugHasComments(bug)
+    
+    const canUserMakeCommentsOnThisBug=checkIfUserCanMakeComments(currentUser,bug)
+
     const [chatInput,setChatInput]= useState({
         text:'',
         input:'',
     })
+    
+
+    const dispatch=useDispatch()
+    const clearCurrentBug=()=>{
+        dispatch(removeSelectedBug())
+    }
+
+
     const handleChange=(e)=>{
         const inputFieldValue = e.target.value;
         const inputFieldName =e.target.id||e.target.name//target name for the bugs select
@@ -51,7 +82,7 @@ const BugComments = () => {
     }
     const sendComment=async(e)=>{
         const newComment = {...chatInput}
-        newComment.creator='63a36a4d3f0f5cf676acf07c'
+        newComment.creator=currentUser._id
         newComment.bugID=bug._id
         newComment.projectID=bug.projectID
         await api.comments.createComment(newComment)
@@ -64,13 +95,7 @@ const BugComments = () => {
         const updatedUsers =await api.users.fetchUsers()
         dispatch(setUsers(updatedUsers))
     }
-    const bug =useSelector((state)=>state.currentBug)
-    const isThereACurrentBug=checkifCurrentBugIsFilled(bug)
-    const currentUser =useSelector((state)=>state.currentUser)
-    const hasComments=bugHasComments(bug)
-    const clearCurrentBug=()=>{
-        dispatch(removeSelectedBug())
-    }
+    
     useEffect(()=>{
     },[bug])
   return (
@@ -79,8 +104,8 @@ const BugComments = () => {
     <Paper elevation={5}>
             <Box p={3}>
                 <Typography variant='h4' gutterBottom>{bug.title}</Typography>
-                <button onClick={clearCurrentBug}>Clear Bug</button>
-                <button onClick={scrollToBottom}>Scroll Down</button>
+                <Button variant ='contained' onClick={clearCurrentBug}>Clear Bug</Button>
+                <Button variant ='contained' onClick={scrollToBottom}>Scroll To bottom</Button>
                 <EditBugModal/>
                 <Divider/>
                 <Grid 
@@ -105,25 +130,33 @@ const BugComments = () => {
                             }
                         </List>
                      </Grid>
-                     <Grid xs={8} item>
-                        <FormControl fullWidth>
-                            <TextField 
-                            id='text'
-                            value={chatInput.text}
-                            label='Type your message'
-                            variant='outlined'
-                            onChange={handleChange}
-                            />
-                        </FormControl>
-                     </Grid>
-                     <Grid xs={4} item>
-                        <IconButton
-                        aria-label='send'
-                        color='primary'
-                        onClick={sendComment}>
-                            <SendIcon/>
-                        </IconButton>
-                     </Grid>
+                     {canUserMakeCommentsOnThisBug?
+                        <>
+                            <Grid xs={8} item>
+                            <FormControl fullWidth>
+                                <TextField 
+                                id='text'
+                                value={chatInput.text}
+                                label='Type your message'
+                                variant='outlined'
+                                onChange={handleChange}
+                                />
+                            </FormControl>
+                            </Grid>
+                            <Grid xs={4} item>
+                                <IconButton
+                                aria-label='send'
+                                color='primary'
+                                onClick={sendComment}>
+                                    <SendIcon/>
+                                </IconButton>
+                            </Grid>
+                        </>                        
+                        :
+                        <></>
+                     }
+                     
+
                 </Grid>
             </Box>
         </Paper>:
