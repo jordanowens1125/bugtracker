@@ -102,8 +102,8 @@ const SignIn =()=>{
   const SignInAsDemoAdmin=async()=>{
     setError('')
       try{
-          const demoAdminPassword = import.meta.env.VITE_DEMO_DEVELOPER_PASSWORD
-          const demoAdminEmail = import.meta.env.VITE_DEMO_DEVELOPER_EMAIL
+          const demoAdminPassword = import.meta.env.VITE_DEMO_ADMIN_PASSWORD
+          const demoAdminEmail = import.meta.env.VITE_DEMO_ADMIN_EMAIL
           const result =await logIn(demoAdminEmail,demoAdminPassword)
           const currentUser = searchForMember(result.user.uid,users)
           dispatch(selectedUser(currentUser))

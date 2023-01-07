@@ -97,8 +97,6 @@ const EditProfile = () => {
       setMessage('')
       setEmailPasswordError('')
       const result =await updateUserEmail(newEmail)
-      
-      
       if(result[0]){
         const editedUser = {...currentUser}
         editedUser['email']= newEmail
@@ -147,7 +145,9 @@ const EditProfile = () => {
 
     const handleClose = () => setOpen(false);
     const handleDeleteClose =()=>{
-      console.log()
+      setDeleteOpen(false)
+      setEditEmail(false)
+      setEditPassword(false)
     }
     const handleAuthenticationChange=(e)=>{
         const inputFieldName=e.target.id
@@ -194,6 +194,12 @@ const EditProfile = () => {
     }    
 }
 
+const cancelEdit=()=>{
+  setEditEmail(false)
+  setEditPassword(false)
+  setDeleteOpen(false)
+}
+
 const deleteAccount=async()=>{
   try{
     await removeUser()
@@ -201,12 +207,8 @@ const deleteAccount=async()=>{
     dispatch(removeSelectedUser())
     const updatedUsers = await api.users.fetchUsers()
     dispatch(setUsers(updatedUsers))
+
   }catch(e){
-    console.log(e)
-    console.log(e)
-    if(e.message =='(auth/requires-recent-login)'){
-      console.log(e.message)
-    }
   } 
 }
   return (
@@ -217,7 +219,7 @@ const deleteAccount=async()=>{
         <Button onClick={changePassword}>Change Password</Button>
         :
         <></>}           
-        <Button variant="contained" onClick={handleDeleteOpen} color='error' startIcon={<DeleteIcon />}>
+        <Button variant="outlined" onClick={handleDeleteOpen} color='error' startIcon={<DeleteIcon />}>
           Delete Account
         </Button>
         {message && <Alert severity='success'>{message}</Alert>}
@@ -301,6 +303,14 @@ const deleteAccount=async()=>{
                       >
                       Update Email
                       </Button>
+                      <Button
+                      fullWidth
+                      onClick={cancelEdit}
+                      variant="outlined"
+                      sx={{ mt: 3, mb: 2 }}
+                      >
+                      Cancel
+                      </Button>
                   </Paper>
             :
             <></>}
@@ -358,7 +368,7 @@ const deleteAccount=async()=>{
             This cannot be undone!
           </Typography>
           <Button onClick={deleteAccount} variant='outlined' color='error'>Yes, Delete my account!</Button>
-          <Button onClick={''} variant='outlined' color='error'>No, I changed my mind!</Button>
+          <Button onClick={cancelEdit} variant='outlined' >No, I changed my mind!</Button>
         </Box>
       </Modal>
     </>

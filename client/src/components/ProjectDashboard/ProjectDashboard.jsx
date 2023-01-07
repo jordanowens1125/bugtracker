@@ -162,7 +162,7 @@ const ProjectDashboard = () => {
               onRowClick={handleRowClick}
             />
           </Box>
-            :'Loading'
+            :'No Project Currently Selected'
         }
         </>  
     )
