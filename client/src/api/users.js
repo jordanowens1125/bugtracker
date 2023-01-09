@@ -6,7 +6,7 @@ import {setDeletedUserComments} from './comments'
 
 export const fetchUsers = async() => await axios.get(baseURL).then((response)=>{return(response.data)})
 export const createUser = async(newUser) => await axios.post(`${baseURL}/create`,newUser).then((response)=>{
-        console.log('new user created')
+        
     return (response.data)
 })
 export const addUserComment=async(userID,commentID)=>await axios.put(`${baseURL}/addusercomment`,{userID:userID,commentID:commentID})
