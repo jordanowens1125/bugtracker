@@ -1,17 +1,8 @@
 import React from 'react'
 import {GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
 import {auth} from '../../utils/firebase'
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import CheckIcon from '@mui/icons-material/Check';
-import DangerousIcon from '@mui/icons-material/Dangerous';
-import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
+import {Avatar,Button,CssBaseline,TextField,Link,Box,Typography,Container} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom"
 import {useAuthState} from 'react-firebase-hooks/auth'
@@ -37,9 +28,6 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
-
-const EMAIL_REGEX =1
-const PASSWORD_REGEX=1
 
 const Register =()=>{
   const [user,loading] = useAuthState(auth)

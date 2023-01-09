@@ -91,7 +91,15 @@ const removeUserFromProjects = async(req,res)=>{
     }
 }
 
+const addCommentToProject=async(req,res)=>{
+    try{
+        const project = await Project.findOneAndUpdate({_id:req.params.id},{$push:{comments: req.body.commentID}}); 
+        res.status(200).json(project)
+    }catch(error){
+        res.status(404).json({message:error})
+    }
+}
 module.exports = {getProjects, createProject, deleteProject, 
     getProject,updateProject,addBugToProject,deleteBugFromProject,
-    removeUserFromProjects,
+    removeUserFromProjects,addCommentToProject,
 }

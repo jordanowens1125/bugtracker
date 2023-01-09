@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom"
-import { useEffect, } from "react";
+import { useEffect,useState } from "react";
 import { useDispatch } from "react-redux";
 import { removeSelectedUser, setLoginMethods, } from "../redux/actions/userActions";
 import UserDashboard from "../components/Users/UserDashboard";
 import { useUserAuth } from '../context/userAuthContext';
-import { Button } from "@mui/material";
+import { Button,Box } from "@mui/material";
 
 const checkIfThisIsADemoUser=(user)=>{
   const demoDeveloperEmail = import.meta.env.VITE_DEMO_DEVELOPER_EMAIL
@@ -19,8 +19,10 @@ const checkIfThisIsADemoUser=(user)=>{
   }
 }
 
+
 const Home = () => {
   const {user,logOut,getSignInMethods} = useUserAuth()
+  const [showMessage, setShowMessage] = useState(false);
   const dispatch = useDispatch()
   const isThisADemoUser=checkIfThisIsADemoUser(user)
   const navigate = useNavigate()
@@ -45,10 +47,13 @@ const Home = () => {
     dispatch(setLoginMethods(methods))
     navigate('/editprofile')
   }
-
+const demoMessage=(e)=>{
+  console.log(e)
+}
   return (
       <>
-        {isThisADemoUser?<Button variant ='contained' disabled>
+        {isThisADemoUser?
+          <Button variant ='contained' disabled >
           Edit Profile
           </Button> 
         :<Button onClick={handleEditProfileClick} variant ='outlined'>Edit Profile</Button>

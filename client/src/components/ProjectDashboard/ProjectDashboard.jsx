@@ -1,8 +1,7 @@
 import React, { useMemo,useEffect,useState } from 'react'
-import Box from '@mui/material/Box';
 import { useSelector, useDispatch } from 'react-redux'
 import './ProjectDashboard.css'
-import { Grid, Paper ,Button} from '@mui/material';
+import { Grid, Paper ,Button,Box,Typography} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { DataGrid } from '@mui/x-data-grid';
 import api from '../../api/index'
@@ -10,6 +9,21 @@ import {selectedBug, setBugs} from '../../redux/actions/bugActions'
 import {selectedProject,setProjects} from '../../redux/actions/projectActions'
 import {setUsers} from '../../redux/actions/userActions'
 
+function BugsDataGridTitle() {
+  return(
+      <Box style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+          <Typography variant="h5"> Project Bugs</Typography>
+      </Box>
+  )
+}
+function MembersDataGridTitle() {
+  return(
+      <Box style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+          <Typography variant="h5">Project Users</Typography>
+          <div></div>
+      </Box>
+  )
+}
 const bugColumns = [
     { field: '_id', headerName: 'ID', width: 90 },
     {
@@ -94,7 +108,7 @@ const ProjectDashboard = () => {
         sortable: false,
         width: 160,
         valueGetter: (params) =>
-          `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+          `${params.row.firstName || ''} ${params.row.lastName || ''}`||`-`,
       },
       {
         field: 'email',
@@ -139,15 +153,12 @@ const ProjectDashboard = () => {
               sx={{width:{sm:'100%',md:'100%' }}}
               rows={project.members}
               columns={memberColumns}
-              onSelectionModelChange={(ids)=>{
-                setSelectedUsers(ids)
-              }}
               getRowId={(row)=>row._id}
               pageSize={6}
               rowsPerPageOptions={[6]}
-              //checkboxSelection
-              disableSelectionOnClick
+              //disableSelectionOnClick
               experimentalFeatures={{ newEditingApi: true }}
+              components={{Toolbar:MembersDataGridTitle}}
             />
             <DataGrid
               sx={{width:{xs:'100%',sm:'100%',md:'100%' },marginTop:{xs:'10%',sm:'10%',md:'10%',lg:'0%'}}}
@@ -156,10 +167,11 @@ const ProjectDashboard = () => {
               getRowId={(row)=>row._id}
               pageSize={6}
               rowsPerPageOptions={[6]}
-              //checkboxSelection
-              //disableSelectionOnClick
               experimentalFeatures={{ newEditingApi: true }}
               onRowClick={handleRowClick}
+              components={{Toolbar:BugsDataGridTitle}}
+              //checkboxSelection
+              //disableSelectionOnClick
             />
           </Box>
             :'No Project Currently Selected'

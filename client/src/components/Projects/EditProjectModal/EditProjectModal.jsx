@@ -3,7 +3,6 @@ import api from  '../../../api/index'
 import dayjs from 'dayjs'
 import { useDispatch, useSelector } from 'react-redux';
 import MuiAlert from '@mui/material/Alert';
-import { useTheme } from '@mui/material/styles';
 import {setProjects,selectedProject} from '../../../redux/actions/projectActions'
 import {setUsers} from '../../../redux/actions/userActions'
 import {Avatar,Checkbox,ListItemText,Chip,
@@ -36,15 +35,6 @@ const MenuProps = {
       },
     },
   };
-
-  function getStyles(name, bugName, theme) {
-    return {
-      fontWeight:
-        bugName.indexOf(name) === -1
-          ? theme.typography.fontWeightRegular
-          : theme.typography.fontWeightMedium,
-    };
-  }
 
 const EditProjectModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
