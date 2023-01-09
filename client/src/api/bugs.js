@@ -2,7 +2,7 @@ import axios from 'axios'
 import {addBugToProject,deleteBugFromProject} from './projects'
 import {assignBugToUser,unAssignBugFromUser} from './users'
 import {deleteBugComments} from './comments'
-const baseURL = "http://localhost:8000/bugs";
+const baseURL = import.meta.env.VITE_BASELINE_URL+"bugs";
 
 export const fetchBugs = () => axios.get(baseURL).then((response)=>{return(response.data)})
 export const createBug =(newBug) => axios.post(`${baseURL}/create`,newBug).then(async(bugResponse)=>{

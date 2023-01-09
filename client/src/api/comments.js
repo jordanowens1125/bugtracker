@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseURL = "http://localhost:8000/comments";
+const baseURL = import.meta.env.VITE_BASELINE_URL+"comments";
 import {addCommentToBug} from './bugs'
 import { addCommentToProject } from './projects';
 import {addUserComment} from './users'

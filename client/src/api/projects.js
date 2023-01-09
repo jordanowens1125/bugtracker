@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseURL = "http://localhost:8000/projects";
+const baseURL = import.meta.env.VITE_BASELINE_URL+"projects";
 import {deleteAllProjectBugs} from './bugs'
 import { addUsersToProject,unAssignUsersFromProject } from './users';
 import { deleteAllProjectComments } from './comments';
