@@ -1,4 +1,4 @@
-import axios from 'axios'
+const axios = require('axios')
 const baseURL = import.meta.env.VITE_BASELINE_URL+"comments";
 import {addCommentToBug} from './bugs'
 import { addCommentToProject } from './projects';
