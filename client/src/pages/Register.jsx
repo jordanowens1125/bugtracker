@@ -1,7 +1,7 @@
 import React from 'react'
 import {GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
 import {auth} from '../../utils/firebase'
-import {Avatar,Button,CssBaseline,TextField,Link,Box,Typography,Container} from '@mui/material';
+import {Avatar,Button,CssBaseline,TextField,Link,Box,Typography,Container,Alert} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom"
@@ -11,7 +11,6 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import api from '../api/index'
 import { useUserAuth } from '../context/userAuthContext';
-import { Alert } from '@material-ui/lab';
 import { selectedUser, setUsers } from '../redux/actions/userActions';
 
 function Copyright(props) {
