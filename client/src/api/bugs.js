@@ -1,4 +1,4 @@
-import axios from 'axios'
+const axios = require('axios')
 import {addBugToProject,deleteBugFromProject} from './projects'
 import {assignBugToUser,unAssignBugFromUser} from './users'
 import {deleteBugComments} from './comments'

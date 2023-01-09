@@ -1,4 +1,4 @@
-import axios from 'axios'
+const axios = require('axios')
 const baseURL = import.meta.env.VITE_BASELINE_URL+"projects";
 import {deleteAllProjectBugs} from './bugs'
 import { addUsersToProject,unAssignUsersFromProject } from './users';
