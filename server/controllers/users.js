@@ -156,12 +156,27 @@ const addUsersToProject = async(req,res)=>{
 }
 const unAssignUsersFromProject = async(req,res)=>{
     try{
-        const memberIDs= req.body.members
         const projectID = req.body._id
-        for(let i=0;i<memberIDs.length;i++){
+        const bugIDList = req.body.bugs.map(function(bug){
+            return bug._id
+        })
+        const commentsIDList = req.body.comments
+        for (let i=0;i<bugIDList.length;i++){
             await User.updateMany(
                 {},
-                {$pull:{project:projectID}}
+                {$pull:
+                    {project:projectID,
+                    assignedBugs:bugIDList[i],
+                },
+                }
+            )
+        }
+        for (let i=0;i<commentsIDList.length;i++){
+            await User.updateMany(
+            {},
+            {$pull:
+                {comments:req.body.comments[i]},
+            }
             )
         }
         res.status(200).json()

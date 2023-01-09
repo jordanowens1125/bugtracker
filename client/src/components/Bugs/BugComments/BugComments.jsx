@@ -8,6 +8,7 @@ import { removeSelectedBug, selectedBug} from '../../../redux/actions/bugActions
 import Comment from '../Comment/Comment';
 import EditBugModal from '../EditBugModal/EditBugModal';
 import { setUsers } from '../../../redux/actions/userActions';
+import { selectedProject, setProjects } from '../../../redux/actions/projectActions';
 
 const bugHasComments=(bug)=>{
     if(bug.comments){
@@ -56,6 +57,7 @@ const AlwaysScrollToBottom = () => {
 const BugComments = () => {
     const currentUser =useSelector((state)=>state.currentUser)
     const bug =useSelector((state)=>state.currentBug)
+    const currentProject = useSelector((state)=>state.project)
     const isThereACurrentBug=checkifCurrentBugIsFilled(bug)
     const hasComments=bugHasComments(bug)
     
@@ -81,19 +83,28 @@ const BugComments = () => {
         setChatInput(newInputValue);
     }
     const sendComment=async(e)=>{
-        const newComment = {...chatInput}
-        newComment.creator=currentUser._id
-        newComment.bugID=bug._id
-        newComment.projectID=bug.projectID
-        await api.comments.createComment(newComment)
-        const newBug = await api.bugs.fetchBug(bug._id)
-        dispatch(selectedBug(newBug))
-        setChatInput({
-            text:'',
-            input:'',
-        })
-        const updatedUsers =await api.users.fetchUsers()
-        dispatch(setUsers(updatedUsers))
+        e.preventDefault()
+        if(chatInput.text!=''){
+            const newComment = {...chatInput}
+            newComment.creator=currentUser._id
+            newComment.bugID=bug._id
+            //bug projectID property is a project object so get id
+            newComment.projectID=currentProject._id
+            await api.comments.createComment(newComment)
+            const newBug = await api.bugs.fetchBug(bug._id)
+            const newProject = await api.projects.fetchProject(currentProject._id)
+            const updatedProjects = await api.projects.fetchProjects()
+            dispatch(selectedBug(newBug))
+            dispatch(selectedProject(newProject))
+            dispatch(setProjects(updatedProjects))
+            setChatInput({
+                text:'',
+                input:'',
+            })
+            const updatedUsers =await api.users.fetchUsers()
+            dispatch(setUsers(updatedUsers))
+        }
+        
     }
     
     useEffect(()=>{
@@ -101,7 +112,7 @@ const BugComments = () => {
   return (
     <>
     {isThereACurrentBug?
-    <Paper elevation={5}>
+    <Paper elevation={5} sx={{marginTop:60,}}>
             <Box p={3}>
                 <Typography variant='h4' gutterBottom>{bug.title}</Typography>
                 <Button variant ='contained' onClick={clearCurrentBug}>Clear Bug</Button>
@@ -125,13 +136,12 @@ const BugComments = () => {
                                 ))}
                             </div><AlwaysScrollToBottom />
                             </>
-                            
                                 :<div>no comments</div>
                             }
                         </List>
                      </Grid>
                      {canUserMakeCommentsOnThisBug?
-                        <>
+                        <form onSubmit={sendComment}>
                             <Grid xs={8} item>
                             <FormControl fullWidth>
                                 <TextField 
@@ -147,23 +157,19 @@ const BugComments = () => {
                                 <IconButton
                                 aria-label='send'
                                 color='primary'
-                                onClick={sendComment}>
+                                type='submit'>
                                     <SendIcon/>
                                 </IconButton>
                             </Grid>
-                        </>                        
+                        </form>                        
                         :
                         <></>
                      }
-                     
-
                 </Grid>
             </Box>
         </Paper>:
         <h1>Selected Bug Info</h1>
-
     }
-        
     </>
   )
 }

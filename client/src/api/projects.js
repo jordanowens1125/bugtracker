@@ -24,6 +24,10 @@ export const addBugToProject =async(id,newBugID)=> await axios.put(`${baseURL}/$
     .then((response)=>{
         return response.data
 })
+export const addCommentToProject =async(id,newCommentID)=> await axios.put(`${baseURL}/${id}/addnewcomment`,{commentID:newCommentID})
+    .then((response)=>{
+        return response.data
+})
 export const deleteBugFromProject =async(bugID,projectID)=> await axios.put(`${baseURL}/${projectID}/deletebug/${bugID}`)
 export const fetchProject  = async(id) => await axios.get(`${baseURL}/${id}`).then((response)=>{return response.data});;
 export const deleteProject = async(project) => await axios.delete(`${baseURL}/delete/${project._id}`).then(async()=>{

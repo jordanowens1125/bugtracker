@@ -1,6 +1,7 @@
 import axios from 'axios'
 const baseURL = "http://localhost:8000/comments";
 import {addCommentToBug} from './bugs'
+import { addCommentToProject } from './projects';
 import {addUserComment} from './users'
 
 export const fetchBugComments=async(bugID)=> axios.get(`${baseURL}/${bugID}`).then((response)=>{
@@ -11,6 +12,7 @@ export const createComment= async(newComment)=>await axios.post(`${baseURL}/crea
     .then(async(response)=>{
         await addCommentToBug(response.data.bugID,response.data._id)
         await addUserComment(response.data.creator,response.data._id)
+        await addCommentToProject(response.data.projectID,response.data._id)
     })
 
 export const deleteBugComments=async(bugID)=>await axios.delete(`${baseURL}/bug/${bugID}`)
