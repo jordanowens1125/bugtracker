@@ -2,15 +2,23 @@ import React from 'react'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom"
-import { useEffect,useState,useMemo} from 'react';
+import { useEffect,useState,} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useUserAuth } from '../context/userAuthContext';
-import { Alert,Avatar,Button,CssBaseline,TextField,
-FormControlLabel,Checkbox,Link,Grid,Box
-,Typography,Container } from '@mui/material';
+import Alert from '@mui/material/Alert';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 import { selectedUser, setUsers } from '../redux/actions/userActions';
 import api from '../api/index'
-import { setLoginMethods } from '../redux/actions/userActions'
 function Copyright(props) {
     return (
       <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -26,7 +34,7 @@ function Copyright(props) {
 
 const searchForMember=(uid,users)=>{
   for (let i=0;i<users.length;i++){
-    if (users[i].uid==uid){
+    if (users[i].uid===uid){
       return users[i]
     }
   }
@@ -41,7 +49,7 @@ const SignIn =()=>{
   const dispatch=useDispatch()
   const findUserWithUID=async(user,users)=>{
     for(let i=0;i<users.length;i++){
-      if(users[i].uid==user.uid){
+      if(users[i].uid===user.uid){
         dispatch(selectedUser(users[i]))
         return ''
       }
@@ -58,14 +66,14 @@ const SignIn =()=>{
     password:''
   })
   
-  const {logIn,googleSignIn,getSignInMethods}=useUserAuth()
+  const {logIn,googleSignIn}=useUserAuth()
   const [error,setError]=useState('')
   const navigate = useNavigate()
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('')
-    try {
-      const result = await logIn(formInputData.email,formInputData.password)
+    try { 
+      await logIn(formInputData.email,formInputData.password)
 
       navigate('/')
     } catch (e) {
@@ -88,8 +96,8 @@ const SignIn =()=>{
   const SignInAsDemoDeveloper=async()=>{
     setError('')
     try {
-      const demoDeveloperPassword = import.meta.env.VITE_DEMO_DEVELOPER_PASSWORD
-      const demoDeveloperEmail = import.meta.env.VITE_DEMO_DEVELOPER_EMAIL
+      const demoDeveloperPassword = process.env.REACT_APP_DEMO_DEVELOPER_PASSWORD
+      const demoDeveloperEmail = process.env.REACT_APP_DEMO_DEVELOPER_EMAIL
       const result = await logIn(demoDeveloperEmail,demoDeveloperPassword)
       const currentUser = searchForMember(result.user.uid,users)
       dispatch(selectedUser(currentUser))

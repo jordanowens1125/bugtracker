@@ -1,8 +1,9 @@
-const axios = require('axios')
+//const axios = require('axios')
+import axios from 'axios'
 import {addBugToProject,deleteBugFromProject} from './projects'
 import {assignBugToUser,unAssignBugFromUser} from './users'
 import {deleteBugComments} from './comments'
-const baseURL = import.meta.env.VITE_BASELINE_URL+"bugs";
+const baseURL = process.env.REACT_APP_BASELINE_URL+"bugs";
 
 export const fetchBugs = () => axios.get(baseURL).then((response)=>{return(response.data)})
 export const createBug =(newBug) => axios.post(`${baseURL}/create`,newBug).then(async(bugResponse)=>{

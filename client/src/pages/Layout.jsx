@@ -4,7 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import AdbIcon from '@mui/icons-material/Adb';
 import Box from '@mui/material/Box';
 import {useAuthState} from 'react-firebase-hooks/auth'
-import {auth} from '../../utils/firebase'
+import {auth} from '../utils/firebase'
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';

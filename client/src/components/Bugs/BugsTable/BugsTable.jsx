@@ -6,6 +6,7 @@ import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import Table from '@mui/material/Table';
+import Button from '@mui/material/Button'
 import {useSelector, useDispatch} from 'react-redux';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -13,7 +14,6 @@ import api from '../../../api/index';
 import {setBugs,selectedBug} from '../../../redux/actions/bugActions'
 import {selectedProject, setProjects} from '../../../redux/actions/projectActions'
 import dayjs from 'dayjs'
-import { Button } from '@mui/material';
 
 const BugsTable = () => {
   const [open, setOpen] = useState(false);

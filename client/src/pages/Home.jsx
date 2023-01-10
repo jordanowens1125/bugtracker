@@ -1,16 +1,16 @@
 import { useNavigate } from "react-router-dom"
-import { useEffect,useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { removeSelectedUser, setLoginMethods, } from "../redux/actions/userActions";
 import UserDashboard from "../components/Users/UserDashboard";
 import { useUserAuth } from '../context/userAuthContext';
-import { Button,Box } from "@mui/material";
+import Button from "@mui/material/Button";
 
 const checkIfThisIsADemoUser=(user)=>{
-  const demoDeveloperEmail = import.meta.env.VITE_DEMO_DEVELOPER_EMAIL
-  const demoAdminEmail = import.meta.env.VITE_DEMO_ADMIN_EMAIL
+  const demoDeveloperEmail = process.env.REACT_APP_DEMO_DEVELOPER_EMAIL
+  const demoAdminEmail = process.env.REACT_APP_DEMO_ADMIN_EMAIL
   if(user){
-    if (user.email==demoDeveloperEmail||user.email==demoAdminEmail){
+    if (user.email===demoDeveloperEmail||user.email===demoAdminEmail){
     return true
   }
   }
@@ -19,10 +19,8 @@ const checkIfThisIsADemoUser=(user)=>{
   }
 }
 
-
 const Home = () => {
   const {user,logOut,getSignInMethods} = useUserAuth()
-  const [showMessage, setShowMessage] = useState(false);
   const dispatch = useDispatch()
   const isThisADemoUser=checkIfThisIsADemoUser(user)
   const navigate = useNavigate()
@@ -47,9 +45,6 @@ const Home = () => {
     dispatch(setLoginMethods(methods))
     navigate('/editprofile')
   }
-const demoMessage=(e)=>{
-  console.log(e)
-}
   return (
       <>
         {isThisADemoUser?
