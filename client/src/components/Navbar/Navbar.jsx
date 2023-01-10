@@ -2,7 +2,6 @@ import { Outlet, Link } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import AdbIcon from '@mui/icons-material/Adb';
-import styles from '../components/Navbar/Navbar.css'
 const pages = ['Home', 'Projects', 'Bugs','Users'];
 
 const Navbar = () => {

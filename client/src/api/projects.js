@@ -1,8 +1,10 @@
-const axios = require('axios')
-const baseURL = import.meta.env.VITE_BASELINE_URL+"projects";
+//const axios = require('axios')
+import axios from 'axios'
+
 import {deleteAllProjectBugs} from './bugs'
 import { addUsersToProject,unAssignUsersFromProject } from './users';
 import { deleteAllProjectComments } from './comments';
+const baseURL = process.env.REACT_APP_BASELINE_URL+"projects";
 
 export const fetchProjects = async() => await axios.get(baseURL).then((response)=>{return(response.data)})
 export const createProject = async(newProject) => await axios.post(`${baseURL}/create`,newProject).then(async(response)=>{

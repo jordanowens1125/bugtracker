@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Table from '@mui/material/Table';
 import MuiAlert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import Button from '@mui/material/Button'
 import {useSelector, useDispatch} from 'react-redux';
 import { setProjects } from '../../../redux/actions/projectActions'; 
 import { setBugs } from '../../../redux/actions/bugActions'; 
@@ -16,7 +17,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../../api/index'
 import dayjs from 'dayjs'
-import { Button } from '@mui/material';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;

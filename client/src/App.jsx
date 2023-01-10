@@ -6,7 +6,6 @@ import Bugs from "./pages/Bugs";
 import Projects from "./pages/Projects";
 import NoPage from "./pages/NoPage";
 import Users from "./pages/Users"
-import User from "./pages/User"
 import Bug from "./pages/Bug"
 import SignIn from "./pages/SignIn"
 import Project from './pages/Project'
@@ -14,7 +13,7 @@ import Register from './pages/Register'
 import Unauthorized from './pages/Unauthorized'
 import ForgotPassword from './pages/ForgotPassword'
 import {useAuthState} from 'react-firebase-hooks/auth'
-import {auth} from '../utils/firebase'
+import {auth} from './utils/firebase'
 import { useEffect } from "react";
 import { useDispatch } from 'react-redux'
 import { setProjects } from "./redux/actions/projectActions";
@@ -28,7 +27,7 @@ import EditProfile from "./pages/EditProfile";
 
 function App() {
   const dispatch =useDispatch()
-  const [user,loading] = useAuthState(auth)
+  const {user,loading} = useAuthState(auth)
   useEffect(()=>{
     async function fetchData(){
       const users = await api.users.fetchUsers()
@@ -77,7 +76,6 @@ function App() {
           <Route path="editprofile" element={<EditProfile />} />
           <Route path="updatepassword" element={<UpdatePassword />} />
           <Route path="users" element={<Users/>} />
-          <Route path="user" element={<User/>} /> 
           {/*catch all */}
           <Route path="*" element={<NoPage />} />
         </Route>

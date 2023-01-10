@@ -1,7 +1,16 @@
 import React, { useState,useRef,useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import api from '../../../api/index'
-import {Typography, Button,Paper,Box, Divider, Grid, List, FormControl, TextField, IconButton} from "@mui/material"
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Paper from '@mui/material/Paper'
+import Box from '@mui/material/Box'
+import Divider from '@mui/material/Divider'
+import Grid from '@mui/material/Grid'
+import List from '@mui/material/List'
+import FormControl from '@mui/material/FormControl'
+import TextField from '@mui/material/TextField'
+import IconButton from '@mui/material/IconButton'
 import SendIcon from '@mui/icons-material/Send';
 import { useDispatch } from 'react-redux'
 import { removeSelectedBug, selectedBug} from '../../../redux/actions/bugActions'

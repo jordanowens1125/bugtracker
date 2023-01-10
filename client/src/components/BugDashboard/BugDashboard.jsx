@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react'
-import {useState} from 'react'
 import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux'
 import dayjs from 'dayjs'
-import { Paper } from '@mui/material';
+import  Paper  from '@mui/material/Paper';
 
 const isBugAssigned=(assignedTo)=>{
     if(assignedTo){

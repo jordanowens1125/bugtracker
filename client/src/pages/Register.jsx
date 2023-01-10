@@ -1,7 +1,15 @@
 import React from 'react'
 import {GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
-import {auth} from '../../utils/firebase'
-import {Avatar,Button,CssBaseline,TextField,Link,Box,Typography,Container,Alert} from '@mui/material';
+import {auth} from '../utils/firebase'
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+import Box from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Alert from '@mui/material/Alert';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom"

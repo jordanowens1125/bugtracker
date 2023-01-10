@@ -1,3 +1,4 @@
+import { createReducer } from '@reduxjs/toolkit';
 import {ActionTypes} from '../constants/users/action-types';
 
 function updateOne(users, payload) {
@@ -48,46 +49,49 @@ const initialState = {
     unAssignedUsers:[],
     deletedUser:[]
 } 
-export const usersReducer = (state=initialState,{type,payload} ) =>{
-    switch(type){
-        case ActionTypes.SET_USERS:
-            let [userList,assignedUsers,unAssignedUsers,deletedUser] = filterUsers(JSON.parse(JSON.stringify(payload)))
 
-            return {...state, users:payload,
-                userDisplayList:userList,
-                assignedUsers:assignedUsers,
-                unAssignedUsers:unAssignedUsers,
-                deletedUser:deletedUser,
-            }; 
-        case ActionTypes.DELETE_USER:
-            let newUsers = state.users.filter(user=>user._id!==payload)
-            return{...state,users:newUsers}
-        case ActionTypes.CREATE_USER:
-            return{...state,users:[...state.users,payload]}
-        case ActionTypes.UPDATE_USERS:
-            return{...state,
-            users:updateOne(state.users,payload)}
-        default:
-            return state;
-    }
-}
-export const currentUserReducer =(state={},{type,payload})=>{
-    switch(type){
-        case ActionTypes.SELECTED_USER:
-            return {...state,...payload}
-        case ActionTypes.LOGOUT:
-            return {}
-        default:
-            return state
-    }
-}
-export const loginMethodsReducer =(state=[],{type,payload})=>{
-  switch(type){
-      case ActionTypes.SET_LOGIN_METHODS:
-          return [...state,...payload]
-      case ActionTypes.REMOVE_LOGIN_METHODS:
-          return []
-      default:
-          return state
-  }
-}
+export const usersReducer = createReducer(initialState,
+  (builder)=>{
+  builder
+  .addCase(ActionTypes.SET_USERS,(state,action)=>{
+    let [userList,assignedUsers,unAssignedUsers,deletedUser] = filterUsers(JSON.parse(JSON.stringify(action.payload)))
+    state.users=action.payload
+    state.userDisplayList=userList
+    state.assignedUsers=assignedUsers
+    state.unAssignedUsers=unAssignedUsers
+    state.deletedUser=deletedUser
+  })
+  .addCase(ActionTypes.DELETE_USER,(state,action)=>{
+      state.users = state.users.filter(user=>user._id!==action.payload)
+  })
+  .addCase(ActionTypes.CREATE_USER,(state,action)=>{
+    state.users.push(action.payload)
+  })
+  .addCase(ActionTypes.UPDATE_USERS,(state,action)=>{
+    state.users = updateOne(state.users,action.payload)
+  })
+})
+
+export const currentUserReducer = createReducer({},
+  (builder)=>{
+  builder
+  .addCase(ActionTypes.SELECTED_USER,(state,action)=>{
+      state=action.payload
+      return action.payload
+  })
+  .addCase(ActionTypes.REMOVE_LOGIN_METHODS,(state,action)=>{
+      state={}
+  })
+})
+
+export const loginMethodsReducer = createReducer([],
+  (builder)=>{
+  builder
+  .addCase(ActionTypes.SET_LOGIN_METHODS,(state,action)=>{
+      state=action.payload
+      return action.payload
+  })
+  .addCase(ActionTypes.REMOVE_LOGIN_METHODS,(state,action)=>{
+      state=[]
+  })
+})

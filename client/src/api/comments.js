@@ -1,8 +1,9 @@
-const axios = require('axios')
-const baseURL = import.meta.env.VITE_BASELINE_URL+"comments";
+//const axios = require('axios')
+import axios from 'axios'
 import {addCommentToBug} from './bugs'
 import { addCommentToProject } from './projects';
 import {addUserComment} from './users'
+const baseURL = process.env.REACT_APP_BASELINE_URL+"comments";
 
 export const fetchBugComments=async(bugID)=> axios.get(`${baseURL}/${bugID}`).then((response)=>{
     return(response.data)

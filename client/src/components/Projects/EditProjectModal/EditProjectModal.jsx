@@ -5,9 +5,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import MuiAlert from '@mui/material/Alert';
 import {setProjects,selectedProject} from '../../../redux/actions/projectActions'
 import {setUsers} from '../../../redux/actions/userActions'
-import {Avatar,Checkbox,ListItemText,Chip,
-  Snackbar,Select,FormControl,MenuItem,OutlinedInput,
-  InputLabel,Button,TextField,Modal,Box} from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import Checkbox from '@mui/material/Checkbox';
+import ListItemText from '@mui/material/ListItemText';
+import Chip from '@mui/material/Chip';
+import Snackbar from '@mui/material/Snackbar';
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
 
 const style = {
   position: 'absolute',

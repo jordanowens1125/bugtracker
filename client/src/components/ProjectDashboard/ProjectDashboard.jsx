@@ -1,9 +1,10 @@
 import React, { useMemo,useEffect,useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import './ProjectDashboard.css'
-import { Grid, Paper ,Button,Box,Typography} from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { DataGrid } from '@mui/x-data-grid';
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography';
+import {DataGrid} from '@mui/x-data-grid';
 import api from '../../api/index'
 import {selectedBug, setBugs} from '../../redux/actions/bugActions'
 import {selectedProject,setProjects} from '../../redux/actions/projectActions'

@@ -7,9 +7,6 @@ export const setBugs =(bugs)=>{
     }
 }
 export const selectedBug = (bug)=>{
-    // if(bug.assignedTo==null){
-    //     bug.assignedTo=''
-    // }
     return {
         type:ActionTypes.SELECTED_BUG,
         payload:bug

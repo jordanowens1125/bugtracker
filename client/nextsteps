@@ -1,0 +1,54 @@
+https://firebase.google.com/docs/auth/web/manage-users#web-version-9_11
+https://console.firebase.google.com/u/1/project/bugtracker-a014c/authentication/users 
+
+user developer dashboard
+
+developers cannot add edit projects (potentially can not edit bugs either??)
+
+when tables get a certain width i want to make the tables 
+display vertically instead of horizontally
+
+***Main Functionality***
+when i delete a user the user should also be removed the firebase db
+https://mui.com/material-ui/react-progress/ for loading
+
+cant run build 
+
+***Comments***
+add chat looking feature in regards to comments that depict all project changes 
+Fix comments for bugs
+
+***Project Dashboard***
+do project dashboard that showcases how the project changes over time
+
+***Reference***
+https://www.youtube.com/watch?v=PYxLwn-Kk2U&t=6s - bug tracker project
+
+***Miscellaneous***
+remove ability to delete users from users page
+screen recording function to show how to create bug
+add tags to bugs
+
+helmet to protect apis??
+add validation for project and bug titles
+
+***Styling***
+styling and ui!!
+Dark/light mode
+fix navbar when screen is a certain size
+popups when api requests are correctly handled
+project and bug dates are incorrect
+website layout
+project timeline/dashboard layout
+
+***User authentication/authorization***
+add user roles and capabilities
+request user roles for users
+add delete user after they have been inactive for 2 weeks
+edit user info on user page
+filter based on user auth that only shows what needs to be shown to given user, developers should only see projects they are assigned to, admin should see all, 
+ban from adding comments if they put something they are not suppose to
+uncomment protected routes in app.js
+
+***aggregate api call***??
+edroh on youtube 7 hour video
