@@ -12,7 +12,7 @@ display vertically instead of horizontally
 when i delete a user the user should also be removed the firebase db
 https://mui.com/material-ui/react-progress/ for loading
 
-cant run build 
+users are still being created for what ever reasons even when they should not be!
 
 ***Comments***
 add chat looking feature in regards to comments that depict all project changes 
