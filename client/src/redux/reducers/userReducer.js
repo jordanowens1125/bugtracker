@@ -79,8 +79,13 @@ export const currentUserReducer = createReducer({},
       state=action.payload
       return action.payload
   })
+  .addCase(ActionTypes.LOGOUT,(state,action)=>{
+    state={}
+    return {}
+})
   .addCase(ActionTypes.REMOVE_LOGIN_METHODS,(state,action)=>{
       state={}
+      return {}
   })
 })
 
@@ -93,5 +98,6 @@ export const loginMethodsReducer = createReducer([],
   })
   .addCase(ActionTypes.REMOVE_LOGIN_METHODS,(state,action)=>{
       state=[]
+      return []
   })
 })
