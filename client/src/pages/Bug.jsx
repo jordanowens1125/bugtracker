@@ -28,7 +28,6 @@ const Bug = () => {
     
     return (
         <div>
-            <h1>hi</h1><h1>hi</h1><h1>hi</h1><h1>hi</h1>
             <BugDashboard  />
             <div className="modal"><EditBugModal /></div>
             <div className="comments"><BugComments/></div>

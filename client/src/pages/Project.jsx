@@ -30,7 +30,6 @@ const Project = () => {
                 }
             }
     },[projectID])
-    
     return (
         <>
             <EditProjectModal/>
@@ -38,7 +37,6 @@ const Project = () => {
             <ProjectDashboard/>
             <BugComments/>
         </>
-        
     )
 }
 

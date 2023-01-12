@@ -43,7 +43,7 @@ export const selectedProjectReducer =createReducer({},
         return action.payload
     })
     .addCase(ActionTypes.REMOVE_SELECTED_PROJECT,(state)=>{
-        state={}
+        return {}
     })
 })
 
@@ -51,8 +51,9 @@ export const availableMembersReducer =createReducer([],(builder)=>{
     builder
     .addCase(ActionTypes.AVAILABLE_MEMBERS,(state,action)=>{
         state=action.payload
+        return action.payload
     })
     .addCase(ActionTypes.REMOVE_SELECTED_PROJECT,(state)=>{
-        state=[]
+        return []
     })
 })
