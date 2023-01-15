@@ -64,7 +64,7 @@ const UsersTable = () => {
                 <TableCell align="right">Assigned Bugs</TableCell> 
                 <TableCell align="right">Comments</TableCell> 
                 <TableCell align="right"></TableCell>
-                {/* <TableCell align="right"></TableCell> */}
+                <TableCell align="right"></TableCell>
             </TableRow>
             </TableHead>
             <TableBody>{users.map((user) => (
@@ -79,7 +79,7 @@ const UsersTable = () => {
                     <TableCell align="right">{user.assignedBugs.length}</TableCell> 
                     <TableCell align="right">{user.comments.length}</TableCell> 
                     <TableCell  align="right"><Link to={`${user._id}`}><button data-key={user._id}>Edit</button></Link></TableCell>
-                    {/* <TableCell align="right"><button onClick={deleteUser} data-key={user._id}>Delete</button></TableCell> */}
+                    <TableCell align="right"><button onClick={deleteUser} data-key={user._id}>Delete</button></TableCell>
                     </TableRow>
                     ))}
             </TableBody>

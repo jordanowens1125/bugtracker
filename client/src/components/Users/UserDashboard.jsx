@@ -2,13 +2,14 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { DataGrid } from '@mui/x-data-grid';
-import {Box,Button,Typography} from '@mui/material';
+import {Box,Button,Paper,Typography} from '@mui/material';
 import dayjs from 'dayjs'
 import ProjectDashboard from '../ProjectDashboard/ProjectDashboard';
 import { selectedProject } from '../../redux/actions/projectActions';
 import { useDispatch } from 'react-redux';
 import api from '../../api';
 import { useNavigate } from "react-router-dom"
+import DeveloperDashboard from './DeveloperDashboard';
 
 function ProjectDataGridTitle() {
     return(
@@ -21,9 +22,9 @@ function ProjectDataGridTitle() {
 const UserDashboard = () => {
     const user = useSelector((state)=>state.currentUser)
     const projects =useSelector((state)=>state.allProjects.projects)
-    const isUserAnAdmin = user.role=='admin'    
-    const isUserADeveloper=user.role=='developer'
-    const isUserAViewer=user.role=='viewer'
+    const isUserAnAdmin = user.role==='admin'    
+    const isUserADeveloper=user.role==='developer'
+    const isUserAViewer=user.role==='viewer'
     const dispatch=useDispatch()
     const navigate =useNavigate()
 
@@ -108,6 +109,28 @@ const UserDashboard = () => {
           </Box>
           </>        
           :<></>
+          }
+
+          {
+            isUserADeveloper?
+            <>
+              <DeveloperDashboard/>
+            </>
+            
+            :<></>
+          }
+          {
+            isUserAViewer?
+            <>
+              <Box sx={{ height: 400, width: '100%',paddingBottom:10, }}>
+                hi
+              </Box>
+              <Box>
+                
+              </Box>
+            </>
+            
+            :<></>
           }
       </>
     )
