@@ -40,12 +40,14 @@ const checkIfUserCanMakeComments=(user,bug)=>{
             if(user.role=='admin'){
                 return true
             }
-            else if(true){
-                if(bug.assignedTo){
-                    if(bug.assignedTo.includes(user._id)){
+            else if(bug.assignedTo){
+                console.log(bug.assignedTo)
+                const userIDs = bug.assignedTo.map(user=>user._id)
+                console.log(userIDs)
+                console.log(user._id)
+                    if(userIDs.includes(user._id)){
                         return true
                     }
-                }
             }
         }
     }
@@ -177,7 +179,7 @@ const BugComments = () => {
                 </Grid>
             </Box>
         </Paper>:
-        <h1>Selected Bug Info</h1>
+        <h1>Select a bug below</h1>
     }
     </>
   )

@@ -2,6 +2,9 @@ https://firebase.google.com/docs/auth/web/manage-users#web-version-9_11
 https://console.firebase.google.com/u/1/project/bugtracker-a014c/authentication/users 
 
 user developer dashboard
+- add bug comments when a bug is clicked
+
+when i remove a user from project the user still has the project
 
 developers cannot add edit projects (potentially can not edit bugs either??)
 
@@ -9,7 +12,6 @@ when tables get a certain width i want to make the tables
 display vertically instead of horizontally
 
 ***Main Functionality***
-when i delete a user the user should also be removed the firebase db
 https://mui.com/material-ui/react-progress/ for loading
 
 users are still being created for what ever reasons even when they should not be!

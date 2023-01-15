@@ -18,6 +18,7 @@ export function UserAuthContextProvider({children}){
         return signInWithEmailAndPassword(auth, email,password)
     }
     function logOut(){
+        
         return signOut(auth)
     }
     function googleSignIn(){

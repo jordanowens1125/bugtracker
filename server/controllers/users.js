@@ -157,28 +157,24 @@ const addUsersToProject = async(req,res)=>{
 const unAssignUsersFromProject = async(req,res)=>{
     try{
         const projectID = req.body._id
-        const bugIDList = req.body.bugs.map(function(bug){
-            return bug._id
-        })
         const commentsIDList = req.body.comments
-        for (let i=0;i<bugIDList.length;i++){
-            await User.updateMany(
+            const changedUsers = await User.updateMany(
                 {},
                 {$pull:
                     {project:projectID,
-                    assignedBugs:bugIDList[i],
+                    assignedBugs:[],
                 },
                 }
             )
-        }
-        for (let i=0;i<commentsIDList.length;i++){
-            await User.updateMany(
-            {},
-            {$pull:
-                {comments:req.body.comments[i]},
-            }
-            )
-        }
+            console.log(changedUsers)
+        // for (let i=0;i<commentsIDList.length;i++){
+        //     await User.updateMany(
+        //     {},
+        //     {$pull:
+        //         {comments:req.body.comments[i]},
+        //     }
+        //     )
+        // }
         res.status(200).json()
     }catch(err){
         res.status(404).json({message:err})
@@ -191,7 +187,6 @@ const unAssignUserFromProject = async(req,res)=>{
             {project:[],
             assignedBugs:[]}
         )
-        console.log(user)
         res.status(200).json()
     }catch(err){
         res.status(404).json({message:err})

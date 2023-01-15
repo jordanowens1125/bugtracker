@@ -113,13 +113,6 @@ const seedUsers=[
         assignedBugs:[], 
     }),
     new User({
-        _id:mongoose.Types.ObjectId('63a36a4d3f0f5cf676acf08a'),
-        email:'hll21232am@live.com',
-        uid:'4iZTTHtRTpVgBbKJmERBlB2BpIF2',
-        comments:[],
-        assignedBugs:[],
-    }),
-    new User({
         _id:new mongoose.Types.ObjectId(),
         email:'demodeveloper@gmail.com',
         uid:'qlrmJPCKxETb37OKOx8KVWWXetc2',
