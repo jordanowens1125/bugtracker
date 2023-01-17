@@ -26,16 +26,14 @@ const Project = () => {
                 return ()=>{
                     dispatch(removeSelectedProject())
                     dispatch(removeAvailableMembers())
-                    dispatch(removeSelectedBug())
+                    //dispatch(removeSelectedBug())
                 }
             }
     },[projectID])
     return (
         <>
             <EditProjectModal/>
-            <CreateBugModal/>
             <ProjectDashboard/>
-            <BugComments/>
         </>
     )
 }

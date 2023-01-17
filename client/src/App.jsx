@@ -5,7 +5,6 @@ import Bugs from "./pages/Bugs";
 import Projects from "./pages/Projects";
 import NoPage from "./pages/NoPage";
 import Users from "./pages/Users"
-import Bug from "./pages/Bug"
 import SignIn from "./pages/SignIn"
 import Project from './pages/Project'
 import Register from './pages/Register'
@@ -26,7 +25,7 @@ import EditProfile from "./pages/EditProfile";
 
 function App() {
   const dispatch =useDispatch()
-  const {user,loading} = useAuthState(auth)
+  const {user,loading,logOut} = useAuthState(auth)
   useEffect(()=>{
     async function fetchData(){
       const users = await api.users.fetchUsers()
@@ -35,7 +34,7 @@ function App() {
       dispatch(setProjects(projects))
       const bugs = await api.bugs.fetchBugs()
       dispatch(setBugs(bugs))
-      const findUserWithUID=async(user,users)=>{
+      const findUserWithUID=(user,users)=>{
         if(user){
         for(let i=0;i<users.length;i++){
             if(users[i].uid==user.uid){
@@ -43,6 +42,9 @@ function App() {
               return ''
             }
           }
+        }
+        else{
+
         }
       }
       findUserWithUID(user,users)
@@ -69,7 +71,6 @@ function App() {
           <Route path="user" element={<ProtectedRoute><User/></ProtectedRoute>} />  */}
           <Route index element={<Home />} />
           <Route path="bugs" element={<Bugs />} />
-          <Route path="bugs/:id" element={<Bug />} />
           <Route path="projects" element={<Projects />} />
           <Route path="projects/:id" element={<Project/>} />
           <Route path="editprofile" element={<EditProfile />} />

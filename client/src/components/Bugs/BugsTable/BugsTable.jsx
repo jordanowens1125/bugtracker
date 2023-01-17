@@ -32,7 +32,7 @@ const BugsTable = () => {
     const project = await api.projects.fetchProject(bug.projectID)
     dispatch(selectedBug(bug))
     dispatch(selectedProject(project))
-    navigate(`/bugs/${bugID}`)
+    navigate(`/projects/${bug.projectID}`)
 }
 
 const handleDeleteClick=async(e)=>{

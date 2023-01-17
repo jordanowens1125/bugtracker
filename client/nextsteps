@@ -1,10 +1,14 @@
 https://firebase.google.com/docs/auth/web/manage-users#web-version-9_11
 https://console.firebase.google.com/u/1/project/bugtracker-a014c/authentication/users 
 
-user developer dashboard
-- add bug comments when a bug is clicked
+- styling for bug dashboard admin and reference this video
+https://www.youtube.com/watch?v=PYxLwn-Kk2U&t=6s
 
-when i remove a user from project the user still has the project
+developer dashboard broke somehow!!
+-  style bug dahsboard left side
+
+user developer dashboard
+- when a user is remvoed from a project the user has to be updated in redux and also when the user is added to a project
 
 developers cannot add edit projects (potentially can not edit bugs either??)
 
@@ -13,8 +17,6 @@ display vertically instead of horizontally
 
 ***Main Functionality***
 https://mui.com/material-ui/react-progress/ for loading
-
-users are still being created for what ever reasons even when they should not be!
 
 ***Comments***
 add chat looking feature in regards to comments that depict all project changes 

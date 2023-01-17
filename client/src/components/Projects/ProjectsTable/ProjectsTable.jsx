@@ -11,10 +11,10 @@ import Snackbar from '@mui/material/Snackbar';
 import Button from '@mui/material/Button'
 import {useSelector, useDispatch} from 'react-redux';
 import { setProjects } from '../../../redux/actions/projectActions'; 
-import { setBugs } from '../../../redux/actions/bugActions'; 
+import { removeSelectedBug, setBugs } from '../../../redux/actions/bugActions'; 
 import { setUsers } from '../../../redux/actions/userActions'; 
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../../../api/index'
 import dayjs from 'dayjs'
 
@@ -27,8 +27,13 @@ const ProjectsTable = () => {
     const projects = useSelector((state)=>state.allProjects.projects)
     const hasProjects = projects.length>0
     const dispatch =useDispatch()
+    const navigate = useNavigate()
     useEffect(()=>{
     },[projects]);
+    const navigateToProject=(projectID)=>{
+        dispatch(removeSelectedBug())
+        navigate(`/projects/${projectID}`)
+    }
 
     const handleDeleteClick=async(e)=>{
         let projectID = (e.currentTarget.dataset.key)
@@ -48,6 +53,11 @@ const ProjectsTable = () => {
         dispatch(setBugs(updatedBugs))
         const updatedUsers = await api.users.fetchUsers()
         dispatch(setUsers(updatedUsers))
+    }
+
+    const handleEditClick=(e)=>{
+        let projectID = (e.currentTarget.dataset.key)
+        navigateToProject(projectID)
     }
 
     const handleClose=(e,reason)=>{
@@ -87,7 +97,7 @@ const ProjectsTable = () => {
                         <TableCell align="right">{dayjs(project.deadline).format('YYYY-MM-DD')}</TableCell>
                         <TableCell align="right">{project.members.length}</TableCell>
                         <TableCell align="right">{project.bugs.length}</TableCell>
-                        <TableCell  align="right"><Link to={`${project._id}`}><Button data-key={project._id} variant="contained">Edit</Button></Link></TableCell>
+                        <TableCell  align="right"><Button onClick={(e)=>handleEditClick(e)} variant="contained" data-key={project._id}>Edit</Button></TableCell>
                         <TableCell align="right"><Button onClick={handleDeleteClick} variant="contained" color="error" data-key={project._id}>Delete</Button></TableCell>
                         </TableRow>
                         ))

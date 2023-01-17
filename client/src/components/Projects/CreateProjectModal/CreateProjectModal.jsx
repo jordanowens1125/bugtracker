@@ -131,7 +131,7 @@ const handleAlertClose=(e,reason)=>{
 }
   return (
     <div>
-    <Button onClick={handleModalOpen}>Create Project</Button>
+    <Button variant='contained' sx={{}} onClick={handleModalOpen}>Create Project</Button>
     <Modal
       open={modalOpen}
       onClose={handleModalClose}

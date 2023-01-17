@@ -1,21 +1,12 @@
 import React from 'react'
-import {Box,Button,Checkbox,Paper,Typography} from '@mui/material';
+import {Box,Checkbox,Typography} from '@mui/material';
 import Container from '@mui/material/Container';
-import Stack from '@mui/material/Stack';
-import { useEffect } from 'react';
-import api from '../../api';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { DataGrid } from '@mui/x-data-grid';
-const checkIfUserHasAProject=(user)=>{
-  if(user){
-    if(user.project){
-      if(user.project[0]){
-        return true
-      }
-    }
-  }
-  return false
-}
+import { selectedBug } from '../../redux/actions/bugActions';
+import BugComments from '../Bugs/BugComments/BugComments';
+import { selectedProject } from '../../redux/actions/projectActions';
+
 const checkForAssignedBugs=(user)=>{
   if(user){
     if(user.assignedBugs){
@@ -27,63 +18,84 @@ const checkForAssignedBugs=(user)=>{
   return false
 }
 
-
-
-
 const DeveloperDashboard = () => {
     const currentUser= useSelector((state)=>state.currentUser)
     const allBugs = useSelector((state)=>state.allBugs.bugs)
-    const doesUserHaveAProject=checkIfUserHasAProject(currentUser)
-    const doesUserHaveAssignedBugs=checkForAssignedBugs(currentUser)
-const bugColumns = [
-  { field: 'assigned', headerName: 'Assigned', width: 90 ,
-  renderCell:(params)=>{
-    const userIsAssigned=()=>{
-      if(params.row.assignedTo){
-        if(params.row.assignedTo.length>0){
-          if(params.row.assignedTo[0]._id==currentUser._id){
+    //return only bugs that match the user project id
+    //const projectBugs= allBugs.filter(bug=>bug.projectID._id==currentUser.project[0]._id)
+    const projects = useSelector((state)=>state.allProjects.projects)
+    const dispatch = useDispatch()
+    const checkIfUserHasAProject=(user,projects)=>{
+      if(user){
+        if(user.project){
+          if(user.project[0]){
+            const userProject = projects.filter((project)=>project._id==user.project[0]._id)
             return true
           }
         }
       }
       return false
     }
-    return(
-    <Checkbox  checked={userIsAssigned()} disabled variant="outlined" ></Checkbox>
-    )
-  }},
-  { field: '_id', headerName: 'ID', width: 90 },
-  {
-    field: 'title',
-    headerName: 'Title',
-    description: 'This column has a value getter and is not sortable.',
-    width: 150,
-  },
-  {
-    field: 'status',
-    headerName: 'Status',
-    width: 100,
-    editable: true,
-  },
-  {
-    field: 'openDate',
-    headerName: 'Open Date',
-    width: 100,
-    editable: true,
-  },
-  {
-      field: 'closeDate',
-      headerName: 'Close Date',
-      width: 100,
-      editable: true,
-    },
-    {
-      field: 'priority',
-      headerName: 'Priority',
-      width: 100,
-      editable: true,
-    },
-];
+    const doesUserHaveAProject=checkIfUserHasAProject(currentUser,projects)
+
+    const doesUserHaveAssignedBugs=checkForAssignedBugs(currentUser)
+    const handleRowClick=(e)=>{
+      let bug = {...e.row}
+      bug.projectID= e.row.projectID._id
+      const userProject = projects.filter((project)=>project._id==bug.projectID)
+      //this should only return project
+      dispatch(selectedProject(userProject[0]))
+      dispatch(selectedBug(bug))
+    }
+    const bugColumns = [
+      { field: 'assigned', headerName: 'Assigned', width: 90 ,
+      renderCell:(params)=>{
+        const userIsAssigned=()=>{
+          if(params.row.assignedTo){
+            if(params.row.assignedTo.length>0){
+              if(params.row.assignedTo[0]._id==currentUser._id){
+                return true
+              }
+            }
+          }
+          return false
+        }
+        return(
+        <Checkbox  checked={userIsAssigned()} disabled variant="outlined" ></Checkbox>
+        )
+      }},
+      { field: '_id', headerName: 'ID', width: 90 },
+      {
+        field: 'title',
+        headerName: 'Title',
+        description: 'This column has a value getter and is not sortable.',
+        width: 150,
+      },
+      {
+        field: 'status',
+        headerName: 'Status',
+        width: 100,
+        editable: true,
+      },
+      {
+        field: 'openDate',
+        headerName: 'Open Date',
+        width: 100,
+        editable: true,
+      },
+      {
+          field: 'closeDate',
+          headerName: 'Close Date',
+          width: 100,
+          editable: true,
+        },
+        {
+          field: 'priority',
+          headerName: 'Priority',
+          width: 100,
+          editable: true,
+        },
+    ];
   return (
     <>
     {doesUserHaveAProject?
@@ -119,22 +131,39 @@ const bugColumns = [
                   columns={bugColumns}
                   pageSize={5}
                   rowsPerPageOptions={[5]}
-                  // onRowClick={handleRowClick}
+                  onRowClick={handleRowClick}
                   experimentalFeatures={{ newEditingApi: true }}
                   // components={{Toolbar:ProjectDataGridTitle}}
                 />
+                <BugComments/>
               </>
             </Box>
-              
                 :
-              <>No bugs have been assigned to you</>
+              <><Typography
+              component="h1"
+              variant="h4"
+              align="center"
+              color="text.primary"
+              gutterBottom
+            >
+              No bugs are currently assigned
+            </Typography></>
             }
           </Container>
         </Box>
     </>
-    
     :
-    <>You have not been assigned to a project yet!</>
+    <><Box>
+        <Typography
+              component="h1"
+              variant="h4"
+              align="center"
+              color="text.primary"
+              gutterBottom
+            >
+              No project currently assigned!
+            </Typography>
+      </Box></>
     }
               
     </>
