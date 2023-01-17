@@ -8,13 +8,83 @@ import {auth} from '../utils/firebase'
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
+import Drawer from '@mui/material/Drawer';
+import CssBaseline from '@mui/material/CssBaseline';
+import List from '@mui/material/List';
+import HomeIcon from '@mui/icons-material/Home';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import GroupIcon from '@mui/icons-material/Group';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+import PestControlIcon from '@mui/icons-material/PestControl';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 //home was excluded from list
 const pages = ['Projects', 'Bugs','Users'];
+const pages2 = [
+  {'name':'Home','icon':<HomeIcon/>,'link':'/'},
+  {'name':'Projects','icon':<FormatListBulletedIcon/>,'link':'/Projects'},
+  {'name':'Bugs','icon':<PestControlIcon/>,'link':'/Bugs'},
+  {'name':'Users','icon':<GroupIcon/>,'link':'/Users'}
+]
 
+const SideBar =()=>{
+  const result = 
+  <>
+  {pages2.map((page) => (
+    <Link key={page.name} to={page.link} style={{ textDecoration: 'none' }}>
+      <ListItem  disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {page.icon}
+              </ListItemIcon>
+              <ListItemText primary={page.name} />
+            </ListItemButton>
+          </ListItem>
+    </Link>
+      
+    ))}
+
+  </>
+  return(result)
+}
+const drawerWidth = 200;
 const Navbar = () => {
   const [user,loading] = useAuthState(auth)
   return (
     <>
+      {/* <Box sx={{ display: 'flex',}}
+      bgcolor="Background"     >
+      <CssBaseline />
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+          backgroundColor:'red',
+        }}
+        variant="permanent"
+        anchor="left"
+      >
+        <Divider />
+        <List>
+          <SideBar/>
+        </List>
+        <Divider />
+      </Drawer>
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+      >
+        <Toolbar />
+      </Box>
+    </Box> */}
       <AppBar >
       <Container maxWidth="xl">
         <Toolbar >

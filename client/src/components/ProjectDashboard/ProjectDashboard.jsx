@@ -9,11 +9,15 @@ import api from '../../api/index'
 import {selectedBug, setBugs} from '../../redux/actions/bugActions'
 import {selectedProject,setProjects} from '../../redux/actions/projectActions'
 import {setUsers} from '../../redux/actions/userActions'
-
+import CreateBugModal from '../Bugs/CreateBugModal/CreateBugModal'
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import BugDashboard from '../Bugs/BugDashboard/BugDashboard'
 function BugsDataGridTitle() {
   return(
-      <Box style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+      <Box style={{width: "100%", display: "flex", flexDirection:'column',justifyContent: "center", alignItems: "center"}}>
           <Typography variant="h5"> Project Bugs</Typography>
+          <Typography variant="h5"> Select A Bug Below</Typography>
+          <CreateBugModal/>
       </Box>
   )
 }
@@ -25,39 +29,6 @@ function MembersDataGridTitle() {
       </Box>
   )
 }
-const bugColumns = [
-    { field: '_id', headerName: 'ID', width: 90 },
-    {
-      field: 'title',
-      headerName: 'Title',
-      description: 'This column has a value getter and is not sortable.',
-      width: 150,
-    },
-    {
-      field: 'status',
-      headerName: 'Status',
-      width: 100,
-      editable: true,
-    },
-    {
-      field: 'openDate',
-      headerName: 'Open Date',
-      width: 100,
-      editable: true,
-    },
-    {
-        field: 'closeDate',
-        headerName: 'Close Date',
-        width: 100,
-        editable: true,
-      },
-      {
-        field: 'priority',
-        headerName: 'Priority',
-        width: 100,
-        editable: true,
-      },
-];
 
   function checkProject(project){
     if(project.bugs){
@@ -67,12 +38,17 @@ const bugColumns = [
     }
   }
 
+  function openEditModalForBug(e){
+    console.log(e)
+  }
+
   const findMatchingBug=(bugID,bugs)=>{
     for(let i=0;i<bugs.length;i++){
         if(bugs[i]._id==bugID){
             return bugs[i]
         }
     }
+    console.log(false)
   }
 
 const ProjectDashboard = () => {
@@ -101,37 +77,22 @@ const ProjectDashboard = () => {
     }
 
     const memberColumns = [
-      { field: '_id', headerName: 'ID', width: 90 },
-      {
-        field: 'fullName',
-        headerName: 'Full name',
-        description: 'This column has a value getter and is not sortable.',
-        sortable: false,
-        width: 160,
-        valueGetter: (params) =>
-          `${params.row.firstName || ''} ${params.row.lastName || ''}`||`-`,
-      },
+      //{ field: '_id', headerName: 'ID', width: 90 },
+      // {
+      //   field: 'fullName',
+      //   headerName: 'Full name',
+      //   description: 'This column has a value getter and is not sortable.',
+      //   sortable: false,
+      //   width: 160,
+      //   valueGetter: (params) =>
+      //     `${params.row.firstName || ''} ${params.row.lastName || ''}`||`-`,
+      // },
       {
         field: 'email',
         headerName: 'Email',
-        width: 150,
+        width: 250,
         editable: true,
       },
-      {
-        field: 'role',
-        headerName: 'Role',
-        width: 100,
-        editable: true,
-      },
-      {
-          field: 'Bug Count',
-          headerName: 'Bug Count',
-          width: 100,
-          editable: true,
-          valueGetter:(params)=>
-              `${params.row.assignedBugs.length}`
-        },
-        ,
       {
         field:'Remove User',
           width: 100,
@@ -141,40 +102,104 @@ const ProjectDashboard = () => {
           }
         }
     ];
-    const handleRowClick=(e)=>{
-        const foundBug = findMatchingBug(e.id,bugs)
+    const handleRowClick=(e,row)=>{
+        const foundBug = findMatchingBug(row._id,bugs)
         dispatch(selectedBug(foundBug))
     }
+    const bugColumns = [
+      {
+        field:'title',
+        headerName: 'Title',
+        width: 225,
+        headerAlign: 'center',
+        align:'center',
+        renderCell:(params)=>{
+          return(<Button variant='contained' key={params.id} onClick={(e)=>handleRowClick(e,params.row)}>{params.row.title}</Button>
+          )
+        }
+      }, 
+        {
+          field: 'status',
+          headerName: 'Status',
+          width: 100,
+          editable: true,
+        },
+          {
+            field: 'priority',
+            headerName: 'Priority',
+            width: 100,
+            editable: true,
+          },
+          {
+            field: 'Edit',
+            headerName: '',
+            width: 70,
+            headerAlign: 'center',
+            align:'center',
+            renderCell:(params)=>{
+              return(
+                <Button onClick={openEditModalForBug}><MoreVertIcon/></Button>
+              )
+            }
+          },
+    ];
     return (
         <>{isCurrentProjectFilled ?
-            <Box className='project-dashboard' sx={{ height: 400, 
-            width: '100%',display:{xs:'block',sm:'block',md:'block', lg:'flex'}}}
-            >
-            <DataGrid
-              sx={{width:{sm:'100%',md:'100%' }}}
-              rows={project.members}
-              columns={memberColumns}
-              getRowId={(row)=>row._id}
-              pageSize={6}
-              rowsPerPageOptions={[6]}
-              //disableSelectionOnClick
-              experimentalFeatures={{ newEditingApi: true }}
-              components={{Toolbar:MembersDataGridTitle}}
-            />
-            <DataGrid
-              sx={{width:{xs:'100%',sm:'100%',md:'100%' },marginTop:{xs:'10%',sm:'10%',md:'10%',lg:'0%'}}}
-              rows={project.bugs}
-              columns={bugColumns}
-              getRowId={(row)=>row._id}
-              pageSize={6}
-              rowsPerPageOptions={[6]}
-              experimentalFeatures={{ newEditingApi: true }}
-              onRowClick={handleRowClick}
-              components={{Toolbar:BugsDataGridTitle}}
-              //checkboxSelection
-              //disableSelectionOnClick
-            />
-          </Box>
+          <>
+            <Box
+              sx={{ 
+                height: 600, display:'grid',
+                minWidth:500,
+              gridTemplateAreas:{
+                lg:`"users bugs"`,
+                md:`
+                "users" 
+                "bugs"
+              `, 
+                sm:
+                `
+                "users"
+                "bugs"
+                `,
+                xs:
+                `"users"
+                "bugs"`
+            },
+                gap:5,
+                padding:'2%',
+                width: '96%',
+            }}
+              >
+              <DataGrid 
+                sx={{minWidth:500, minHeight:250,gridArea:'users', }}
+                rows={project.members}
+                columns={memberColumns}
+                getRowId={(row)=>row._id}
+                pageSize={2}
+                rowsPerPageOptions={[2]}
+                //disableSelectionOnClick
+                experimentalFeatures={{ newEditingApi: true }}
+                components={{Toolbar:MembersDataGridTitle}}
+              />
+              <DataGrid
+                sx={{minWidth:500,
+                  minHeight:375,
+                  gridArea:'bugs',
+                  }}
+                rows={project.bugs}
+                columns={bugColumns}
+                getRowId={(row)=>row._id}
+                pageSize={6}
+                rowsPerPageOptions={[6]}
+                experimentalFeatures={{ newEditingApi: true }}
+                //onRowClick={handleRowClick}
+                components={{Toolbar:BugsDataGridTitle}}
+                //checkboxSelection
+                disableSelectionOnClick
+              />
+            </Box>
+          <BugDashboard/>
+          </>
             :'No Project Currently Selected'
         }
         </>  

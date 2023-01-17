@@ -144,7 +144,7 @@ const handleAlertClose=(e,reason)=>{
 }
   return (
     <div>
-    <Button onClick={handleModalOpen}>Edit Bug</Button>
+    <Button sx ={{width:'100%',}} onClick={handleModalOpen}>Edit Bug</Button>
     <Modal
       open={modalOpen}
       onClose={handleModalClose}
