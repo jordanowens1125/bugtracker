@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../../api/index';
 import {setBugs,selectedBug} from '../../../redux/actions/bugActions'
+import {setComments} from '../../../redux/actions/commentActions'
 import {selectedProject, setProjects} from '../../../redux/actions/projectActions'
 import dayjs from 'dayjs'
 
@@ -31,6 +32,8 @@ const BugsTable = () => {
     const bug = await api.bugs.fetchBug(bugID)
     const project = await api.projects.fetchProject(bug.projectID)
     dispatch(selectedBug(bug))
+    const updatedComments = await api.comments.fetchBugComments(bug._id)        
+    dispatch(setComments(updatedComments))
     dispatch(selectedProject(project))
     navigate(`/projects/${bug.projectID}`)
 }
@@ -77,7 +80,7 @@ const handleDeleteClick=async(e)=>{
                     <TableCell align="right">{bug.priority}</TableCell>
                     <TableCell align="right">{bug.status}</TableCell>
                     <TableCell align="right">{bug.projectID.title}</TableCell>
-                    <TableCell  align="right"><Button data-key={bug._id} variant="contained" onClick ={handleEditClick}>Edit</Button></TableCell>
+                    <TableCell  align="right"><Button data-key={bug._id} variant="contained" onClick ={handleEditClick}>View</Button></TableCell>
                     <TableCell align="right"><Button onClick={handleDeleteClick} variant="contained" color="error" data-key={[bug._id,bug.projectID._id]}>Delete</Button></TableCell>
                     </TableRow>
                     ))

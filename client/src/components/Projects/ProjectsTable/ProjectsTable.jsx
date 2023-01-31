@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../../api/index'
 import dayjs from 'dayjs'
+import { removeComments } from '../../../redux/actions/commentActions';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -32,6 +33,7 @@ const ProjectsTable = () => {
     },[projects]);
     const navigateToProject=(projectID)=>{
         dispatch(removeSelectedBug())
+        dispatch(removeComments())
         navigate(`/projects/${projectID}`)
     }
 
@@ -97,7 +99,7 @@ const ProjectsTable = () => {
                         <TableCell align="right">{dayjs(project.deadline).format('YYYY-MM-DD')}</TableCell>
                         <TableCell align="right">{project.members.length}</TableCell>
                         <TableCell align="right">{project.bugs.length}</TableCell>
-                        <TableCell  align="right"><Button onClick={(e)=>handleEditClick(e)} variant="contained" data-key={project._id}>Edit</Button></TableCell>
+                        <TableCell  align="right"><Button onClick={(e)=>handleEditClick(e)} variant="contained" data-key={project._id}>View</Button></TableCell>
                         <TableCell align="right"><Button onClick={handleDeleteClick} variant="contained" color="error" data-key={project._id}>Delete</Button></TableCell>
                         </TableRow>
                         ))

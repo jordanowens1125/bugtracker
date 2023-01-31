@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 
 import {projectsReducer,selectedProjectReducer,availableMembersReducer} from './projectReducer'
 import {bugsReducer, selectedBugReducer} from './bugReducer'
+import {commentsReducer} from './commentsReducer'
 import {usersReducer, currentUserReducer,loginMethodsReducer} from './userReducer'
 export default combineReducers({
     allProjects:projectsReducer,
@@ -11,7 +12,7 @@ export default combineReducers({
     currentBug:selectedBugReducer,
     currentProjectBugs: '',
     currentProjectUsers:'',
-    currentBugComments:'',
+    currentBugComments:commentsReducer,
     allUsers:usersReducer,
     currentUser:currentUserReducer,
     currentUserBugs:'',

@@ -1,7 +1,6 @@
 import React, { useState,useRef,useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import api from '../../../api/index'
-import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
@@ -13,13 +12,14 @@ import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import SendIcon from '@mui/icons-material/Send';
 import { useDispatch } from 'react-redux'
-import { removeSelectedBug, selectedBug} from '../../../redux/actions/bugActions'
+import { selectedBug} from '../../../redux/actions/bugActions'
 import Comment from '../Comment/Comment';
-import EditBugModal from '../EditBugModal/EditBugModal';
 import { selectedUser, setUsers } from '../../../redux/actions/userActions';
 import { selectedProject, setProjects } from '../../../redux/actions/projectActions';
 import { useUserAuth } from '../../../context/userAuthContext'
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { setComments } from '../../../redux/actions/commentActions'
+
 const bugHasComments=(bug)=>{
     if(bug.comments){
         if(bug.comments.length>0){
@@ -66,6 +66,9 @@ const AlwaysScrollToBottom = () => {
 const BugComments = () => {
     const {user,logOut,getSignInMethods} = useUserAuth()
     const users =useSelector((state)=>state.allUsers.users)
+    const bug =useSelector((state)=>state.currentBug)
+    const comments = useSelector((state)=>state.currentBugComments)
+    //console.log(comments)
     useEffect(()=>{
         const findUserWithUID=(user,users)=>{
             if(user){
@@ -78,21 +81,18 @@ const BugComments = () => {
             }
           }
           findUserWithUID(user,users)
-    })
+    },[bug])
     const currentUser =useSelector((state)=>state.currentUser)
-    const bug =useSelector((state)=>state.currentBug)
-    const currentProject = useSelector((state)=>state.project)
     
+    const currentProject = useSelector((state)=>state.project)
     const isThereACurrentBug=checkifCurrentBugIsFilled(bug)
     const hasComments=bugHasComments(bug)
     const dispatch=useDispatch()
     const canUserMakeCommentsOnThisBug=checkIfUserCanMakeComments(currentUser,bug)
-
     const [chatInput,setChatInput]= useState({
         text:'',
         input:'',
     })
-
     const handleChange=(e)=>{
         const inputFieldValue = e.target.value;
         const inputFieldName =e.target.id||e.target.name//target name for the bugs select
@@ -118,6 +118,9 @@ const BugComments = () => {
             const newProject = await api.projects.fetchProject(currentProject._id)
             const updatedProjects = await api.projects.fetchProjects()
             dispatch(selectedBug(newBug))
+            const updatedComments = await api.comments.fetchBugComments(bug._id)
+            
+            dispatch(setComments(updatedComments))
             dispatch(selectedProject(newProject))
             dispatch(setProjects(updatedProjects))
             setChatInput({
@@ -148,7 +151,7 @@ const BugComments = () => {
                         <List>
                             {hasComments?
                             <>
-                            <div>{bug.comments.map((comment)=>(
+                            <div>{comments.map((comment)=>(
                                     <div key={comment._id}>
                                         <Comment comment={comment}/>
                                     </div>
@@ -159,20 +162,28 @@ const BugComments = () => {
                             }
                         </List>
                      </Grid>
-                     {canUserMakeCommentsOnThisBug?
-                     <>
-                        <form onSubmit={sendComment}>
-                                <Grid xs={8} item>
-                                <FormControl fullWidth>
+                    {canUserMakeCommentsOnThisBug?
+                    <>
+                        <Box
+                                component="form"
+                                sx={{display:'flex',alignItems:'center',
+                                    justifyContent:'start',
+
+                                }}
+                                onSubmit={sendComment}
+                                noValidate
+                                autoComplete="off"
+                                >
+                                <FormControl >
                                     <TextField 
-                                    id='text'
-                                    value={chatInput.text}
-                                    label='Type your message'
-                                    variant='outlined'
-                                    onChange={handleChange}
+                                        id='text'
+                                        value={chatInput.text}
+                                        label='Type your message'
+                                        variant="filled" 
+                                        onChange={handleChange}
+                                        sx={{width:500,}}
                                     />
                                 </FormControl>
-                                </Grid>
                                 <Grid xs={4} item>
                                     <IconButton
                                     aria-label='send'
@@ -181,10 +192,10 @@ const BugComments = () => {
                                         <SendIcon/>
                                     </IconButton>
                                 </Grid>
-                            </form>  
-                     </>                      
+                        </Box> 
+                    </>                      
                         :
-                        <></>
+                    <></>
                      }
                 </Grid>
             </Box>

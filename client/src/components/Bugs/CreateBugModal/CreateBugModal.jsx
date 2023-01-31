@@ -18,6 +18,18 @@ import Chip from '@mui/material/Chip';
 import { setBugs,selectedBug } from '../../../redux/actions/bugActions';
 import {selectedProject, setProjects} from '../../../redux/actions/projectActions'
 import { setUsers } from '../../../redux/actions/userActions';
+import { setComments } from '../../../redux/actions/commentActions';
+
+const checkIfUserIsAdmin = (user) => {
+  if (user)
+  {
+    if (user.role == 'admin')
+    {
+      return true
+    }
+  }
+  return false
+}
 
 const style = {
   position: 'absolute',
@@ -77,6 +89,8 @@ const MenuProps = {
   const priorities =['Low','Medium','High']
 
 const CreateBugModal = () => {
+  const user = useSelector((state)=>state.currentUser)
+  const isAdminUser = checkIfUserIsAdmin(user)
   const [modalOpen, setModalOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const handleModalOpen = () => setModalOpen(true);
@@ -146,6 +160,8 @@ const handleFormSubmit=async(e)=>{
       dispatch(setUsers(newUsers))
       const newBug = await api.bugs.fetchBug(response.newBug._id)
       dispatch(selectedBug(newBug))
+      const updatedComments = await api.comments.fetchBugComments(newBug._id)      
+      dispatch(setComments(updatedComments))
     }
     else{
       dispatch(selectedBug(formInputData))
@@ -173,7 +189,9 @@ const handleAlertClose=(e,reason)=>{
     setAlertOpen(false);
 }
   return (
-    <div>
+    <>
+    {isAdminUser ?
+        <>
     <Button onClick={handleModalOpen}>Create Bug</Button>
     <Modal
       open={modalOpen}
@@ -181,7 +199,7 @@ const handleAlertClose=(e,reason)=>{
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+        <Box sx={style}>
       <form onSubmit={(event) => handleFormSubmit(event)}> 
             <TextField
             required 
@@ -324,7 +342,10 @@ const handleAlertClose=(e,reason)=>{
             Bug was successfully created            
         </Alert>
     </Snackbar>
-  </div>
+        </>
+        :<></>
+      }
+  </>
   )
 }
 

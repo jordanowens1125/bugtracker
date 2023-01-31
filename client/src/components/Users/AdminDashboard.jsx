@@ -1,17 +1,24 @@
-import React from 'react'
-import ListItem from '@mui/material/ListItem';
-import List from '@mui/material/List';
+import React, {useState} from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import {Box,Button,Paper,Typography} from '@mui/material';
-import dayjs from 'dayjs'
-import { useSelector } from 'react-redux'
-import ProjectDashboard from '../ProjectDashboard/ProjectDashboard';
-import { selectedProject } from '../../redux/actions/projectActions';
-import { useDispatch } from 'react-redux';
+import {Box,Button,Typography} from '@mui/material';
+import { useSelector ,useDispatch} from 'react-redux'
 import CreateProjectModal from '../Projects/CreateProjectModal/CreateProjectModal';
-import api from '../../api';
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { removeSelectedBug } from '../../redux/actions/bugActions';
+import { removeComments } from '../../redux/actions/commentActions';
+import Modal from '@mui/material/Modal';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 function ProjectDataGridTitle() {
         return(
@@ -21,15 +28,20 @@ function ProjectDataGridTitle() {
             </Box>
         )
     }
+
+const showMembers = (e,members) => {
+  console.log(123);
+}
 const AdminDashboard = () => {
-    
     const projects =useSelector((state)=>state.allProjects.projects)
     const dispatch=useDispatch()
     const navigate =useNavigate()
     const navigateToProject=(e,row)=>{
       dispatch(removeSelectedBug())
+      dispatch(removeComments())
       navigate(`/projects/${row._id}`)
     }
+
     const columns = [
         {
           field:'title',
@@ -60,18 +72,21 @@ const AdminDashboard = () => {
             const members =(params.row.members)
             if(members.length>0){
               return(
-                <List >{members.map((member)=>(
-                  <ListItem key={member._id}>
-                    {member.email}
-                  </ListItem>
-                ))}</List>
+                // <List >{members.map((member)=>(
+                //   <ListItem key={member._id}>
+                //     {member.email}
+                //   </ListItem>
+                // ))}</List>
+                <>
+                  <Button variant="outlined" onClick={(e) => showMembers(e, members)}>
+                    View Members
+                  </Button>
+                </>
               )
             }
             else{
               return (
-                <List>
-                  <ListItem>-</ListItem>
-                </List>
+                <>-</>
               )
             }
           }

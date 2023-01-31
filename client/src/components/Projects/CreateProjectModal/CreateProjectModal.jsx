@@ -56,6 +56,14 @@ const MenuProps = {
 
 const CreateProjectModal = () => {
     const [modalOpen, setModalOpen] = useState(false);
+    const currentUser=useSelector(state=>state.currentUser)
+    const checkIfUserIsAnAdmin=(user)=>{
+      if(user.role==='admin'){
+        return true
+      }
+      return false
+    }
+    const userIsAnAdmin = checkIfUserIsAnAdmin(currentUser)
   const [alertOpen, setAlertOpen] = useState(false);
   const handleModalOpen = () => setModalOpen(true);
   const theme = useTheme();
@@ -130,101 +138,109 @@ const handleAlertClose=(e,reason)=>{
     setAlertOpen(false);
 }
   return (
-    <div>
-    <Button variant='contained' sx={{}} onClick={handleModalOpen}>Create Project</Button>
-    <Modal
-      open={modalOpen}
-      onClose={handleModalClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box sx={style}>
-      <form onSubmit={(event) => handleFormSubmit(event)}> 
-            <TextField
-            required 
-            label="Title"
-            defaultValue=""
-            title={formInputData.title}
-            onChange={handleInputChange}
-            id='title'
-            />
-            <TextField
-            required
-            id="description"
-            label="Description"
-            description={formInputData.description}
-            minRows={8}
-            defaultValue=""
-            onChange={handleInputChange}
-            //multiline
-            //error comes when multiline is added
-            />
-        <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-chip-label">Members</InputLabel>
-        <Select
-          labelId="demo-multiple-chip-label"
-          id="demo-multiple-chip"
-          name={'members'}
-          multiple
-          value={formInputData.members||[]}//set to current personName list
-          onChange={handleInputChange}
-          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-          renderValue={(selected) => (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {selected.map((value) => (
-                <Chip key={value} label={value} />
-              ))}
+    <>
+    {userIsAnAdmin? 
+      <>
+        <div>
+          <Button variant='contained' sx={{}} onClick={handleModalOpen}>Create Project</Button>
+          <Modal
+            open={modalOpen}
+            onClose={handleModalClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+            <form onSubmit={(event) => handleFormSubmit(event)}> 
+                  <TextField
+                  required 
+                  label="Title"
+                  defaultValue=""
+                  title={formInputData.title}
+                  onChange={handleInputChange}
+                  id='title'
+                  />
+                  <TextField
+                  required
+                  id="description"
+                  label="Description"
+                  description={formInputData.description}
+                  minRows={8}
+                  defaultValue=""
+                  onChange={handleInputChange}
+                  //multiline
+                  //error comes when multiline is added
+                  />
+              <FormControl sx={{ m: 1, width: 300 }}>
+              <InputLabel id="demo-multiple-chip-label">Members</InputLabel>
+              <Select
+                labelId="demo-multiple-chip-label"
+                id="demo-multiple-chip"
+                name={'members'}
+                multiple
+                value={formInputData.members||[]}//set to current personName list
+                onChange={handleInputChange}
+                input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                renderValue={(selected) => (
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
+                    ))}
+                  </Box>
+                )}
+                MenuProps={MenuProps}
+              >
+                {unAssignedUsers.map((user) => (
+                  <MenuItem
+                    key={user._id}
+                    value={user.email}
+                    style={getStyles(user, user.email, theme)}
+                  >
+                    {user.email}
+                  </MenuItem>
+                ))}
+              </Select>
+              </FormControl>
+              <TextField
+                id="start"
+                label='Start'
+                name='start'
+                type="date"
+                defaultValue={formInputData.startDate}
+                sx={{ width: 220 }}
+                InputLabelProps={{
+                shrink: true,
+                }}
+                onChange={handleInputChange}
+              />
+              <TextField
+                id="deadline"
+                label='Deadline'
+                name='deadline'
+                type="date"
+                defaultValue={formInputData.deadline}
+                sx={{ width: 220 }}
+                InputLabelProps={{
+                shrink: true,
+                }}
+                onChange={handleInputChange}
+              />
+            <Button variant="contained" onClick={(e)=>{handleFormSubmit(e)}}>
+                Submit
+              </Button>  
+            </form>
             </Box>
-          )}
-          MenuProps={MenuProps}
-        >
-          {unAssignedUsers.map((user) => (
-            <MenuItem
-              key={user._id}
-              value={user.email}
-              style={getStyles(user, user.email, theme)}
-            >
-              {user.email}
-            </MenuItem>
-          ))}
-        </Select>
-        </FormControl>
-        <TextField
-          id="start"
-          label='Start'
-          name='start'
-          type="date"
-          defaultValue={formInputData.startDate}
-          sx={{ width: 220 }}
-          InputLabelProps={{
-          shrink: true,
-          }}
-          onChange={handleInputChange}
-        />
-        <TextField
-          id="deadline"
-          label='Deadline'
-          name='deadline'
-          type="date"
-          defaultValue={formInputData.deadline}
-          sx={{ width: 220 }}
-          InputLabelProps={{
-          shrink: true,
-          }}
-          onChange={handleInputChange}
-        />
-      <Button variant="contained" onClick={(e)=>{handleFormSubmit(e)}}>
-          Submit
-        </Button>  
-      </form>
-      </Box>
-    </Modal>
-    <Snackbar open={alertOpen} autoHideDuration={2000} onClose={handleAlertClose}>
-        <Alert onClose={handleAlertClose} variant="filled" severity="success" sx={{ width: '100%' }}>
-            Project was successfully created            
-        </Alert>
-    </Snackbar>
-  </div>
+          </Modal>
+          <Snackbar open={alertOpen} autoHideDuration={2000} onClose={handleAlertClose}>
+              <Alert onClose={handleAlertClose} variant="filled" severity="success" sx={{ width: '100%' }}>
+                  Project was successfully created            
+              </Alert>
+          </Snackbar>
+        </div>
+      </>
+      :
+      <></>
+    }
+    </>
   )
 }
 

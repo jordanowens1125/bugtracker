@@ -87,7 +87,7 @@ const Navbar = () => {
     </Box> */}
       <AppBar >
       <Container maxWidth="xl">
-        <Toolbar >
+        <Toolbar sx={{}}>
           <Link to="/">
             <AdbIcon sx={{display:{xs:'none', md:'flex', color:'white'}, mr:1}} />
           </Link>

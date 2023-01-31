@@ -23,6 +23,7 @@ export const selectedBugReducer=createReducer({},
     (builder)=>{
     builder
     .addCase(ActionTypes.SELECTED_BUG,(state,action)=>{
+        state=action.payload
         return action.payload
     })
     .addCase(ActionTypes.REMOVE_SELECTED_BUG,(state)=>{
