@@ -13,6 +13,7 @@ import {setUsers} from '../../redux/actions/userActions'
 import CreateBugModal from '../Bugs/CreateBugModal/CreateBugModal'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import BugDashboard from '../Bugs/BugDashboard/BugDashboard'
+
 function BugsDataGridTitle() {
   return(
       <Box style={{width: "100%", display: "flex", flexDirection:'column',justifyContent: "center", alignItems: "center"}}>
@@ -66,6 +67,7 @@ function MembersDataGridTitle() {
 
 const ProjectDashboard = () => {
     const user = useSelector((state)=>state.currentUser)
+    const users = useSelector((state)=>state.allUsers)
     const isAdminUser = checkIfUserIsAdmin(user)
     const project =useSelector((state)=>state.project)
     const isCurrentProjectFilled = checkProject(project)
@@ -132,9 +134,6 @@ const ProjectDashboard = () => {
     const handleRowClick=async(e,row)=>{
         //console.log(row)
         const foundBug = findMatchingBug(row._id,bugs)
-        console.log(foundBug)
-        //const bug = await api.bugs.fetchBug(row._id)
-        console.log(foundBug)
         dispatch(selectedBug(foundBug))
         const updatedComments = await api.comments.fetchBugComments(foundBug._id)
         dispatch(setComments(updatedComments))
@@ -162,19 +161,7 @@ const ProjectDashboard = () => {
             headerName: 'Priority',
             width: 100,
             editable: true,
-          },
-          {
-            field: 'Edit',
-            headerName: '',
-            width: 70,
-            headerAlign: 'center',
-            align:'center',
-            renderCell:(params)=>{
-              return(
-                <Button onClick={openEditModalForBug}><MoreVertIcon/></Button>
-              )
-            }
-          },
+          },        
     ];
     return (
         <>{isCurrentProjectFilled ?

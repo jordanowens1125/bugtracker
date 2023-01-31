@@ -190,8 +190,6 @@ const handleAlertClose=(e,reason)=>{
 }
   return (
     <>
-    {isAdminUser ?
-        <>
     <Button onClick={handleModalOpen}>Create Bug</Button>
     <Modal
       open={modalOpen}
@@ -342,10 +340,7 @@ const handleAlertClose=(e,reason)=>{
             Bug was successfully created            
         </Alert>
     </Snackbar>
-        </>
-        :<></>
-      }
-  </>
+    </>
   )
 }
 

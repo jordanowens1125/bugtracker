@@ -21,7 +21,7 @@ const filterUsers = (users)=>{
     const unAssignedUsers=[]
     const deletedUser=[]
     for (let i=0;i<users.length;i++){
-      if(users[i].role!=='deleted'){
+      if(users[i].role!=='deleted' && users[i].role!=='admin'){
         if(users[i].project.length>0){
           users[i].projectDisplay = users[i].project[0].title
         }else{
@@ -36,7 +36,10 @@ const filterUsers = (users)=>{
         userList.push(users[i])
       }
       else{
-        deletedUser.push(users[i])
+        if(users[i].role!=='admin')
+        {
+          deletedUser.push(users[i])
+        }
       }
     }
     return [userList,assignedUsers,unAssignedUsers,deletedUser]
