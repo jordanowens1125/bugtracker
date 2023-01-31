@@ -18,6 +18,18 @@ import Chip from '@mui/material/Chip';
 import { setBugs,selectedBug } from '../../../redux/actions/bugActions';
 import {selectedProject, setProjects} from '../../../redux/actions/projectActions';
 import {setUsers} from '../../../redux/actions/userActions';
+import { setComments } from '../../../redux/actions/commentActions';
+
+const checkIfUserIsAdmin = (user) => {
+  if (user)
+  {
+    if (user.role == 'admin')
+    {
+      return true
+    }
+  }
+  return false
+}
 
 const style = {
   position: 'absolute',
@@ -58,6 +70,8 @@ const MenuProps = {
   const priorities =['Low','Medium','High']
 
 const EditBugModal = () => {
+  const user = useSelector((state)=>state.currentUser)
+  const isAdminUser = checkIfUserIsAdmin(user)
   const [modalOpen, setModalOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const handleModalOpen = () => setModalOpen(true);
@@ -111,10 +125,14 @@ const handleFormSubmit=async(e)=>{
       delete newInputValue.assignedTo
       await api.bugs.updateBug(currentBug,newInputValue)
       dispatch(selectedBug(formInputData))
+      const updatedComments = await api.comments.fetchBugComments(currentBug._id)      
+      dispatch(setComments(updatedComments))
     }else{
       await api.bugs.updateBug(currentBug,formInputData)
       const updatedBug= await api.bugs.fetchBug(currentBug._id)
       dispatch(selectedBug(updatedBug))
+      const updatedComments = await api.comments.fetchBugComments(currentBug._id)      
+      dispatch(setComments(updatedComments))
     }
     //console.log(currentBug)
     const updatedProject = await api.projects.fetchProject(project._id)
@@ -143,7 +161,9 @@ const handleAlertClose=(e,reason)=>{
     setAlertOpen(false);
 }
   return (
-    <div>
+    <>
+    {isAdminUser ?
+    <>
     <Button sx ={{width:'100%',}} onClick={handleModalOpen}>Edit Bug</Button>
     <Modal
       open={modalOpen}
@@ -260,7 +280,9 @@ const handleAlertClose=(e,reason)=>{
             Bug was successfully edited!      
         </Alert>
     </Snackbar>
-  </div>
+  </>
+  :<></>}
+  </>
   )
 }
 

@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import {DataGrid} from '@mui/x-data-grid';
 import api from '../../api/index'
 import {selectedBug, setBugs} from '../../redux/actions/bugActions'
+import { setComments } from '../../redux/actions/commentActions'
 import {selectedProject,setProjects} from '../../redux/actions/projectActions'
 import {setUsers} from '../../redux/actions/userActions'
 import CreateBugModal from '../Bugs/CreateBugModal/CreateBugModal'
@@ -21,6 +22,18 @@ function BugsDataGridTitle() {
       </Box>
   )
 }
+
+const checkIfUserIsAdmin = (user) => {
+  if (user)
+  {
+    if (user.role == 'admin')
+    {
+      return true
+    }
+  }
+  return false
+}
+
 function MembersDataGridTitle() {
   return(
       <Box style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
@@ -52,6 +65,8 @@ function MembersDataGridTitle() {
   }
 
 const ProjectDashboard = () => {
+    const user = useSelector((state)=>state.currentUser)
+    const isAdminUser = checkIfUserIsAdmin(user)
     const project =useSelector((state)=>state.project)
     const isCurrentProjectFilled = checkProject(project)
     const bugs = useSelector((state)=>state.allBugs.bugs)
@@ -69,6 +84,8 @@ const ProjectDashboard = () => {
       if (currentBug.assignedTo){
         const updatedBug = await api.bugs.fetchBug(currentBug._id)
         dispatch(selectedBug(updatedBug))
+        const updatedComments = await api.comments.fetchBugComments(currentBug._id)    
+        dispatch(setComments(updatedComments))
       }
       dispatch(setBugs(updatedBugs))
       dispatch(setUsers(updatedUsers))
@@ -98,13 +115,29 @@ const ProjectDashboard = () => {
           width: 100,
           renderCell:(params)=>{
             return(
-            <Button onClick={(e)=>removeUser(e,params.row)} variant="contained" color="error" >Remove</Button>)
+              <>
+                {isAdminUser ? 
+                <>
+                  <Button onClick={(e)=>removeUser(e,params.row)} variant="contained" color="error" >Remove</Button>
+                </>
+                :
+                <>
+                  -
+                </>}
+              </>
+            )
           }
         }
     ];
-    const handleRowClick=(e,row)=>{
+    const handleRowClick=async(e,row)=>{
+        //console.log(row)
         const foundBug = findMatchingBug(row._id,bugs)
+        console.log(foundBug)
+        //const bug = await api.bugs.fetchBug(row._id)
+        console.log(foundBug)
         dispatch(selectedBug(foundBug))
+        const updatedComments = await api.comments.fetchBugComments(foundBug._id)
+        dispatch(setComments(updatedComments))
     }
     const bugColumns = [
       {

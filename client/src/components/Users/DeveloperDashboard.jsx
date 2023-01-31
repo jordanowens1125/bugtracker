@@ -6,6 +6,8 @@ import { DataGrid } from '@mui/x-data-grid';
 import { selectedBug } from '../../redux/actions/bugActions';
 import BugComments from '../Bugs/BugComments/BugComments';
 import { selectedProject } from '../../redux/actions/projectActions';
+import { setComments } from '../../redux/actions/commentActions';
+import api from '../../api';
 
 const checkForAssignedBugs=(user)=>{
   if(user){
@@ -29,7 +31,7 @@ const DeveloperDashboard = () => {
       if(user){
         if(user.project){
           if(user.project[0]){
-            const userProject = projects.filter((project)=>project._id==user.project[0]._id)
+            //const userProject = projects.filter((project)=>project._id===user.project[0]._id)
             return true
           }
         }
@@ -38,14 +40,15 @@ const DeveloperDashboard = () => {
     }
     const doesUserHaveAProject=checkIfUserHasAProject(currentUser,projects)
 
-    const doesUserHaveAssignedBugs=checkForAssignedBugs(currentUser)
-    const handleRowClick=(e)=>{
+    const handleRowClick=async(e)=>{
       let bug = {...e.row}
       bug.projectID= e.row.projectID._id
-      const userProject = projects.filter((project)=>project._id==bug.projectID)
+      const userProject = projects.filter((project)=>project._id===bug.projectID)
       //this should only return project
       dispatch(selectedProject(userProject[0]))
       dispatch(selectedBug(bug))
+      const updatedComments = await api.comments.fetchBugComments(bug._id)      
+      dispatch(setComments(updatedComments))
     }
     const bugColumns = [
       { field: 'assigned', headerName: 'Assigned', width: 90 ,
@@ -53,7 +56,7 @@ const DeveloperDashboard = () => {
         const userIsAssigned=()=>{
           if(params.row.assignedTo){
             if(params.row.assignedTo.length>0){
-              if(params.row.assignedTo[0]._id==currentUser._id){
+              if(params.row.assignedTo[0]._id===currentUser._id){
                 return true
               }
             }
@@ -107,7 +110,7 @@ const DeveloperDashboard = () => {
             pb: 6,
           }}
         >
-          <Container maxWidth="sm">
+          <Container sx={{}}>
             <Typography
               component="h1"
               variant="h2"
@@ -120,9 +123,8 @@ const DeveloperDashboard = () => {
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
             {currentUser.project[0].description}
             </Typography>
-            {doesUserHaveAssignedBugs?
             <Box sx={{ height: 400, 
-              width: '100%',display:{xs:'block',sm:'block',md:'block', lg:'flex'}}}
+              width: '98%',display:{xs:'block',sm:'block',md:'block', lg:'flex'}}}
               >
               <>
                 <DataGrid
@@ -135,20 +137,9 @@ const DeveloperDashboard = () => {
                   experimentalFeatures={{ newEditingApi: true }}
                   // components={{Toolbar:ProjectDataGridTitle}}
                 />
-                <BugComments/>
               </>
             </Box>
-                :
-              <><Typography
-              component="h1"
-              variant="h4"
-              align="center"
-              color="text.primary"
-              gutterBottom
-            >
-              No bugs are currently assigned
-            </Typography></>
-            }
+            <BugComments/>
           </Container>
         </Box>
     </>
@@ -162,6 +153,7 @@ const DeveloperDashboard = () => {
               gutterBottom
             >
               No project currently assigned!
+              Request to be added to a project
             </Typography>
       </Box></>
     }

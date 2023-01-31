@@ -1,24 +1,22 @@
-import React, { useMemo } from 'react'
+import React, { useEffect } from 'react'
 import Box from '@mui/material/Box';
 import { useDispatch, useSelector } from 'react-redux'
-import dayjs from 'dayjs'
 import  Paper  from '@mui/material/Paper';
 import BugComments from '../BugComments/BugComments';
 import { removeSelectedBug } from '../../../redux/actions/bugActions';
 import { Button, Typography } from '@mui/material';
 import EditBugModal from '../EditBugModal/EditBugModal';
-import { display } from '@mui/system';
+import { removeComments } from '../../../redux/actions/commentActions';
+
 const checkBug=(bug)=>{
     if(bug._id){
-        return true
+        if(bug.assignedTo){
+            return true
+        }
     }
     else{
         return false
     }
-}
-
-const assignedDevs=(bug)=>{
-
 }
 
 const BugDashboard = () => {
@@ -27,8 +25,9 @@ const BugDashboard = () => {
     const dispatch=useDispatch()
     const clearCurrentBug=()=>{
         dispatch(removeSelectedBug())
+        dispatch(removeComments())
     }
-    useMemo(() => {
+    useEffect(() => {
     },[bug]);
     return (
         <>
@@ -43,18 +42,18 @@ const BugDashboard = () => {
                     "bug"
                     "comments"
                     `
-                    ,
-                    md:`
-                    "info info"
-                    "bug comments"
-                    "bug comments"
-                  `, 
+                    , 
                     sm:
                     `
                     "info"
                     "bug"
                     "comments"
-                    `
+                    `,
+                    md:`
+                    "info info"
+                    "bug comments"
+                    "bug comments"
+                  `,
                 },
                   gap:3,
                   padding:'2%',
@@ -101,9 +100,9 @@ const BugDashboard = () => {
                                     {bug.creator}
                                 </Typography>
                             </Box>
-                            <Box sx={{ gridArea: 'description', backgroundColor:'pink',alignItems:'left'}}>
+                            <Box sx={{ gridArea: 'description',justifyContent:'start'}}>
                                 <Typography variant="subtitle1" gutterBottom>
-                                    description
+                                    Description
                                 </Typography>
                                 <Typography variant="button" gutterBottom>
                                     {bug.description}
@@ -111,7 +110,7 @@ const BugDashboard = () => {
                             </Box>
                             <Box sx={{ gridArea: 'status',  }}>
                                 <Typography variant="subtitle1" gutterBottom>
-                                    status
+                                    Status
                                 </Typography>
                                 <Typography variant="button" gutterBottom>
                                     {bug.status}
@@ -119,23 +118,27 @@ const BugDashboard = () => {
                             </Box>
                             <Box sx={{ gridArea: 'priority',  }}>
                                 <Typography variant="subtitle1" gutterBottom>
-                                    priority
+                                    Priority
                                 </Typography>
                                 <Typography variant="button" gutterBottom>
                                     {bug.priority}
                                 </Typography>
                             </Box>
-                            <Box sx={{ gridArea: 'type',  }}>
+                            {/* <Box sx={{ gridArea: 'type',  }}>
                                 <Typography variant="subtitle1" gutterBottom>
                                     Type
                                 </Typography>
                                 <Typography variant="button" gutterBottom>
                                     {bug.type}
                                 </Typography>
-                            </Box>
+                            </Box> */}
                             <Box sx={{ gridArea: 'assigned',  }}>
-                                <Typography>Assigned Devs</Typography>
-                                <h1>hi</h1>
+                                <Typography variant="subtitle1" gutterBottom>Assigned Devs</Typography>
+                                <div>
+                                    {bug.assignedTo.map((member)=>
+                                        <div key={member._id}>{member.email}</div>
+                                    )}
+                                </div>
                             </Box>
                         </Box>
                     </Paper>

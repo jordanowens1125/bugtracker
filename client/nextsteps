@@ -4,13 +4,15 @@ https://console.firebase.google.com/u/1/project/bugtracker-a014c/authentication/
 - styling for bug dashboard admin and reference this video
 https://www.youtube.com/watch?v=PYxLwn-Kk2U&t=6s
 
-developer dashboard broke somehow!!
--  style bug dahsboard left side
+style comments again with comment entire info
 
+api
+- how can i refactor api to make one huge api call instead of tiny ones
 user developer dashboard
 - when a user is remvoed from a project the user has to be updated in redux and also when the user is added to a project
+- bugs shown should only be the bugs concerned with this project
 
-developers cannot add edit projects (potentially can not edit bugs either??)
+developers (potentially can not edit bugs either??)
 
 when tables get a certain width i want to make the tables 
 display vertically instead of horizontally

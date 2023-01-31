@@ -1,4 +1,4 @@
-import React,{useState,useEffect,useMemo} from 'react'
+import React,{useState,useMemo} from 'react'
 import api from  '../../../api/index'
 import dayjs from 'dayjs'
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +19,17 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
+
+const checkIfUserIsAdmin = (user) => {
+  if (user)
+  {
+    if (user.role == 'admin')
+    {
+      return true
+    }
+  }
+  return false
+}
 
 const style = {
   position: 'absolute',
@@ -50,6 +61,8 @@ const MenuProps = {
 const EditProjectModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
+  const user = useSelector((state)=>state.currentUser)
+  const isAdminUser = checkIfUserIsAdmin(user)
   const handleModalOpen = () => setModalOpen(true);
   const currentProject = useSelector((state)=>state.project)
   const availableMembers = useSelector((state)=>state.availableMembers)
@@ -108,102 +121,106 @@ const handleAlertClose=(e,reason)=>{
     setAlertOpen(false);
 }
   return (
-    <div>
-    <Button onClick={handleModalOpen}>Edit Project</Button>
-    <Modal
-      open={modalOpen}
-      onClose={handleModalClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box sx={style}>
-      <form onSubmit={(event) => handleFormSubmit(event)}> 
-            <TextField
-            required 
-            label="Title"
-            defaultValue={formInputData.title}
-            onChange={handleInputChange}
-            id='title'
-            />
-            <TextField
-            required
-            id="description"
-            label="Description"
-            description={formInputData.description}
-            minRows={8}
-            defaultValue={formInputData.description}
-            onChange={handleInputChange}
-            //multiline
-            //error comes when multiline is added
-            />
-        <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-chip-label">Members</InputLabel>
-        <Select
-          labelId="demo-multiple-chip-label"
-          id="demo-multiple-chip"
-          name={'members'}
-          multiple
-          value={formInputData.members||[]}//set to current personName list
-          onChange={handleInputChange}
-          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-          renderValue={(selected) => (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {selected.map((value) => (
-                <Chip  key={value} avatar={<Avatar></Avatar>} />
-              ))}
-            </Box>
-          )}
-          MenuProps={MenuProps}
+    <>
+      {isAdminUser ? 
+      <>
+        <Button onClick={handleModalOpen}>Edit Project</Button>
+        <Modal
+          open={modalOpen}
+          onClose={handleModalClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
         >
-          {availableMembers.map((user) => (
-            <MenuItem
-              key={user._id}
-              value={user._id}
-              label={user.email}
+          <Box sx={style}>
+          <form onSubmit={(event) => handleFormSubmit(event)}> 
+                <TextField
+                required 
+                label="Title"
+                defaultValue={formInputData.title}
+                onChange={handleInputChange}
+                id='title'
+                />
+                <TextField
+                required
+                id="description"
+                label="Description"
+                description={formInputData.description}
+                minRows={8}
+                defaultValue={formInputData.description}
+                onChange={handleInputChange}
+                //multiline
+                //error comes when multiline is added
+                />
+            <FormControl sx={{ m: 1, width: 300 }}>
+            <InputLabel id="demo-multiple-chip-label">Members</InputLabel>
+            <Select
+              labelId="demo-multiple-chip-label"
+              id="demo-multiple-chip"
+              name={'members'}
+              multiple
+              value={formInputData.members||[]}//set to current personName list
+              onChange={handleInputChange}
+              input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip  key={value} avatar={<Avatar></Avatar>} />
+                  ))}
+                </Box>
+              )}
+              MenuProps={MenuProps}
             >
-               <Checkbox checked={formInputData.members.includes(user._id)} />
-              <ListItemText  key={user._id} primary={user.email} />
-            </MenuItem>
-          ))}
-        </Select>
-        </FormControl>
-        <TextField
-          id="start"
-          label='Start'
-          name='start'
-          type="date"
-          defaultValue={dayjs(formInputData.startDate).format('YYYY-MM-DD')}
-          sx={{ width: 220 }}
-          InputLabelProps={{
-          shrink: true,
-          }}
-          onChange={handleInputChange}
-        />
-        <TextField
-          id="deadline"
-          label='Deadline'
-          name='deadline'
-          type="date"
-          defaultValue={dayjs(formInputData.deadline).format('YYYY-MM-DD')}
-          sx={{ width: 220 }}
-          InputLabelProps={{
-          shrink: true,
-          }}
-          onChange={handleInputChange}
-        />
-      <Button variant="contained" onClick={(e)=>{handleFormSubmit(e)}}>
-          Submit
-        </Button>  
-      </form>
-      </Box>
-    </Modal>
-    <Snackbar open={alertOpen} autoHideDuration={2000} onClose={handleAlertClose}>
-        <Alert onClose={handleAlertClose} variant="filled" severity="success" sx={{ width: '100%' }}>
-            Project {currentProject.title} was successfully edited          
-        </Alert>
-    </Snackbar>
-  </div>
+              {availableMembers.map((user) => (
+                <MenuItem
+                  key={user._id}
+                  value={user._id}
+                  label={user.email}
+                >
+                   <Checkbox checked={formInputData.members.includes(user._id)} />
+                  <ListItemText  key={user._id} primary={user.email} />
+                </MenuItem>
+              ))}
+            </Select>
+            </FormControl>
+            <TextField
+              id="start"
+              label='Start'
+              name='start'
+              type="date"
+              defaultValue={dayjs(formInputData.startDate).format('YYYY-MM-DD')}
+              sx={{ width: 220 }}
+              InputLabelProps={{
+              shrink: true,
+              }}
+              onChange={handleInputChange}
+            />
+            <TextField
+              id="deadline"
+              label='Deadline'
+              name='deadline'
+              type="date"
+              defaultValue={dayjs(formInputData.deadline).format('YYYY-MM-DD')}
+              sx={{ width: 220 }}
+              InputLabelProps={{
+              shrink: true,
+              }}
+              onChange={handleInputChange}
+            />
+          <Button variant="contained" onClick={(e)=>{handleFormSubmit(e)}}>
+              Submit
+            </Button>  
+          </form>
+          </Box>
+        </Modal>
+        <Snackbar open={alertOpen} autoHideDuration={2000} onClose={handleAlertClose}>
+            <Alert onClose={handleAlertClose} variant="filled" severity="success" sx={{ width: '100%' }}>
+                Project {currentProject.title} was successfully edited          
+            </Alert>
+        </Snackbar>
+      </>
+        :
+      <></>}
+    </>
   )
 }
-
 export default EditProjectModal
