@@ -90,7 +90,6 @@ const handleDeleteClick=async(e)=>{
         :<h1>Loading</h1>
       }
     </>
-    
   )
 }
 

@@ -1,18 +1,21 @@
 import React from 'react'
-import {Box,Checkbox,Typography} from '@mui/material';
+import {Box,Button,Checkbox,Typography} from '@mui/material';
 import Container from '@mui/material/Container';
 import { useDispatch, useSelector } from 'react-redux';
 import { DataGrid } from '@mui/x-data-grid';
-import { selectedBug } from '../../redux/actions/bugActions';
-import BugComments from '../Bugs/BugComments/BugComments';
+import { removeSelectedBug, selectedBug } from '../../redux/actions/bugActions';
 import { selectedProject } from '../../redux/actions/projectActions';
-import { setComments } from '../../redux/actions/commentActions';
+import { removeComments, setComments } from '../../redux/actions/commentActions';
 import api from '../../api';
+import { useNavigate } from 'react-router';
 
-const checkForAssignedBugs=(user)=>{
-  if(user){
-    if(user.assignedBugs){
-      if(user.assignedBugs.length>0){
+const checkForProjectBugs = (bugs) => {
+  if (bugs)
+  {
+    if (bugs.length)
+    {
+      if (bugs.length > 0)
+      {
         return true
       }
     }
@@ -23,11 +26,14 @@ const checkForAssignedBugs=(user)=>{
 const DeveloperDashboard = () => {
     const currentUser= useSelector((state)=>state.currentUser)
     const allBugs = useSelector((state)=>state.allBugs.bugs)
+    const projectBugs = allBugs.filter((bug)=> bug.projectID._id == currentUser.project[0]._id)
+    const hasProjectBugs = checkForProjectBugs(projectBugs);
     //return only bugs that match the user project id
     //const projectBugs= allBugs.filter(bug=>bug.projectID._id==currentUser.project[0]._id)
     const projects = useSelector((state)=>state.allProjects.projects)
     const dispatch = useDispatch()
-    const checkIfUserHasAProject=(user,projects)=>{
+    const navigate = useNavigate()
+    const checkIfUserHasAProject=(user)=>{
       if(user){
         if(user.project){
           if(user.project[0]){
@@ -38,8 +44,23 @@ const DeveloperDashboard = () => {
       }
       return false
     }
-    const doesUserHaveAProject=checkIfUserHasAProject(currentUser,projects)
+    const doesUserHaveAProject=checkIfUserHasAProject(currentUser)
+    
+    const sendToProjectPage = () =>{
+      const projectID = currentUser.project[0]._id
+        dispatch(removeSelectedBug())
+        dispatch(removeComments())
+        navigate(`/projects/${projectID}`)
+    }
 
+    const sendToBug = async(bugID) =>{
+        const bug = await api.bugs.fetchBug(bugID)
+        dispatch(selectedBug(bug))
+        const updatedComments = await api.comments.fetchBugComments(bug._id)        
+        dispatch(setComments(updatedComments))
+        const projectID = currentUser.project[0]._id
+        navigate(`/projects/${projectID}`)
+    }
     const handleRowClick=async(e)=>{
       let bug = {...e.row}
       bug.projectID= e.row.projectID._id
@@ -67,7 +88,20 @@ const DeveloperDashboard = () => {
         <Checkbox  checked={userIsAssigned()} disabled variant="outlined" ></Checkbox>
         )
       }},
-      { field: '_id', headerName: 'ID', width: 90 },
+      // { field: '_id', headerName: 'ID', width: 90 },
+      {
+        field: 'visit',
+        headerName: 'Visit',
+        width: 150,
+        renderCell:(params)=>{
+          return(
+            <>
+              <Button onClick={(e)=> sendToBug(params.row._id)}>View</Button>
+            </>
+          )
+          
+        }
+      },
       {
         field: 'title',
         headerName: 'Title',
@@ -98,6 +132,7 @@ const DeveloperDashboard = () => {
           width: 100,
           editable: true,
         },
+
     ];
   return (
     <>
@@ -123,23 +158,28 @@ const DeveloperDashboard = () => {
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
             {currentUser.project[0].description}
             </Typography>
+            <Button onClick={(e) => sendToProjectPage(e)}>Go to project page</Button>
             <Box sx={{ height: 400, 
               width: '98%',display:{xs:'block',sm:'block',md:'block', lg:'flex'}}}
               >
-              <>
-                <DataGrid
-                  rows={allBugs}
-                  getRowId={(row)=>row._id}
-                  columns={bugColumns}
-                  pageSize={5}
-                  rowsPerPageOptions={[5]}
-                  onRowClick={handleRowClick}
-                  experimentalFeatures={{ newEditingApi: true }}
-                  // components={{Toolbar:ProjectDataGridTitle}}
-                />
-              </>
+                {hasProjectBugs ? 
+                  <>
+                  <DataGrid
+                    rows={projectBugs}
+                    getRowId={(row)=>row._id}
+                    columns={bugColumns}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                    onRowClick={handleRowClick}
+                    experimentalFeatures={{ newEditingApi: true }}
+                    // components={{Toolbar:ProjectDataGridTitle}}
+                  />
+                </>
+                  :
+                <> This project does not have any bugs.</>
+                }
+            
             </Box>
-            <BugComments/>
           </Container>
         </Box>
     </>
