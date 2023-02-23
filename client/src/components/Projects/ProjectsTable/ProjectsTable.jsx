@@ -20,7 +20,7 @@ import { setMessage } from "../../../redux/actions/messageActions";
 
 const ProjectsTable = () => {
   const projects = useSelector((state) => state.allProjects.projects);
-  const currentUser = useSelector((state) => state.currentUser )
+  const currentUser = useSelector((state) => state.currentUser);
   const hasProjects = projects.length > 0;
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -97,25 +97,22 @@ const ProjectsTable = () => {
                       View
                     </Button>
                   </TableCell>
-                  {
-                    currentUser.role === 'Admin' ? 
-                      <>
-                        <TableCell align="right">
-                          <Button
-                            onClick={handleDeleteClick}
-                            variant="contained"
-                            color="error"
-                            data-key={project._id}
-                          >
-                            Delete
-                          </Button>
-                        </TableCell>
-                      </>
-                      :
-                      <></>
-                    
-                  }
-                  
+                  {currentUser.role === "Admin" ? (
+                    <>
+                      <TableCell align="right">
+                        <Button
+                          onClick={handleDeleteClick}
+                          variant="contained"
+                          color="error"
+                          data-key={project._id}
+                        >
+                          Delete
+                        </Button>
+                      </TableCell>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                 </TableRow>
               ))}
             </TableBody>

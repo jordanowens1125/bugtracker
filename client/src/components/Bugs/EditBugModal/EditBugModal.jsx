@@ -31,9 +31,9 @@ const style = {
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '25px',
+  display: "flex",
+  flexDirection: "column",
+  gap: "25px",
 };
 
 const ITEM_HEIGHT = 48;
@@ -63,7 +63,7 @@ const EditBugModal = () => {
   const handleModalOpen = () => setModalOpen(true);
   const currentBug = useSelector((state) => state.currentBug);
   const project = useSelector((state) => state.project);
-  const relativeBugs = project.bugs.filter(bug=> bug._id !== currentBug._id)
+  const relativeBugs = project.bugs.filter((bug) => bug._id !== currentBug._id);
   const members = project.members || false;
   //we will use this project to populate the potential members who can
   //be assigned this project
@@ -127,7 +127,9 @@ const EditBugModal = () => {
     dispatch(setProjects(newProjects));
     const newUsers = await api.users.fetchUsers();
     dispatch(setUsers(newUsers));
-    dispatch(setMessage(`Bug ${formInputData.title} was successfully updated!`));
+    dispatch(
+      setMessage(`Bug ${formInputData.title} was successfully updated!`)
+    );
     setModalOpen(false);
   };
 

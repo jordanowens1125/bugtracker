@@ -43,7 +43,7 @@ function BugDataGridTitle() {
 const DeveloperDashboard = () => {
   const currentUser = useSelector((state) => state.currentUser);
   const allBugs = useSelector((state) => state.allBugs.bugs);
-  
+
   //return only bugs that match the user project id
   //const projectBugs= allBugs.filter(bug=>bug.projectID._id==currentUser.project[0]._id)
   const projects = useSelector((state) => state.allProjects.projects);
@@ -215,18 +215,18 @@ const DeveloperDashboard = () => {
                   },
                 }}
               >
-                  <>
-                    <DataGrid
-                      rows={projectBugs}
-                      getRowId={(row) => row._id}
-                      columns={bugColumns}
-                      pageSize={5}
-                      rowsPerPageOptions={[5]}
-                      onRowClick={handleRowClick}
-                      experimentalFeatures={{ newEditingApi: true }}
-                      components={{Toolbar:BugDataGridTitle}}
-                    />
-                  </>
+                <>
+                  <DataGrid
+                    rows={projectBugs}
+                    getRowId={(row) => row._id}
+                    columns={bugColumns}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                    onRowClick={handleRowClick}
+                    experimentalFeatures={{ newEditingApi: true }}
+                    components={{ Toolbar: BugDataGridTitle }}
+                  />
+                </>
               </Box>
             </Container>
           </Box>
@@ -241,8 +241,9 @@ const DeveloperDashboard = () => {
               color="text.primary"
               gutterBottom
             >
-                No project currently assigned! Feel free to join a public project below until another is assigned.
-                <Unassigned/>
+              No project currently assigned! Feel free to join a public project
+              below until another is assigned.
+              <Unassigned />
             </Typography>
           </Box>
         </>

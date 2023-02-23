@@ -29,7 +29,7 @@ const UserDashboard = () => {
       )}
       {isUserAViewer ? (
         <>
-          <ViewerDashboard/>
+          <ViewerDashboard />
         </>
       ) : (
         <></>

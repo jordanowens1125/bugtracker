@@ -10,9 +10,9 @@ const Comment = ({ comment }) => {
   return (
     <>
       <div className={isThisACurrentUserComment ? "message own" : "message"}>
-          {/* <img className='messageImg' src={comment._id} alt='' /> */}
-          <h5>{comment.creator.email}</h5>
-          <div className="messageText">{comment.text}</div>
+        {/* <img className='messageImg' src={comment._id} alt='' /> */}
+        <h5>{comment.creator.email}</h5>
+        <div className="messageText">{comment.text}</div>
       </div>
     </>
   );

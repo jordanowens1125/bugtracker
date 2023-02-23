@@ -92,21 +92,20 @@ const SignIn = () => {
   const GoogleLogin = async (e) => {
     try {
       const result = await googleSignIn();
-      const newUser = {}
-      newUser.name = result.user.displayName
-      newUser.uid = result.user.uid
-      newUser.email = result.user.email
-      newUser.photoURL = result.user.photoURL
+      const newUser = {};
+      newUser.name = result.user.displayName;
+      newUser.uid = result.user.uid;
+      newUser.email = result.user.email;
+      newUser.photoURL = result.user.photoURL;
       //use api to find or create a user
       //will use result.user displayName, photoURL, email, uid
       const userToBeFoundOrCreated = await api.users.findOrCreateUser(newUser);
-      dispatch(selectedUser(userToBeFoundOrCreated))
-      //in case we have to create a new member lets get users and set them again 
-      const updatedUsers = await api.users.fetchUsers()
-      dispatch(setUsers(updatedUsers))
+      dispatch(selectedUser(userToBeFoundOrCreated));
+      //in case we have to create a new member lets get users and set them again
+      const updatedUsers = await api.users.fetchUsers();
+      dispatch(setUsers(updatedUsers));
       navigate(`/`);
-    } catch (error) {
-    }
+    } catch (error) {}
   };
   return (
     <ThemeProvider theme={theme}>

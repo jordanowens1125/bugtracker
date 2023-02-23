@@ -1,0 +1,18 @@
+.project-dashboard{
+    /* display:flex; */
+    width:100%;
+    align-items: center;
+    gap: 20px;
+}
+.timeline{
+    grid-area: 'timeline';
+}
+.project-members{
+    padding:10px;
+    grid-area: 'members';
+}
+
+.project-bugs{
+    padding:10px;
+    grid-area:'bugs';
+}

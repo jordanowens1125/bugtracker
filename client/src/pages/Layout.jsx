@@ -14,8 +14,8 @@ import GroupIcon from "@mui/icons-material/Group";
 import PestControlIcon from "@mui/icons-material/PestControl";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import Menu from "@mui/material/Menu";
-import MenuItem from '@mui/material/MenuItem'
-import { clearMessage,setMessage } from "../redux/actions/messageActions";
+import MenuItem from "@mui/material/MenuItem";
+import { clearMessage, setMessage } from "../redux/actions/messageActions";
 import { removeSelectedUser } from "../redux/actions/userActions";
 //home was excluded from list
 
@@ -33,8 +33,8 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 const Navbar = () => {
   const currentUser = useSelector((state) => state.currentUser);
   const { user, logOut } = useUserAuth();
-  const messageInfo = useSelector((state) => state.message)
-  const dispatch = useDispatch()
+  const messageInfo = useSelector((state) => state.message);
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
@@ -43,29 +43,29 @@ const Navbar = () => {
     if (reason === "clickaway") {
       return;
     }
-    dispatch(clearMessage())
+    dispatch(clearMessage());
   };
 
   const handleClick = (e) => {
     //set open to show dropdown
     setAnchorEl(e.currentTarget);
-  }
+  };
 
   const handleClose = () => {
-    setAnchorEl(null)
-  }
-  
+    setAnchorEl(null);
+  };
+
   const navigateToProfile = () => {
-    handleClose()
-    navigate(`/users/${currentUser._id}`)
-  }
+    handleClose();
+    navigate(`/users/${currentUser._id}`);
+  };
 
   const signOut = async () => {
     try {
-      await logOut()
+      await logOut();
       dispatch(removeSelectedUser());
       dispatch(setMessage(`You have successfully signed out!`));
-      handleClose()
+      handleClose();
       navigate("/signin");
     } catch (e) {
       console.log("Error: ", e);
@@ -110,7 +110,6 @@ const Navbar = () => {
               )}
 
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                
                 {user && (
                   <>
                     <Button
@@ -139,7 +138,6 @@ const Navbar = () => {
         </Box>
 
         //sidebar for devices with xs width
-        
       )}
 
       {/* Popup to show status or crud operations  */}

@@ -15,7 +15,7 @@ import api from "../api/index";
 const Project = () => {
   const projectID = useParams().id;
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     if (projectID && projectID !== "") {
       const fetchProjectDetails = async () => {
@@ -26,12 +26,12 @@ const Project = () => {
       };
       fetchProjectDetails();
       return () => {
-        dispatch(removeSelectedProject())
-        dispatch(removeAvailableMembers())
-        dispatch(removeSelectedBug())
+        dispatch(removeSelectedProject());
+        dispatch(removeAvailableMembers());
+        dispatch(removeSelectedBug());
       };
     }
-  }, [projectID,dispatch]);
+  }, [projectID, dispatch]);
   return (
     <>
       <EditProjectModal />

@@ -73,7 +73,7 @@ const CreateProjectModal = () => {
   const unAssignedUsers = useSelector(
     (state) => state.allUsers.unAssignedUsers
   );
-  
+
   const [formInputData, setFormInputData] = useState({
     title: "",
     description: "",
@@ -124,7 +124,9 @@ const CreateProjectModal = () => {
     dispatch(setProjects(newProjects));
     const newUsers = await api.users.fetchUsers();
     dispatch(setUsers(newUsers));
-    dispatch(setMessage(`Project ${newInputValue.title} has been successfully created`))
+    dispatch(
+      setMessage(`Project ${newInputValue.title} has been successfully created`)
+    );
     setModalOpen(false);
     setFormInputData({
       title: "",
@@ -135,7 +137,7 @@ const CreateProjectModal = () => {
       history: [],
       members: [],
       bugs: [],
-      client: '',
+      client: "",
       public: true,
     });
   };
@@ -150,7 +152,7 @@ const CreateProjectModal = () => {
       {userIsAnAdmin ? (
         <>
           <div>
-            <Button variant="contained"  onClick={handleModalOpen}>
+            <Button variant="contained" onClick={handleModalOpen}>
               Create Project
             </Button>
             <Modal
@@ -160,116 +162,110 @@ const CreateProjectModal = () => {
               aria-describedby="modal-modal-description"
             >
               <Box sx={style}>
-                  <TextField
-                    required
-                    label="Title"
-                    defaultValue=""
-                    title={formInputData.title}
+                <TextField
+                  required
+                  label="Title"
+                  defaultValue=""
+                  title={formInputData.title}
+                  onChange={handleInputChange}
+                  id="title"
+                />
+                <TextField
+                  required
+                  id="description"
+                  label="Description"
+                  description={formInputData.description}
+                  minRows={8}
+                  defaultValue=""
+                  onChange={handleInputChange}
+                  //multiline
+                  //error comes when multiline is added
+                />
+                <FormControl>
+                  <InputLabel id="demo-multiple-chip-label">Members</InputLabel>
+                  <Select
+                    labelId="demo-multiple-chip-label"
+                    id="demo-multiple-chip"
+                    name={"members"}
+                    multiple
+                    value={formInputData.members || []} //set to current personName list
                     onChange={handleInputChange}
-                    id="title"
-                  />
-                  <TextField
-                    required
-                    id="description"
-                    label="Description"
-                    description={formInputData.description}
-                    minRows={8}
-                    defaultValue=""
-                    onChange={handleInputChange}
-                    //multiline
-                    //error comes when multiline is added
-                  />
-                  <FormControl >
-                    <InputLabel id="demo-multiple-chip-label">
-                      Members
-                    </InputLabel>
-                    <Select
-                      labelId="demo-multiple-chip-label"
-                      id="demo-multiple-chip"
-                      name={"members"}
-                      multiple
-                      value={formInputData.members || []} //set to current personName list
-                      onChange={handleInputChange}
-                      input={
-                        <OutlinedInput id="select-multiple-chip" label="Chip" />
-                      }
-                      renderValue={(selected) => (
-                        <Box
-                          sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}
-                        >
-                          {selected.map((value) => (
-                            <Chip key={value} label={value} />
-                          ))}
-                        </Box>
-                      )}
-                      MenuProps={MenuProps}
-                    >
-                      {unAssignedUsers.map((user) => (
-                        <MenuItem
-                          key={user._id}
-                          value={user.email}
-                          style={getStyles(user, user.email, theme)}
-                        >
-                          {user.email}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  <TextField
-                    id="start"
-                    label="Start"
-                    name="start"
-                    type="date"
-                    defaultValue={formInputData.startDate}
-                    
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={handleInputChange}
-                  />
-                  <TextField
-                    id="deadline"
-                    label="Deadline"
-                    name="deadline"
-                    type="date"
-                    defaultValue={formInputData.deadline}
-                    
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={handleInputChange}
-                  />
-                  <FormControl>
-                    <FormLabel id="demo-controlled-radio-buttons-group">
-                      Public/Private
-                    </FormLabel>
-                    <RadioGroup
-                      aria-labelledby="demo-controlled-radio-buttons-group"
-                      name="public"
-                      id='public'
-                      value={formInputData.public}
-                      onChange={handleInputChange}
-                    >
-                      <FormControlLabel
-                        value={true}
-                        control={<Radio />}
-                        label="Public"
-                      />
-                      <FormControlLabel
-                        value={false}
-                        control={<Radio />}
-                        label="Private"
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                  <Button
-                    variant="contained"
-                    onClick={(e) => {
-                      handleFormSubmit(e);
-                    }}
+                    input={
+                      <OutlinedInput id="select-multiple-chip" label="Chip" />
+                    }
+                    renderValue={(selected) => (
+                      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                        {selected.map((value) => (
+                          <Chip key={value} label={value} />
+                        ))}
+                      </Box>
+                    )}
+                    MenuProps={MenuProps}
                   >
-                    Submit
-                  </Button>
+                    {unAssignedUsers.map((user) => (
+                      <MenuItem
+                        key={user._id}
+                        value={user.email}
+                        style={getStyles(user, user.email, theme)}
+                      >
+                        {user.email}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <TextField
+                  id="start"
+                  label="Start"
+                  name="start"
+                  type="date"
+                  defaultValue={formInputData.startDate}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleInputChange}
+                />
+                <TextField
+                  id="deadline"
+                  label="Deadline"
+                  name="deadline"
+                  type="date"
+                  defaultValue={formInputData.deadline}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleInputChange}
+                />
+                <FormControl>
+                  <FormLabel id="demo-controlled-radio-buttons-group">
+                    Public/Private
+                  </FormLabel>
+                  <RadioGroup
+                    aria-labelledby="demo-controlled-radio-buttons-group"
+                    name="public"
+                    id="public"
+                    value={formInputData.public}
+                    onChange={handleInputChange}
+                  >
+                    <FormControlLabel
+                      value={true}
+                      control={<Radio />}
+                      label="Public"
+                    />
+                    <FormControlLabel
+                      value={false}
+                      control={<Radio />}
+                      label="Private"
+                    />
+                  </RadioGroup>
+                </FormControl>
+                <Button
+                  variant="contained"
+                  onClick={(e) => {
+                    handleFormSubmit(e);
+                  }}
+                >
+                  Submit
+                </Button>
               </Box>
             </Modal>
           </div>
