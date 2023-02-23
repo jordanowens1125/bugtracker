@@ -11,6 +11,3 @@ export const removeComments = () => {
     type: ActionTypes.REMOVE_COMMENTS,
   };
 };
-
-
-}
