@@ -103,8 +103,8 @@ const Register = () => {
       );
       const newInputValue = { ...formInputData };
       newInputValue.uid = response.user.uid;
-      newInputValue.name = response.user.displayName
-      console.log(response)
+      newInputValue.name = response.user.displayName;
+      console.log(response);
       setFormInputData({
         email: "",
         password: "",

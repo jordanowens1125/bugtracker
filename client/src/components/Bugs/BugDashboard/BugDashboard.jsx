@@ -3,15 +3,18 @@ import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
 import Paper from "@mui/material/Paper";
 import BugComments from "../BugComments/BugComments";
-import { removeSelectedBug, selectedBug, setBugs } from "../../../redux/actions/bugActions";
+import {
+  removeSelectedBug,
+  selectedBug,
+  setBugs,
+} from "../../../redux/actions/bugActions";
 import { Button, Typography } from "@mui/material";
 import EditBugModal from "../EditBugModal/EditBugModal";
 import { removeComments } from "../../../redux/actions/commentActions";
-import api from '../../../api/index'
+import api from "../../../api/index";
 import { selectedUser, setUsers } from "../../../redux/actions/userActions";
 import { setMessage } from "../../../redux/actions/messageActions";
 import { selectedProject } from "../../../redux/actions/projectActions";
-
 
 const checkBug = (bug) => {
   if (bug._id) {
@@ -40,13 +43,13 @@ const checkIfUserCanWorkOnBug = (bug) => {
   //for now only one person can be assigned to a bug at a time
   if (bug) {
     if (bug.assignedTo) {
-        if (bug.assignedTo.length === 0) { 
-          return true
-        }
+      if (bug.assignedTo.length === 0) {
+        return true;
+      }
     }
   }
-  return false
-}
+  return false;
+};
 
 const checkIfUserIsAssignedToBug = (bug, user) => {
   //make sure we have bug
@@ -55,17 +58,17 @@ const checkIfUserIsAssignedToBug = (bug, user) => {
     if (user) {
       //sometimes it takes a moment for the assignedTo to populate
       if (bug.assignedTo) {
-        for (let i = 0; i < bug.assignedTo.length; i++){
+        for (let i = 0; i < bug.assignedTo.length; i++) {
           if (bug.assignedTo[i]._id === user._id) {
-            return true
+            return true;
           }
         }
       }
     }
   }
-  
-  return false
-}
+
+  return false;
+};
 
 const BugDashboard = () => {
   const bug = useSelector((state) => state.currentBug);
@@ -78,69 +81,69 @@ const BugDashboard = () => {
   const user = useSelector((state) => state.currentUser);
   // const userIsAdmin = user.role === "Admin";
   const project = useSelector((state) => state.project);
-  const [userIsAdmin, setUserIsAdmin] = useState(false)
+  const [userIsAdmin, setUserIsAdmin] = useState(false);
   //if on project and not assigned to bug  and bug assigned to is empty then user can join
-  const [userCanEdit, setUserCanEdit] = useState(false)
+  const [userCanEdit, setUserCanEdit] = useState(false);
   // let userIsAssignedToProject = checkIfUserIsAssignedToProject(user, project);
   // let userCanEdit = userIsAssignedToProject && checkIfUserIsAssignedToBug(bug,user);
   //if assigned to bug or admin then they can edit
-  const [userCanJoin, setUserCanJoin] = useState(false)
+  const [userCanJoin, setUserCanJoin] = useState(false);
 
-  const handleJoinBugRequest = async() => {
-    const updatedUser = await api.users.assignBugToUser(user._id, bug._id)
-    const updatedBug = await api.bugs.fetchBug(bug._id)
+  const handleJoinBugRequest = async () => {
+    const updatedUser = await api.users.assignBugToUser(user._id, bug._id);
+    const updatedBug = await api.bugs.fetchBug(bug._id);
     const updatedUsers = await api.users.fetchUsers();
-    const updatedProject = await api.projects.fetchProject(bug.projectID)
+    const updatedProject = await api.projects.fetchProject(bug.projectID);
     const updatedBugs = await api.bugs.fetchBugs();
     dispatch(selectedUser(updatedUser));
     dispatch(selectedBug(updatedBug));
     dispatch(setUsers(updatedUsers));
-    dispatch(selectedProject(updatedProject.project))
+    dispatch(selectedProject(updatedProject.project));
     dispatch(setBugs(updatedBugs));
-    dispatch(
-      setMessage(`You have been assigned to bug ${updatedBug.title}`)
-    );
-  }
+    dispatch(setMessage(`You have been assigned to bug ${updatedBug.title}`));
+  };
 
   const handleLeaveBugRequest = async () => {
     const updatedUser = await api.users.unAssignBugFromUser(user._id, bug._id);
     const updatedBug = await api.bugs.fetchBug(bug._id);
-    const updatedUsers = await api.users.fetchUsers()
+    const updatedUsers = await api.users.fetchUsers();
     // const updatedProject = await api.projects.fetchProject(bug.projectID);
-    const updatedBugs = await api.bugs.fetchBugs()
+    const updatedBugs = await api.bugs.fetchBugs();
     dispatch(selectedUser(updatedUser));
     dispatch(selectedBug(updatedBug));
     dispatch(setUsers(updatedUsers));
-    dispatch(setBugs(updatedBugs))
-    dispatch(setMessage(`You have been unassigned from bug ${updatedBug.title}`));
+    dispatch(setBugs(updatedBugs));
+    dispatch(
+      setMessage(`You have been unassigned from bug ${updatedBug.title}`)
+    );
   };
 
   useEffect(() => {
     //is user admin?
-    if (user.role === 'Admin') {
-      setUserIsAdmin(true)
+    if (user.role === "Admin") {
+      setUserIsAdmin(true);
+    } else {
+      setUserIsAdmin(false);
     }
-    else {
-      setUserIsAdmin(false)
-    }
-    
+
     //can user join
-    if (checkIfUserIsAssignedToProject(user, project) && checkIfUserCanWorkOnBug(bug, user)) {
+    if (
+      checkIfUserIsAssignedToProject(user, project) &&
+      checkIfUserCanWorkOnBug(bug, user)
+    ) {
       //check if user is on project and if bug is not assigned to anyone
       //make sure this is not an admin
-      if (user.role !== 'Admin') {
-        setUserCanJoin(true)
+      if (user.role !== "Admin") {
+        setUserCanJoin(true);
       }
-    }
-    else {
-      setUserCanJoin(false)
+    } else {
+      setUserCanJoin(false);
     }
     //can user edit
     if (userIsAdmin || checkIfUserIsAssignedToBug(bug, user)) {
-      setUserCanEdit(true)
-    }
-    else {
-      setUserCanEdit(false)
+      setUserCanEdit(true);
+    } else {
+      setUserCanEdit(false);
     }
   }, [bug, user, project, userIsAdmin]);
   return (
@@ -208,31 +211,29 @@ const BugDashboard = () => {
                 padding: "2%",
               }}
             >
-              {  userCanEdit? 
+              {userCanEdit ? (
                 <>
                   <EditBugModal />
-                  {
-                    userIsAdmin ?
-                      <></>
-                      :
-                      <>
-                        <Button onClick={handleLeaveBugRequest}>Unassign self from bug</Button>
-                      </>
-                  }
+                  {userIsAdmin ? (
+                    <></>
+                  ) : (
+                    <>
+                      <Button onClick={handleLeaveBugRequest}>
+                        Unassign self from bug
+                      </Button>
+                    </>
+                  )}
                 </>
-                  :
+              ) : (
                 <></>
-              }
-              {
-                userCanJoin ?
-                  <>
-                    <Button onClick={handleJoinBugRequest}>
-                      Join
-                    </Button>
-                  </>
-                  :
-                  <></>
-              }
+              )}
+              {userCanJoin ? (
+                <>
+                  <Button onClick={handleJoinBugRequest}>Join</Button>
+                </>
+              ) : (
+                <></>
+              )}
               <Box
                 sx={{
                   display: "grid",
@@ -307,7 +308,6 @@ const BugDashboard = () => {
                     {bug.assignedTo.map((member) => (
                       // button that allows for unassign current member from bug if they are assigned to it
                       <div key={member}>{member.email}</div>
-                      
                     ))}
                   </div>
                 </Box>

@@ -16,8 +16,7 @@ const getUsers = async (req, res) => {
 
 const findOrCreateUser = async (req, res) => {
   try {
-    let foundUser = await User.findOne(
-      { email: req.body.email });
+    let foundUser = await User.findOne({ email: req.body.email });
     if (!foundUser) {
       foundUser = await User.create(req.body);
     }
@@ -50,7 +49,7 @@ const deleteUser = async (req, res) => {
       }
     );
     //update user comments to deleted user
-    // we want to keep the comments in case there is some useful 
+    // we want to keep the comments in case there is some useful
     await Comment.updateMany(
       { bugID: req.params.id },
       {
@@ -69,7 +68,7 @@ const deleteUser = async (req, res) => {
 const getUser = async (req, res) => {
   try {
     let id = req.params.id;
-    const user = await User.findById(id).populate('project');
+    const user = await User.findById(id).populate("project");
     res.status(200).json(user);
   } catch (error) {
     res.status(404).json({ message: error });
@@ -79,14 +78,12 @@ const getUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     let id = req.params.id;
-    const user = await User.findByIdAndUpdate(id, 
-      { 
-        role: req.body.role,
-        name: req.body.name,
-        photoURL : req.body.photoURL,
-        role: req.body.role,
-      }
-    );
+    const user = await User.findByIdAndUpdate(id, {
+      role: req.body.role,
+      name: req.body.name,
+      photoURL: req.body.photoURL,
+      role: req.body.role,
+    });
     res.status(200).json(user);
   } catch (error) {
     res.status(404).json({ message: error });
@@ -97,7 +94,7 @@ const assignBugToUser = async (req, res) => {
   try {
     const userID = req.body.userID;
     const bugID = req.body.bugID;
-    
+
     await Bug.findByIdAndUpdate(bugID, {
       $addToSet: {
         assignedTo: userID,
@@ -109,8 +106,8 @@ const assignBugToUser = async (req, res) => {
         assignedBugs: bugID,
       },
     });
-    
-    const user = await User.findById(userID).populate('project')
+
+    const user = await User.findById(userID).populate("project");
 
     res.status(200).json(user);
   } catch (error) {
@@ -144,24 +141,24 @@ const unAssignBugFromUser = async (req, res) => {
 
 const assignUserToProject = async (req, res) => {
   try {
-      //get projectid and userid
-      const userID = req.params.id
-      const projectID = req.body.projectID;
-      //and add user to project and and project to user
-      await Project.findByIdAndUpdate(projectID, {
+    //get projectid and userid
+    const userID = req.params.id;
+    const projectID = req.body.projectID;
+    //and add user to project and and project to user
+    await Project.findByIdAndUpdate(projectID, {
       $push: {
-          members: userID
-        }
-      })
-    
-      const user = await User.findByIdAndUpdate(userID, {
-        $push:{
-            project: projectID
-          }
-        })
-      res.status(200).json(user);
+        members: userID,
+      },
+    });
+
+    const user = await User.findByIdAndUpdate(userID, {
+      $push: {
+        project: projectID,
+      },
+    });
+    res.status(200).json(user);
   } catch (err) {
-      res.status(404).json({ message: err });
+    res.status(404).json({ message: err });
   }
 };
 

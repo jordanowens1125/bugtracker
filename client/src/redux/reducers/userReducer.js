@@ -85,6 +85,5 @@ export const currentUserReducer = createReducer({}, (builder) => {
     .addCase(ActionTypes.LOGOUT, (state, action) => {
       state = {};
       return {};
-    })
+    });
 });
-

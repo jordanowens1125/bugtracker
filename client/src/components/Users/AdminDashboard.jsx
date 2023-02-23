@@ -6,7 +6,7 @@ import CreateProjectModal from "../Projects/CreateProjectModal/CreateProjectModa
 import { useNavigate } from "react-router-dom";
 import { removeSelectedBug, setBugs } from "../../redux/actions/bugActions";
 import { removeComments } from "../../redux/actions/commentActions";
-import api from '../../api/index'
+import api from "../../api/index";
 import { setUsers } from "../../redux/actions/userActions";
 import { setProjects } from "../../redux/actions/projectActions";
 import { setMessage } from "../../redux/actions/messageActions";
@@ -40,14 +40,13 @@ const AdminDashboard = () => {
   //const [projectToDelete, setProjectToDelete] = useState({})
   //project confirm delete popup info
   const handleDeleteClick = async (e, row) => {
-    await api.projects.deleteProject(row)
-    dispatch(setMessage(`Project was successfully deleted!`))
-    const { bugs, projects, users } = await api.aggregate.getAll()
-    dispatch(setBugs(bugs))
-    dispatch(setProjects(projects))
-    dispatch(setUsers(users))
-    
-  }
+    await api.projects.deleteProject(row);
+    dispatch(setMessage(`Project was successfully deleted!`));
+    const { bugs, projects, users } = await api.aggregate.getAll();
+    dispatch(setBugs(bugs));
+    dispatch(setProjects(projects));
+    dispatch(setUsers(users));
+  };
   const columns = [
     {
       field: "title",

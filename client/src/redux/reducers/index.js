@@ -7,10 +7,7 @@ import {
 } from "./projectReducer";
 import { bugsReducer, selectedBugReducer } from "./bugReducer";
 import { commentsReducer } from "./commentsReducer";
-import {
-  usersReducer,
-  currentUserReducer,
-} from "./userReducer";
+import { usersReducer, currentUserReducer } from "./userReducer";
 import { messageReducer } from "./messageReducer";
 export default combineReducers({
   allProjects: projectsReducer,

@@ -22,7 +22,7 @@ import { setMessage } from "../../../redux/actions/messageActions";
 
 const BugsTable = () => {
   const bugs = useSelector((state) => state.allBugs.bugs);
-  const user = useSelector((state) => state.currentUser)
+  const user = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const hasBugs = bugs.length > 0;
@@ -89,8 +89,7 @@ const BugsTable = () => {
                       View
                     </Button>
                   </TableCell>
-                  {
-                    user.role === 'Admin' ?
+                  {user.role === "Admin" ? (
                     <>
                       <TableCell align="right">
                         <Button
@@ -103,10 +102,9 @@ const BugsTable = () => {
                         </Button>
                       </TableCell>
                     </>
-                    :
+                  ) : (
                     <></>
-                  }
-                  
+                  )}
                 </TableRow>
               ))}
             </TableBody>

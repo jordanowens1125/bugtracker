@@ -54,7 +54,9 @@ const UsersTable = () => {
                   </TableCell>
                   <TableCell align="center">{user.comments.length}</TableCell>
                   <TableCell align="center">
-                      <Link to={`${user._id}`}><Button variant="contained">View</Button></Link>
+                    <Link to={`${user._id}`}>
+                      <Button variant="contained">View</Button>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}
