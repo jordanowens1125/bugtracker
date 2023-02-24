@@ -61,11 +61,11 @@ const BugsTable = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Bug(Title) </TableCell>
-                <TableCell align="right">Open Date</TableCell>
-                <TableCell align="right">Priority</TableCell>
-                <TableCell align="right">Status</TableCell>
-                <TableCell align="right"></TableCell>
-                <TableCell align="right"></TableCell>
+                <TableCell align="left">Open Date</TableCell>
+                <TableCell align="left">Priority</TableCell>
+                <TableCell align="left">Status</TableCell>
+                <TableCell align="left"></TableCell>
+                <TableCell align="left"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -75,12 +75,12 @@ const BugsTable = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell>{bug.title}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align="left">
                     {dayjs(bug.openDate).format("YYYY-MM-DD")}
                   </TableCell>
-                  <TableCell align="right">{bug.priority}</TableCell>
-                  <TableCell align="right">{bug.status}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align="left">{bug.priority}</TableCell>
+                  <TableCell align="left">{bug.status}</TableCell>
+                  <TableCell align="left">
                     <Button
                       data-key={bug._id}
                       variant="contained"
@@ -91,7 +91,7 @@ const BugsTable = () => {
                   </TableCell>
                   {user.role === "Admin" ? (
                     <>
-                      <TableCell align="right">
+                      <TableCell align="left">
                         <Button
                           onClick={handleDeleteClick}
                           variant="contained"

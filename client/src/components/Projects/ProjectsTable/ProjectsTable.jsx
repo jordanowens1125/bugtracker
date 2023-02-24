@@ -65,12 +65,12 @@ const ProjectsTable = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Title </TableCell>
-                <TableCell align="right">Start Date</TableCell>
-                <TableCell align="right">Deadline</TableCell>
-                <TableCell align="right">Member Count</TableCell>
-                <TableCell align="right">Bug Count</TableCell>
-                <TableCell align="right"></TableCell>
-                <TableCell align="right"></TableCell>
+                <TableCell align="left">Start Date</TableCell>
+                <TableCell align="left">Deadline</TableCell>
+                <TableCell align="left">Member Count</TableCell>
+                <TableCell align="left">Bug Count</TableCell>
+                <TableCell align="left"></TableCell>
+                <TableCell align="left"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -80,15 +80,15 @@ const ProjectsTable = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell>{project.title}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align="left">
                     {dayjs(project.startDate).format("YYYY-MM-DD")}
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell align="left">
                     {dayjs(project.deadline).format("YYYY-MM-DD")}
                   </TableCell>
-                  <TableCell align="right">{project.members.length}</TableCell>
-                  <TableCell align="right">{project.bugs.length}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align="left">{project.members.length}</TableCell>
+                  <TableCell align="left">{project.bugs.length}</TableCell>
+                  <TableCell align="left">
                     <Button
                       onClick={(e) => handleEditClick(e)}
                       variant="contained"
@@ -99,7 +99,7 @@ const ProjectsTable = () => {
                   </TableCell>
                   {currentUser.role === "Admin" ? (
                     <>
-                      <TableCell align="right">
+                      <TableCell align="left">
                         <Button
                           onClick={handleDeleteClick}
                           variant="contained"
