@@ -52,8 +52,8 @@ const AdminDashboard = () => {
       field: "title",
       headerName: "Title",
       width: 250,
-      headAlign: "center",
-      align: "center",
+      headAlign: "left",
+      align: "left",
       renderCell: (params) => {
         return (
           <Button
@@ -69,16 +69,16 @@ const AdminDashboard = () => {
       field: "description",
       headerName: "Description",
       width: 450,
-      headerAlign: "center",
-      align: "center",
+      headerAlign: "left",
+      align: "left",
       editable: true,
     },
     {
       field: "bug",
       headerName: "Bugs",
       width: 200,
-      headerAlign: "center",
-      align: "center",
+      headerAlign: "left",
+      align: "left",
       renderCell: (params) => {
         const bugs = params.row.bugs;
         return <>{bugs.length}</>;
@@ -88,8 +88,8 @@ const AdminDashboard = () => {
       field: "Contributors",
       headerName: "Contributors",
       width: 200,
-      headerAlign: "center",
-      align: "center",
+      headerAlign: "left",
+      align: "left",
       renderCell: (params) => {
         const members = params.row.members;
         return <>{members.length}</>;

@@ -27,15 +27,15 @@ const UsersTable = () => {
             <TableHead>
               <TableRow>
                 {/* <TableCell>UID </TableCell> */}
-                <TableCell align="center">Email</TableCell>
-                <TableCell align="center">Email</TableCell>
-                <TableCell align="center">Role</TableCell>
-                <TableCell align="center">Assigned Project</TableCell>
-                <TableCell align="center">Assigned Bugs</TableCell>
-                <TableCell align="center">Comments</TableCell>
-                <TableCell align="center"></TableCell>
-                <TableCell align="center"></TableCell>
-                <TableCell align="center"></TableCell>
+                <TableCell align="left">Email</TableCell>
+                <TableCell align="left">Email</TableCell>
+                <TableCell align="left">Role</TableCell>
+                <TableCell align="left">Assigned Project</TableCell>
+                <TableCell align="left">Assigned Bugs</TableCell>
+                <TableCell align="left">Comments</TableCell>
+                <TableCell align="left"></TableCell>
+                <TableCell align="left"></TableCell>
+                <TableCell align="left"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -45,15 +45,15 @@ const UsersTable = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   {/* <TableCell component="th" scope="row">{user.uid} </TableCell> */}
-                  <TableCell align="center">{user.name}</TableCell>
-                  <TableCell align="center">{user.email}</TableCell>
-                  <TableCell align="center">{user.role}</TableCell>
-                  <TableCell align="center">{user.projectDisplay}</TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">{user.name}</TableCell>
+                  <TableCell align="left">{user.email}</TableCell>
+                  <TableCell align="left">{user.role}</TableCell>
+                  <TableCell align="left">{user.projectDisplay}</TableCell>
+                  <TableCell align="left">
                     {user.assignedBugs.length}
                   </TableCell>
-                  <TableCell align="center">{user.comments.length}</TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">{user.comments.length}</TableCell>
+                  <TableCell align="left">
                     <Link to={`${user._id}`}>
                       <Button variant="contained">View</Button>
                     </Link>
