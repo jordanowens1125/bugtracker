@@ -153,6 +153,8 @@ const BugComments = () => {
               sx={{
                 overflow: "hidden",
                 overflowY: "scroll",
+                maxHeight: '800px', 
+                position: 'relative'
               }}
             >
               <Grid item>
@@ -183,7 +185,9 @@ const BugComments = () => {
                     onSubmit={sendComment}
                     autoComplete="off"
                   >
-                    <FormControl sx={{ width: "100%", paddingRight: 1 }}>
+                    <FormControl sx={{
+                      width: "100%", paddingRight: 1,
+                    }}>
                       <TextField
                         id="text"
                         value={chatInput.text}
