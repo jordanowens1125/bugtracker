@@ -21,6 +21,9 @@ import {
 import { setUsers } from "../../../redux/actions/userActions";
 import { setMessage } from "../../../redux/actions/messageActions";
 
+const MAX_TITLE_LENGTH = 15;
+const MAX_DESCRIPTION_LENGTH = 200;
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -98,18 +101,17 @@ const EditBugModal = () => {
   const handleInputChange = (e) => {
     const inputFieldValue = e.target.value;
     const inputFieldName = e.target.id || e.target.name; //target name for the bugs select
-    //if name is start or deadline change format to string
-    let newInputValue = { ...formInputData };
-    if (inputFieldName === "assignedTo") {
-      if (inputFieldValue !== "") {
-        //since the bug can only be set to one assigned person we will just update the first item in list
-        newInputValue[inputFieldName] = [inputFieldValue];
-      } else {
-        newInputValue = { ...formInputData, [inputFieldName]: [] };
-      }
-    } else {
-      newInputValue = { ...formInputData, [inputFieldName]: inputFieldValue };
-    }
+    if (inputFieldName === "title" && inputFieldValue.length > MAX_TITLE_LENGTH)
+      return;
+    if (
+      inputFieldName === "description" &&
+      inputFieldValue.length > MAX_DESCRIPTION_LENGTH
+    )
+      return;
+    const newInputValue = {
+      ...formInputData,
+      [inputFieldName]: inputFieldValue,
+    };
     setFormInputData(newInputValue);
   };
 
@@ -143,7 +145,11 @@ const EditBugModal = () => {
   return (
     <>
       <>
-        <Button sx={{ width: "100%" }} onClick={handleModalOpen}>
+        <Button
+          sx={{ width: "100%" }}
+          onClick={handleModalOpen}
+          aria-label="Open form to edit bug"
+        >
           Edit Bug
         </Button>
         <Modal
@@ -160,6 +166,7 @@ const EditBugModal = () => {
               title={formInputData.title}
               onChange={handleInputChange}
               id="title"
+              placeholder={`Character limit is ${MAX_TITLE_LENGTH}`}
             />
             <FormControl>
               <TextField
@@ -170,8 +177,8 @@ const EditBugModal = () => {
                 minRows={8}
                 defaultValue={formInputData.description}
                 onChange={handleInputChange}
-                //multiline
-                //error comes when multiline is added
+                multiline
+                placeholder={`Character limit is ${MAX_DESCRIPTION_LENGTH}`}
               />
             </FormControl>
             <FormControl>
@@ -193,7 +200,7 @@ const EditBugModal = () => {
             </FormControl>
             {members ? (
               <FormControl>
-                <InputLabel id="demo-multiple-name-label">Assign</InputLabel>
+                <InputLabel id="demo-multiple-name-label">Assign To</InputLabel>
                 <Select
                   id="assignedTo"
                   name="assignedTo"
@@ -251,6 +258,7 @@ const EditBugModal = () => {
               type="submit"
               value="Submit"
               variant="contained"
+              aria-label="Submit edit form button"
               onClick={(e) => {
                 handleFormSubmit(e);
               }}

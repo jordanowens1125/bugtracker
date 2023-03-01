@@ -31,12 +31,10 @@ function App() {
     const unsubscribe = onAuthStateChanged(getAuth(), setUser);
 
     async function fetchData() {
-      const users = await api.users.fetchUsers();
-      dispatch(setUsers(users));
-      const projects = await api.projects.fetchProjects();
-      dispatch(setProjects(projects));
-      const bugs = await api.bugs.fetchBugs();
-      dispatch(setBugs(bugs));
+      const all = await api.aggregate.getAll()
+      dispatch(setUsers(all.users));
+      dispatch(setProjects(all.projects));
+      dispatch(setBugs(all.bugs));
     }
 
     fetchData();

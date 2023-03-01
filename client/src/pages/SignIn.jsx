@@ -25,7 +25,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="https://mui.com/" aria-label="Link to Material UI">
         Bug Tracker
       </Link>{" "}
       {new Date().getFullYear()}
@@ -126,6 +126,7 @@ const SignIn = () => {
             Log In
           </Typography>
           <Button
+            aria-label="Login as a demo developer"
             onClick={SignInAsDemoDeveloper}
             fullWidth
             variant="outlined"
@@ -134,6 +135,7 @@ const SignIn = () => {
             Log In as demo developer
           </Button>
           <Button
+            aria-label="Login as a demo admin"
             onClick={SignInAsDemoAdmin}
             fullWidth
             variant="outlined"
@@ -148,6 +150,7 @@ const SignIn = () => {
           )}
           <Button
             onClick={GoogleLogin}
+            aria-label="Login with google"
             type="submit"
             fullWidth
             variant="contained"
@@ -156,6 +159,7 @@ const SignIn = () => {
             Login with Google
           </Button>
           <Button
+            aria-label="Sign up with google"
             type="submit"
             fullWidth
             variant="contained"

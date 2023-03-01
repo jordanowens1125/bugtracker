@@ -11,7 +11,6 @@ import { setComments } from '../../redux/actions/commentActions'
 import {selectedProject,setProjects} from '../../redux/actions/projectActions'
 import {setUsers} from '../../redux/actions/userActions'
 import CreateBugModal from '../Bugs/CreateBugModal/CreateBugModal'
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import BugDashboard from '../Bugs/BugDashboard/BugDashboard'
 
 function BugsDataGridTitle() {
@@ -27,7 +26,7 @@ function BugsDataGridTitle() {
 const checkIfUserIsAdmin = (user) => {
   if (user)
   {
-    if (user.role == 'admin')
+    if (user.role === 'Admin')
     {
       return true
     }
@@ -52,22 +51,16 @@ function MembersDataGridTitle() {
     }
   }
 
-  function openEditModalForBug(e){
-    console.log(e)
-  }
-
   const findMatchingBug=(bugID,bugs)=>{
     for(let i=0;i<bugs.length;i++){
-        if(bugs[i]._id==bugID){
+        if(bugs[i]._id===bugID){
             return bugs[i]
         }
     }
-    console.log(false)
   }
 
 const ProjectDashboard = () => {
     const user = useSelector((state)=>state.currentUser)
-    const users = useSelector((state)=>state.allUsers)
     const isAdminUser = checkIfUserIsAdmin(user)
     const project =useSelector((state)=>state.project)
     const isCurrentProjectFilled = checkProject(project)
@@ -116,23 +109,28 @@ const ProjectDashboard = () => {
         field:'Remove User',
           width: 100,
           renderCell:(params)=>{
-            return(
+            return (
               <>
-                {isAdminUser ? 
-                <>
-                  <Button onClick={(e)=>removeUser(e,params.row)} variant="contained" color="error" >Remove</Button>
-                </>
-                :
-                <>
-                  -
-                </>}
+                {isAdminUser ? (
+                  <>
+                    <Button
+                      onClick={(e) => removeUser(e, params.row)}
+                      variant="contained"
+                      color="error"
+                      aria-label="Remove user from project"
+                    >
+                      Remove
+                    </Button>
+                  </>
+                ) : (
+                  <>-</>
+                )}
               </>
-            )
+            );
           }
         }
     ];
     const handleRowClick=async(e,row)=>{
-        //console.log(row)
         const foundBug = findMatchingBug(row._id,bugs)
         dispatch(selectedBug(foundBug))
         const updatedComments = await api.comments.fetchBugComments(foundBug._id)
@@ -142,12 +140,21 @@ const ProjectDashboard = () => {
       {
         field:'title',
         headerName: 'Title',
-        width: 225,
+        width: 300,
         headerAlign: 'center',
         align:'center',
         renderCell:(params)=>{
-          return(<Button variant='contained' key={params.id} onClick={(e)=>handleRowClick(e,params.row)}>{params.row.title}</Button>
-          )
+          return (
+            <Button
+              fullWidth
+              variant="contained"
+              key={params.id}
+              onClick={(e) => handleRowClick(e, params.row)}
+              aria-label="Populate selected bug below"
+            >
+              {params.row.title}
+            </Button>
+          );
         }
       }, 
         {
@@ -168,7 +175,7 @@ const ProjectDashboard = () => {
           <>
             <Box
               sx={{ 
-                height: 600, display:'grid',
+                height: 800, display:'grid',
                 minWidth:500,
               gridTemplateAreas:{
                 lg:`"users bugs"`,
@@ -203,7 +210,7 @@ const ProjectDashboard = () => {
               />
               <DataGrid
                 sx={{minWidth:500,
-                  minHeight:375,
+                  minHeight:500,
                   gridArea:'bugs',
                   }}
                 rows={project.bugs}

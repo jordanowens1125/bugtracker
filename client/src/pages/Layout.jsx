@@ -83,7 +83,7 @@ const Navbar = () => {
                 justifyContent: "space-around",
               }}
             >
-              <Link to="/">
+              <Link to="/" aria-label="Home">
                 <AdbIcon
                   sx={{
                     display: "flex",
@@ -94,16 +94,26 @@ const Navbar = () => {
               </Link>
 
               {pages.map((page) => (
-                <Link to={`/${page.name}`} key={page.name}>
-                  <Button sx={{ my: 2, color: "white", display: "block" }}>
+                <Link
+                  to={`/${page.name}`}
+                  key={page.name}
+                  aria-label={`Navigate to view ${page.name}`}
+                >
+                  <Button
+                    aria-label={`Go to ${page.name} page`}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
                     {page.name}
                   </Button>
                 </Link>
               ))}
 
               {!user && (
-                <Link to="/SignIn">
-                  <Button sx={{ my: 2, color: "white", display: "flex" }}>
+                <Link to="/SignIn" aria-label="Sign In">
+                  <Button
+                    aria-label="Sign In"
+                    sx={{ my: 2, color: "white", display: "flex" }}
+                  >
                     Sign In
                   </Button>
                 </Link>
@@ -113,6 +123,7 @@ const Navbar = () => {
                 {user && (
                   <>
                     <Button
+                      aria-label="Open User Options"
                       onClick={handleClick}
                       sx={{ my: 2, color: "white", display: "flex" }}
                     >
@@ -127,8 +138,15 @@ const Navbar = () => {
                         "aria-labelledby": "basic-button",
                       }}
                     >
-                      <MenuItem onClick={navigateToProfile}>Profile</MenuItem>
-                      <MenuItem onClick={signOut}>Logout</MenuItem>
+                      <MenuItem
+                        aria-label="Go to profile page"
+                        onClick={navigateToProfile}
+                      >
+                        Profile
+                      </MenuItem>
+                      <MenuItem aria-label="Sign Out" onClick={signOut}>
+                        Logout
+                      </MenuItem>
                     </Menu>
                   </>
                 )}

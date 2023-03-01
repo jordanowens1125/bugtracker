@@ -22,7 +22,6 @@ import {
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { setComments } from "../../../redux/actions/commentActions";
 import { InputAdornment } from "@mui/material";
-// import CancelIcon from "@mui/icons-material/Cancel";
 
 const bugHasComments = (bug) => {
   if (bug.comments) {
@@ -136,7 +135,7 @@ const BugComments = () => {
     <>
       {isThereACurrentBug ? (
         <Paper
-          elevation={5}
+          elevation={1}
           sx={{
             minWidth: 450,
             gridArea: "comments",
@@ -145,7 +144,10 @@ const BugComments = () => {
           }}
         >
           <Box p={3}>
-            <Button onClick={scrollToBottom}>
+            <Button
+              onClick={scrollToBottom}
+              aria-label="Scroll to bottom of comments"
+            >
               <ArrowDownwardIcon />
             </Button>
             <Divider sx={{ paddingTop: 2 }} />
@@ -153,8 +155,8 @@ const BugComments = () => {
               sx={{
                 overflow: "hidden",
                 overflowY: "scroll",
-                maxHeight: '800px', 
-                position: 'relative'
+                maxHeight: "800px",
+                position: "relative",
               }}
             >
               <Grid item>
@@ -185,9 +187,12 @@ const BugComments = () => {
                     onSubmit={sendComment}
                     autoComplete="off"
                   >
-                    <FormControl sx={{
-                      width: "100%", paddingRight: 1,
-                    }}>
+                    <FormControl
+                      sx={{
+                        width: "100%",
+                        paddingRight: 1,
+                      }}
+                    >
                       <TextField
                         id="text"
                         value={chatInput.text}
@@ -205,7 +210,7 @@ const BugComments = () => {
                                 <CancelIcon color="error" />
                               </IconButton> */}
                               <IconButton
-                                aria-label="send"
+                                aria-label="Submit new comment"
                                 color="primary"
                                 type="submit"
                               >

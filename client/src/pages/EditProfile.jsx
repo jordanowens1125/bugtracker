@@ -28,7 +28,7 @@ const style = {
 };
 
 const EditProfile = () => {
-    const {user,removeUser,updateUserPassword,reauthenticateUser,getSignInMethods,
+    const {user,removeUser,updateUserPassword,reauthenticateUser,
       googleSignIn,updateUserEmail,logOut} = useUserAuth()
     const dispatch=useDispatch()
     const methods = useSelector((state)=>state.loginMethods)
@@ -221,153 +221,170 @@ const deleteAccount=async()=>{
 }
   return (
     <>
-        <div>Edit Profile</div>
-        <Button onClick={changeEmail}>Change Email</Button>     
-        {hasPassword?
+      <div>Edit Profile</div>
+      <Button onClick={changeEmail}>Change Email</Button>
+      {hasPassword ? (
         <Button onClick={changePassword}>Change Password</Button>
-        :
-        <></>}           
-        <Button variant="outlined" onClick={handleDeleteOpen} color='error' startIcon={<DeleteIcon />}>
-          Delete Account
-        </Button>
-        {message && <Alert severity='success'>{message}</Alert>}
-        {emailpasswordError && <Alert severity="error">{emailpasswordError}</Alert>}
-        {open? 
+      ) : (
+        <></>
+      )}
+      <Button
+        variant="outlined"
+        onClick={handleDeleteOpen}
+        color="error"
+        startIcon={<DeleteIcon />}
+      >
+        Delete Account
+      </Button>
+      {message && <Alert severity="success">{message}</Alert>}
+      {emailpasswordError && (
+        <Alert severity="error">{emailpasswordError}</Alert>
+      )}
+      {open ? (
         <Modal
-        open={open}
-        onClose={handleClose}
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box component="form" sx={style} onSubmit={handleAuthentication}>
+            <div>
+              Please verify your credentials before editing your account!
+            </div>
+
+            {authenticationError && (
+              <Alert severity="error">{authenticationError}</Alert>
+            )}
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              onChange={handleAuthenticationChange}
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={handleAuthenticationChange}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Verify Credentials
+            </Button>
+            {hasGoogleAuth ? (
+              <Button
+                onClick={GoogleLogin}
+                fullWidth
+                variant="outlined"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Verify Credentials Through Google
+              </Button>
+            ) : (
+              <></>
+            )}
+          </Box>
+        </Modal>
+      ) : (
+        <></>
+      )}
+      {editEmail ? (
+        <Paper component="form" onSubmit={updateEmail}>
+          <div>
+            Enter your new email below. Upon completion you will be redirected
+            to the sign in page.
+          </div>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="newemail"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            onChange={handleEmailInputChange}
+            autoFocus
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Update Email
+          </Button>
+          <Button
+            fullWidth
+            onClick={cancelEdit}
+            variant="outlined"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Cancel
+          </Button>
+        </Paper>
+      ) : (
+        <></>
+      )}
+      {editPassword ? (
+        <Paper component="form" onSubmit={updatePassword}>
+          <div>Enter your new password</div>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="newpassword"
+            label="Password"
+            name="password"
+            onChange={handlePasswordInputChange}
+            autoFocus
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="validatepassword"
+            label="Re-enter new password"
+            name="password"
+            onChange={handlePasswordInputChange}
+            autoFocus
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Update Password
+          </Button>
+        </Paper>
+      ) : (
+        <></>
+      )}
+      <Button>
+        <Link href="/" variant="body2" aria-label="Home">
+          {"Back To Home"}
+        </Link>
+      </Button>
+      <Modal
+        open={deleteOpen}
+        onClose={handleDeleteClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        >
-        <Box component="form" sx={style} onSubmit={handleAuthentication}  
-                > 
-                <div>Please verify your credentials before editing your account!</div>
-                
-                    {authenticationError && <Alert severity="error">{authenticationError}</Alert>}
-                    <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    onChange={handleAuthenticationChange}
-                    autoFocus
-                    />
-                    <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    onChange={handleAuthenticationChange}
-                    />
-                    <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                    >
-                    Verify Credentials
-                    </Button>
-                    {hasGoogleAuth?
-                    <Button
-                        onClick={GoogleLogin}
-                        fullWidth
-                        variant="outlined"
-                        sx={{ mt: 3, mb: 2 }}
-                        >Verify Credentials Through Google
-                    </Button>
-                    :
-                    <></>}
-                </Box>
-           </Modal>
-          :
-          <></>}
-          {editEmail? 
-          <Paper component="form" onSubmit={updateEmail}  
-                  > 
-                  <div>Enter your new email below. Upon completion you will be redirected to the sign in page.</div>
-                      <TextField
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="newemail"
-                      label="Email Address"
-                      name="email"
-                      autoComplete="email"
-                      onChange={handleEmailInputChange}
-                      autoFocus
-                      />
-                      <Button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      sx={{ mt: 3, mb: 2 }}
-                      >
-                      Update Email
-                      </Button>
-                      <Button
-                      fullWidth
-                      onClick={cancelEdit}
-                      variant="outlined"
-                      sx={{ mt: 3, mb: 2 }}
-                      >
-                      Cancel
-                      </Button>
-                  </Paper>
-            :
-            <></>}
-            {editPassword? 
-            <Paper component="form" onSubmit={updatePassword}  
-                  > 
-                  <div>Enter your new password</div>
-                      <TextField
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="newpassword"
-                      label="Password"
-                      name="password"
-                      onChange={handlePasswordInputChange}
-                      autoFocus
-                      />
-                      <TextField
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="validatepassword"
-                      label="Re-enter new password"
-                      name="password"
-                      onChange={handlePasswordInputChange}
-                      autoFocus
-                      />
-                      <Button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      sx={{ mt: 3, mb: 2 }}
-                      >
-                      Update Password
-                      </Button>
-                  </Paper>
-            :
-            <></>}
-            <Button>
-              <Link href="/" variant="body2">
-                {"Back To Home"}
-              </Link>
-            </Button>
-        <Modal
-            open={deleteOpen}
-            onClose={handleDeleteClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
+      >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Are you sure you want to delete your account?
@@ -375,12 +392,16 @@ const deleteAccount=async()=>{
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             This cannot be undone!
           </Typography>
-          <Button onClick={deleteAccount} variant='outlined' color='error'>Yes, Delete my account!</Button>
-          <Button onClick={cancelEdit} variant='outlined' >No, I changed my mind!</Button>
+          <Button onClick={deleteAccount} variant="outlined" color="error">
+            Yes, Delete my account!
+          </Button>
+          <Button onClick={cancelEdit} variant="outlined">
+            No, I changed my mind!
+          </Button>
         </Box>
       </Modal>
     </>
-  )
+  );
 }
 
 export default EditProfile

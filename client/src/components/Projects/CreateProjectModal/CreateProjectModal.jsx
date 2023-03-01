@@ -21,6 +21,9 @@ import { setProjects } from "../../../redux/actions/projectActions";
 import { setUsers } from "../../../redux/actions/userActions";
 import { setMessage } from "../../../redux/actions/messageActions";
 
+const MAX_TITLE_LENGTH = 20;
+const MAX_DESCRIPTION_LENGTH = 200;
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -91,6 +94,13 @@ const CreateProjectModal = () => {
   const handleInputChange = (e) => {
     const inputFieldValue = e.target.value;
     const inputFieldName = e.target.name || e.target.id;
+    if (inputFieldName === "title" && inputFieldValue.length > MAX_TITLE_LENGTH)
+      return;
+    if (
+      inputFieldName === "description" &&
+      inputFieldValue.length > MAX_DESCRIPTION_LENGTH
+    )
+      return;
     const NewInputValue = {
       ...formInputData,
       [inputFieldName]: inputFieldValue,
@@ -117,29 +127,36 @@ const CreateProjectModal = () => {
       formInputData.members,
       unAssignedUsers
     );
-    const newInputValue = { ...formInputData };
-    newInputValue["members"] = memberIds;
-    await api.projects.createProject(newInputValue);
-    const newProjects = await api.projects.fetchProjects();
-    dispatch(setProjects(newProjects));
-    const newUsers = await api.users.fetchUsers();
-    dispatch(setUsers(newUsers));
-    dispatch(
-      setMessage(`Project ${newInputValue.title} has been successfully created`)
-    );
-    setModalOpen(false);
-    setFormInputData({
-      title: "",
-      description: "",
-      status: "On Track",
-      startDate: dayjs(new Date()).format("YYYY-MM-DD"),
-      deadline: dayjs(new Date()).format("YYYY-MM-DD"),
-      history: [],
-      members: [],
-      bugs: [],
-      client: "",
-      public: true,
-    });
+    const validated = true
+    if (validated) {
+      const newInputValue = { ...formInputData };
+      newInputValue["members"] = memberIds;
+      await api.projects.createProject(newInputValue);
+      const newProjects = await api.projects.fetchProjects();
+      dispatch(setProjects(newProjects));
+      const newUsers = await api.users.fetchUsers();
+      dispatch(setUsers(newUsers));
+      dispatch(
+        setMessage(`Project ${newInputValue.title} has been successfully created`)
+      );
+      setModalOpen(false);
+      setFormInputData({
+        title: "",
+        description: "",
+        status: "On Track",
+        startDate: dayjs(new Date()).format("YYYY-MM-DD"),
+        deadline: dayjs(new Date()).format("YYYY-MM-DD"),
+        history: [],
+        members: [],
+        bugs: [],
+        client: "",
+        public: true,
+      });
+    }
+    else {
+      
+    }
+    
   };
   const handleModalClose = (e, reason) => {
     if (reason === "clickaway") {
@@ -152,7 +169,11 @@ const CreateProjectModal = () => {
       {userIsAnAdmin ? (
         <>
           <div>
-            <Button variant="contained" onClick={handleModalOpen}>
+            <Button
+              variant="contained"
+              onClick={handleModalOpen}
+              aria-label="Open create project form"
+            >
               Create Project
             </Button>
             <Modal
@@ -165,10 +186,11 @@ const CreateProjectModal = () => {
                 <TextField
                   required
                   label="Title"
-                  defaultValue=""
                   title={formInputData.title}
                   onChange={handleInputChange}
                   id="title"
+                  value={formInputData.title}
+                  placeholder={`Character limit is ${MAX_TITLE_LENGTH}`}
                 />
                 <TextField
                   required
@@ -176,10 +198,10 @@ const CreateProjectModal = () => {
                   label="Description"
                   description={formInputData.description}
                   minRows={8}
-                  defaultValue=""
                   onChange={handleInputChange}
-                  //multiline
-                  //error comes when multiline is added
+                  multiline
+                  value={formInputData.description}
+                  placeholder={`Character limit is ${MAX_DESCRIPTION_LENGTH}`}
                 />
                 <FormControl>
                   <InputLabel id="demo-multiple-chip-label">Members</InputLabel>
@@ -259,6 +281,7 @@ const CreateProjectModal = () => {
                   </RadioGroup>
                 </FormControl>
                 <Button
+                  aria-label="Submit create project form"
                   variant="contained"
                   onClick={(e) => {
                     handleFormSubmit(e);

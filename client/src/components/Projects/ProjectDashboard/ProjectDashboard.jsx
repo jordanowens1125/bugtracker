@@ -173,6 +173,7 @@ const ProjectDashboard = () => {
             {userIsAdmin ? (
               <>
                 <Button
+                  aria-label="Remove user from project"
                   onClick={(e) => removeUser(e, params.row)}
                   variant="contained"
                   color="error"
@@ -205,6 +206,7 @@ const ProjectDashboard = () => {
       renderCell: (params) => {
         return (
           <Button
+            aria-label="Populate this bug below"
             variant="contained"
             key={params.id}
             onClick={(e) => handleRowClick(e, params.row)}

@@ -82,6 +82,7 @@ const BugsTable = () => {
                   <TableCell align="left">{bug.status}</TableCell>
                   <TableCell align="left">
                     <Button
+                      aria-label="Go View Bug"
                       data-key={bug._id}
                       variant="contained"
                       onClick={handleEditClick}
@@ -96,6 +97,7 @@ const BugsTable = () => {
                           onClick={handleDeleteClick}
                           variant="contained"
                           color="error"
+                          aria-label="Delete Bug"
                           data-key={[bug._id, bug.projectID._id]}
                         >
                           Delete

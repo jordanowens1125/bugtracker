@@ -26,6 +26,9 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 
+const MAX_TITLE_LENGTH = 20;
+const MAX_DESCRIPTION_LENGTH = 200;
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -85,6 +88,13 @@ const EditProjectModal = () => {
   const handleInputChange = (e) => {
     const inputFieldValue = e.target.value;
     const inputFieldName = e.target.id || e.target.name; //target name for the bugs select
+    if (inputFieldName === "title" && inputFieldValue.length > MAX_TITLE_LENGTH)
+      return;
+    if (
+      inputFieldName === "description" &&
+      inputFieldValue.length > MAX_DESCRIPTION_LENGTH
+    )
+      return;
     let newInputValue = { ...formInputData };
     newInputValue[inputFieldName] = inputFieldValue;
     setFormInputData(newInputValue);
@@ -228,6 +238,7 @@ const EditProjectModal = () => {
                 </RadioGroup>
               </FormControl>
               <Button
+                aria-label="Submit edit project form"
                 variant="contained"
                 onClick={(e) => {
                   handleFormSubmit(e);
