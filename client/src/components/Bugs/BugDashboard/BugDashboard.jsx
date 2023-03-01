@@ -66,7 +66,6 @@ const checkIfUserIsAssignedToBug = (bug, user) => {
       }
     }
   }
-
   return false;
 };
 
@@ -79,13 +78,10 @@ const BugDashboard = () => {
     dispatch(removeComments());
   };
   const user = useSelector((state) => state.currentUser);
-  // const userIsAdmin = user.role === "Admin";
   const project = useSelector((state) => state.project);
   const [userIsAdmin, setUserIsAdmin] = useState(false);
   //if on project and not assigned to bug  and bug assigned to is empty then user can join
   const [userCanEdit, setUserCanEdit] = useState(false);
-  // let userIsAssignedToProject = checkIfUserIsAssignedToProject(user, project);
-  // let userCanEdit = userIsAssignedToProject && checkIfUserIsAssignedToBug(bug,user);
   //if assigned to bug or admin then they can edit
   const [userCanJoin, setUserCanJoin] = useState(false);
 
@@ -125,7 +121,6 @@ const BugDashboard = () => {
     } else {
       setUserIsAdmin(false);
     }
-
     //can user join
     if (
       checkIfUserIsAssignedToProject(user, project) &&
@@ -193,7 +188,11 @@ const BugDashboard = () => {
           <Typography>Selected Bug Info</Typography>
           {isBugFilled ? (
             <>
-              <Button variant="contained" onClick={clearCurrentBug}>
+              <Button
+                aria-label="Clear Bug Info"
+                variant="contained"
+                onClick={clearCurrentBug}
+              >
                 Clear Bug
               </Button>
             </>
@@ -204,7 +203,7 @@ const BugDashboard = () => {
         {isBugFilled ? (
           <>
             <Paper
-              elevation={5}
+              elevation={1}
               sx={{
                 width: { xs: "86%", sm: "94%" },
                 gridArea: "bug",
@@ -218,7 +217,10 @@ const BugDashboard = () => {
                     <></>
                   ) : (
                     <>
-                      <Button onClick={handleLeaveBugRequest}>
+                      <Button
+                        aria-label="Unassign yourself from this bug"
+                        onClick={handleLeaveBugRequest}
+                      >
                         Unassign self from bug
                       </Button>
                     </>
@@ -229,7 +231,12 @@ const BugDashboard = () => {
               )}
               {userCanJoin ? (
                 <>
-                  <Button onClick={handleJoinBugRequest}>Join</Button>
+                  <Button
+                    onClick={handleJoinBugRequest}
+                    aria-label="Add yourself to this bug"
+                  >
+                    Join
+                  </Button>
                 </>
               ) : (
                 <></>
@@ -241,8 +248,8 @@ const BugDashboard = () => {
                   gap: 2,
                   gridTemplateRows: "repeat(3, 1fr)",
                   gridTemplateAreas: `
-                                "title status description description description"
-                                "creator priority type . ."
+                                "title    status    .       description description"
+                                "creator  priority  type    description description"
                                 "assigned assigned assigned assigned assigned"`,
                 }}
               >
@@ -260,16 +267,25 @@ const BugDashboard = () => {
                     {bug.title}
                   </Typography>
                 </Box>
-                <Box sx={{ gridArea: "creator" }}>
+                {/* <Box sx={{ gridArea: "creator" }}>
                   <Typography variant="subtitle1" gutterBottom>
                     Creator
                   </Typography>
                   <Typography variant="button" gutterBottom>
                     {bug.creator}
                   </Typography>
-                </Box>
-                <Box sx={{ gridArea: "description", justifyContent: "start" }}>
-                  <Typography variant="subtitle1" gutterBottom>
+                </Box> */}
+                <Box
+                  sx={{
+                    gridArea: "description",
+                    overflow: "visible",
+                    wordBreak: "break-all",
+                    height: "auto",
+                    justifyContent: "start",
+                    whiteSpace: "initial",
+                  }}
+                >
+                  <Typography variant="subtitle1" gutterBottom noWrap>
                     Description
                   </Typography>
                   <Typography variant="button" gutterBottom>

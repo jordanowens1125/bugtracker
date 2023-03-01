@@ -13,14 +13,16 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useTheme } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
-import { setBugs, selectedBug } from "../../../redux/actions/bugActions";
+import { removeSelectedBug, setBugs } from "../../../redux/actions/bugActions";
 import {
   selectedProject,
   setProjects,
 } from "../../../redux/actions/projectActions";
 import { setUsers } from "../../../redux/actions/userActions";
-import { setComments } from "../../../redux/actions/commentActions";
 import { setMessage } from "../../../redux/actions/messageActions";
+
+const MAX_TITLE_LENGTH = 15
+const MAX_DESCRIPTION_LENGTH = 200
 
 const style = {
   position: "absolute",
@@ -115,16 +117,21 @@ const CreateBugModal = () => {
       setFormInputData(newInputValue);
     }
   }, [currentProject]);
+
   const handleInputChange = (e) => {
     const inputFieldValue = e.target.value;
     const inputFieldName = e.target.id || e.target.name; //target name for the bugs select
-    //if name is start or deadline change format to string
+    if (inputFieldName === 'title' && inputFieldValue.length > MAX_TITLE_LENGTH)
+      return
+    if (inputFieldName === 'description' && inputFieldValue.length > MAX_DESCRIPTION_LENGTH)
+      return
     const newInputValue = {
       ...formInputData,
       [inputFieldName]: inputFieldValue,
     };
     setFormInputData(newInputValue);
   };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     let resetFormData = {
@@ -142,16 +149,10 @@ const CreateBugModal = () => {
       priority: "Low",
       assignedTo: [],
     };
-    const response = await api.bugs.createBug(formInputData);
-    if (response.assignedTo !== "") {
-      const newUsers = await api.users.fetchUsers();
-      dispatch(setUsers(newUsers));
-      dispatch(selectedBug(response));
-      const updatedComments = await api.comments.fetchBugComments(response._id);
-      dispatch(setComments(updatedComments));
-    } else {
-      dispatch(selectedBug(formInputData));
-    }
+    await api.bugs.createBug(formInputData);
+    dispatch(removeSelectedBug())
+    const newUsers = await api.users.fetchUsers();
+    dispatch(setUsers(newUsers));
     const newBugs = await api.bugs.fetchBugs();
     dispatch(setBugs(newBugs));
     const newProjects = await api.projects.fetchProjects();
@@ -173,7 +174,9 @@ const CreateBugModal = () => {
   };
   return (
     <>
-      <Button onClick={handleModalOpen}>Create Bug</Button>
+      <Button aria-label="Create Bug" onClick={handleModalOpen}>
+        Create Bug
+      </Button>
       <Modal
         open={modalOpen}
         onClose={handleModalClose}
@@ -184,10 +187,11 @@ const CreateBugModal = () => {
           <TextField
             required
             label="Title"
-            defaultValue=""
             title={formInputData.title}
             onChange={handleInputChange}
             id="title"
+            value={formInputData.title}
+            placeholder={`Character limit is ${MAX_TITLE_LENGTH}`}
           />
           <TextField
             required
@@ -195,10 +199,10 @@ const CreateBugModal = () => {
             label="Description"
             description={formInputData.description}
             minRows={8}
-            defaultValue=""
             onChange={handleInputChange}
             multiline
-            //error comes when multiline is added
+            value={formInputData.description}
+            placeholder={`Character limit is ${MAX_DESCRIPTION_LENGTH}`}
           />
           <FormControl disabled>
             <InputLabel id="demo-multiple-name-label">Project</InputLabel>
@@ -206,7 +210,6 @@ const CreateBugModal = () => {
               id="projectID"
               name="projectID"
               value={formInputData.projectID}
-              onChange={handleInputChange}
               input={<OutlinedInput label="Project" />}
               required
             >
@@ -302,6 +305,7 @@ const CreateBugModal = () => {
           </FormControl>
           <Button
             variant="contained"
+            aria-label="Create new bug"
             onClick={(e) => {
               handleFormSubmit(e);
             }}

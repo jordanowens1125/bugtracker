@@ -30,7 +30,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="https://mui.com/" aria-label="Link to MUI">
         Bug Tracker
       </Link>{" "}
       {new Date().getFullYear()}
@@ -169,6 +169,7 @@ const Register = () => {
             />
 
             <Button
+              aria-label="Sign Up"
               type="submit"
               fullWidth
               variant="contained"
@@ -178,6 +179,7 @@ const Register = () => {
             </Button>
           </Box>
           <Button
+            aria-label="Sign up with google"
             onClick={GoogleLogin}
             type="submit"
             fullWidth
@@ -187,7 +189,7 @@ const Register = () => {
             Sign Up with Google
           </Button>
         </Box>
-        <Link href="/signin" variant="body2">
+        <Link href="/signin" variant="body2" aria-label="Sign In">
           {"Already have an account? Sign In"}
         </Link>
         <Copyright sx={{ mt: 8, mb: 4 }} />

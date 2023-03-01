@@ -15,13 +15,18 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 function Copyright(props) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      <Link color="inherit" href="https://mui.com/" aria-label="Link to MUI">
         Bug Tracker
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
@@ -45,30 +50,39 @@ export default function SignIn() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <Box>
               <Button
+                aria-label="Login as demo developer"
                 fullWidth
                 variant="outlined"
                 sx={{ mt: 3, mb: 2 }}
-                >Log In as demo developer
+              >
+                Log In as demo developer
               </Button>
               <Button
                 fullWidth
+                aria-label="Login as demo admin"
                 variant="outlined"
                 sx={{ mt: 3, mb: 2 }}
-                >Log In as demo admin
+              >
+                Log In as demo admin
               </Button>
             </Box>
             <TextField
@@ -96,6 +110,7 @@ export default function SignIn() {
               label="Remember me"
             />
             <Button
+              aria-label="Submit login form"
               type="submit"
               fullWidth
               variant="contained"
@@ -105,12 +120,12 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" aria-label="Forgot Password">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" aria-label="Sign Up Button">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

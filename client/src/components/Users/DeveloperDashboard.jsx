@@ -135,7 +135,12 @@ const DeveloperDashboard = () => {
       renderCell: (params) => {
         return (
           <>
-            <Button onClick={(e) => sendToBug(params.row._id)}>View</Button>
+            <Button
+              onClick={(e) => sendToBug(params.row._id)}
+              aria-label="Visit this bug"
+            >
+              View
+            </Button>
           </>
         );
       },
@@ -200,7 +205,10 @@ const DeveloperDashboard = () => {
               >
                 {currentUser.project[0].description}
               </Typography>
-              <Button onClick={(e) => sendToProjectPage(e)}>
+              <Button
+                onClick={(e) => sendToProjectPage(e)}
+                aria-label="Go to project page"
+              >
                 Go to project page
               </Button>
               <Box

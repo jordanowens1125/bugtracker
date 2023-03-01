@@ -33,6 +33,7 @@ const Unassigned = () => {
         renderCell: (params) => {
           return (
             <Button
+              aria-label="Add yourself to bug"
               key={params.id}
               onClick={(e) => handleProjectJoin(e, params.row)}
             >

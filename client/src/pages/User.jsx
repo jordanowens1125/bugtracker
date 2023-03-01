@@ -95,10 +95,10 @@ const User = () => {
         component="form"
         sx={{
           "& > :not(style)": { m: 1, width: "25ch" },
-          display: 'flex',
-          flexDirection: 'column',
-          alignContent: 'center',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "column",
+          alignContent: "center",
+          alignItems: "center",
         }}
         noValidate
         autoComplete="off"
@@ -110,8 +110,8 @@ const User = () => {
             label="Name"
             InputLabelProps={{ shrink: true }}
             onChange={handleChange}
-            value={formInputData.name || ''}
-            disabled = {!userCanEdit}
+            value={formInputData.name || ""}
+            disabled={!userCanEdit}
             required
           />
         </FormControl>
@@ -120,7 +120,7 @@ const User = () => {
           <InputLabel id="demo-simple-select-label">Role</InputLabel>
           <Select
             id="role"
-            name = 'role'
+            name="role"
             value={formInputData.role}
             label="Role"
             onChange={handleChange}
@@ -139,14 +139,13 @@ const User = () => {
         */}
         {userCanEdit ? (
           <>
-            <Button variant="contained" onClick={handleSubmit}>
+            <Button variant="contained" onClick={handleSubmit} aria-label="Update Account">
               Update Account
             </Button>
           </>
         ) : (
           <></>
         )}
-
       </Box>
     </>
   );

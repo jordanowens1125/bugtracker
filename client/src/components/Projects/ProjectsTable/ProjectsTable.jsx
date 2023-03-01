@@ -90,6 +90,7 @@ const ProjectsTable = () => {
                   <TableCell align="left">{project.bugs.length}</TableCell>
                   <TableCell align="left">
                     <Button
+                      aria-label="Go to the project page of this bug to view it"
                       onClick={(e) => handleEditClick(e)}
                       variant="contained"
                       data-key={project._id}
@@ -101,6 +102,7 @@ const ProjectsTable = () => {
                     <>
                       <TableCell align="left">
                         <Button
+                          aria-label="Delete this bug"
                           onClick={handleDeleteClick}
                           variant="contained"
                           color="error"

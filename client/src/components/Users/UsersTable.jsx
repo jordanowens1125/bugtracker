@@ -49,13 +49,16 @@ const UsersTable = () => {
                   <TableCell align="left">{user.email}</TableCell>
                   <TableCell align="left">{user.role}</TableCell>
                   <TableCell align="left">{user.projectDisplay}</TableCell>
-                  <TableCell align="left">
-                    {user.assignedBugs.length}
-                  </TableCell>
+                  <TableCell align="left">{user.assignedBugs.length}</TableCell>
                   <TableCell align="left">{user.comments.length}</TableCell>
                   <TableCell align="left">
                     <Link to={`${user._id}`}>
-                      <Button variant="contained">View</Button>
+                      <Button
+                        variant="contained"
+                        aria-label="Go view this user's info"
+                      >
+                        View
+                      </Button>
                     </Link>
                   </TableCell>
                 </TableRow>

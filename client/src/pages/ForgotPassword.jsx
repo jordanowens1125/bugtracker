@@ -69,11 +69,11 @@ const ForgotPassword = () => {
             Reset Password
           </Button>
           {message && (
-            <Link href="/signin" variant="body2">
+            <Link href="/signin" variant="body2" aria-label="Go to sign in">
               Back To Sign In
             </Link>
           )}
-          <Link href="/signin" variant="body2">
+          <Link href="/signin" variant="body2" aria-label="Remember password">
             Remember password?
           </Link>
         </Box>
