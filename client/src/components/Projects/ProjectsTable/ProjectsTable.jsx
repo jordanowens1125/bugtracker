@@ -61,7 +61,7 @@ const ProjectsTable = () => {
     <>
       {hasProjects ? (
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table sx={{  }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>Title </TableCell>
@@ -104,7 +104,7 @@ const ProjectsTable = () => {
                         <Button
                           aria-label="Delete this bug"
                           onClick={handleDeleteClick}
-                          variant="contained"
+                          variant="outlined"
                           color="error"
                           data-key={project._id}
                         >
