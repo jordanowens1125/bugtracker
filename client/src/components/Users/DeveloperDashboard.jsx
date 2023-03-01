@@ -13,28 +13,16 @@ import api from "../../api";
 import { useNavigate } from "react-router";
 import Unassigned from "./Unassigned";
 
-const checkForProjectBugs = (bugs) => {
-  if (bugs) {
-    if (bugs.length) {
-      if (bugs.length > 0) {
-        return true;
-      }
-    }
-  }
-  return false;
-};
-
 function BugDataGridTitle() {
   return (
     <Box
       style={{
-        width: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
       }}
     >
-      <Typography variant="h5">Bugs</Typography>
+      <Typography fontSize={30}>Bugs</Typography>
       <div></div>
     </Box>
   );
@@ -131,13 +119,15 @@ const DeveloperDashboard = () => {
     {
       field: "visit",
       headerName: "Visit",
-      width: 150,
+      width: 75,
+      align:'center',
       renderCell: (params) => {
         return (
           <>
             <Button
               onClick={(e) => sendToBug(params.row._id)}
               aria-label="Visit this bug"
+              align='left'
             >
               View
             </Button>
@@ -149,12 +139,12 @@ const DeveloperDashboard = () => {
       field: "title",
       headerName: "Title",
       description: "This column has a value getter and is not sortable.",
-      width: 150,
+      width: 250,
     },
     {
       field: "status",
       headerName: "Status",
-      width: 100,
+      width: 200,
       editable: true,
     },
     {
@@ -187,7 +177,16 @@ const DeveloperDashboard = () => {
               pb: 6,
             }}
           >
-            <Container sx={{}}>
+            <Container
+              sx={{
+                display: "flex",
+                alignContent: 'center',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignSelf: 'center',
+                alignItems: 'center'
+              }}
+            >
               <Typography
                 component="h1"
                 variant="h2"
@@ -213,23 +212,17 @@ const DeveloperDashboard = () => {
               </Button>
               <Box
                 sx={{
-                  height: 400,
-                  width: "98%",
-                  display: {
-                    xs: "block",
-                    sm: "block",
-                    md: "block",
-                    lg: "flex",
-                  },
+                  height: 600,
+                  display: 'flex',
+                  width: { xs: 400, sm: 950 },
                 }}
-              >
-                <>
+              ><>
                   <DataGrid
                     rows={projectBugs}
                     getRowId={(row) => row._id}
                     columns={bugColumns}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
+                    pageSize={8}
+                    rowsPerPageOptions={[8]}
                     onRowClick={handleRowClick}
                     experimentalFeatures={{ newEditingApi: true }}
                     components={{ Toolbar: BugDataGridTitle }}

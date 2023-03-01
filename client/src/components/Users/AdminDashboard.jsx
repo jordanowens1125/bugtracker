@@ -58,6 +58,7 @@ const AdminDashboard = () => {
         return (
           <Button
             aria-label="Go to project page"
+            variant="contained"
             key={params.id}
             onClick={(e) => navigateToProject(e, params.row)}
           >
@@ -107,7 +108,7 @@ const AdminDashboard = () => {
           <>
             <Button
               aria-label="Delete this project"
-              variant="contained"
+              variant="outlined"
               color="error"
               onClick={(e) => handleDeleteClick(e, params.row)}
             >
@@ -120,7 +121,16 @@ const AdminDashboard = () => {
   ];
   return (
     <>
-      <Box sx={{ height: 600, width: "100%", paddingBottom: 10 }}>
+      <Box
+        sx={{
+          height: 600,
+          maxWidth: '100%',
+          paddingBottom: 10,
+          display: "flex",
+          alignContent: "center",
+          justifyContent: "center",
+        }}
+      >
         <DataGrid
           rows={projects}
           getRowId={(row) => row._id}
@@ -131,6 +141,7 @@ const AdminDashboard = () => {
           //onRowClick={navigateToProject}
           experimentalFeatures={{ newEditingApi: true }}
           components={{ Toolbar: ProjectDataGridTitle }}
+          sx={{ maxWidth: 1400 }}
         />
       </Box>
     </>

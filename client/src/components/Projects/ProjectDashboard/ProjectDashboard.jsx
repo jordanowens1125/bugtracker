@@ -159,6 +159,12 @@ const ProjectDashboard = () => {
     //     `${params.row.firstName || ''} ${params.row.lastName || ''}`||`-`,
     // },
     {
+      field: "name",
+      headerName: "Name",
+      width: 250,
+      editable: true,
+    },
+    {
       field: "email",
       headerName: "Email",
       width: 250,
@@ -166,7 +172,7 @@ const ProjectDashboard = () => {
     },
     {
       field: "Remove User",
-      width: 100,
+      width: 125,
       renderCell: (params) => {
         return (
           <>
@@ -175,7 +181,7 @@ const ProjectDashboard = () => {
                 <Button
                   aria-label="Remove user from project"
                   onClick={(e) => removeUser(e, params.row)}
-                  variant="contained"
+                  variant="outlined"
                   color="error"
                 >
                   Remove
@@ -200,7 +206,7 @@ const ProjectDashboard = () => {
     {
       field: "title",
       headerName: "Title",
-      width: 225,
+      width: 350,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
