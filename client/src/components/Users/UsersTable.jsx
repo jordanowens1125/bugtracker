@@ -7,18 +7,18 @@ import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-// import { setUsers } from "../../redux/actions/userActions";
-// import { setProjects } from "../../redux/actions/projectActions";
-// import api from "../../api/index";
 
 const UsersTable = () => {
   const users = useSelector((state) => state.allUsers.userDisplayList);
   const hasUsers = users.length > 0;
-
+  const navigate = useNavigate();
+  const navigateToUserPage = (id) => {
+    navigate(`/users/${id}`)
+  }
   useEffect(() => {}, [users]);
-
+    
   return (
     <>
       {hasUsers ? (
@@ -33,8 +33,6 @@ const UsersTable = () => {
                 <TableCell align="left">Assigned Project</TableCell>
                 <TableCell align="left">Assigned Bugs</TableCell>
                 <TableCell align="left">Comments</TableCell>
-                <TableCell align="left"></TableCell>
-                <TableCell align="left"></TableCell>
                 <TableCell align="left"></TableCell>
               </TableRow>
             </TableHead>
@@ -52,14 +50,13 @@ const UsersTable = () => {
                   <TableCell align="left">{user.assignedBugs.length}</TableCell>
                   <TableCell align="left">{user.comments.length}</TableCell>
                   <TableCell align="left">
-                    <Link to={`${user._id}`}>
                       <Button
-                        variant="contained"
+                        variant="outlined"
                         aria-label="Go view this user's info"
+                        onClick={(e) => navigateToUserPage(user._id)}
                       >
                         View
                       </Button>
-                    </Link>
                   </TableCell>
                 </TableRow>
               ))}

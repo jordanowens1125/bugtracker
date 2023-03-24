@@ -127,7 +127,7 @@ const EditProjectModal = () => {
     <>
       {isAdminUser ? (
         <>
-          <Button onClick={handleModalOpen}>Edit Project</Button>
+          <Button onClick={handleModalOpen} variant='contained'>Edit Project</Button>
           <Modal
             open={modalOpen}
             onClose={handleModalClose}

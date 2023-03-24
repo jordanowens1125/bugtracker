@@ -174,7 +174,7 @@ const CreateBugModal = () => {
   };
   return (
     <>
-      <Button aria-label="Create Bug" onClick={handleModalOpen}>
+      <Button aria-label="Create Bug" onClick={handleModalOpen} variant='contained'>
         Create Bug
       </Button>
       <Modal
@@ -273,7 +273,10 @@ const CreateBugModal = () => {
               ))}
             </Select>
           </FormControl>
-          <FormControl>
+          
+          {
+            // Need to add filter that removes bugs that are not inside of this project
+          /* <FormControl>
             <InputLabel id="demo-multiple-chip-label">Related bugs</InputLabel>
             <Select
               labelId="demo-multiple-chip-label"
@@ -302,7 +305,7 @@ const CreateBugModal = () => {
                 </MenuItem>
               ))}
             </Select>
-          </FormControl>
+          </FormControl> */}
           <Button
             variant="contained"
             aria-label="Create new bug"

@@ -124,11 +124,12 @@ const User = () => {
             value={formInputData.role}
             label="Role"
             onChange={handleChange}
-            disabled={!userIsAdmin}
+            //only disabled if user is not admin and user role is admin
+            //to prevent admins to altering their role to anything besides admin
+            disabled={!userIsAdmin || formInputData.role === 'Admin'}
           >
-            <MenuItem value=""></MenuItem>
             {roles.map((role) => (
-              <MenuItem key={role} value={role}>
+              <MenuItem key={role} value={role} >
                 {role}
               </MenuItem>
             ))}

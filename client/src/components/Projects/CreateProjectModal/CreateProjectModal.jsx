@@ -94,13 +94,12 @@ const CreateProjectModal = () => {
   const handleInputChange = (e) => {
     const inputFieldValue = e.target.value;
     const inputFieldName = e.target.name || e.target.id;
+    
     if (inputFieldName === "title" && inputFieldValue.length > MAX_TITLE_LENGTH)
       return;
-    if (
-      inputFieldName === "description" &&
-      inputFieldValue.length > MAX_DESCRIPTION_LENGTH
-    )
-      return;
+    if (inputFieldName === "description" && inputFieldValue.length > MAX_DESCRIPTION_LENGTH
+    ) return;
+
     const NewInputValue = {
       ...formInputData,
       [inputFieldName]: inputFieldValue,
@@ -170,9 +169,9 @@ const CreateProjectModal = () => {
         <>
           <div>
             <Button
-              variant="contained"
               onClick={handleModalOpen}
               aria-label="Open create project form"
+              variant="contained"
             >
               Create Project
             </Button>

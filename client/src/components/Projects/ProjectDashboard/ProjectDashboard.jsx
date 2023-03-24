@@ -213,7 +213,7 @@ const ProjectDashboard = () => {
         return (
           <Button
             aria-label="Populate this bug below"
-            variant="contained"
+            variant="outlined"
             key={params.id}
             onClick={(e) => handleRowClick(e, params.row)}
           >

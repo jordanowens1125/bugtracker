@@ -37,7 +37,6 @@ const AdminDashboard = () => {
     dispatch(removeComments());
     navigate(`/projects/${row._id}`);
   };
-  //const [projectToDelete, setProjectToDelete] = useState({})
   //project confirm delete popup info
   const handleDeleteClick = async (e, row) => {
     await api.projects.deleteProject(row);
@@ -58,7 +57,7 @@ const AdminDashboard = () => {
         return (
           <Button
             aria-label="Go to project page"
-            variant="contained"
+            variant="outlined"
             key={params.id}
             onClick={(e) => navigateToProject(e, params.row)}
           >

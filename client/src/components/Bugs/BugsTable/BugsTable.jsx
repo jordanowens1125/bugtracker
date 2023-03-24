@@ -84,7 +84,7 @@ const BugsTable = () => {
                     <Button
                       aria-label="Go View Bug"
                       data-key={bug._id}
-                      variant="contained"
+                      variant="outlined"
                       onClick={handleEditClick}
                     >
                       View

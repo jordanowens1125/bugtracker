@@ -24,12 +24,7 @@ function Copyright(props) {
       align="center"
       {...props}
     >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/" aria-label="Link to Material UI">
-        Bug Tracker
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
+      {`Copyright © ${new Date().getFullYear()}`}
     </Typography>
   );
 }

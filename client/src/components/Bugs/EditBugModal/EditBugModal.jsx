@@ -146,9 +146,10 @@ const EditBugModal = () => {
     <>
       <>
         <Button
-          sx={{ width: "100%" }}
+          sx={{}}
           onClick={handleModalOpen}
           aria-label="Open form to edit bug"
+          variant="contained"
         >
           Edit Bug
         </Button>
@@ -222,7 +223,9 @@ const EditBugModal = () => {
               <h1>loading</h1>
             )}
 
-            <FormControl>
+            {
+              // Need to add filter that removes bugs that are not inside of this project and removes the current bug as well
+            /* <FormControl>
               <InputLabel id="demo-multiple-chip-label">
                 Related bugs
               </InputLabel>
@@ -253,7 +256,8 @@ const EditBugModal = () => {
                   </MenuItem>
                 ))}
               </Select>
-            </FormControl>
+            </FormControl> */
+            }
             <Button
               type="submit"
               value="Submit"

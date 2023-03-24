@@ -61,7 +61,7 @@ const ProjectsTable = () => {
     <>
       {hasProjects ? (
         <TableContainer component={Paper}>
-          <Table sx={{  }} aria-label="simple table">
+          <Table sx={{}} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>Title </TableCell>
@@ -92,7 +92,7 @@ const ProjectsTable = () => {
                     <Button
                       aria-label="Go to the project page of this bug to view it"
                       onClick={(e) => handleEditClick(e)}
-                      variant="contained"
+                      variant="outlined"
                       data-key={project._id}
                     >
                       View
