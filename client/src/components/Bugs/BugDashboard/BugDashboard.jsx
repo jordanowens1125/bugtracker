@@ -29,8 +29,8 @@ const checkBug = (bug) => {
 const checkIfUserIsAssignedToProject = (user, project) => {
   if (user) {
     if (user.project) {
-      if (user.project[0]) {
-        if (user.project[0]._id === project._id) {
+      if (user.project) {
+        if (user.project._id === project._id) {
           return true;
         }
       }
@@ -318,7 +318,7 @@ const BugDashboard = () => {
                             </Box> */}
                 <Box sx={{ gridArea: "assigned" }}>
                   <Typography variant="subtitle1" gutterBottom>
-                    Assigned Devs
+                    Assigned Dev
                   </Typography>
                   <div>
                     {bug.assignedTo.map((member) => (

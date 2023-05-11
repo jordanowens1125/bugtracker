@@ -30,18 +30,17 @@ const MAX_TITLE_LENGTH = 20;
 const MAX_DESCRIPTION_LENGTH = 200;
 
 const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
+  margin: "auto",
+  width: "80%",
+  height: "90%",
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  border: "1px solid #000",
   boxShadow: 24,
   p: 4,
   display: "flex",
   flexDirection: "column",
-  gap: "25px",
+  gap: "10px",
+  overflowY: "auto",
 };
 
 const ITEM_HEIGHT = 48;
@@ -61,7 +60,11 @@ const EditProjectModal = () => {
   const isAdminUser = user.role === "Admin";
   const handleModalOpen = () => setModalOpen(true);
   const currentProject = useSelector((state) => state.project);
-  const availableMembers = useSelector((state) => state.availableMembers);
+  const users = useSelector((state) => state.allUsers.users)
+  let availableMembers = users.filter(user => user.assignable === true && user.deleted === false && user.role === 'Developer')
+  if (currentProject.members) {
+    availableMembers = [ ...currentProject.members,...availableMembers,]
+  }
   const dispatch = useDispatch();
   const [formInputData, setFormInputData] = useState({
     title: "",
@@ -127,12 +130,19 @@ const EditProjectModal = () => {
     <>
       {isAdminUser ? (
         <>
-          <Button onClick={handleModalOpen} variant='contained'>Edit Project</Button>
+          <Button onClick={handleModalOpen} variant="contained">
+            Edit Project
+          </Button>
           <Modal
             open={modalOpen}
             onClose={handleModalClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
             <Box sx={style}>
               <TextField

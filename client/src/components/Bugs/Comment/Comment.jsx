@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import "./Comment.css";
 import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
 dayjs.extend(relativeTime);

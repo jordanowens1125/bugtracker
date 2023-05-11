@@ -12,7 +12,9 @@ const UserSchema = new Schema({
   },
   assignedBugs: [{ type: Schema.Types.ObjectId, ref: "Bug" }],
   comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
-  project: [{ type: Schema.Types.ObjectId, ref: "Project" }],
+  project: { type: Schema.Types.ObjectId, ref: "Project", },
+  assignable: { type: Boolean, default: true },
+  deleted: { type: Boolean, default: false },
   //profile image
   photoURL: { type: String },
 });

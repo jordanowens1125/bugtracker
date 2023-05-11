@@ -65,9 +65,8 @@ const scrollToBottom = () => {
   }
 };
 
-const BugComments = () => {
-  const bug = useSelector((state) => state.currentBug);
-  const comments = useSelector((state) => state.currentBugComments);
+const BugComments = ({ bug }) => {
+  const comments = bug.comments;
   //getting error loading post because comment.creator is coming back null for some
   //so i will temporarily filter the comments of those who dont have null for creator
   const filteredComments = [...comments];
@@ -76,7 +75,6 @@ const BugComments = () => {
   useEffect(() => {}, [bug]);
 
   const currentUser = useSelector((state) => state.currentUser);
-  const currentProject = useSelector((state) => state.project);
   const isThereACurrentBug = checkifCurrentBugIsFilled(bug);
   const hasComments = bugHasComments(bug);
   const dispatch = useDispatch();
@@ -103,7 +101,7 @@ const BugComments = () => {
       newComment.creator = currentUser._id;
       newComment.bugID = bug._id;
       //bug projectID property is a project object so get id
-      newComment.projectID = currentProject._id;
+      newComment.projectID = bug.projectID;
       const commentTime = new Date(Date.now());
       //comment was uploading future time as in instead of 'a few seconds ago',
       //I would get in a few seconds so i subtracted some time
@@ -111,9 +109,7 @@ const BugComments = () => {
       await api.comments.createComment(newComment);
       const newBug = await api.bugs.fetchBug(bug._id);
       //fetch project returns project and available members so specify the project
-      const newProject = await api.projects.fetchProject(currentProject._id)
-        .project;
-      console.log(newProject);
+      const newProject = await api.projects.fetchProject(bug.projectID).project;
       const updatedProjects = await api.projects.fetchProjects();
       dispatch(selectedBug(newBug));
       const updatedComments = await api.comments.fetchBugComments(bug._id);

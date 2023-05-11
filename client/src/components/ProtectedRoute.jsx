@@ -7,10 +7,10 @@ import Loading from "./Loading";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const ProtectedRoute = ({ user }) => {
-  const location = useLocation()
+  const location = useLocation();
   const users = useSelector((state) => state.allUsers.users);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     if (user) {
       const findUserWithUID = (user, users) => {
@@ -28,12 +28,13 @@ const ProtectedRoute = ({ user }) => {
     }
   }, [user, users, dispatch]);
 
-  if (user === undefined) return <Loading/>;
+  if (user === undefined) return <Loading />;
 
-  return user ? 
-    <Outlet />
-     : 
+  return user ? (
+      <Outlet />
+  ) : (
     <Navigate to="/signin" replace state={{ from: location }} />
+  );
 };
 
 export default ProtectedRoute;

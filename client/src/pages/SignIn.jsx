@@ -8,10 +8,6 @@ import { useUserAuth } from "../context/userAuthContext";
 import Alert from "@mui/material/Alert";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import Link from "@mui/material/Link";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { selectedUser, setUsers } from "../redux/actions/userActions";
 import api from "../api/index";
@@ -37,8 +33,6 @@ const searchForMember = (uid, users) => {
   }
   return false;
 };
-
-const theme = createTheme();
 
 const SignIn = () => {
   const { user } = useUserAuth();
@@ -103,71 +97,47 @@ const SignIn = () => {
     } catch (error) {}
   };
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "white", border: "2px solid #1976d2" }}>
-            <LockOutlinedIcon color="primary" />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Log In
-          </Typography>
-          <Button
-            aria-label="Login as a demo developer"
-            onClick={SignInAsDemoDeveloper}
-            fullWidth
-            variant="outlined"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Log In as demo developer
-          </Button>
-          <Button
-            aria-label="Login as a demo admin"
-            onClick={SignInAsDemoAdmin}
-            fullWidth
-            variant="outlined"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Log In as demo admin
-          </Button>
-          {error && (
-            <Alert variant="filled" color="error">
-              {error}
-            </Alert>
-          )}
-          <Button
-            onClick={GoogleLogin}
-            aria-label="Login with google"
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Login with Google
-          </Button>
-          <Button
-            aria-label="Sign up with google"
-            type="submit"
-            fullWidth
-            variant="contained"
-            onClick={GoogleLogin}
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign Up
-          </Button>
-        </Box>
+    <>
+      <div className="flex-column aic jcc full-height">
+        <span>Log In</span>
+        <button onClick={SignInAsDemoDeveloper} className="button-primary">
+          Login as Demo Developer
+        </button>
+        <button onClick={SignInAsDemoAdmin}>Login as Demo Admin</button>
+        <button>Login with Google</button>
+        <button>Sign Up</button>
+      </div>
+      <Avatar sx={{ m: 1, bgcolor: "white", border: "2px solid #1976d2" }}>
+        <LockOutlinedIcon color="primary" />
+      </Avatar>
+      {error && (
+        <Alert variant="filled" color="error">
+          {error}
+        </Alert>
+      )}
+      <Button
+        onClick={GoogleLogin}
+        aria-label="Login with google"
+        type="submit"
+        fullWidth
+        variant="contained"
+        sx={{ mt: 3, mb: 2 }}
+      >
+        Login with Google
+      </Button>
+      <Button
+        aria-label="Sign up with google"
+        type="submit"
+        fullWidth
+        variant="contained"
+        onClick={GoogleLogin}
+        sx={{ mt: 3, mb: 2 }}
+      >
+        Sign Up
+      </Button>
 
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
+      <Copyright sx={{ mt: 8, mb: 4 }} />
+    </>
   );
 };
 

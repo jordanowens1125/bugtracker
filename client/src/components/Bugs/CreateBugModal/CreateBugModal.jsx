@@ -24,6 +24,23 @@ import { setMessage } from "../../../redux/actions/messageActions";
 const MAX_TITLE_LENGTH = 15
 const MAX_DESCRIPTION_LENGTH = 200
 
+const initialBugState = {
+  title: "", //set by user, can be updated *
+    creator: "", //auto
+    description: "", //set by user, can be updated *
+    status: "Open", //can be updated *
+    projectID: "", //set by user *
+    closer: "", //auto
+    openDate: dayjs(new Date()).format("YYYY-MM-DD"), //set by user-optionally
+    closeDate: "", //auto
+    history: [], //auto
+    relatedBugs: [], //set by user optionally, can be updated
+    stepsToRecreate: [], //set by user, can be updated
+    priority: "Low", //set by user, can be updated *
+    assignedTo: [], //can be updated
+    comments: [],
+}
+
 const style = {
   position: "absolute",
   display: "flex",
@@ -87,24 +104,9 @@ const CreateBugModal = () => {
   const currentProjectHasMembers =
     checkIfCurrentProjectHasMembers(currentProject);
   const bugs = useSelector((state) => state.allBugs.bugs);
-  const theme = useTheme();
+  // const theme = useTheme();
   const dispatch = useDispatch();
-  const [formInputData, setFormInputData] = useState({
-    title: "", //set by user, can be updated *
-    creator: "", //auto
-    description: "", //set by user, can be updated *
-    status: "Open", //can be updated *
-    projectID: "", //set by user *
-    closer: "", //auto
-    openDate: dayjs(new Date()).format("YYYY-MM-DD"), //set by user-optionally
-    closeDate: "", //auto
-    history: [], //auto
-    relatedBugs: [], //set by user optionally, can be updated
-    stepsToRecreate: [], //set by user, can be updated
-    priority: "Low", //set by user, can be updated *
-    assignedTo: [], //can be updated
-    comments: [],
-  });
+  const [formInputData, setFormInputData] = useState(initialBugState);
   useEffect(() => {
     if (isThereACurrentProject) {
       const newInputValue = { ...formInputData };
@@ -134,21 +136,6 @@ const CreateBugModal = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    let resetFormData = {
-      title: "",
-      description: "",
-      status: "Open",
-      projectID: "",
-      creator: "",
-      closer: "",
-      openDate: dayjs(new Date()).format("YYYY-MM-DD"),
-      closeDate: "",
-      history: [],
-      relatedBugs: [],
-      stepsToRecreate: [],
-      priority: "Low",
-      assignedTo: [],
-    };
     await api.bugs.createBug(formInputData);
     dispatch(removeSelectedBug())
     const newUsers = await api.users.fetchUsers();
@@ -158,7 +145,7 @@ const CreateBugModal = () => {
     const newProjects = await api.projects.fetchProjects();
     dispatch(setProjects(newProjects));
     setModalOpen(false);
-    setFormInputData({ ...resetFormData });
+    setFormInputData(initialBugState);
     //updatedProject returns project and available members from backend as object
     const updatedProject = await api.projects.fetchProject(currentProject._id);
     dispatch(selectedProject(updatedProject.project));

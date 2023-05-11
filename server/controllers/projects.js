@@ -15,7 +15,14 @@ const getProjects = async (req, res) => {
 
 const createProject = async (req, res) => {
   try {
-    let project = await Project.create(req.body);
+    const project = await Project.create(req.body);
+    await User.updateMany(
+      { _id: { $in: req.body.members } },
+      {
+        project: project._id,
+        assignable: false,
+      }
+    );
     res.status(200).json(project);
   } catch (error) {
     res.status(404).json({ message: error });
@@ -31,10 +38,11 @@ const deleteProject = async (req, res) => {
       {},
       {
         $pull: {
-          project: req.params.id,
-          //remove bugs from user that were on this project
+          //remove bugs from this project
           assignedBugs: { $in: project.bugs },
         },
+        assignable : true,
+        project: undefined
       },
       {
         multi: true,
@@ -82,9 +90,8 @@ const updateProject = async (req, res) => {
     await User.updateMany(
       { $in: oldProject.members },
       {
-        $pull: {
-          project: req.params.id,
-        },
+          project: undefined,
+        assignable: true,
       }
     );
 
@@ -112,9 +119,8 @@ const updateProject = async (req, res) => {
     const users = await User.updateMany(
       { _id: { $in: members } },
       {
-        $push: {
-          project: req.params.id,
-        },
+        project: req.params.id,
+        assignable: false,
       }
     );
 

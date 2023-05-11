@@ -18,25 +18,36 @@ import FormLabel from "@mui/material/FormLabel";
 import { useTheme } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
 import { setProjects } from "../../../redux/actions/projectActions";
-import { setUsers } from "../../../redux/actions/userActions";
 import { setMessage } from "../../../redux/actions/messageActions";
 
 const MAX_TITLE_LENGTH = 20;
 const MAX_DESCRIPTION_LENGTH = 200;
 
+const initialState = {
+  title: "",
+  description: "",
+  status: "On Track",
+  startDate: dayjs(new Date()).format("YYYY-MM-DD"),
+  deadline: dayjs(new Date()).format("YYYY-MM-DD"),
+  history: [],
+  members: [],
+  bugs: [],
+  client: "",
+  public: true,
+};
+
 const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
+  margin: "auto",
+  width: "60%",
+  height: "90%",
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  border: "1px solid #000",
   boxShadow: 24,
   p: 4,
   display: "flex",
   flexDirection: "column",
-  gap: "25px",
+  gap: "10px",
+  overflowY: "auto",
 };
 
 const ITEM_HEIGHT = 48;
@@ -69,36 +80,31 @@ const CreateProjectModal = () => {
     return false;
   };
 
-  const userIsAnAdmin = checkIfUserIsAnAdmin(currentUser);
+  const userIsAnAdmin = true; //checkIfUserIsAnAdmin(currentUser);
   const handleModalOpen = () => setModalOpen(true);
   const theme = useTheme();
   const dispatch = useDispatch();
-  const unAssignedUsers = useSelector(
-    (state) => state.allUsers.unAssignedUsers
+  const users = useSelector((state) => state.allUsers.users);
+  const projects = useSelector((state) => state.allProjects.projects);
+  const unAssignedUsers = users.filter(
+    (user) =>
+      user.assignable === true &&
+      user.deleted === false &&
+      user.role === "Developer"
   );
-
-  const [formInputData, setFormInputData] = useState({
-    title: "",
-    description: "",
-    status: "On Track",
-    startDate: dayjs(new Date()).format("YYYY-MM-DD"),
-    deadline: dayjs(new Date()).format("YYYY-MM-DD"),
-    history: [],
-    members: [],
-    bugs: [],
-    client: "",
-    public: false,
-  });
+  const [formInputData, setFormInputData] = useState(initialState);
   useEffect(() => {}, [formInputData]);
 
   const handleInputChange = (e) => {
     const inputFieldValue = e.target.value;
     const inputFieldName = e.target.name || e.target.id;
-    
     if (inputFieldName === "title" && inputFieldValue.length > MAX_TITLE_LENGTH)
       return;
-    if (inputFieldName === "description" && inputFieldValue.length > MAX_DESCRIPTION_LENGTH
-    ) return;
+    if (
+      inputFieldName === "description" &&
+      inputFieldValue.length > MAX_DESCRIPTION_LENGTH
+    )
+      return;
 
     const NewInputValue = {
       ...formInputData,
@@ -126,36 +132,23 @@ const CreateProjectModal = () => {
       formInputData.members,
       unAssignedUsers
     );
-    const validated = true
+    const validated = true;
     if (validated) {
       const newInputValue = { ...formInputData };
       newInputValue["members"] = memberIds;
-      await api.projects.createProject(newInputValue);
-      const newProjects = await api.projects.fetchProjects();
+      const newProject = await api.projects.createProject(newInputValue);
+      const newProjects = [...projects, newProject];
+      console.log(newProjects);
       dispatch(setProjects(newProjects));
-      const newUsers = await api.users.fetchUsers();
-      dispatch(setUsers(newUsers));
       dispatch(
-        setMessage(`Project ${newInputValue.title} has been successfully created`)
+        setMessage(
+          `Project ${newInputValue.title} has been successfully created`
+        )
       );
       setModalOpen(false);
-      setFormInputData({
-        title: "",
-        description: "",
-        status: "On Track",
-        startDate: dayjs(new Date()).format("YYYY-MM-DD"),
-        deadline: dayjs(new Date()).format("YYYY-MM-DD"),
-        history: [],
-        members: [],
-        bugs: [],
-        client: "",
-        public: true,
-      });
+      setFormInputData(initialState);
+    } else {
     }
-    else {
-      
-    }
-    
   };
   const handleModalClose = (e, reason) => {
     if (reason === "clickaway") {
@@ -168,20 +161,29 @@ const CreateProjectModal = () => {
       {userIsAnAdmin ? (
         <>
           <div>
-            <Button
+            <button
               onClick={handleModalOpen}
               aria-label="Open create project form"
-              variant="contained"
+              className="button-primary"
             >
               Create Project
-            </Button>
+            </button>
+
             <Modal
               open={modalOpen}
               onClose={handleModalClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
+              aria-labelledby="modal-title"
+              aria-describedby="modal-description"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
               <Box sx={style}>
+                <button className="button-secondary" onClick={handleModalClose}>
+                  Cancel
+                </button>
                 <TextField
                   required
                   label="Title"
@@ -256,38 +258,39 @@ const CreateProjectModal = () => {
                   }}
                   onChange={handleInputChange}
                 />
-                <FormControl>
-                  <FormLabel id="demo-controlled-radio-buttons-group">
-                    Public/Private
-                  </FormLabel>
-                  <RadioGroup
-                    aria-labelledby="demo-controlled-radio-buttons-group"
-                    name="public"
-                    id="public"
-                    value={formInputData.public}
-                    onChange={handleInputChange}
-                  >
-                    <FormControlLabel
-                      value={true}
-                      control={<Radio />}
-                      label="Public"
-                    />
-                    <FormControlLabel
-                      value={false}
-                      control={<Radio />}
-                      label="Private"
-                    />
-                  </RadioGroup>
-                </FormControl>
-                <Button
-                  aria-label="Submit create project form"
-                  variant="contained"
+                <div className="flex-column gap-lg aic">
+                  <p>Public/Private</p>
+                  <div className="flex gap-lg">
+                    <span className="flex gap-lg">
+                      <input
+                        type="radio"
+                        id="Public"
+                        value={true}
+                        onClick={handleInputChange}
+                        name="Public"
+                      ></input>
+                      <label htmlFor="Public">Public</label>
+                    </span>
+                    <span className="flex gap-lg">
+                      <input
+                        type="radio"
+                        id="Public"
+                        value={false}
+                        onClick={handleInputChange}
+                        name="Public"
+                      ></input>
+                      <label htmlFor="Public">Private</label>
+                    </span>
+                  </div>
+                </div>
+                <button
+                  className="button-primary"
                   onClick={(e) => {
                     handleFormSubmit(e);
                   }}
                 >
                   Submit
-                </Button>
+                </button>
               </Box>
             </Modal>
           </div>

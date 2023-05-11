@@ -11,8 +11,13 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const UsersTable = () => {
-  const users = useSelector((state) => state.allUsers.userDisplayList);
-  const hasUsers = users.length > 0;
+  const users = useSelector((state) => state.allUsers.users);
+  let tableUsers = users.filter(user => user.deleted === false)
+  tableUsers = tableUsers.filter(user => user.role === 'Developer')
+  useEffect(() => {
+    
+  },[users])
+  const hasUsers = tableUsers.length > 0;
   const navigate = useNavigate();
   const navigateToUserPage = (id) => {
     navigate(`/users/${id}`)
@@ -37,7 +42,7 @@ const UsersTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.map((user) => (
+              {tableUsers.map((user) => (
                 <TableRow
                   key={[user._id, user.email]}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -46,7 +51,11 @@ const UsersTable = () => {
                   <TableCell align="left">{user.name}</TableCell>
                   <TableCell align="left">{user.email}</TableCell>
                   <TableCell align="left">{user.role}</TableCell>
-                  <TableCell align="left">{user.projectDisplay}</TableCell>
+                  <TableCell align="left">
+                    {
+                      user.assignable ?  <>-</>: <>{user.project.title}</>
+                    }
+                  </TableCell>
                   <TableCell align="left">{user.assignedBugs.length}</TableCell>
                   <TableCell align="left">{user.comments.length}</TableCell>
                   <TableCell align="left">

@@ -1,10 +1,263 @@
-*{ 
-    padding: 0;
-    margin: 0;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  letter-spacing: 0.9px;
+  height: 100vh;
 }
 
 a:-webkit-any-link {
   text-decoration: none;
-  color: white;
+  color: #7f55da;
   cursor: pointer;
+  padding: 2px;
+}
+
+nav {
+  border-right: 3px solid #f4f6fa;
+  color: black;
+  width: 15vw;
+  position: fixed;
+  padding: 10px;
+}
+
+.test {
+  width: 85%;
+  margin-left: 15vw;
+  overflow-x: scroll;
+  height: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.full-vh {
+  height: 100vh;
+}
+
+.border {
+  border: solid 1px red;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Background css */
+.primary-bg {
+  background-color: #7f55da;
+}
+/*end of background*/
+
+/* Padding */
+.p-md {
+  padding: 10px;
+}
+/* End of padding */
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.gap-md {
+  gap: 10px;
+}
+
+.gap-lg {
+  gap: 20px;
+}
+
+.aic {
+  align-items: center;
+}
+
+.jcc {
+  justify-content: center;
+}
+
+.space-around {
+  justify-content: space-around;
+}
+
+.stretch-self {
+  align-self: stretch;
+}
+
+.margin-top-md {
+  margin-top: 100px;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 10px;
+  gap: 5px;
+}
+
+.messageImg {
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  margin-top: 20px;
+}
+.messageText {
+  display: inline-block;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #7f55da;
+  color: white;
+  overflow-wrap: break-word;
+  max-width: 300px;
+}
+
+.messageBottom {
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+.message.own {
+  align-items: flex-end;
+  display: flex;
+  justify-content: center;
+}
+
+.message.own .messageText {
+  color: black;
+  background-color: rgb(245, 241, 241);
+}
+
+/* button css */
+button {
+  padding: 10px;
+  background-color: inherit;
+  border-radius: 5px;
+  color: inherit;
+  border: none;
+}
+
+.button-primary {
+  color: white;
+  background-color: #7f55da;
+
+  font-weight: bold;
+}
+
+.button-secondary {
+  color: #3c4aa3;
+  background-color: #e2eaff;
+}
+
+.button-ghost {
+  color: #7f55da;
+  border: 1px solid #7f55da;
+}
+
+/* end of button css */
+
+/* modal */
+.modal {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w*/
+  padding: 20px;
+}
+
+.modal-content {
+  background-color: var(--light-bg-color);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  width: 95%;
+  height: 95%;
+  border-radius: 0.3rem;
+  overflow: hidden;
+  overflow-y: scroll;
+  position: relative;
+}
+
+/* Table css */
+table,
+th,
+td {
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  width: max-content;
+  border-collapse: collapse;
+}
+
+tr {
+  padding: 10px;
+  border-bottom: 3px solid #f4f6fa;
+}
+th,
+td {
+  text-align: left;
+  /* border-right: 1px #ccc solid; */
+}
+/* End of table css */
+
+/* Radio css */
+/* input:checked{
+  background-color: pink;
+} */
+
+/* End of Radio CSS */
+
+
+/* Input  */
+input{
+  border: 2px solid #f4f6fa;
+  padding: 5px;
+  border-radius: 10px;
+}
+/*  */
+
+
+/* responsive */
+@media screen and (min-width: 480px) {
+  .desktop {
+    display: flex;
+  }
+  .mobile {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .desktop {
+    display: flex;
+    display: none;
+  }
+  .mobile {
+    display: flex;
+  }
 }

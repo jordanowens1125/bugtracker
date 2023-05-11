@@ -7,7 +7,7 @@ const project = require("../models/project");
 
 const getUsers = async (req, res) => {
   try {
-    const users = await User.find().populate("project");
+    const users = await User.find().populate("project").populate('assignedBugs');
     res.status(200).json(users);
   } catch (error) {
     res.status(404).json({ message: error });
@@ -56,7 +56,6 @@ const deleteUser = async (req, res) => {
         creator: mongoose.Types.ObjectId("000000000000000000000000"),
       }
     );
-
     await User.findOneAndDelete({ _id: req.params.id });
     res.status(200).json(user);
     //res.status(200).json()
@@ -146,15 +145,15 @@ const assignUserToProject = async (req, res) => {
     const projectID = req.body.projectID;
     //and add user to project and and project to user
     await Project.findByIdAndUpdate(projectID, {
-      $push: {
+      $addToSet: {
         members: userID,
       },
+      
     });
 
     const user = await User.findByIdAndUpdate(userID, {
-      $push: {
-        project: projectID,
-      },
+      project: projectID,
+      assignable: false,
     });
     res.status(200).json(user);
   } catch (err) {
@@ -167,9 +166,10 @@ const unAssignUsersFromProject = async (req, res) => {
     const projectID = req.body._id;
     const changedUsers = await User.updateMany(
       {},
-      { $pull: { project: projectID, assignedBugs: [] } }
+      {
+        $pull: { project: projectID, assignedBugs: [], assignable: true, },
+      }
     );
-    console.log(changedUsers);
 
     res.status(200).json();
   } catch (err) {
@@ -186,12 +186,13 @@ const unAssignUserFromProject = async (req, res) => {
     });
     const user = await User.findByIdAndUpdate(req.body.userID, {
       $pull: {
-        project: req.body.projectID,
         //remove project bugs from user
         assignedBugs: {
           $in: project.bugs,
         },
       },
+      assignable: true,
+      project: undefined,
     });
     //remove the user from the project bugs
     const bugs = await Bug.updateMany(
