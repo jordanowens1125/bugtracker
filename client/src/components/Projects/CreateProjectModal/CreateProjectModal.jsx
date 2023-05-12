@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import api from "../../../api/index";
 import TextField from "@mui/material/TextField";
@@ -11,10 +10,6 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
 import { useTheme } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
 import { setProjects } from "../../../redux/actions/projectActions";
@@ -181,27 +176,32 @@ const CreateProjectModal = () => {
               }}
             >
               <Box sx={style}>
-                <button className="button-secondary" onClick={handleModalClose}>
-                  Cancel
-                </button>
-                <TextField
+                <span>
+                  <button
+                    className="button-secondary"
+                    onClick={handleModalClose}
+                  >
+                    Cancel
+                  </button>
+                </span>
+                <label htmlFor="title">Title:</label>
+                <input
+                  type="text"
                   required
-                  label="Title"
-                  title={formInputData.title}
-                  onChange={handleInputChange}
                   id="title"
                   value={formInputData.title}
+                  onChange={handleInputChange}
                   placeholder={`Character limit is ${MAX_TITLE_LENGTH}`}
                 />
-                <TextField
+                <label htmlFor="description">Description:</label>
+                <textarea
                   required
                   id="description"
-                  label="Description"
-                  description={formInputData.description}
-                  minRows={8}
-                  onChange={handleInputChange}
-                  multiline
+                  className="h-md"
+                  rows="4"
+                  cols="50"
                   value={formInputData.description}
+                  onChange={handleInputChange}
                   placeholder={`Character limit is ${MAX_DESCRIPTION_LENGTH}`}
                 />
                 <FormControl>
@@ -236,26 +236,21 @@ const CreateProjectModal = () => {
                     ))}
                   </Select>
                 </FormControl>
-                <TextField
-                  id="start"
-                  label="Start"
-                  name="start"
+                <label htmlFor="start">Start:</label>
+                <input
                   type="date"
-                  defaultValue={formInputData.startDate}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                  name="start"
+                  id="start"
+                  value={formInputData.startDate}
                   onChange={handleInputChange}
                 />
-                <TextField
-                  id="deadline"
-                  label="Deadline"
-                  name="deadline"
+
+                <label htmlFor="deadline">Deadline:</label>
+                <input
                   type="date"
-                  defaultValue={formInputData.deadline}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                  name="deadline"
+                  id="deadline"
+                  value={formInputData.deadline}
                   onChange={handleInputChange}
                 />
                 <div className="flex-column gap-lg aic">

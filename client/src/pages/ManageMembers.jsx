@@ -2,10 +2,10 @@ import React from "react";
 
 const ManageMembers = () => {
   return (
-    <div>
-      <span>Back to project page</span>
+    <>
+      {/* <a>Go to project</a> */}
       ManageMembers
-    </div>
+    </>
   );
 };
 

@@ -7,16 +7,21 @@
 body {
   letter-spacing: 0.9px;
   height: 100vh;
+  width: 100%;
+}
+
+#root {
+  width: fit-content;
 }
 
 a:-webkit-any-link {
   text-decoration: none;
   color: #7f55da;
   cursor: pointer;
-  padding: 2px;
+  padding: 4px;
 }
 
-nav {
+.desktop-nav {
   border-right: 3px solid #f4f6fa;
   color: black;
   width: 15vw;
@@ -24,15 +29,40 @@ nav {
   padding: 10px;
 }
 
-.test {
-  width: 85%;
-  margin-left: 15vw;
-  overflow-x: scroll;
-  height: 100%;
+.mobile-nav {
+  border-bottom: 3px solid #f4f6fa;
+  display: flex;
+  position: sticky;
+  width: 100vw;
+  top: 0;
+  left: 0;
 }
 
+.mobile-nav-div {
+  position: sticky;
+  top: 5vh;
+  margin: auto;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.test {
+  width: 85vw;
+  margin-left: 15vw;
+  height: 100%;
+  min-height: 100vh;
+}
+
+.mobile-layout {
+  margin-top: 10vh;
+  overflow-x: scroll;
+}
+
+
+/* Width and Height */
 .full-width {
   width: 100%;
+  min-width: fit-content;
 }
 
 .full-height {
@@ -41,6 +71,20 @@ nav {
 
 .full-vh {
   height: 100vh;
+}
+
+.full-vw {
+  width: 100vw;
+}
+
+.h-md{
+  height: 400px;
+}
+
+/* End of weight and height */
+
+.overflow-x {
+  overflow-x: scroll;
 }
 
 .border {
@@ -61,15 +105,24 @@ html {
 .p-md {
   padding: 10px;
 }
+.p-lg {
+  padding: 20px;
+}
 /* End of padding */
 
 .flex {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .flex-column {
   display: flex;
   flex-direction: column;
+}
+
+.flex-start{
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .gap-md {
@@ -80,12 +133,20 @@ html {
   gap: 20px;
 }
 
+.gap-xl{
+  gap: 100px;
+}
+
 .aic {
   align-items: center;
 }
 
 .jcc {
   justify-content: center;
+}
+
+.space-between {
+  justify-content: space-between;
 }
 
 .space-around {
@@ -174,14 +235,14 @@ button {
 /* modal */
 .modal {
   display: flex;
-  position: fixed;
+  position: sticky;
   align-items: center;
   justify-content: center;
   top: 0;
   left: 0;
   z-index: 1;
-  height: 100%;
-  width: 100%;
+  height: 110vh;
+  width: 110vw;
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4); /* Black w*/
   padding: 20px;
@@ -212,11 +273,13 @@ table {
   width: 100%;
   width: max-content;
   border-collapse: collapse;
+  background-color: #f4f6fa;
+  border-radius: 15px;
 }
 
 tr {
   padding: 10px;
-  border-bottom: 3px solid #f4f6fa;
+  border-bottom: 3px solid #fff;
 }
 th,
 td {
@@ -225,6 +288,7 @@ td {
 }
 /* End of table css */
 
+
 /* Radio css */
 /* input:checked{
   background-color: pink;
@@ -232,16 +296,21 @@ td {
 
 /* End of Radio CSS */
 
-
 /* Input  */
-input{
+input {
   border: 2px solid #f4f6fa;
   padding: 5px;
-  border-radius: 10px;
 }
 /*  */
+/* ETC */
+textarea{
+  resize: none;
+  padding: 5px;
+  border-radius: 10px;
+  border: 2px solid #f4f6fa;
+}
 
-
+/*  */
 /* responsive */
 @media screen and (min-width: 480px) {
   .desktop {

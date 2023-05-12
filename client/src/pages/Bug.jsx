@@ -6,7 +6,6 @@ import BugComments from "../components/Bugs/BugComments/BugComments";
 const Bug = () => {
   const { id } = useParams();
   const [bug, setBug] = useState("");
-  console.log(bug);
   useEffect(() => {
     const fetchBug = async () => {
       const request = await api.bugs.fetchBug(id);
@@ -19,13 +18,18 @@ const Bug = () => {
       {bug && (
         <>
           <a href={`/projects/${bug.projectID}`}>Go to bug project</a>
-          {bug.title}
-          {bug.description}
-          {bug.assignedTo[0]?.name||'-'}
-          {bug.priority}
-          {/* Need Project title */}
-          {bug.projectID}
-          <BugComments bug={bug} />
+          <div className="flex space-between">
+            <div className="flex-column gap-md">
+              <h1>{bug.title}</h1>
+              <p>{bug.description}</p>
+              {/* Need Project title */}
+              <p>Project Title: {bug.projectID}</p>
+
+              <p>Assigned To: {bug.assignedTo[0]?.name || "-"}</p>
+              <p>Priority: {bug.priority}</p>
+            </div>
+            <BugComments bug={bug} />
+          </div>
         </>
       )}
     </div>

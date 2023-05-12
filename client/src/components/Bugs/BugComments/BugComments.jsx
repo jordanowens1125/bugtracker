@@ -2,9 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import api from "../../../api/index";
 import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
 import FormControl from "@mui/material/FormControl";
@@ -12,15 +10,9 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 import { useDispatch } from "react-redux";
-import { selectedBug } from "../../../redux/actions/bugActions";
 import Comment from "../Comment/Comment";
 import { setUsers } from "../../../redux/actions/userActions";
-import {
-  selectedProject,
-  setProjects,
-} from "../../../redux/actions/projectActions";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import { setComments } from "../../../redux/actions/commentActions";
 import { InputAdornment } from "@mui/material";
 
 const bugHasComments = (bug) => {
@@ -66,9 +58,7 @@ const scrollToBottom = () => {
 };
 
 const BugComments = ({ bug }) => {
-  const comments = bug.comments;
-  //getting error loading post because comment.creator is coming back null for some
-  //so i will temporarily filter the comments of those who dont have null for creator
+  const [comments, setComments] = useState(bug.comments)
   const filteredComments = [...comments];
   filteredComments.filter((comment) => comment.creator == null);
 
@@ -106,17 +96,10 @@ const BugComments = ({ bug }) => {
       //comment was uploading future time as in instead of 'a few seconds ago',
       //I would get in a few seconds so i subtracted some time
       newComment.date = commentTime.getTime() - 40000;
-      await api.comments.createComment(newComment);
-      const newBug = await api.bugs.fetchBug(bug._id);
-      //fetch project returns project and available members so specify the project
-      const newProject = await api.projects.fetchProject(bug.projectID).project;
-      const updatedProjects = await api.projects.fetchProjects();
-      dispatch(selectedBug(newBug));
-      const updatedComments = await api.comments.fetchBugComments(bug._id);
+      const response = await api.comments.createComment(newComment);
+      const updatedComments = [...comments, response]
 
       dispatch(setComments(updatedComments));
-      dispatch(selectedProject(newProject));
-      dispatch(setProjects(updatedProjects));
       setChatInput({
         text: "",
         input: "",
@@ -130,31 +113,15 @@ const BugComments = ({ bug }) => {
   return (
     <>
       {isThereACurrentBug ? (
-        <Paper
-          elevation={1}
-          sx={{
-            minWidth: 450,
-            gridArea: "comments",
-            justifyContent: "center",
-            width: "98%",
-          }}
-        >
-          <Box p={3}>
+      
+          <>
             <Button
               onClick={scrollToBottom}
               aria-label="Scroll to bottom of comments"
             >
               <ArrowDownwardIcon />
-            </Button>
-            <Divider sx={{ paddingTop: 2 }} />
-            <Grid
-              sx={{
-                overflow: "hidden",
-                overflowY: "scroll",
-                maxHeight: "800px",
-                position: "relative",
-              }}
-            >
+          </Button>
+          
               <Grid item>
                 <List>
                   {hasComments ? (
@@ -222,9 +189,7 @@ const BugComments = ({ bug }) => {
               ) : (
                 <></>
               )}
-            </Grid>
-          </Box>
-        </Paper>
+          </>
       ) : (
         <></>
       )}

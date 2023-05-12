@@ -1,55 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import Paper from "@mui/material/Paper";
 import BugComments from "../BugComments/BugComments";
-import {
-  removeSelectedBug,
-  selectedBug,
-  setBugs,
-} from "../../../redux/actions/bugActions";
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import EditBugModal from "../EditBugModal/EditBugModal";
-import { removeComments } from "../../../redux/actions/commentActions";
-import api from "../../../api/index";
-import { selectedUser, setUsers } from "../../../redux/actions/userActions";
-import { setMessage } from "../../../redux/actions/messageActions";
-import { selectedProject } from "../../../redux/actions/projectActions";
-
-const checkBug = (bug) => {
-  if (bug._id) {
-    if (bug.assignedTo) {
-      return true;
-    }
-  } else {
-    return false;
-  }
-};
-
-const checkIfUserIsAssignedToProject = (user, project) => {
-  if (user) {
-    if (user.project) {
-      if (user.project) {
-        if (user.project._id === project._id) {
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-};
-
-const checkIfUserCanWorkOnBug = (bug) => {
-  //for now only one person can be assigned to a bug at a time
-  if (bug) {
-    if (bug.assignedTo) {
-      if (bug.assignedTo.length === 0) {
-        return true;
-      }
-    }
-  }
-  return false;
-};
 
 const checkIfUserIsAssignedToBug = (bug, user) => {
   //make sure we have bug
@@ -71,48 +26,12 @@ const checkIfUserIsAssignedToBug = (bug, user) => {
 
 const BugDashboard = () => {
   const bug = useSelector((state) => state.currentBug);
-  const isBugFilled = checkBug(bug);
-  const dispatch = useDispatch();
-  const clearCurrentBug = () => {
-    dispatch(removeSelectedBug());
-    dispatch(removeComments());
-  };
   const user = useSelector((state) => state.currentUser);
   const project = useSelector((state) => state.project);
   const [userIsAdmin, setUserIsAdmin] = useState(false);
   //if on project and not assigned to bug  and bug assigned to is empty then user can join
   const [userCanEdit, setUserCanEdit] = useState(false);
   //if assigned to bug or admin then they can edit
-  const [userCanJoin, setUserCanJoin] = useState(false);
-
-  const handleJoinBugRequest = async () => {
-    const updatedUser = await api.users.assignBugToUser(user._id, bug._id);
-    const updatedBug = await api.bugs.fetchBug(bug._id);
-    const updatedUsers = await api.users.fetchUsers();
-    const updatedProject = await api.projects.fetchProject(bug.projectID);
-    const updatedBugs = await api.bugs.fetchBugs();
-    dispatch(selectedUser(updatedUser));
-    dispatch(selectedBug(updatedBug));
-    dispatch(setUsers(updatedUsers));
-    dispatch(selectedProject(updatedProject.project));
-    dispatch(setBugs(updatedBugs));
-    dispatch(setMessage(`You have been assigned to bug ${updatedBug.title}`));
-  };
-
-  const handleLeaveBugRequest = async () => {
-    const updatedUser = await api.users.unAssignBugFromUser(user._id, bug._id);
-    const updatedBug = await api.bugs.fetchBug(bug._id);
-    const updatedUsers = await api.users.fetchUsers();
-    // const updatedProject = await api.projects.fetchProject(bug.projectID);
-    const updatedBugs = await api.bugs.fetchBugs();
-    dispatch(selectedUser(updatedUser));
-    dispatch(selectedBug(updatedBug));
-    dispatch(setUsers(updatedUsers));
-    dispatch(setBugs(updatedBugs));
-    dispatch(
-      setMessage(`You have been unassigned from bug ${updatedBug.title}`)
-    );
-  };
 
   useEffect(() => {
     //is user admin?
@@ -120,19 +39,6 @@ const BugDashboard = () => {
       setUserIsAdmin(true);
     } else {
       setUserIsAdmin(false);
-    }
-    //can user join
-    if (
-      checkIfUserIsAssignedToProject(user, project) &&
-      checkIfUserCanWorkOnBug(bug, user)
-    ) {
-      //check if user is on project and if bug is not assigned to anyone
-      //make sure this is not an admin
-      if (user.role !== "Admin") {
-        setUserCanJoin(true);
-      }
-    } else {
-      setUserCanJoin(false);
     }
     //can user edit
     if (userIsAdmin || checkIfUserIsAssignedToBug(bug, user)) {
@@ -185,22 +91,9 @@ const BugDashboard = () => {
             marginTop: { xs: "7%", sm: "5%", md: "2%", lg: "0%" },
           }}
         >
-          <Typography>Selected Bug Info</Typography>
-          {isBugFilled ? (
-            <>
-              <Button
-                aria-label="Clear Bug Info"
-                variant="contained"
-                onClick={clearCurrentBug}
-              >
-                Clear Bug
-              </Button>
-            </>
-          ) : (
-            <></>
-          )}
+          
         </Paper>
-        {isBugFilled ? (
+        
           <>
             <Paper
               elevation={1}
@@ -217,30 +110,14 @@ const BugDashboard = () => {
                     <></>
                   ) : (
                     <>
-                      <Button
-                        aria-label="Unassign yourself from this bug"
-                        onClick={handleLeaveBugRequest}
-                      >
-                        Unassign self from bug
-                      </Button>
+                      
                     </>
                   )}
                 </>
               ) : (
                 <></>
               )}
-              {userCanJoin ? (
-                <>
-                  <Button
-                    onClick={handleJoinBugRequest}
-                    aria-label="Add yourself to this bug"
-                  >
-                    Join
-                  </Button>
-                </>
-              ) : (
-                <></>
-              )}
+              
               <Box
                 sx={{
                   display: "grid",
@@ -331,9 +208,6 @@ const BugDashboard = () => {
             </Paper>
             <BugComments />
           </>
-        ) : (
-          <></>
-        )}
       </Box>
     </>
   );

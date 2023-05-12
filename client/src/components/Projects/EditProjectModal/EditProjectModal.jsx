@@ -54,12 +54,12 @@ const MenuProps = {
   },
 };
 
-const EditProjectModal = () => {
+const EditProjectModal = ({project}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const user = useSelector((state) => state.currentUser);
   const isAdminUser = user.role === "Admin";
   const handleModalOpen = () => setModalOpen(true);
-  const currentProject = useSelector((state) => state.project);
+  const currentProject = project
   const users = useSelector((state) => state.allUsers.users)
   let availableMembers = users.filter(user => user.assignable === true && user.deleted === false && user.role === 'Developer')
   if (currentProject.members) {
@@ -130,9 +130,9 @@ const EditProjectModal = () => {
     <>
       {isAdminUser ? (
         <>
-          <Button onClick={handleModalOpen} variant="contained">
+          <button className="button-primary" onClick={handleModalOpen}>
             Edit Project
-          </Button>
+          </button>
           <Modal
             open={modalOpen}
             onClose={handleModalClose}
