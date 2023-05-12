@@ -1,19 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import api from "../../../api/index";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import List from "@mui/material/List";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import SendIcon from "@mui/icons-material/Send";
 import { useDispatch } from "react-redux";
 import Comment from "../Comment/Comment";
 import { setUsers } from "../../../redux/actions/userActions";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import { InputAdornment } from "@mui/material";
 
 const bugHasComments = (bug) => {
   if (bug.comments) {
@@ -112,17 +102,17 @@ const BugComments = ({ bug }) => {
   useEffect(() => {}, [bug]);
   return (
     <>
-      {isThereACurrentBug ? (
+      {isThereACurrentBug && (
       
           <>
-            <Button
+            {/* <Button
               onClick={scrollToBottom}
               aria-label="Scroll to bottom of comments"
             >
               <ArrowDownwardIcon />
-          </Button>
+          </Button> */}
           
-              <Grid item>
+              {/* <Grid item>
                 <List>
                   {hasComments ? (
                     <>
@@ -139,59 +129,13 @@ const BugComments = ({ bug }) => {
                     <></>
                   )}
                 </List>
-              </Grid>
-              {canUserMakeCommentsOnThisBug ? (
+              </Grid> */}
+              {canUserMakeCommentsOnThisBug && (
                 <>
-                  <Box
-                    component="form"
-                    sx={{
-                      display: "flex",
-                    }}
-                    onSubmit={sendComment}
-                    autoComplete="off"
-                  >
-                    <FormControl
-                      sx={{
-                        width: "100%",
-                        paddingRight: 1,
-                      }}
-                    >
-                      <TextField
-                        id="text"
-                        value={chatInput.text}
-                        label="Type your message"
-                        variant="filled"
-                        onChange={handleChange}
-                        sx={{
-                          flex: 1,
-                        }}
-                        fullWidth
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              {/* <IconButton>
-                                <CancelIcon color="error" />
-                              </IconButton> */}
-                              <IconButton
-                                aria-label="Submit new comment"
-                                color="primary"
-                                type="submit"
-                              >
-                                <SendIcon />
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </FormControl>
-                  </Box>
+                 
                 </>
-              ) : (
-                <></>
               )}
           </>
-      ) : (
-        <></>
       )}
     </>
   );

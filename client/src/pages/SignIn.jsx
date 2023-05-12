@@ -1,28 +1,13 @@
 import React from "react";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useUserAuth } from "../context/userAuthContext";
-import Alert from "@mui/material/Alert";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import { selectedUser, setUsers } from "../redux/actions/userActions";
 import api from "../api/index";
 
 function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {`Copyright © ${new Date().getFullYear()}`}
-    </Typography>
-  );
+  return <>{`Copyright © ${new Date().getFullYear()}`}</>;
 }
 
 const searchForMember = (uid, users) => {
@@ -47,7 +32,7 @@ const SignIn = () => {
     if (user) {
       navigate("/");
     }
-  }, [user]);
+  }, [user, navigate]);
 
   const SignInAsDemoDeveloper = async () => {
     setError("");
@@ -107,15 +92,15 @@ const SignIn = () => {
         <button>Login with Google</button>
         <button>Sign Up</button>
       </div>
-      <Avatar sx={{ m: 1, bgcolor: "white", border: "2px solid #1976d2" }}>
+      {/* <Avatar sx={{ m: 1, bgcolor: "white", border: "2px solid #1976d2" }}>
         <LockOutlinedIcon color="primary" />
-      </Avatar>
-      {error && (
+      </Avatar> */}
+      {/* {error && (
         <Alert variant="filled" color="error">
           {error}
         </Alert>
-      )}
-      <Button
+      )} */}
+      {/* <Button
         onClick={GoogleLogin}
         aria-label="Login with google"
         type="submit"
@@ -136,7 +121,7 @@ const SignIn = () => {
         Sign Up
       </Button>
 
-      <Copyright sx={{ mt: 8, mb: 4 }} />
+      <Copyright sx={{ mt: 8, mb: 4 }} /> */}
     </>
   );
 };

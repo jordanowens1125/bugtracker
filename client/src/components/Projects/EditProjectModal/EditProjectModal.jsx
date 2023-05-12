@@ -8,23 +8,6 @@ import {
 } from "../../../redux/actions/projectActions";
 import { setMessage } from "../../../redux/actions/messageActions";
 import { setUsers } from "../../../redux/actions/userActions";
-import Avatar from "@mui/material/Avatar";
-import Checkbox from "@mui/material/Checkbox";
-import ListItemText from "@mui/material/ListItemText";
-import Chip from "@mui/material/Chip";
-import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Modal from "@mui/material/Modal";
-import Box from "@mui/material/Box";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
 
 const MAX_TITLE_LENGTH = 20;
 const MAX_DESCRIPTION_LENGTH = 200;
@@ -133,18 +116,8 @@ const EditProjectModal = ({project}) => {
           <button className="button-primary" onClick={handleModalOpen}>
             Edit Project
           </button>
-          <Modal
-            open={modalOpen}
-            onClose={handleModalClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Box sx={style}>
+
+            {/* <Box sx={style}>
               <TextField
                 required
                 label="Title"
@@ -256,8 +229,7 @@ const EditProjectModal = ({project}) => {
               >
                 Submit
               </Button>
-            </Box>
-          </Modal>
+            </Box> */}
         </>
       ) : (
         <></>

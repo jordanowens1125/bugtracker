@@ -10,30 +10,26 @@ const UserDashboard = () => {
   const isUserAnAdmin = user.role === "Admin";
   const isUserADeveloper = user.role === "Developer";
   const isUserAViewer = user.role === "Viewer";
+  const isPM = user.role === "Project Manager";
   useEffect(() => {}, [user]);
   return (
     <>
-      {isUserAnAdmin ? (
+      {isUserAnAdmin && (
         <>
           <AdminDashboard />
         </>
-      ) : (
-        <></>
       )}
-      {isUserADeveloper ? (
+      {isUserADeveloper && (
         <>
           <DeveloperDashboard />
         </>
-      ) : (
-        <></>
       )}
-      {isUserAViewer ? (
+      {isUserAViewer && (
         <>
           <ViewerDashboard />
         </>
-      ) : (
-        <></>
       )}
+      {isPM && <></>}
     </>
   );
 };

@@ -1,15 +1,23 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import CreateProjectModal from "../Projects/CreateProjectModal/CreateProjectModal";
-
+import { useSelector,} from "react-redux";
 
 const AdminDashboard = () => {
   const projects = useSelector((state) => state.allProjects.projects);
 
   return (
     <>
-      <CreateProjectModal />
-      Admin Home
+      <div className="page border">
+        <h1>Welcome username</h1>
+        <a href="/createproject" aria-label="Open create project form">
+          {" "}
+          Create Project
+        </a>
+        Admin Home
+
+        tickets
+        projects
+        Schedule
+      </div>
     </>
   );
 };

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import api from "../../../api/index";
-import TextField from "@mui/material/TextField";
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import InputLabel from "@mui/material/InputLabel";
@@ -30,40 +29,6 @@ const initialState = {
   client: "",
   public: true,
 };
-
-const style = {
-  margin: "auto",
-  width: "60%",
-  height: "90%",
-  bgcolor: "background.paper",
-  border: "1px solid #000",
-  boxShadow: 24,
-  p: 4,
-  display: "flex",
-  flexDirection: "column",
-  gap: "10px",
-  overflowY: "auto",
-};
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-function getStyles(name, bugName, theme) {
-  return {
-    fontWeight:
-      bugName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
 
 const CreateProjectModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -163,6 +128,13 @@ const CreateProjectModal = () => {
             >
               Create Project
             </button>
+            <a
+              href="/createproject"
+              aria-label="Open create project form"
+            >
+              {" "}
+              Create Project
+            </a>
 
             <Modal
               open={modalOpen}
@@ -175,11 +147,12 @@ const CreateProjectModal = () => {
                 justifyContent: "center",
               }}
             >
-              <Box sx={style}>
+              <form className="modal-content" onSubmit={handleFormSubmit}>
                 <span>
                   <button
                     className="button-secondary"
                     onClick={handleModalClose}
+                    type="button"
                   >
                     Cancel
                   </button>
@@ -204,7 +177,7 @@ const CreateProjectModal = () => {
                   onChange={handleInputChange}
                   placeholder={`Character limit is ${MAX_DESCRIPTION_LENGTH}`}
                 />
-                <FormControl>
+                {/* <FormControl>
                   <InputLabel id="demo-multiple-chip-label">Members</InputLabel>
                   <Select
                     labelId="demo-multiple-chip-label"
@@ -235,12 +208,22 @@ const CreateProjectModal = () => {
                       </MenuItem>
                     ))}
                   </Select>
-                </FormControl>
-                <label htmlFor="start">Start:</label>
+                </FormControl> */}
+                <label htmlFor="members">Project Members:</label>
+                <fieldset className="h-md flex-column">
+                  {unAssignedUsers.map((user) => (
+                    <div key={user._id} className="gap-md flex ">
+                      <input type="radio" name={user.name} value={user}></input>
+                      {user.name}
+                      {user.email}
+                    </div>
+                  ))}
+                </fieldset>
+                <label htmlFor="startDate">Start:</label>
                 <input
                   type="date"
-                  name="start"
-                  id="start"
+                  name="startDate"
+                  id="startDate"
                   value={formInputData.startDate}
                   onChange={handleInputChange}
                 />
@@ -260,9 +243,10 @@ const CreateProjectModal = () => {
                       <input
                         type="radio"
                         id="Public"
-                        value={true}
+                        value={formInputData.public}
                         onClick={handleInputChange}
                         name="Public"
+                        defaultChecked
                       ></input>
                       <label htmlFor="Public">Public</label>
                     </span>
@@ -278,15 +262,10 @@ const CreateProjectModal = () => {
                     </span>
                   </div>
                 </div>
-                <button
-                  className="button-primary"
-                  onClick={(e) => {
-                    handleFormSubmit(e);
-                  }}
-                >
+                <button className="button-primary" type="submit">
                   Submit
                 </button>
-              </Box>
+              </form>
             </Modal>
           </div>
         </>

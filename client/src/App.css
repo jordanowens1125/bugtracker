@@ -2,6 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  word-wrap: break-word;
 }
 
 body {
@@ -58,7 +59,6 @@ a:-webkit-any-link {
   overflow-x: scroll;
 }
 
-
 /* Width and Height */
 .full-width {
   width: 100%;
@@ -77,14 +77,36 @@ a:-webkit-any-link {
   width: 100vw;
 }
 
-.h-md{
+.w-md {
+  width: 80px;
+}
+
+.w-lg {
+  width: 100%;
+}
+
+.w-content {
+  width: fit-content;
+}
+
+.h-md {
   height: 400px;
+  overflow-y: scroll;
+}
+
+.h-lg {
+  height: 600px;
+  overflow-y: scroll;
 }
 
 /* End of weight and height */
 
 .overflow-x {
   overflow-x: scroll;
+}
+
+.overflow-y {
+  overflow-y: scroll;
 }
 
 .border {
@@ -99,6 +121,10 @@ html {
 .primary-bg {
   background-color: #7f55da;
 }
+
+.background-bg {
+  background-color: #fff;
+}
 /*end of background*/
 
 /* Padding */
@@ -107,6 +133,10 @@ html {
 }
 .p-lg {
   padding: 20px;
+}
+
+.p-right-md {
+  padding-right: 10px;
 }
 /* End of padding */
 
@@ -120,7 +150,7 @@ html {
   flex-direction: column;
 }
 
-.flex-start{
+.flex-start {
   justify-content: flex-start;
   align-items: flex-start;
 }
@@ -133,7 +163,7 @@ html {
   gap: 20px;
 }
 
-.gap-xl{
+.gap-xl {
   gap: 100px;
 }
 
@@ -157,9 +187,90 @@ html {
   align-self: stretch;
 }
 
+/* Margin */
 .margin-top-md {
   margin-top: 100px;
 }
+
+.m-right-lg {
+  margin-right: 25px;
+}
+/* End of Margin */
+
+/* Table css */
+table,
+th,
+td {
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  width: max-content;
+  border-collapse: collapse;
+  background-color: #f4f6fa;
+  border-radius: 15px;
+}
+
+tr {
+  padding: 10px;
+  border-bottom: 3px solid #fff;
+}
+th,
+td {
+  text-align: left;
+  /* border-right: 1px #ccc solid; */
+}
+/* End of table css */
+
+/* Radio css */
+/* input:checked{
+  background-color: pink;
+} */
+
+/* End of Radio CSS */
+
+/* Input  */
+input,
+fieldset,
+textarea {
+  border: 2px solid #f4f6fa;
+  padding: 5px;
+  border-radius: 10px;
+}
+/*  */
+/* ETC */
+textarea {
+  resize: none;
+}
+
+/* button css */
+button {
+  padding: 10px;
+  background-color: inherit;
+  border-radius: 5px;
+  color: inherit;
+  border: none;
+}
+
+.button-primary {
+  color: white;
+  background-color: #7f55da;
+
+  font-weight: bold;
+}
+
+.button-secondary {
+  color: #3c4aa3;
+  background-color: #e2eaff;
+}
+
+.button-ghost {
+  color: #7f55da;
+  border: 1px solid #7f55da;
+}
+
+/* end of button css */
 
 .message {
   display: flex;
@@ -204,34 +315,6 @@ html {
   background-color: rgb(245, 241, 241);
 }
 
-/* button css */
-button {
-  padding: 10px;
-  background-color: inherit;
-  border-radius: 5px;
-  color: inherit;
-  border: none;
-}
-
-.button-primary {
-  color: white;
-  background-color: #7f55da;
-
-  font-weight: bold;
-}
-
-.button-secondary {
-  color: #3c4aa3;
-  background-color: #e2eaff;
-}
-
-.button-ghost {
-  color: #7f55da;
-  border: 1px solid #7f55da;
-}
-
-/* end of button css */
-
 /* modal */
 .modal {
   display: flex;
@@ -249,7 +332,7 @@ button {
 }
 
 .modal-content {
-  background-color: var(--light-bg-color);
+  background-color: #fff;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -261,56 +344,105 @@ button {
   overflow-y: scroll;
   position: relative;
 }
+/*End of modal  */
 
-/* Table css */
-table,
-th,
-td {
-  padding: 20px;
+
+
+
+/* update project members */
+.update-project-members {
+  display: grid;
+  grid-template-areas:
+    "link . ."
+    "title . ."
+    "desc . ."
+    "members members members"
+    ". update ."
+    "available available available";
+  gap: 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-table {
-  width: 100%;
-  width: max-content;
-  border-collapse: collapse;
-  background-color: #f4f6fa;
-  border-radius: 15px;
+.update-project-members a {
+  grid-area: link;
 }
 
-tr {
-  padding: 10px;
-  border-bottom: 3px solid #fff;
-}
-th,
-td {
-  text-align: left;
-  /* border-right: 1px #ccc solid; */
-}
-/* End of table css */
-
-
-/* Radio css */
-/* input:checked{
-  background-color: pink;
-} */
-
-/* End of Radio CSS */
-
-/* Input  */
-input {
-  border: 2px solid #f4f6fa;
-  padding: 5px;
-}
-/*  */
-/* ETC */
-textarea{
-  resize: none;
-  padding: 5px;
-  border-radius: 10px;
-  border: 2px solid #f4f6fa;
+.update-project-members h3 {
+  grid-area: title;
 }
 
-/*  */
+.update-project-members p {
+  grid-area: desc;
+}
+
+.update-project-members .submit {
+  grid-area: update;
+}
+
+.update-project-members .current {
+  grid-area: members;
+}
+
+.update-project-members .available {
+  grid-area: available;
+}
+/* End of update project members */
+
+/* bug  */
+.bug-page {
+  display: grid;
+  grid-template-areas:
+    "link"
+    "info"
+    "comments";
+  height: 100vh;
+}
+
+.bug-page a {
+  grid-area: link;
+}
+/* End of bug */
+
+/* manage users page */
+.manage-users {
+  display: grid;
+  gap: 10px;
+  padding-right: 20px;
+  grid-template-areas:
+    "header ."
+    "search  submit"
+    "available selected";
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.manage-users h1 {
+  grid-area: header;
+}
+
+.manage-users .search {
+  grid-area: search;
+}
+
+.manage-users .submit {
+  grid-area: submit;
+}
+
+.manage-users .tables {
+  grid-area: tables;
+}
+.manage-users .available {
+  grid-area: available;
+  overflow-y: scroll;
+  height: 600px;
+}
+
+.manage-users .selected {
+  grid-area: selected;
+  overflow-y: scroll;
+  height: 600px;
+}
+/* End of manage users page */
+
 /* responsive */
 @media screen and (min-width: 480px) {
   .desktop {
@@ -328,5 +460,33 @@ textarea{
   }
   .mobile {
     display: flex;
+  }
+  .mobile-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .manage-users {
+    padding-right: unset;
+    padding: 10px;
+  }
+  .manage-users .selected {
+    height: fit-content;
+    max-height: 600px;
+  }
+  .manage-users .available {
+    height: fit-content;
+    max-height: 600px;
+  }
+
+  .update-project-members,
+  .bug-page,
+  .page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 }

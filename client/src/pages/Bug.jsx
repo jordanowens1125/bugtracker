@@ -14,24 +14,28 @@ const Bug = () => {
     fetchBug();
   }, [id]);
   return (
-    <div>
+    <div className="bug-page">
       {bug && (
         <>
           <a href={`/projects/${bug.projectID}`}>Go to bug project</a>
-          <div className="flex space-between">
-            <div className="flex-column gap-md">
-              <h1>{bug.title}</h1>
-              <p>{bug.description}</p>
-              {/* Need Project title */}
-              <p>Project Title: {bug.projectID}</p>
+          <section className="p-md gap-md flex-colum">
+            <span className="flex gap-lg">
+              <h1>Title: {bug.title}</h1>
+              <a href={`bugs/${bug._id}/edit`} >Edit</a>
+            </span>
 
-              <p>Assigned To: {bug.assignedTo[0]?.name || "-"}</p>
-              <p>Priority: {bug.priority}</p>
-            </div>
+            <p>Description: {bug.description}</p>
+            {/* Need Project title */}
+            <p>Project Title: {bug.projectID}</p>
+            <p>Assigned To: {bug.assignedTo[0]?.name || "-"}</p>
+            <p>Priority: {bug.priority}</p>
+          </section>
+          <div className="p-md full-height overflow-y">
             <BugComments bug={bug} />
           </div>
         </>
       )}
+      {!bug && <>No bug found</>}
     </div>
   );
 };

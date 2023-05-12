@@ -1,24 +1,14 @@
 import { Outlet,  useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import MuiAlert from "@mui/material/Alert";
 import { useUserAuth } from "../context/userAuthContext";
-import Snackbar from "@mui/material/Snackbar";
-import PestControlIcon from "@mui/icons-material/PestControl";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import MenuIcon from "@mui/icons-material/Menu";
+
 import { clearMessage, setMessage } from "../redux/actions/messageActions";
 import { removeSelectedUser } from "../redux/actions/userActions";
 
-const pages = [
-  // { name: "Home", icon: <HomeIcon />, link: "/" },
-  { name: "Projects", icon: <FormatListBulletedIcon />, link: "/Projects" },
-  { name: "Bugs", icon: <PestControlIcon />, link: "/Bugs" },
-];
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+// const Alert = React.forwardRef(function Alert(props, ref) {
+//   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+// });
 
 const Navbar = () => {
   const currentUser = useSelector((state) => state.currentUser);
@@ -75,7 +65,7 @@ const Navbar = () => {
           )}
         </nav>
         {/* Popup to show status or crud operations  */}
-        <Snackbar
+        {/* <Snackbar
           open={messageInfo.open}
           autoHideDuration={4000}
           onClose={handleAlertClose}
@@ -88,7 +78,7 @@ const Navbar = () => {
           >
             {messageInfo.text}
           </Alert>
-        </Snackbar>
+        </Snackbar> */}
         <div className="test flex-column p-md">
           <Outlet />
         </div>
@@ -116,7 +106,8 @@ const Navbar = () => {
               ) : (
                 <>
                   <div className="mobile-nav-div border">
-                    {user && <MenuIcon onClick={() => setMobileOpen(true)} />}
+                      {/* {user && <MenuIcon onClick={() => setMobileOpen(true)} />} */}
+                      Menu item to open mobile nav
                   </div>
                 </>
               )}
@@ -124,7 +115,7 @@ const Navbar = () => {
           )}
         </nav>
         {/* Popup to show status or crud operations  */}
-        <Snackbar
+        {/* <Snackbar
           open={messageInfo.open}
           autoHideDuration={4000}
           onClose={handleAlertClose}
@@ -137,7 +128,7 @@ const Navbar = () => {
           >
             {messageInfo.text}
           </Alert>
-        </Snackbar>
+        </Snackbar> */}
           <Outlet />
       </div>
     </>

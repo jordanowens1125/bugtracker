@@ -19,6 +19,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Bug from "./pages/Bug";
 import ManageMembers from "./pages/ManageMembers";
 import ManageUsers from "./pages/ManageUsers";
+import CreateProject from './pages/CreateProject'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState } from "react";
 
@@ -63,12 +64,10 @@ function App() {
                 element={<ManageMembers />}
               />
               {/* Admin only */}
-              <Route
-                path="manageusers"
-                element={<ManageUsers />}
-              />
+              <Route path="manageusers" element={<ManageUsers />} />
               {/* <Route path="users" element={<Users />} />
               <Route path="users/:id" element={<User />} /> */}
+              <Route path="createproject" element={<CreateProject />} />
             </Route>
             {/* <Route index element={<Home />} />
             <Route path="bugs" element={<Bugs />} />
