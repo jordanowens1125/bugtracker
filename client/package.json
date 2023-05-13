@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://bugtracker-frontend.onrender.com/",
   "dependencies": {
+    "@nivo/pie": "^0.83.0",
     "@reduxjs/toolkit": "^1.9.4",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

@@ -6,7 +6,7 @@ const Project = require("../models/project");
 
 const getBugs = async (req, res) => {
   try {
-    const bugs = await Bug.find().populate("comments").populate("assignedTo");
+    const bugs = await Bug.find().populate('projectID').populate('assignedTo');
     res.status(200).json(bugs);
   } catch (error) {
     res.status(404).json({ message: error });

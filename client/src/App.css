@@ -346,9 +346,8 @@ button {
 }
 /*End of modal  */
 
-
-
-
+.page {
+}
 /* update project members */
 .update-project-members {
   display: grid;
