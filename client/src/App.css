@@ -58,18 +58,18 @@ a:-webkit-any-link {
 }
 
 .h-md {
-  height: 400px;
-  overflow-y: scroll;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .h-lg {
-  height: 600px;
-  overflow-y: scroll;
+  max-height: 600px;
+  overflow-y: auto;
 }
 
 .h-xl {
   max-height: 800px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 /* End of weight and height */
 
@@ -148,6 +148,11 @@ a:-webkit-any-link {
   align-items: flex-start;
 }
 
+.flex-end {
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
 .gap-md {
   gap: 10px;
 }
@@ -202,7 +207,7 @@ td {
   padding: 20px;
 }
 
-caption{
+caption {
   caption-side: top;
   color: #7f55da;
 }
@@ -436,35 +441,42 @@ a:hover {
   background-color: #f4f6fa;
 }
 
-/* modal */
-.modal {
-  display: flex;
-  position: sticky;
-  align-items: center;
-  justify-content: center;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  height: 110vh;
-  width: 110vw;
-  background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w*/
+/* create-project */
+.create-project {
+  display: grid;
+  gap: 10px;
+  grid-template-areas:
+    "header . . ."
+    "title title submit submit"
+    "info info description description"
+    "available available selected selected";
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.modal-content {
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 20px;
-  width: 95%;
-  height: 95%;
-  border-radius: 0.3rem;
-  overflow: hidden;
-  overflow-y: scroll;
-  position: relative;
+.create-project .title {
+  grid-area: title;
 }
-/*End of modal  */
+
+.create-project .info {
+  grid-area: info;
+}
+
+.create-project .submit {
+  grid-area: submit;
+}
+
+.create-project .description {
+  grid-area: description;
+}
+
+.create-project .available {
+  grid-area: available;
+}
+
+.create-project .selected {
+  grid-area: selected;
+}
+/* End of create project */
 
 /* bug  */
 .bug-page {
@@ -487,15 +499,18 @@ a:hover {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.manage-users .header, .manage-members .header {
+.manage-users .header,
+.manage-members .header {
   grid-area: header;
 }
 
-.manage-users .search, .manage-members .search {
+.manage-users .search,
+.manage-members .search {
   grid-area: search;
 }
 
-.manage-users .submit, .manage-members .submit {
+.manage-users .submit,
+.manage-members .submit {
   grid-area: submit;
 }
 
@@ -515,7 +530,7 @@ a:hover {
 /* End of manage users page */
 
 /* responsive */
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 800px) {
   .desktop {
     display: flex;
   }
@@ -524,7 +539,7 @@ a:hover {
   }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
   .desktop {
     display: flex;
     display: none;
@@ -541,17 +556,18 @@ a:hover {
     gap: 10px;
   }
   .manage-users,
-  .manage-members {
+  .manage-members,
+  .create-project {
     padding-right: unset;
     padding: 10px;
+    overflow-x: auto;
   }
   .manage-users .selected,
-  .manage-members .selected {
-    height: fit-content;
-    max-height: 600px;
-  }
+  .manage-members .selected,
+  .create-project .selected,
   .manage-users .available,
-  .manage-members .available {
+  .manage-members .available,
+  .create-project .available {
     height: fit-content;
     max-height: 600px;
   }

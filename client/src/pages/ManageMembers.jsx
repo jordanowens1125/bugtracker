@@ -9,6 +9,7 @@ const ManageMembers = () => {
   const [currentMembers, setCurrentMembers] = useState([]);
   const [savedCurrent, setSavedCurrent] = useState([]);
   const [savedAvailable, setSavedAvailable] = useState([]);
+
   useEffect(() => {
     if (projectID && projectID !== "") {
       const fetchProjectDetails = async () => {
@@ -26,6 +27,7 @@ const ManageMembers = () => {
       fetchProjectDetails();
     }
   }, [projectID]);
+  
   const removeUser = (user, index) => {
     const copyCurrent = [...currentMembers];
     const copyAvailable = [...availableMembers];

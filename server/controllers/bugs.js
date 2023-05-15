@@ -6,7 +6,7 @@ const Project = require("../models/project");
 
 const getBugs = async (req, res) => {
   try {
-    const bugs = await Bug.find().populate('projectID').populate('assignedTo');
+    const bugs = await Bug.find().populate("projectID").populate("assignedTo");
     res.status(200).json(bugs);
   } catch (error) {
     res.status(404).json({ message: error });
@@ -74,7 +74,11 @@ const getBug = async (req, res) => {
       .populate("comments")
       .populate("projectID")
       .populate("assignedTo");
-    res.status(200).json(bug);
+    console.log(bug.projectID._id);
+    const members = await User.find({
+      project: bug.projectID._id,
+    });
+    res.status(200).json({ bug, members });
   } catch (error) {
     res.status(404).json({ message: error });
   }
@@ -85,10 +89,9 @@ const updateBug = async (req, res) => {
     let _id = req.params.id;
     let updatedBug = req.body.updatedBug;
     let oldBug = req.body.currentBug;
-
     //remove old users from bug
     await User.findByIdAndUpdate(
-      { $in: oldBug.assignedTo },
+      { _id: oldBug.assignedTo },
       {
         $pull: {
           assignedBugs: _id,
@@ -97,18 +100,18 @@ const updateBug = async (req, res) => {
     );
 
     //remove old bug from old related bugs
-    await Bug.findByIdAndUpdate(
-      { $in: oldBug.relatedBugs },
-      {
-        $pull: {
-          relatedBugs: _id,
-        },
-      }
-    );
-
+    // await Bug.findByIdAndUpdate(
+    //   { $in: oldBug.relatedBugs },
+    //   {
+    //     $pull: {
+    //       relatedBugs: _id,
+    //     },
+    //   }
+    // );
+    console.log(updatedBug);
     //add bug to new users
     await User.findByIdAndUpdate(
-      { $in: updatedBug.assignedTo },
+      { _id: updatedBug.assignedTo },
       {
         $addToSet: {
           assignedBugs: _id,
@@ -117,15 +120,14 @@ const updateBug = async (req, res) => {
     );
 
     //add bug to new related bugs
-    await Bug.findByIdAndUpdate(
-      { $in: updatedBug.relatedBugs },
-      {
-        $addToSet: {
-          relatedBugs: _id,
-        },
-      }
-    );
-
+    // await Bug.findByIdAndUpdate(
+    //   { _id: updatedBug.relatedBugs },
+    //   {
+    //     $addToSet: {
+    //       relatedBugs: _id,
+    //     },
+    //   }
+    // );
     const {
       title,
       description,

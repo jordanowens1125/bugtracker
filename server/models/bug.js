@@ -24,7 +24,7 @@ const BugSchema = new Schema({
     enum: ["Low", "Medium", "High"],
     default: "Low",
   },
-  assignedTo: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  assignedTo: { type: Schema.Types.ObjectId, ref: "User" },
   relatedBugs: [{ type: Schema.Types.ObjectId, ref: "Bug" }],
   projectID: {
     type: Schema.Types.ObjectId,

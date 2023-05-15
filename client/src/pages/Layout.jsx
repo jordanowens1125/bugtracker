@@ -51,6 +51,9 @@ const Navbar = () => {
                   {currentUser.role === "Admin" && (
                     <a href="/manageusers">Manage Users</a>
                   )}
+                  {currentUser.role === "Admin" && (
+                    <a href="/createproject">New project</a>
+                  )}
                   {/* <a href="/Bugs">Schedule</a> */}
                 </div>
                 <div className="flex-column gap-lg">
@@ -92,10 +95,7 @@ const Navbar = () => {
             <>
               {mobile ? (
                 <>
-                  <div
-                    className="modal "
-                    onClick={() => setMobileOpen(false)}
-                  >
+                  <div className="modal " onClick={() => setMobileOpen(false)}>
                     {user && (
                       <>
                         <div className="flex-column space-around aic jcc full-height full-width">

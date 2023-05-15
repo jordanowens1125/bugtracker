@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { setMessage } from "../redux/actions/messageActions";
 
-const MAX_TITLE_LENGTH = 20;
+const MAX_TITLE_LENGTH = 30;
 const MAX_DESCRIPTION_LENGTH = 200;
 
 const initialState = {
@@ -22,17 +22,30 @@ const initialState = {
 
 const CreateProject = () => {
   const userIsAnAdmin = true; //checkIfUserIsAnAdmin(currentUser);
+  const [available, setAvailable] = useState([]);
+  const [savedAvailable, setSavedAvailable] = useState([]);
   const dispatch = useDispatch();
-  // const unAssignedUsers = users.filter(
-  //   (user) =>
-  //     user.assignable === true &&
-  //     user.deleted === false &&
-  //     user.role === "Developer"
-  // );
   const [formInputData, setFormInputData] = useState(initialState);
-  const [selectedIndexes, setSelectedIndexes] = useState([]);
-  useEffect(() => {}, [formInputData]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const users = await api.users.fetchUsers();
+      const filtered = users.filter(
+        (user) =>
+          (user.role !== "Deleted" &&
+            user.role !== "Admin" &&
+            user.project === undefined) ||
+          null
+      );
+      setAvailable(filtered);
+      setSavedAvailable(filtered);
+    };
+    fetchData();
+  }, []);
 
+  const reset = () => {
+    setFormInputData(initialState);
+    setAvailable(savedAvailable);
+  };
   const handleInputChange = (e) => {
     const inputFieldValue = e.target.value;
     const inputFieldName = e.target.name || e.target.id;
@@ -50,212 +63,207 @@ const CreateProject = () => {
     setFormInputData(NewInputValue);
   };
 
-  function replaceEmailsWithIDs(emails, users) {
-    let userIds = [];
-    if (emails.length > 0) {
-      for (let i = 0; i < users.length; i++) {
-        if (emails.includes(users[i].email)) {
-          userIds.push(users[i]._id);
-        }
-      }
-    }
-    return userIds;
-  }
-
-  const handleRowClick = (user, index) => {
-    const copiedIndexes = [...selectedIndexes];
-    //keep track of indexes
-    const found = copiedIndexes.includes(index);
-    if (found) {
-      const foundIndex = copiedIndexes.indexOf(index);
-      copiedIndexes.splice(foundIndex, 1);
-    } else {
-      copiedIndexes.push(index);
-    }
-    console.log(copiedIndexes);
-    setSelectedIndexes(copiedIndexes);
-  };
-
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     //change list of members to ids here
-    // const memberIds = replaceEmailsWithIDs(
-    //   formInputData.members,
-    //   unAssignedUsers
-    // );
+    const memberIds = formInputData.members.map((member) => member._id);
     const validated = true;
     if (validated) {
       const newInputValue = { ...formInputData };
-      // newInputValue["members"] = memberIds;
+      newInputValue["members"] = memberIds;
       await api.projects.createProject(newInputValue);
-      dispatch(
-        setMessage(
-          `Project ${newInputValue.title} has been successfully created`
-        )
-      );
+      // dispatch(
+      //   setMessage(
+      //     `Project ${newInputValue.title} has been successfully created`
+      //   )
+      // );
+      setSavedAvailable(available);
       setFormInputData(initialState);
     } else {
     }
   };
 
+  const addUser = (user, index) => {
+    console.log(index);
+    const copy = structuredClone(formInputData);
+    const copyAvailable = [...available];
+    copyAvailable.splice(index, 1);
+    copy.members.push(user);
+    setFormInputData(copy);
+    setAvailable(copyAvailable);
+  };
+
+  const removeUser = (user, index) => {
+    const copy = { ...formInputData };
+    const copyAvailable = [...available];
+    copy.members.splice(index, 1);
+    copyAvailable.push(user);
+    setFormInputData(formInputData);
+    setAvailable(copyAvailable);
+  };
+
   return (
-    <div>
-      <a href="/projects">See all projects</a>
-      {userIsAnAdmin ? (
-        <>
-          <h1>Create Project</h1>
-          <form className="modal-content" onSubmit={handleFormSubmit}>
-            <label htmlFor="title">Title:</label>
+    <form className="create-project page " onSubmit={handleFormSubmit}>
+      <span className="header">
+        <a href="/projects">See all projects</a>
+        <h1>Create Project</h1>
+      </span>
+      <span className="title flex-column">
+        <label htmlFor="title">Title:</label>
+        <input
+          type="text"
+          required
+          id="title"
+          value={formInputData.title}
+          onChange={handleInputChange}
+          placeholder={`Character limit is ${MAX_TITLE_LENGTH}...`}
+        />
+      </span>
+      <span className="info flex-column gap-md">
+        <span className="flex-column gap-lg">
+          <span className="flex-column">
+            <label htmlFor="startDate">Start:</label>
             <input
-              type="text"
-              required
-              id="title"
-              value={formInputData.title}
+              type="date"
+              name="startDate"
+              id="startDate"
+              value={formInputData.startDate}
               onChange={handleInputChange}
-              placeholder={`Character limit is ${MAX_TITLE_LENGTH}`}
             />
-            <div className="flex gap-lg">
-              <div className="flex-column">
-                <label htmlFor="description">Description:</label>
-                <textarea
-                  required
-                  id="description"
-                  rows="10"
-                  cols="30"
-                  value={formInputData.description}
-                  onChange={handleInputChange}
-                  placeholder={`Character limit is ${MAX_DESCRIPTION_LENGTH}`}
-                />
-              </div>
-              <div>
-                <span className="flex gap-lg">
-                  <span className="flex-column">
-                    <label htmlFor="startDate">Start:</label>
-                    <input
-                      type="date"
-                      name="startDate"
-                      id="startDate"
-                      value={formInputData.startDate}
-                      onChange={handleInputChange}
-                    />
-                  </span>
-                  <span className="flex-column">
-                    <label htmlFor="deadline">Deadline:</label>
-                    <input
-                      type="date"
-                      name="deadline"
-                      id="deadline"
-                      value={formInputData.deadline}
-                      onChange={handleInputChange}
-                    />
-                  </span>
-                </span>
-              </div>
-              <div>
-                <label htmlFor="Public">Public/Private:</label>
-                <span className="flex gap-lg">
-                  <input
-                    type="radio"
-                    id="Public"
-                    value={formInputData.public}
-                    onClick={handleInputChange}
-                    name="public"
-                    defaultChecked
-                  ></input>
-                  <label htmlFor="Public">Public</label>
-                </span>
-                <span className="flex gap-lg">
-                  <input
-                    type="radio"
-                    id="Public"
-                    value={false}
-                    onClick={handleInputChange}
-                    name="public"
-                  ></input>
-                  <label htmlFor="Public">Private</label>
-                </span>
-              </div>
-            </div>
-
-            {/* <FormControl>
-                  <InputLabel id="demo-multiple-chip-label">Members</InputLabel>
-                  <Select
-                    labelId="demo-multiple-chip-label"
-                    id="demo-multiple-chip"
-                    name={"members"}
-                    multiple
-                    value={formInputData.members || []} //set to current personName list
-                    onChange={handleInputChange}
-                    input={
-                      <OutlinedInput id="select-multiple-chip" label="Chip" />
-                    }
-                    renderValue={(selected) => (
-                      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                        {selected.map((value) => (
-                          <Chip key={value} label={value} />
-                        ))}
-                      </Box>
-                    )}
-                    MenuProps={MenuProps}
-                  >
-                    {unAssignedUsers.map((user) => (
-                      <MenuItem
-                        key={user._id}
-                        value={user.email}
-                        style={getStyles(user, user.email, theme)}
-                      >
-                        {user.email}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl> */}
-            <label htmlFor="members">Project Members:</label>
-            <div className="h-md overflow-y">
-              <table>
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {/* {unAssignedUsers.length > 0 ? (
-                    <>
-                      {unAssignedUsers.map((user, index) => {
-                        return (
-                          <tr key={user._id}>
-                            <td>
-                              <input
-                                type="checkbox"
-                                onClick={() => handleRowClick(user, index)}
-                                value={false}
-                              ></input>
-                            </td>
-                            <td>{user.name}</td>
-                            <td>{user.email}</td>
-                            <td>{user.role}</td>
-                          </tr>
-                        );
-                      })}
-                    </>
-                  ) : (
-                    <></>
-                  )} */}
-                </tbody>
-              </table>
-            </div>
-
-            <button className="button-primary" type="submit">
-              Submit
-            </button>
-          </form>
-        </>
-      ) : (
-        <></>
-      )}
-    </div>
+          </span>
+          <span className="flex-column">
+            <label htmlFor="deadline">Deadline:</label>
+            <input
+              type="date"
+              name="deadline"
+              id="deadline"
+              value={formInputData.deadline}
+              onChange={handleInputChange}
+            />
+          </span>
+        </span>
+        <span className="flex-column">
+          <label htmlFor="">Public/Private</label>
+          <select
+            name="public"
+            value={formInputData.public}
+            onChange={handleInputChange}
+          >
+            <option value={true}>Public</option>
+            <option value={false}>Private</option>
+          </select>
+        </span>
+      </span>
+      <div className="flex-column description full-height">
+        <label htmlFor="description">Description:</label>
+        <textarea
+          required
+          id="description"
+          cols="30"
+          rows="10"
+          className="full-height"
+          value={formInputData.description}
+          onChange={handleInputChange}
+          placeholder={`Character limit is ${MAX_DESCRIPTION_LENGTH}...`}
+        />
+      </div>
+      <div className="h-lg full-width available">
+        <table className="full-width">
+          <caption>Available</caption>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            {available.length > 0 ? (
+              <>
+                {available.map((user, index) => {
+                  return (
+                    <tr key={user._id}>
+                      <td>
+                        <button
+                          className="button-secondary"
+                          onClick={() => {
+                            addUser(user, index);
+                          }}
+                          type="button"
+                        >
+                          Add
+                        </button>
+                      </td>
+                      <td>{user.name}</td>
+                      <td>{user.email}</td>
+                      <td>{user.role}</td>
+                    </tr>
+                  );
+                })}
+              </>
+            ) : (
+              <>
+                <tr>
+                  <td>No Users</td>
+                </tr>
+              </>
+            )}
+          </tbody>
+        </table>
+      </div>
+      <div className="h-lg full-width selected">
+        <table className="full-width">
+          <caption>Selected</caption>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            {formInputData.members.length > 0 ? (
+              <>
+                {formInputData.members.map((user, index) => {
+                  return (
+                    <tr key={user._id}>
+                      <td>
+                        <button
+                          className="button-secondary"
+                          type="button"
+                          onClick={() => removeUser(user, index)}
+                        >
+                          Remove
+                        </button>
+                      </td>
+                      <td>{user.name}</td>
+                      <td>{user.email}</td>
+                      <td>{user.role}</td>
+                    </tr>
+                  );
+                })}
+              </>
+            ) : (
+              <>
+                <tr>
+                  <td>No Users</td>
+                </tr>
+              </>
+            )}
+          </tbody>
+        </table>
+      </div>
+      <span className="submit flex space-between flex-end">
+        <button className="button-secondary" onClick={reset} type="button">
+          Reset
+        </button>
+        <button className="button-primary" type="submit">
+          Submit
+        </button>
+      </span>
+    </form>
   );
 };
 

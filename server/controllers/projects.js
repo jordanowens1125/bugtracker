@@ -71,7 +71,6 @@ const getProject = async (req, res) => {
     const unAssignedMembers = await User.find({
       project: undefined,
     });
-    console.log(unAssignedMembers);
     const availableMembers = unAssignedMembers;
     res.status(200).json({ project, availableMembers });
   } catch (error) {
