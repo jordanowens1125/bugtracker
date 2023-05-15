@@ -5,7 +5,8 @@ const {
   createProject,
   deleteProject,
   getProject,
-  updateProject,
+  updateProjectInfo,
+  updateMembers,
 } = require("../controllers/projects");
 
 /* GET project listings. */
@@ -13,6 +14,7 @@ router.get("/", getProjects);
 router.post("/create", createProject);
 router.delete("/delete/:id", deleteProject);
 router.get("/:id", getProject);
-router.put("/:id", updateProject);
+router.put("/:id", updateProjectInfo);
+router.put("/:id/updatemembers", updateMembers);
 
 module.exports = router;

@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProjectsTable from "../components/Projects/ProjectsTable/ProjectsTable";
+import api from "../api/index";
 const Projects = () => {
+  const [projects, setProjects] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await api.projects.fetchProjects();
+      setProjects(response);
+    };
+    fetchData();
+  }, []);
   return (
     <>
       <div className="flex-column gap-md">
@@ -9,7 +18,8 @@ const Projects = () => {
           {" "}
           Create Project
         </a>
-        <ProjectsTable />
+
+        <ProjectsTable projects={projects} />
       </div>
     </>
   );

@@ -10,9 +10,6 @@ import "./App.css";
 import Unauthorized from "./pages/Unauthorized";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setProjects } from "./redux/actions/projectActions";
-import { setBugs } from "./redux/actions/bugActions";
-import { setUsers } from "./redux/actions/userActions";
 import api from "./api/index";
 import { UserAuthContextProvider } from "./context/userAuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -22,22 +19,23 @@ import ManageUsers from "./pages/ManageUsers";
 import CreateProject from './pages/CreateProject'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState } from "react";
+import { useUserAuth } from "./context/userAuthContext";
+import { selectedUser } from "./redux/actions/userActions";
 
 function App() {
   const dispatch = useDispatch();
   const [currentUser, setUser] = useState();
-
+  const test = useUserAuth()
+  // console.log(test);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(getAuth(), setUser);
-
-    async function fetchData() {
-      const all = await api.aggregate.getAll();
-      dispatch(setUsers(all.users));
-      dispatch(setProjects(all.projects));
-      dispatch(setBugs(all.bugs));
-    }
-
-    fetchData();
+    // const fetchData = async () => {
+    //   //const current = await api.users.fetchUserByEmail(user.email);
+    //   //dispatch(selectedUser(current))
+    // };
+    // if (user) {
+    //   fetchData();
+    // }
     return unsubscribe;
   }, [currentUser, dispatch]);
   return (

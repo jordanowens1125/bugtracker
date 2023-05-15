@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Loading from "../../Loading";
-import EditProjectModal from "../EditProjectModal/EditProjectModal";
+import api from "../../../api";
 
 const checkIfUserIsAssignedToProject = (user, project) => {
   if (user) {
@@ -29,7 +29,37 @@ const ProjectDashboard = ({ project }) => {
   const userIsAdmin = user.role === "Admin";
   const userIsAssignedToProject = checkIfUserIsAssignedToProject(user, project);
   const isCurrentProjectFilled = checkProject(project);
-  useEffect(() => {}, [project, userIsAdmin, userIsAssignedToProject, user]);
+  const [editMode, setEditMode] = useState(false);
+  const [edit, setEdit] = useState();
+  const [projectDisplay, setProjectDisplay] = useState(project);
+
+  const handleChange = (e) => {
+    const copy = { ...edit };
+    copy[e.currentTarget.name] = e.currentTarget.value;
+    setEdit(copy);
+  };
+
+  const handleCancel = () => {
+    setEdit(project);
+    setEditMode(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(edit);
+    await api.projects.updateProjectInfo(project._id, edit);
+    setProjectDisplay(edit);
+    setEdit(edit)
+    setEditMode(false)
+  };
+
+  useEffect(() => {
+    setEdit({ title: project.title, description: project.description });
+    setProjectDisplay({
+      title: project.title,
+      description: project.description,
+    });
+  }, [project]);
 
   return (
     <>
@@ -37,17 +67,67 @@ const ProjectDashboard = ({ project }) => {
         <>
           <div className=" flex-column p-md gap-lg full-vh full-width">
             <a href="/projects">Back to Projects</a>
-            <h1>{project.title}</h1>
-            <p>{project.description}</p>
-            <span>
-              <EditProjectModal project={project} />
-            </span>
+            {editMode ? (
+              <>
+                <form className="flex-column gap-lg" onSubmit={handleSubmit}>
+                  <span className="flex-column">
+                    <label htmlFor="Title">Title:</label>
+                    <input
+                      type="text"
+                      placeholder="Title..."
+                      name="title"
+                      value={edit.title}
+                      onChange={handleChange}
+                      required
+                    />
+                  </span>
+                  <span className="flex-column">
+                    <label htmlFor="Description">Description:</label>
+                    <textarea
+                      name="description"
+                      id="description"
+                      cols="30"
+                      rows="5"
+                      placeholder="Description..."
+                      value={edit.description}
+                      onChange={handleChange}
+                      required
+                    ></textarea>
+                  </span>
+                  <span className="flex gap-md">
+                    <button
+                      className="button-secondary"
+                      onClick={handleCancel}
+                      type="button"
+                    >
+                      Cancel
+                    </button>
+                    <button className="button-primary" type="submit">
+                      Submit
+                    </button>
+                  </span>
+                </form>
+              </>
+            ) : (
+              <>
+                <h1>{projectDisplay.title}</h1>
+                <p>{projectDisplay.description}</p>
+                <span>
+                  <button
+                    className="button-primary"
+                    onClick={() => setEditMode(true)}
+                  >
+                    Edit Project
+                  </button>
+                </span>
+              </>
+            )}
 
-            <div className="flex gap-lg full-width space-between full-height ">
+            <div className="flex gap-lg full-width full-height children-equal-flex">
               <div className="flex-column gap-lg">
                 <a
                   href={`/projects/${project._id}/managemembers`}
-                  className="p-md"
+                  className="button"
                 >
                   Manage Members
                 </a>
@@ -83,9 +163,10 @@ const ProjectDashboard = ({ project }) => {
                 </table>
               </div>
               <div className="flex-column gap-lg">
-                <a href={`/Bugs/${project._id}/manageassignments`}>
-                  Manage Bug Assignments
-                </a>
+                <span className="flex space-between">
+                  <button className="button-secondary">Add New Bug</button>
+                </span>
+
                 <table className="padding-md full-width">
                   <thead>
                     <tr>
@@ -102,7 +183,7 @@ const ProjectDashboard = ({ project }) => {
                             <td>{bug.title}</td>
                             <td>{bug.status}</td>
                             <td>{bug.priority}</td>
-                            <td>
+                            <td className="flex-column gap-md">
                               <a href={`/bugs/${bug._id}`}>Details</a>
                             </td>
                           </tr>

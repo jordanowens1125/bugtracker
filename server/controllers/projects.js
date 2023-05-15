@@ -41,8 +41,8 @@ const deleteProject = async (req, res) => {
           //remove bugs from this project
           assignedBugs: { $in: project.bugs },
         },
-        assignable : true,
-        project: undefined
+        assignable: true,
+        project: undefined,
       },
       {
         multi: true,
@@ -68,14 +68,50 @@ const getProject = async (req, res) => {
     const project = await Project.findById(id)
       .populate("bugs")
       .populate("members");
-
     const unAssignedMembers = await User.find({
-      project: [],
-      role: "Developer",
+      project: undefined,
     });
-
-    const availableMembers = [...project.members, ...unAssignedMembers];
+    console.log(unAssignedMembers);
+    const availableMembers = unAssignedMembers;
     res.status(200).json({ project, availableMembers });
+  } catch (error) {
+    res.status(404).json({ message: error });
+  }
+};
+
+const updateProjectInfo = async (req, res) => {
+  try {
+    const updatedProject = await Project.findByIdAndUpdate(req.params.id, {
+      title: req.body.title,
+      description: req.body.description,
+    });
+    res.status(200).json(updatedProject);
+  } catch (error) {
+    res.status(404).json({ message: error });
+  }
+};
+
+const updateMembers = async (req, res) => {
+  try {
+    await User.updateMany(
+      { _id: { $in: req.body.oldIds } },
+      {
+        project: null,
+        assignable: true,
+      }
+    );
+    await User.updateMany(
+      { _id: { $in: req.body.newIds } },
+      {
+        project: req.params.id,
+        assignable: false,
+      }
+    );
+
+    const project = await Project.findByIdAndUpdate(req.params.id, {
+      members: req.body.newIds,
+    });
+    res.status(200).json(project);
   } catch (error) {
     res.status(404).json({ message: error });
   }
@@ -85,16 +121,14 @@ const updateProject = async (req, res) => {
   try {
     //find the project by id to get the old member ids
     const oldProject = await Project.findById(req.params.id);
-
     //remove the project from the old members
     await User.updateMany(
       { $in: oldProject.members },
       {
-          project: undefined,
+        project: undefined,
         assignable: true,
       }
     );
-
     //remove the members from the project
     await Project.findByIdAndUpdate(req.params.id, {
       $pull: {
@@ -154,4 +188,6 @@ module.exports = {
   deleteProject,
   getProject,
   updateProject,
+  updateProjectInfo,
+  updateMembers,
 };

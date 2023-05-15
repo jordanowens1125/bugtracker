@@ -10,6 +10,7 @@ const Project = () => {
     if (projectID && projectID !== "") {
       const fetchProjectDetails = async () => {
         const fetchedproject = await api.projects.fetchProject(projectID);
+        console.log(fetchedproject);
         //return 1 project
         setProject(fetchedproject.project);
       };

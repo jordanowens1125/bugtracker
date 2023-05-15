@@ -7,7 +7,7 @@ const TicketsByProject = ({ data /* see data tab */ }) => (
     data={data}
     margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
     innerRadius={0.5}
-    padAngle={0.7}
+    padAngle={0.9}
     cornerRadius={3}
     activeOuterRadiusOffset={8}
     borderWidth={1}
@@ -24,6 +24,7 @@ const TicketsByProject = ({ data /* see data tab */ }) => (
       from: "color",
       modifiers: [["darker", 2]],
     }}
+    colors={["#7f55da", "#4d4599", "#5594da", "#9555da", "#3c6899"]}
     defs={[
       {
         id: "dots",
@@ -33,15 +34,6 @@ const TicketsByProject = ({ data /* see data tab */ }) => (
         size: 4,
         padding: 1,
         stagger: true,
-      },
-      {
-        id: "lines",
-        type: "patternLines",
-        background: "inherit",
-        color: "rgba(255, 255, 255, 0.3)",
-        rotation: -45,
-        lineWidth: 6,
-        spacing: 10,
       },
     ]}
     legends={[
@@ -76,6 +68,32 @@ const AdminDashboard = () => {
   const [bugsByProject, setBugsByProject] = useState([]);
   const [priority, setPriority] = useState([]);
   const [status, setStatus] = useState([]);
+  const [dev, setDev] = useState([]);
+  const [bugs, setBugs] = useState([]);
+
+  const byDevs = (bugs) => {
+    const devs = {};
+    const result = [];
+    bugs.map((bug) => {
+      if (devs[bug.assignedTo]) {
+        devs[bug.assignedTo] += 1;
+        return bug;
+      } else {
+        devs[bug.assignedTo] = 1;
+        return 1;
+      }
+    });
+    Object.keys(devs).map((dev) =>
+      result.push({
+        id: dev,
+        label: dev,
+        value: devs[dev],
+      })
+    );
+    console.log(result);
+    setDev(result);
+  };
+
   const groupedByProjects = (bugs) => {
     const projects = {};
     const result = [];
@@ -145,29 +163,37 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchBug = async () => {
       const request = await api.bugs.fetchBugs();
+      setBugs(request);
       groupedByProjects(request);
       byPriority(request);
       byStatus(request);
+      byDevs(request)
     };
     fetchBug();
   }, []);
 
   return (
     <>
-      <div className="page border">
+      <div className="page">
         <h1>Welcome username</h1>
         <a href="/createproject" aria-label="Open create project form">
           {" "}
           Create Project
         </a>
-        <div className="h-lg w-lg">
-          <TicketsByProject data={bugsByProject} />
-        </div>
-        <div className="h-lg w-lg">
-          <TicketsByProject data={priority} />
-        </div>
-        <div className="h-lg w-lg">
-          <TicketsByProject data={status} />
+        <h2>Tickets: {bugs.length}</h2>
+        <div className="flex mobile-column">
+          <div className="chart">
+            <TicketsByProject data={bugsByProject} />
+          </div>
+          <div className="chart">
+            <TicketsByProject data={priority} />
+          </div>
+          <div className="chart">
+            <TicketsByProject data={status} />
+          </div>
+          <div className="chart">
+            <TicketsByProject data={dev} />
+          </div>
         </div>
         tickets projects Schedule
       </div>

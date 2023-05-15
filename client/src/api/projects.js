@@ -12,8 +12,13 @@ export const createProject = async (newProject) =>
     return response.data;
   });
 
-export const updateProject = async (id, updatedProject) =>
+export const updateProjectInfo = async (id, updatedProject) =>
   await axios.put(`${baseURL}/${id}`, updatedProject).then((response) => {
+    return response.data;
+  });
+
+export const updateMembers = async (id, oldIds, newIds) =>
+  await axios.put(`${baseURL}/${id}/updatemembers`, {oldIds,newIds}).then((response) => {
     return response.data;
   });
 

@@ -3,25 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useUserAuth } from "../context/userAuthContext";
-import { selectedUser, setUsers } from "../redux/actions/userActions";
+import { selectedUser } from "../redux/actions/userActions";
 import api from "../api/index";
 
 function Copyright(props) {
   return <>{`Copyright © ${new Date().getFullYear()}`}</>;
 }
 
-const searchForMember = (uid, users) => {
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].uid === uid) {
-      return users[i];
-    }
-  }
-  return false;
-};
-
 const SignIn = () => {
   const { user } = useUserAuth();
-  const users = useSelector((state) => state.allUsers.users);
   const dispatch = useDispatch();
 
   const { logIn, googleSignIn } = useUserAuth();
@@ -41,7 +31,8 @@ const SignIn = () => {
         process.env.REACT_APP_DEMO_DEVELOPER_PASSWORD;
       const demoDeveloperEmail = process.env.REACT_APP_DEMO_DEVELOPER_EMAIL;
       const result = await logIn(demoDeveloperEmail, demoDeveloperPassword);
-      const currentUser = searchForMember(result.user.uid, users);
+      const currentUser = await api.users.fetchUserByEmail(demoDeveloperEmail);
+
       dispatch(selectedUser(currentUser));
       navigate("/");
     } catch (error) {
@@ -55,7 +46,7 @@ const SignIn = () => {
       const demoAdminPassword = process.env.REACT_APP_DEMO_ADMIN_PASSWORD;
       const demoAdminEmail = process.env.REACT_APP_DEMO_ADMIN_EMAIL;
       const result = await logIn(demoAdminEmail, demoAdminPassword);
-      const currentUser = searchForMember(result.user.uid, users);
+      const currentUser = await api.users.fetchUserByEmail(demoAdminEmail);
       dispatch(selectedUser(currentUser));
       navigate("/");
     } catch (error) {
@@ -75,9 +66,6 @@ const SignIn = () => {
       //will use result.user displayName, photoURL, email, uid
       const userToBeFoundOrCreated = await api.users.findOrCreateUser(newUser);
       dispatch(selectedUser(userToBeFoundOrCreated));
-      //in case we have to create a new member lets get users and set them again
-      const updatedUsers = await api.users.fetchUsers();
-      dispatch(setUsers(updatedUsers));
       navigate(`/`);
     } catch (error) {}
   };

@@ -1,9 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import api from "../../../api/index";
-import { useDispatch } from "react-redux";
 import Comment from "../Comment/Comment";
-import { setUsers } from "../../../redux/actions/userActions";
 
 const bugHasComments = (bug) => {
   if (bug.comments) {
@@ -48,7 +46,7 @@ const scrollToBottom = () => {
 };
 
 const BugComments = ({ bug }) => {
-  const [comments, setComments] = useState(bug.comments)
+  const [comments, setComments] = useState(bug.comments);
   const filteredComments = [...comments];
   filteredComments.filter((comment) => comment.creator == null);
 
@@ -57,7 +55,6 @@ const BugComments = ({ bug }) => {
   const currentUser = useSelector((state) => state.currentUser);
   const isThereACurrentBug = checkifCurrentBugIsFilled(bug);
   const hasComments = bugHasComments(bug);
-  const dispatch = useDispatch();
   const canUserMakeCommentsOnThisBug = checkIfUserCanMakeComments(
     currentUser,
     bug
@@ -87,15 +84,13 @@ const BugComments = ({ bug }) => {
       //I would get in a few seconds so i subtracted some time
       newComment.date = commentTime.getTime() - 40000;
       const response = await api.comments.createComment(newComment);
-      const updatedComments = [...comments, response]
-
-      dispatch(setComments(updatedComments));
+      const updatedComments = [...comments, response];
+      setComments(updatedComments);
       setChatInput({
         text: "",
         input: "",
       });
-      const updatedUsers = await api.users.fetchUsers();
-      dispatch(setUsers(updatedUsers));
+      // dispatch(setUsers(updatedUsers));
     }
   };
 
@@ -103,39 +98,41 @@ const BugComments = ({ bug }) => {
   return (
     <>
       {isThereACurrentBug && (
-      
-          <>
-            {/* <Button
-              onClick={scrollToBottom}
-              aria-label="Scroll to bottom of comments"
-            >
-              <ArrowDownwardIcon />
-          </Button> */}
-          
-              {/* <Grid item>
-                <List>
-                  {hasComments ? (
-                    <>
-                      <div>
-                        {filteredComments.map((comment) => (
-                          <div key={comment._id}>
-                            <Comment comment={comment} />
-                          </div>
-                        ))}
-                      </div>
-                      <AlwaysScrollToBottom />
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                </List>
-              </Grid> */}
-              {canUserMakeCommentsOnThisBug && (
-                <>
-                 
-                </>
-              )}
-          </>
+        <>
+          <span className="message-heading flex aic space-between">
+            <p className="p-l-md">Comments:</p>
+            <button onClick={scrollToBottom} className="button-secondary">
+              Bottom
+            </button>
+          </span>
+          {hasComments ? (
+            <div className="p-lg h-lg">
+              {filteredComments.map((comment) => (
+                <div key={comment._id}>
+                  <Comment comment={comment} />
+                </div>
+              ))}
+              <AlwaysScrollToBottom />
+            </div>
+          ) : (
+            <></>
+          )}
+          {canUserMakeCommentsOnThisBug && (
+            <span className="message-input flex space-between">
+              <input
+                type="text"
+                value={chatInput.text}
+                onChange={handleChange}
+                placeholder="Enter comment.."
+                className="full-height border"
+                id="text"
+              />
+              <button onClick={sendComment} className="button-primary">
+                Submit
+              </button>
+            </span>
+          )}
+        </>
       )}
     </>
   );

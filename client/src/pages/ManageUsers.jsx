@@ -1,26 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { fetchUsers } from "../api/users";
-
-const roles = ["Admin", "Developer", "Project Manager", "Viewer"];
+import { roles } from "../constants/user";
+import api from "../api/index";
 
 const ManageUsers = () => {
-  const [users, setUsers] = useState([]);
   const [role, setRole] = useState("Developer");
-  const filtered = users.filter(
-    (user) => user.role !== "Deleted" && user.role !== "Admin"
-  );
+  const [filtered, setFiltered] = useState([]);
   const [indexesToUpdate, setIndexesToUpdate] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetchUsers();
-      setUsers(response);
+      // setUsers(response);
+      setFiltered(
+        response.filter(
+          (user) => user.role !== "Deleted" && user.role !== "Admin"
+        )
+      );
     };
     fetchData();
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const ids = [];
+    const copy = [...filtered];
+    for (let i = 0; i < indexesToUpdate.length; i++) {
+      copy[indexesToUpdate[i]].role = role;
+      ids.push(copy[indexesToUpdate[i]]._id);
+    }
+    await api.users.updateRoles(role, ids);
+    const checkboxes = document.getElementsByClassName("checkbox");
+    for (let i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].checked = false;
+    }
     setIndexesToUpdate([]);
+    setFiltered(copy);
   };
 
   const handleRowClick = (user, index) => {
@@ -32,22 +46,23 @@ const ManageUsers = () => {
     } else {
       copiedIndexes.push(index);
     }
-    console.log(copiedIndexes);
     setIndexesToUpdate(copiedIndexes);
   };
 
   return (
     <>
       <div className="manage-users page">
-        <h1>Manage Users</h1>
+        <h1 className="header">Manage Users</h1>
+
         <span className="flex gap-md search">
           <input type="text" placeholder="Search for member" />
           <button className="button-secondary" type="button">
             Clear
           </button>
         </span>
-        <div className="available">
+        <div className="available h-lg">
           <table className="full-width">
+            <caption>All Users</caption>
             <thead>
               <tr>
                 <th></th>
@@ -65,6 +80,7 @@ const ManageUsers = () => {
                         <td>
                           <input
                             type="checkbox"
+                            className="checkbox"
                             onClick={() => handleRowClick(user, index)}
                           ></input>
                         </td>
@@ -84,6 +100,7 @@ const ManageUsers = () => {
 
         <div className="full-width selected h-lg">
           <table className="full-width">
+            <caption>Selected Users</caption>
             <thead>
               <tr>
                 <th></th>
@@ -116,8 +133,8 @@ const ManageUsers = () => {
                 </>
               ) : (
                 <>
-                  <tr className="flex aic">
-                    <td>No users</td>
+                  <tr>
+                    <td>No Users</td>
                   </tr>
                 </>
               )}

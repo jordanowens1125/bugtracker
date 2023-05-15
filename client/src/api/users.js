@@ -13,12 +13,27 @@ export const findOrCreateUser = async (newUser) =>
   });
 
 export const updateUser = async (updatedUser) =>
-  await axios.put(`${baseURL}/${updatedUser.id}`, updatedUser).then((response) => {
-    return response.data;
-  });
+  await axios
+    .put(`${baseURL}/${updatedUser.id}`, updatedUser)
+    .then((response) => {
+      return response.data;
+    });
+
+export const updateRoles = async (role, members) =>
+  //members is a list of ids from users
+  await axios
+    .put(`${baseURL}/updateroles`, { role, members })
+    .then((response) => {
+      return response.data;
+    });
 
 export const fetchUser = async (id) =>
   await axios.get(`${baseURL}/${id}`).then((response) => {
+    return response.data;
+  });
+
+export const fetchUserByEmail = async (email) =>
+  await axios.get(`${baseURL}/email/${email}`).then((response) => {
     return response.data;
   });
 
@@ -28,24 +43,28 @@ export const deleteUser = async (user) =>
   });
 
 export const addUserToProject = async (userID, projectID) =>
-  await axios.put(`${baseURL}/project/${userID}`, { projectID: projectID })
+  await axios
+    .put(`${baseURL}/project/${userID}`, { projectID: projectID })
     .then((response) => {
       return response.data;
-  });
+    });
 
 export const unAssignUserFromProject = async (userID, projectID) =>
   await axios.put(`${baseURL}/unassignuserfromproject`, { userID, projectID });
 
 export const assignBugToUser = async (userID, bugID) =>
-  await axios.put(`${baseURL}/assignbugtouser/${userID}`, { userID, bugID }).then((response) => {
-    return response.data
-  });
+  await axios
+    .put(`${baseURL}/assignbugtouser/${userID}`, { userID, bugID })
+    .then((response) => {
+      return response.data;
+    });
 
 export const unAssignBugFromUser = async (userID, bugID) =>
-  await axios.put(`${baseURL}/unassignbugfromuser/${userID}`, {
-    userID,
-    bugID,
-  }).then((response) => {
-    return response.data
-  })
-;
+  await axios
+    .put(`${baseURL}/unassignbugfromuser/${userID}`, {
+      userID,
+      bugID,
+    })
+    .then((response) => {
+      return response.data;
+    });

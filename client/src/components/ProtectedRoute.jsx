@@ -4,34 +4,26 @@ import { useUserAuth } from "../context/userAuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { selectedUser } from "../redux/actions/userActions";
 import Loading from "./Loading";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import api from "../api/index";
 
 const ProtectedRoute = ({ user }) => {
   const location = useLocation();
-  const users = useSelector((state) => state.allUsers.users);
+  // const users = useSelector((state) => state.allUsers.users);
   const dispatch = useDispatch();
-
   useEffect(() => {
+    const fetchData = async () => {
+      const current = await api.users.fetchUserByEmail(user.email);
+      dispatch(selectedUser(current))
+    };
     if (user) {
-      const findUserWithUID = (user, users) => {
-        if (user) {
-          for (let i = 0; i < users.length; i++) {
-            if (users[i].uid === user.uid) {
-              dispatch(selectedUser(users[i]));
-              return "";
-            }
-          }
-        }
-      };
-
-      findUserWithUID(user, users);
+      fetchData();
     }
-  }, [user, users, dispatch]);
+  }, [user, dispatch]);
 
   if (user === undefined) return <Loading />;
 
   return user ? (
-      <Outlet />
+    <Outlet />
   ) : (
     <Navigate to="/signin" replace state={{ from: location }} />
   );

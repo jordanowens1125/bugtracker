@@ -11,8 +11,6 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { useTheme } from "@mui/material/styles";
-import Chip from "@mui/material/Chip";
 import { removeSelectedBug, setBugs } from "../../../redux/actions/bugActions";
 import {
   selectedProject,

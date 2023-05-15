@@ -1,4 +1,4 @@
-import { Outlet,  useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useUserAuth } from "../context/userAuthContext";
@@ -12,6 +12,7 @@ import { removeSelectedUser } from "../redux/actions/userActions";
 
 const Navbar = () => {
   const currentUser = useSelector((state) => state.currentUser);
+  //console.log(currentUser);
   const { user, logOut } = useUserAuth();
   const messageInfo = useSelector((state) => state.message);
   const dispatch = useDispatch();
@@ -38,8 +39,8 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="flex desktop">
-        <nav className="full-vh flex-column desktop-nav">
+      <div className="flex desktop desktop-display">
+        <nav className="full-vh flex-column desktop-nav primary">
           {user && (
             <>
               <div className="flex-column aic space-around full-height">
@@ -56,7 +57,7 @@ const Navbar = () => {
                   <a href="/Settings">Settings</a>
                   <a href="/Account">Account</a>
                   <a href="/Chat">Chat</a>
-                  <span onClick={signOut} className="button-ghost">
+                  <span onClick={signOut} className="p-sm">
                     Log Out
                   </span>
                 </div>
@@ -79,22 +80,25 @@ const Navbar = () => {
             {messageInfo.text}
           </Alert>
         </Snackbar> */}
-        <div className="test flex-column p-md">
+        <div className="right flex-column p-md">
           <Outlet />
         </div>
       </div>
 
       {/* Mobile */}
-      <div className="mobile flex-column">
-        <nav className="flex-column mobile-nav border">
+      <div className="mobile mobile-display">
+        <nav className="flex-column">
           {user && (
             <>
               {mobile ? (
                 <>
-                  <div className="modal " onClick={() => setMobileOpen(false)}>
+                  <div
+                    className="modal "
+                    onClick={() => setMobileOpen(false)}
+                  >
                     {user && (
                       <>
-                        <div className="">
+                        <div className="flex-column space-around aic jcc full-height full-width">
                           <a href="/">Dashboard</a>
                           <a href="/Projects">Projects</a>
                           <a href="/Bugs">Bugs</a>
@@ -105,9 +109,11 @@ const Navbar = () => {
                 </>
               ) : (
                 <>
-                  <div className="mobile-nav-div border">
-                      {/* {user && <MenuIcon onClick={() => setMobileOpen(true)} />} */}
-                      Menu item to open mobile nav
+                  <div
+                    className="mobile-nav"
+                    onClick={() => setMobileOpen(true)}
+                  >
+                    Menu item to open mobile nav
                   </div>
                 </>
               )}
@@ -129,7 +135,9 @@ const Navbar = () => {
             {messageInfo.text}
           </Alert>
         </Snackbar> */}
+        <div className="bottom">
           <Outlet />
+        </div>
       </div>
     </>
   );

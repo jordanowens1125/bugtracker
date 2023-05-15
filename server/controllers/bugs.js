@@ -72,6 +72,7 @@ const getBug = async (req, res) => {
     let id = req.params.id;
     const bug = await Bug.findById(id)
       .populate("comments")
+      .populate("projectID")
       .populate("assignedTo");
     res.status(200).json(bug);
   } catch (error) {

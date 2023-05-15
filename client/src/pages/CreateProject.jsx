@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../api/index";
 import dayjs from "dayjs";
-import { useDispatch, useSelector } from "react-redux";
-import { setProjects } from "../redux/actions/projectActions";
+import { useDispatch } from "react-redux";
 import { setMessage } from "../redux/actions/messageActions";
 
 const MAX_TITLE_LENGTH = 20;
@@ -24,14 +23,12 @@ const initialState = {
 const CreateProject = () => {
   const userIsAnAdmin = true; //checkIfUserIsAnAdmin(currentUser);
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.allUsers.users);
-  const projects = useSelector((state) => state.allProjects.projects);
-  const unAssignedUsers = users.filter(
-    (user) =>
-      user.assignable === true &&
-      user.deleted === false &&
-      user.role === "Developer"
-  );
+  // const unAssignedUsers = users.filter(
+  //   (user) =>
+  //     user.assignable === true &&
+  //     user.deleted === false &&
+  //     user.role === "Developer"
+  // );
   const [formInputData, setFormInputData] = useState(initialState);
   const [selectedIndexes, setSelectedIndexes] = useState([]);
   useEffect(() => {}, [formInputData]);
@@ -82,17 +79,15 @@ const CreateProject = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     //change list of members to ids here
-    const memberIds = replaceEmailsWithIDs(
-      formInputData.members,
-      unAssignedUsers
-    );
+    // const memberIds = replaceEmailsWithIDs(
+    //   formInputData.members,
+    //   unAssignedUsers
+    // );
     const validated = true;
     if (validated) {
       const newInputValue = { ...formInputData };
-      newInputValue["members"] = memberIds;
-      const newProject = await api.projects.createProject(newInputValue);
-      const newProjects = [...projects, newProject];
-      dispatch(setProjects(newProjects));
+      // newInputValue["members"] = memberIds;
+      await api.projects.createProject(newInputValue);
       dispatch(
         setMessage(
           `Project ${newInputValue.title} has been successfully created`
@@ -226,7 +221,7 @@ const CreateProject = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {unAssignedUsers.length > 0 ? (
+                  {/* {unAssignedUsers.length > 0 ? (
                     <>
                       {unAssignedUsers.map((user, index) => {
                         return (
@@ -247,7 +242,7 @@ const CreateProject = () => {
                     </>
                   ) : (
                     <></>
-                  )}
+                  )} */}
                 </tbody>
               </table>
             </div>

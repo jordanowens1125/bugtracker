@@ -1,9 +1,7 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { useEffect } from "react";
 
-const ProjectsTable = () => {
-  const projects = useSelector((state) => state.allProjects.projects);
+const ProjectsTable = ({projects}) => {
   const hasProjects = projects.length > 0;
 
   useEffect(() => {}, [projects]);

@@ -11,6 +11,10 @@ body {
   width: 100%;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 #root {
   width: fit-content;
 }
@@ -19,44 +23,7 @@ a:-webkit-any-link {
   text-decoration: none;
   color: #7f55da;
   cursor: pointer;
-  padding: 4px;
-}
-
-.desktop-nav {
-  border-right: 3px solid #f4f6fa;
-  color: black;
-  width: 15vw;
-  position: fixed;
   padding: 10px;
-}
-
-.mobile-nav {
-  border-bottom: 3px solid #f4f6fa;
-  display: flex;
-  position: sticky;
-  width: 100vw;
-  top: 0;
-  left: 0;
-}
-
-.mobile-nav-div {
-  position: sticky;
-  top: 5vh;
-  margin: auto;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.test {
-  width: 85vw;
-  margin-left: 15vw;
-  height: 100%;
-  min-height: 100vh;
-}
-
-.mobile-layout {
-  margin-top: 10vh;
-  overflow-x: scroll;
 }
 
 /* Width and Height */
@@ -82,7 +49,8 @@ a:-webkit-any-link {
 }
 
 .w-lg {
-  width: 100%;
+  width: 400px;
+  max-width: 100%;
 }
 
 .w-content {
@@ -99,6 +67,10 @@ a:-webkit-any-link {
   overflow-y: scroll;
 }
 
+.h-xl {
+  max-height: 800px;
+  overflow-y: scroll;
+}
 /* End of weight and height */
 
 .overflow-x {
@@ -109,25 +81,28 @@ a:-webkit-any-link {
   overflow-y: scroll;
 }
 
+.no-overflow {
+  overflow: hidden;
+}
+
 .border {
   border: solid 1px red;
 }
 
-html {
-  scroll-behavior: smooth;
+.grey-border {
+  border: #e2eaff 3px solid;
+  border-radius: 20px;
 }
-
-/* Background css */
-.primary-bg {
-  background-color: #7f55da;
-}
-
-.background-bg {
-  background-color: #fff;
-}
-/*end of background*/
 
 /* Padding */
+.p-none {
+  padding: 0;
+}
+
+.p-sm {
+  padding: 4px;
+}
+
 .p-md {
   padding: 10px;
 }
@@ -135,19 +110,37 @@ html {
   padding: 20px;
 }
 
+.p-l-md {
+  padding-left: 10px;
+}
+
 .p-right-md {
   padding-right: 10px;
+}
+
+.p-top-md {
+  padding-top: 10px;
+}
+
+.p-top-lg {
+  padding-top: 20px;
+}
+
+.p-b-lg {
+  padding-bottom: 20px;
 }
 /* End of padding */
 
 .flex {
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
 }
 
 .flex-column {
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
 .flex-start {
@@ -187,6 +180,11 @@ html {
   align-self: stretch;
 }
 
+.children-equal-flex > * {
+  flex: 1 1 0;
+}
+/* End of flex */
+
 /* Margin */
 .margin-top-md {
   margin-top: 100px;
@@ -204,12 +202,18 @@ td {
   padding: 20px;
 }
 
+caption{
+  caption-side: top;
+  color: #7f55da;
+}
+
 table {
   width: 100%;
   width: max-content;
   border-collapse: collapse;
   background-color: #f4f6fa;
   border-radius: 15px;
+  position: relative;
 }
 
 tr {
@@ -224,19 +228,27 @@ td {
 /* End of table css */
 
 /* Radio css */
-/* input:checked{
+input[type="radio"]:checked {
   background-color: pink;
-} */
+}
 
 /* End of Radio CSS */
 
 /* Input  */
 input,
 fieldset,
+select,
 textarea {
   border: 2px solid #f4f6fa;
   padding: 5px;
   border-radius: 10px;
+  outline: none;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  /* //outline: solid 2px #ba9cf7; */
+  outline: #ba9cf7 solid 2px;
 }
 /*  */
 /* ETC */
@@ -245,18 +257,32 @@ textarea {
 }
 
 /* button css */
-button {
+button,
+.button {
   padding: 10px;
   background-color: inherit;
   border-radius: 5px;
   color: inherit;
   border: none;
+  transition: 0.5s;
+}
+
+a {
+  transition: 0.5s;
+  padding: 10px;
+  border-radius: 8px;
+  width: fit-content;
+}
+
+button:hover,
+a:hover {
+  transform: scale(1.03);
+  cursor: pointer;
 }
 
 .button-primary {
   color: white;
   background-color: #7f55da;
-
   font-weight: bold;
 }
 
@@ -270,7 +296,101 @@ button {
   border: 1px solid #7f55da;
 }
 
+/* Background css */
+.primary-bg {
+  background-color: #7f55da;
+}
+
+.background-bg {
+  background-color: #fff;
+}
+/*end of background*/
+
+/* Color */
+.primary {
+  color: #7f55da;
+}
+/* Color */
+
+/* Chart div */
+.chart {
+  width: 300px;
+  aspect-ratio: 1;
+  max-width: 90vw;
+  border: 5px solid #f4f6fa;
+  border-radius: 20px;
+  overflow: hidden;
+}
+/* End of chart div */
+
 /* end of button css */
+.desktop-display {
+  display: flex;
+  width: 100vw;
+}
+
+.desktop .right {
+  flex-basis: 1 1 0;
+  flex: 80%;
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.desktop-nav {
+  border-right: 3px solid #f4f6fa;
+  color: black;
+  padding: 10px;
+  flex: 10%;
+}
+
+.mobile-display {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100vw;
+}
+
+.mobile-nav {
+  border-bottom: 3px solid #f4f6fa;
+  display: flex;
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-display .bottom {
+  flex: 90%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Comments */
+.comments {
+  display: grid;
+  grid-template-areas:
+    "heading"
+    "comments"
+    "input";
+  height: 700px;
+  border: solid 3px #f4f6fa;
+  border-radius: 10px;
+}
+
+.message-heading {
+  grid-area: heading;
+  border-bottom: solid 3px #f4f6fa;
+}
+
+.message-input {
+  grid-area: input;
+  border-top: 3px solid #f4f6fa;
+}
+
+.message-input input {
+  border: none;
+}
 
 .message {
   display: flex;
@@ -289,14 +409,15 @@ button {
   margin-right: 10px;
   margin-top: 20px;
 }
+
 .messageText {
   display: inline-block;
   padding: 10px;
   border-radius: 10px;
-  background-color: #7f55da;
-  color: white;
+  background-color: #e2eaff;
+  color: #3c4aa3;
   overflow-wrap: break-word;
-  max-width: 300px;
+  max-width: 250px;
 }
 
 .messageBottom {
@@ -312,7 +433,7 @@ button {
 
 .message.own .messageText {
   color: black;
-  background-color: rgb(245, 241, 241);
+  background-color: #f4f6fa;
 }
 
 /* modal */
@@ -328,7 +449,6 @@ button {
   width: 110vw;
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4); /* Black w*/
-  padding: 20px;
 }
 
 .modal-content {
@@ -346,64 +466,17 @@ button {
 }
 /*End of modal  */
 
-.page {
-}
-/* update project members */
-.update-project-members {
-  display: grid;
-  grid-template-areas:
-    "link . ."
-    "title . ."
-    "desc . ."
-    "members members members"
-    ". update ."
-    "available available available";
-  gap: 20px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.update-project-members a {
-  grid-area: link;
-}
-
-.update-project-members h3 {
-  grid-area: title;
-}
-
-.update-project-members p {
-  grid-area: desc;
-}
-
-.update-project-members .submit {
-  grid-area: update;
-}
-
-.update-project-members .current {
-  grid-area: members;
-}
-
-.update-project-members .available {
-  grid-area: available;
-}
-/* End of update project members */
-
 /* bug  */
 .bug-page {
   display: grid;
-  grid-template-areas:
-    "link"
-    "info"
-    "comments";
-  height: 100vh;
-}
-
-.bug-page a {
-  grid-area: link;
+  height: 90vh;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 /* End of bug */
 
 /* manage users page */
-.manage-users {
+.manage-users,
+.manage-members {
   display: grid;
   gap: 10px;
   padding-right: 20px;
@@ -414,28 +487,27 @@ button {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.manage-users h1 {
+.manage-users .header, .manage-members .header {
   grid-area: header;
 }
 
-.manage-users .search {
+.manage-users .search, .manage-members .search {
   grid-area: search;
 }
 
-.manage-users .submit {
+.manage-users .submit, .manage-members .submit {
   grid-area: submit;
 }
 
-.manage-users .tables {
-  grid-area: tables;
-}
-.manage-users .available {
+.manage-users .available,
+.manage-members .available {
   grid-area: available;
   overflow-y: scroll;
   height: 600px;
 }
 
-.manage-users .selected {
+.manage-users .selected,
+.manage-members .selected {
   grid-area: selected;
   overflow-y: scroll;
   height: 600px;
@@ -443,7 +515,7 @@ button {
 /* End of manage users page */
 
 /* responsive */
-@media screen and (min-width: 480px) {
+@media screen and (min-width: 700px) {
   .desktop {
     display: flex;
   }
@@ -452,7 +524,7 @@ button {
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 700px) {
   .desktop {
     display: flex;
     display: none;
@@ -465,27 +537,29 @@ button {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    align-items: center;
     gap: 10px;
   }
-  .manage-users {
+  .manage-users,
+  .manage-members {
     padding-right: unset;
     padding: 10px;
   }
-  .manage-users .selected {
+  .manage-users .selected,
+  .manage-members .selected {
     height: fit-content;
     max-height: 600px;
   }
-  .manage-users .available {
+  .manage-users .available,
+  .manage-members .available {
     height: fit-content;
     max-height: 600px;
   }
-
-  .update-project-members,
   .bug-page,
   .page {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    /* height: fit-content; */
+    text-align: center;
   }
 }

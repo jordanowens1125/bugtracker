@@ -7,7 +7,9 @@ const project = require("../models/project");
 
 const getUsers = async (req, res) => {
   try {
-    const users = await User.find().populate("project").populate('assignedBugs');
+    const users = await User.find()
+      .populate("project")
+      .populate("assignedBugs");
     res.status(200).json(users);
   } catch (error) {
     res.status(404).json({ message: error });
@@ -24,6 +26,15 @@ const findOrCreateUser = async (req, res) => {
   } catch (error) {
     res.status(404).json({ message: error });
   }
+};
+
+const getUserByEmail = async (req, res) => {
+  try {
+    let user = await User.findOne({ email: req.params.email });
+    if (user) {
+      res.status(200).json(user);
+    }
+  } catch (error) {}
 };
 
 const deleteUser = async (req, res) => {
@@ -89,6 +100,20 @@ const updateUser = async (req, res) => {
   }
 };
 
+const updateRoles = async (req, res) => {
+  try {
+    await User.updateMany(
+      { _id: { $in: req.body.members } },
+      {
+        role: req.body.role,
+      }
+    );
+    res.status(200).json();
+  } catch (error) {
+    res.status(404).json({ message: error });
+  }
+};
+
 const assignBugToUser = async (req, res) => {
   try {
     const userID = req.body.userID;
@@ -148,7 +173,6 @@ const assignUserToProject = async (req, res) => {
       $addToSet: {
         members: userID,
       },
-      
     });
 
     const user = await User.findByIdAndUpdate(userID, {
@@ -167,7 +191,7 @@ const unAssignUsersFromProject = async (req, res) => {
     const changedUsers = await User.updateMany(
       {},
       {
-        $pull: { project: projectID, assignedBugs: [], assignable: true, },
+        $pull: { project: projectID, assignedBugs: [], assignable: true },
       }
     );
 
@@ -220,4 +244,6 @@ module.exports = {
   assignBugToUser,
   unAssignUserFromProject,
   unAssignUsersFromProject,
+  getUserByEmail,
+  updateRoles,
 };
