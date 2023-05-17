@@ -12,7 +12,6 @@ import { removeSelectedUser } from "../redux/actions/userActions";
 
 const Navbar = () => {
   const currentUser = useSelector((state) => state.currentUser);
-  //console.log(currentUser);
   const { user, logOut } = useUserAuth();
   const messageInfo = useSelector((state) => state.message);
   const dispatch = useDispatch();

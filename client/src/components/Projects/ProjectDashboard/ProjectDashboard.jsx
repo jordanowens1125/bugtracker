@@ -24,7 +24,7 @@ function checkProject(project) {
   }
 }
 
-const ProjectDashboard = ({ project }) => {
+const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
   const user = useSelector((state) => state.currentUser);
   const userIsAdmin = user.role === "Admin";
   const userIsAssignedToProject = checkIfUserIsAssignedToProject(user, project);
@@ -49,8 +49,8 @@ const ProjectDashboard = ({ project }) => {
     console.log(edit);
     await api.projects.updateProjectInfo(project._id, edit);
     setProjectDisplay(edit);
-    setEdit(edit)
-    setEditMode(false)
+    setEdit(edit);
+    setEditMode(false);
   };
 
   useEffect(() => {
@@ -164,7 +164,13 @@ const ProjectDashboard = ({ project }) => {
               </div>
               <div className="flex-column gap-lg">
                 <span className="flex space-between">
-                  <button className="button-secondary">Add New Bug</button>
+                  <button
+                    className="button-secondary"
+                    disabled={createBugMode}
+                    onClick={() => setBugMode(true)}
+                  >
+                    Add New Bug
+                  </button>
                 </span>
 
                 <table className="padding-md full-width">

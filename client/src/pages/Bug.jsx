@@ -64,7 +64,6 @@ const Bug = () => {
     }
 
     bug.assignedTo = bug?.assignedTo?._id || undefined;
-    console.log(updattedBug);
     await api.bugs.updateBug(bug, updattedBug);
     updattedBug.assignedTo = users[index];
     setEditMode(false);
@@ -153,12 +152,12 @@ const Bug = () => {
                         );
                       })}
                     </select>
-                    <label htmlFor="start">Start:</label>
+                    <label htmlFor="openDate">Start:</label>
                     <input
                       type="date"
-                      name="start"
-                      id="start"
-                      value={dayjs(updattedBug.start).format("YYYY-MM-DD")}
+                      name="openDate"
+                      id="openDate"
+                      value={dayjs(updattedBug.openDate).format("YYYY-MM-DD")}
                       onChange={handleInputChange}
                     />
                     <label htmlFor="deadline">Deadline:</label>

@@ -533,6 +533,40 @@ button:disabled {
 }
 /* End of manage users page */
 
+/* Modal styling */
+.modal {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w*/
+  padding: 10px;
+}
+
+.modal-content {
+  /* background-color: var(--light-bg-color); */
+  background-color: #f4f6fa;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  width: 95vw;
+  height: 95vh;
+  border-radius: 0.3rem;
+  overflow: hidden;
+  overflow-y: auto;
+  position: fixed;
+  /* top: 50%;
+  left: 50%; */
+}
+/*  */
+
 /* responsive */
 @media screen and (min-width: 800px) {
   .desktop {

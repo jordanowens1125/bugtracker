@@ -74,7 +74,6 @@ const getBug = async (req, res) => {
       .populate("comments")
       .populate("projectID")
       .populate("assignedTo");
-    console.log(bug.projectID._id);
     const members = await User.find({
       project: bug.projectID._id,
     });
@@ -146,7 +145,6 @@ const updateBug = async (req, res) => {
       closer,
       stepsToRecreate,
     } = updatedBug;
-    console.log(2);
     if (assignedTo) {
       await Bug.findByIdAndUpdate(_id, {
         title,
@@ -163,7 +161,6 @@ const updateBug = async (req, res) => {
         assignedTo,
       });
     } else {
-      console.log(456);
       const bug = await Bug.findByIdAndUpdate(_id, {
         title,
         description,
