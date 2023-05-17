@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../api/index";
-import BugComments from "../components/Bugs/BugComments/BugComments";
+import BugComments from "../components/Bugs/BugComments";
 import dayjs from "dayjs";
 import { statusList } from "../constants/bug";
 import { priorities } from "../constants/bug";

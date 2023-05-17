@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import Loading from "../../Loading";
-import api from "../../../api";
+import Loading from "../Loading";
+import api from "../../api";
 
 const checkIfUserIsAssignedToProject = (user, project) => {
   if (user) {
@@ -124,14 +124,14 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
             )}
 
             <div className="flex gap-lg full-width full-height children-equal-flex">
-              <div className="flex-column gap-lg">
+              <div className="flex-column gap-lg h-lg">
                 <a
                   href={`/projects/${project._id}/managemembers`}
                   className="button"
                 >
                   Manage Members
                 </a>
-                <table className="p-md full-width">
+                <table className="p-md full-width h-lg">
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -162,7 +162,7 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
                   </tbody>
                 </table>
               </div>
-              <div className="flex-column gap-lg">
+              <div className="flex-column gap-lg h-lg">
                 <span className="flex space-between">
                   <button
                     className="button-secondary"
@@ -173,7 +173,7 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
                   </button>
                 </span>
 
-                <table className="padding-md full-width">
+                <table className="p-md full-width">
                   <thead>
                     <tr>
                       <th>Title</th>

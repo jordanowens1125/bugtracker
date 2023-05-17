@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ProjectsTable from "../components/Projects/ProjectsTable/ProjectsTable";
+import ProjectsTable from "../components/Projects/ProjectsTable";
 import api from "../api/index";
 const Projects = () => {
   const [projects, setProjects] = useState([]);

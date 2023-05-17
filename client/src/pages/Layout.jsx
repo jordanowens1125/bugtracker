@@ -51,7 +51,7 @@ const Navbar = () => {
                     <a href="/manageusers">Manage Users</a>
                   )}
                   {currentUser.role === "Admin" && (
-                    <a href="/createproject">New project</a>
+                    <a href="/createproject">Create project</a>
                   )}
                   {/* <a href="/Bugs">Schedule</a> */}
                 </div>

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
-import api from "../../../api/index";
-import Comment from "../Comment/Comment";
+import api from "../../api/index";
+import Comment from "./Comment";
 
 const bugHasComments = (bug) => {
   if (bug.comments) {

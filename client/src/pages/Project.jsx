@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import ProjectDashboard from "../components/Projects/ProjectDashboard/ProjectDashboard";
+import ProjectDashboard from "../components/Projects/ProjectDashboard";
 import api from "../api/index";
 import dayjs from "dayjs";
 import { priorities, statusList } from "../constants/bug";
