@@ -9,6 +9,7 @@ const ManageMembers = () => {
   const [currentMembers, setCurrentMembers] = useState([]);
   const [savedCurrent, setSavedCurrent] = useState([]);
   const [savedAvailable, setSavedAvailable] = useState([]);
+  const [canSave, setCanSave] = useState(false);
 
   useEffect(() => {
     if (projectID && projectID !== "") {
@@ -27,7 +28,7 @@ const ManageMembers = () => {
       fetchProjectDetails();
     }
   }, [projectID]);
-  
+
   const removeUser = (user, index) => {
     const copyCurrent = [...currentMembers];
     const copyAvailable = [...availableMembers];
@@ -35,6 +36,7 @@ const ManageMembers = () => {
     setCurrentMembers(copyCurrent);
     copyAvailable.push(user);
     setAvailableMembers(copyAvailable);
+    setCanSave(true);
   };
 
   const addUser = (user, index) => {
@@ -44,19 +46,24 @@ const ManageMembers = () => {
     copyCurrent.push(user);
     setCurrentMembers(copyCurrent);
     setAvailableMembers(copyAvailable);
+    setCanSave(true);
   };
 
   const reset = () => {
     setAvailableMembers(savedAvailable);
     setCurrentMembers(savedCurrent);
+    setCanSave(false);
   };
 
   const handleSubmit = async () => {
-    const oldIds = savedCurrent.map((item) => item._id);
-    const newIds = currentMembers.map((item) => item._id);
-    await api.projects.updateMembers(projectID, oldIds, newIds);
-    setSavedAvailable(availableMembers);
-    setSavedCurrent(currentMembers);
+    if (canSave) {
+      const oldIds = savedCurrent.map((item) => item._id);
+      const newIds = currentMembers.map((item) => item._id);
+      await api.projects.updateMembers(projectID, oldIds, newIds);
+      setSavedAvailable(availableMembers);
+      setSavedCurrent(currentMembers);
+      setCanSave(false);
+    }
   };
 
   return (
@@ -72,7 +79,11 @@ const ManageMembers = () => {
           <button className="button-secondary" onClick={reset}>
             Reset
           </button>
-          <button className="button-primary" onClick={handleSubmit}>
+          <button
+            className="button-primary"
+            onClick={handleSubmit}
+            disabled={!canSave}
+          >
             Update Project members
           </button>
         </span>

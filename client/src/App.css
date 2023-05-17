@@ -285,6 +285,12 @@ a:hover {
   cursor: pointer;
 }
 
+button:disabled {
+  background-color: #f4f6fa;
+  color: black;
+  opacity: 0.6;
+}
+
 .button-primary {
   color: white;
   background-color: #7f55da;
@@ -517,14 +523,12 @@ a:hover {
 .manage-users .available,
 .manage-members .available {
   grid-area: available;
-  overflow-y: scroll;
   height: 600px;
 }
 
 .manage-users .selected,
 .manage-members .selected {
   grid-area: selected;
-  overflow-y: scroll;
   height: 600px;
 }
 /* End of manage users page */

@@ -29,7 +29,9 @@ const Bug = () => {
       setBug(request.bug);
       setUpdattedBug(request.bug);
       setUsers(request.members);
-      setIndex(findUser(request.bug.assignedTo, request.members));
+      if (request.bug.assignedTo) {
+        setIndex(findUser(request.bug.assignedTo, request.members));
+      }
     };
     fetchBug();
   }, [id]);
@@ -56,13 +58,16 @@ const Bug = () => {
     e.preventDefault();
     if (index < 0) {
       updattedBug.assignedTo = undefined;
+      console.log(1234);
     } else {
       updattedBug.assignedTo = users[index]._id;
     }
-    //
-    bug.assignedTo = bug.assignedTo._id || {}
-    console.log(bug);
+
+    bug.assignedTo = bug?.assignedTo?._id || undefined;
+    console.log(updattedBug);
     await api.bugs.updateBug(bug, updattedBug);
+    updattedBug.assignedTo = users[index];
+    setEditMode(false);
     setBug(updattedBug);
   };
 

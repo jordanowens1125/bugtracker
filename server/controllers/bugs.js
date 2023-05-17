@@ -90,14 +90,16 @@ const updateBug = async (req, res) => {
     let updatedBug = req.body.updatedBug;
     let oldBug = req.body.currentBug;
     //remove old users from bug
-    await User.findByIdAndUpdate(
-      { _id: oldBug.assignedTo },
-      {
-        $pull: {
-          assignedBugs: _id,
-        },
-      }
-    );
+    if (oldBug.assignedTo) {
+      await User.findByIdAndUpdate(
+        { _id: oldBug.assignedTo },
+        {
+          $pull: {
+            assignedBugs: _id,
+          },
+        }
+      );
+    }
 
     //remove old bug from old related bugs
     // await Bug.findByIdAndUpdate(
@@ -108,16 +110,17 @@ const updateBug = async (req, res) => {
     //     },
     //   }
     // );
-    console.log(updatedBug);
-    //add bug to new users
-    await User.findByIdAndUpdate(
-      { _id: updatedBug.assignedTo },
-      {
-        $addToSet: {
-          assignedBugs: _id,
-        },
-      }
-    );
+    if (updatedBug.assignedTo) {
+      //add bug to new user
+      await User.findByIdAndUpdate(
+        { _id: updatedBug.assignedTo },
+        {
+          $addToSet: {
+            assignedBugs: _id,
+          },
+        }
+      );
+    }
 
     //add bug to new related bugs
     // await Bug.findByIdAndUpdate(
@@ -128,6 +131,7 @@ const updateBug = async (req, res) => {
     //     },
     //   }
     // );
+
     const {
       title,
       description,
@@ -142,23 +146,41 @@ const updateBug = async (req, res) => {
       closer,
       stepsToRecreate,
     } = updatedBug;
-
-    await Bug.findByIdAndUpdate(_id, {
-      title,
-      description,
-      status,
-      openDate,
-      creator,
-      priority,
-      closeDate,
-      history,
-      relatedBugs,
-      closer,
-      stepsToRecreate,
-      assignedTo: assignedTo,
-    });
-    const bug = await Bug.findById(_id).populate("assignedTo");
-    res.status(200).json(bug);
+    console.log(2);
+    if (assignedTo) {
+      await Bug.findByIdAndUpdate(_id, {
+        title,
+        description,
+        status,
+        openDate,
+        creator,
+        priority,
+        closeDate,
+        history,
+        relatedBugs,
+        closer,
+        stepsToRecreate,
+        assignedTo,
+      });
+    } else {
+      console.log(456);
+      const bug = await Bug.findByIdAndUpdate(_id, {
+        title,
+        description,
+        status,
+        openDate,
+        creator,
+        priority,
+        closeDate,
+        history,
+        relatedBugs,
+        closer,
+        stepsToRecreate,
+        assignedTo: null,
+      });
+    }
+    //const bug = await Bug.findById(id);
+    res.status(200).json();
   } catch (error) {
     res.status(404).json({ message: error });
   }
