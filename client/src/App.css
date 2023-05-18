@@ -21,7 +21,7 @@ body {
   background-color: var(--bg-color);
 }
 
-.dark-mode{
+.dark-mode {
   --bg-color: #211e49;
   --secondary-bg-color: #a3a0be;
   --primary-color: #a3a0be;
@@ -318,13 +318,18 @@ button:disabled {
 }
 
 .button-secondary {
-  color: #3c4aa3;
-  background-color: #e2eaff;
+  color: var(--tri-color);
+  background-color: var(--tri-bg-color);
 }
 
 .button-ghost {
   color: var(--primary-color);
   border: 1px solid var(--primary-color);
+}
+
+button:disabled:hover{
+  cursor: not-allowed;
+  transform: unset;
 }
 
 /* Background css */
@@ -552,6 +557,15 @@ button:disabled {
   height: 600px;
 }
 /* End of manage users page */
+
+.cover {
+  padding: 10%;
+  border-radius: 20px;
+  width: 800px;
+  max-width: 100%;
+  border: 5px solid var(--secondary-bg-color);
+  background-color: var(--secondary-bg-color);
+}
 
 /* Modal styling */
 .modal {

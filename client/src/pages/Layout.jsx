@@ -54,7 +54,7 @@ const Navbar = () => {
     <>
       <div className="flex desktop desktop-display">
         {user && (
-          <nav className="full-vh flex-column desktop-nav primary border">
+          <nav className="full-vh flex-column desktop-nav primary">
             <div className="flex-column aic space-around full-height">
               <div className="flex-column gap-lg">
                 <a href="/">Dashboard</a>

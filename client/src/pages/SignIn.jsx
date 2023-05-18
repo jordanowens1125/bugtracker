@@ -71,14 +71,21 @@ const SignIn = () => {
   };
   return (
     <>
-      <div className="flex-column aic jcc full-height">
-        <span>Log In</span>
-        <button onClick={SignInAsDemoDeveloper} className="button-primary">
-          Login as Demo Developer
-        </button>
-        <button onClick={SignInAsDemoAdmin}>Login as Demo Admin</button>
-        <button>Login with Google</button>
-        <a href="/signup">Sign Up</a>
+      <div className="flex-column jcc full-height aic page">
+        <div className="flex-column aic cover">
+          <span>Log In</span>
+          <button onClick={SignInAsDemoDeveloper} className="button-primary">
+            Login as Demo Developer
+          </button>
+          <button onClick={SignInAsDemoAdmin} className="button-secondary">
+            Login as Demo Admin
+          </button>
+          <span className="flex gap-md aic jcc">
+            <button onClick={GoogleLogin} className="button-ghost">Signin with Google</button>
+          </span>
+
+          <a href="/signup">Sign Up</a>
+        </div>
       </div>
     </>
   );
