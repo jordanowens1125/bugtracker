@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useUserAuth } from "../context/userAuthContext";
 
@@ -39,6 +39,20 @@ const Navbar = () => {
     dispatch(clearMessage());
   };
 
+  const handleMobileOpen = () => {
+    setMobileOpen(true);
+    document.body.style.overflow = "hidden";
+    const display = document.getElementById("mobile-display");
+    display.style.position = "fixed";
+  };
+
+  const handleMobileClose = () => {
+    setMobileOpen(false);
+    document.body.style.overflow = "unset";
+    const display = document.getElementById('mobile-display')
+    display.style.position = 'unset'
+  };
+
   const signOut = async () => {
     try {
       await logOut();
@@ -64,7 +78,7 @@ const Navbar = () => {
                   <a href="/manageusers">Manage Users</a>
                 )}
                 {currentUser.role === "Admin" && (
-                  <a href="/createproject">Create project</a>
+                  <a href="/createproject">Create Project</a>
                 )}
                 {/* <a href="/Bugs">Schedule</a> */}
               </div>
@@ -105,37 +119,40 @@ const Navbar = () => {
       </div>
 
       {/* Mobile */}
-      <div className="mobile mobile-display">
-        <nav className="flex-column">
+      <div className="mobile" id="mobile-display">
+        <div className="flex-column">
           {user && (
             <>
               {mobile ? (
                 <>
-                  <div className="modal" onClick={() => setMobileOpen(false)}>
+                  <nav className="mobile-nav" onClick={handleMobileClose}>
                     {user && (
                       <>
                         <div className="flex-column space-around aic jcc full-height full-width">
                           <a href="/">Dashboard</a>
                           <a href="/Projects">Projects</a>
                           <a href="/Bugs">Bugs</a>
+                          {currentUser.role === "Admin" && (
+                            <a href="/manageusers">Manage Users</a>
+                          )}
+                          {currentUser.role === "Admin" && (
+                            <a href="/createproject">Create Project</a>
+                          )}
                         </div>
                       </>
                     )}
-                  </div>
+                  </nav>
                 </>
               ) : (
                 <>
-                  <div
-                    className="mobile-nav"
-                    onClick={() => setMobileOpen(true)}
-                  >
+                  <div className="open-mobile-nav" onClick={handleMobileOpen}>
                     Menu item to open mobile nav
                   </div>
                 </>
               )}
             </>
           )}
-        </nav>
+        </div>
         {/* Popup to show status or crud operations  */}
         {/* <Snackbar
           open={messageInfo.open}
