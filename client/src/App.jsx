@@ -1,4 +1,10 @@
-import { BrowserRouter, Routes, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  createHashRouter,
+  RouterProvider,
+} from "react-router-dom";
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
@@ -38,8 +44,9 @@ function App() {
     // }
     return unsubscribe;
   }, [currentUser, dispatch]);
+
   return (
-    <main className="light-mode" id='App'>
+    <main className="light-mode" id="App">
       <BrowserRouter>
         <UserAuthContextProvider>
           <Routes>
@@ -68,15 +75,8 @@ function App() {
               <Route path="users/:id" element={<User />} /> */}
                 <Route path="createproject" element={<CreateProject />} />
               </Route>
-              {/* <Route index element={<Home />} />
-            <Route path="bugs" element={<Bugs />} />
-            <Route path="projects" element={<Projects />} />
-            <Route path="projects/:id" element={<Project/>} />
-            <Route path="editprofile" element={<EditProfile />} />
-            <Route path="updatepassword" element={<UpdatePassword />} />
-            <Route path="users" element={<Users/>} /> */}
               {/*catch all */}
-              <Route path="*" element={<NoPage />} />
+              <Route element={<NoPage />} />
             </Route>
           </Routes>
         </UserAuthContextProvider>

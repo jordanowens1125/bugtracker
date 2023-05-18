@@ -3,20 +3,6 @@ import { useSelector } from "react-redux";
 import api from "../../api/index";
 import Comment from "./Comment";
 
-const bugHasComments = (bug) => {
-  if (bug.comments) {
-    if (bug.comments.length > 0) {
-      return true;
-    }
-  }
-  return false;
-};
-const checkifCurrentBugIsFilled = (obj) => {
-  for (var prop in obj) {
-    if (obj.hasOwnProperty(prop)) return true;
-  }
-  return false;
-};
 const checkIfUserCanMakeComments = (user, bug) => {
   if (user) {
     if (bug) {
@@ -47,22 +33,16 @@ const scrollToBottom = () => {
 
 const BugComments = ({ bug }) => {
   const [comments, setComments] = useState(bug.comments);
-  const filteredComments = [...comments];
-  filteredComments.filter((comment) => comment.creator == null);
-
   useEffect(() => {}, [bug]);
 
   const currentUser = useSelector((state) => state.currentUser);
-  const isThereACurrentBug = checkifCurrentBugIsFilled(bug);
-  const hasComments = bugHasComments(bug);
-  const canUserMakeCommentsOnThisBug = checkIfUserCanMakeComments(
-    currentUser,
-    bug
-  );
+  const userCanCommentsOnThisBug = checkIfUserCanMakeComments(currentUser, bug);
+
   const [chatInput, setChatInput] = useState({
     text: "",
     input: "",
   });
+
   const handleChange = (e) => {
     const inputFieldValue = e.target.value;
     const inputFieldName = e.target.id || e.target.name; //target name for the bugs select
@@ -80,24 +60,24 @@ const BugComments = ({ bug }) => {
       //bug projectID property is a project object so get id
       newComment.projectID = bug.projectID;
       const commentTime = new Date(Date.now());
-      //comment was uploading future time as in instead of 'a few seconds ago',
-      //I would get in a few seconds so i subtracted some time
-      newComment.date = commentTime.getTime() - 40000;
+      newComment.date = commentTime.getTime();
       const response = await api.comments.createComment(newComment);
+      //need to set creator so that info is correctly
+      //displayed as owned by the current user
+      response.creator = currentUser;
       const updatedComments = [...comments, response];
       setComments(updatedComments);
       setChatInput({
         text: "",
         input: "",
       });
-      // dispatch(setUsers(updatedUsers));
     }
   };
 
   useEffect(() => {}, [bug]);
   return (
     <>
-      {isThereACurrentBug && (
+      {bug && (
         <>
           <span className="message-heading flex aic space-between">
             <p className="p-l-md">Comments:</p>
@@ -105,9 +85,9 @@ const BugComments = ({ bug }) => {
               Bottom
             </button>
           </span>
-          {hasComments ? (
-            <div className="p-lg h-lg">
-              {filteredComments.map((comment) => (
+          {comments.length > 0 ? (
+            <div className="p-lg h-lg comments">
+              {comments.map((comment) => (
                 <div key={comment._id}>
                   <Comment comment={comment} />
                 </div>
@@ -115,22 +95,24 @@ const BugComments = ({ bug }) => {
               <AlwaysScrollToBottom />
             </div>
           ) : (
-            <></>
+            <>
+              <div className="comments p-lg"> No Comments</div>
+            </>
           )}
-          {canUserMakeCommentsOnThisBug && (
-            <span className="message-input flex space-between">
+          {userCanCommentsOnThisBug && (
+            <form className="message-input flex" onSubmit={sendComment}>
               <input
                 type="text"
                 value={chatInput.text}
                 onChange={handleChange}
                 placeholder="Enter comment.."
-                className="full-height border"
+                className="full-height grow no-outline"
                 id="text"
               />
-              <button onClick={sendComment} className="button-primary">
+              <button className="button-primary" type="submit">
                 Submit
               </button>
-            </span>
+            </form>
           )}
         </>
       )}

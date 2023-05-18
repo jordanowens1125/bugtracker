@@ -26,10 +26,11 @@ const Bug = () => {
   useEffect(() => {
     const fetchBug = async () => {
       const request = await api.bugs.fetchBug(id);
-      setBug(request.bug);
-      setUpdattedBug(request.bug);
+      const bug = request.bug;
+      setBug(bug);
+      setUpdattedBug(bug);
       setUsers(request.members);
-      if (request.bug.assignedTo) {
+      if (bug.assignedTo) {
         setIndex(findUser(request.bug.assignedTo, request.members));
       }
     };
@@ -205,7 +206,7 @@ const Bug = () => {
                 </>
               )}
             </section>
-            <div className="h-xl overflow-y comments">
+            <div className="h-xl overflow-y comments-section">
               <BugComments bug={bug} />
             </div>
           </>

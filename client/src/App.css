@@ -205,6 +205,10 @@ a:-webkit-any-link {
   align-self: stretch;
 }
 
+.grow{
+  flex-grow: 1;
+}
+
 .children-equal-flex > * {
   flex: 1 1 0;
 }
@@ -275,6 +279,12 @@ textarea:focus {
   /* //outline: solid 2px #ba9cf7; */
   outline: var(--secondary-color) solid 2px;
 }
+
+.no-outline:focus, .no-outline {
+  outline: none;
+  border: none;
+}
+
 /*  */
 /* ETC */
 textarea {
@@ -403,15 +413,24 @@ button:disabled:hover{
 }
 
 /* Comments */
-.comments {
+.comments-section {
   display: grid;
   grid-template-areas:
     "heading"
+    "comments"
+    "comments"
+    "comments"
+    "comments"
     "comments"
     "input";
   height: 700px;
   border: solid 3px var(--secondary-bg-color);
   border-radius: 10px;
+}
+
+.comments{
+  grid-area: comments;
+  min-height: 600px;
 }
 
 .message-heading {

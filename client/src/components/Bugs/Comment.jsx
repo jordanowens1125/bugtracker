@@ -6,6 +6,7 @@ dayjs.extend(relativeTime);
 const Comment = ({ comment }) => {
   const currentUser = useSelector((state) => state.currentUser);
   const isThisACurrentUserComment = comment.creator._id === currentUser._id;
+  // console.log(comment);
   return (
     <>
       <div className={isThisACurrentUserComment ? "message own" : "message"}>

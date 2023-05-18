@@ -71,7 +71,8 @@ const getBug = async (req, res) => {
   try {
     let id = req.params.id;
     const bug = await Bug.findById(id)
-      .populate("comments")
+      //linking bug comments info while also getting the comments creator/user info
+      .populate([{ path: "comments", populate: [{ path: "creator" }] }])
       .populate("projectID")
       .populate("assignedTo");
     const members = await User.find({
