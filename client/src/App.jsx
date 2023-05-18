@@ -16,7 +16,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Bug from "./pages/Bug";
 import ManageMembers from "./pages/ManageMembers";
 import ManageUsers from "./pages/ManageUsers";
-import CreateProject from './pages/CreateProject'
+import CreateProject from "./pages/CreateProject";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState } from "react";
 import { useUserAuth } from "./context/userAuthContext";
@@ -25,7 +25,7 @@ import { selectedUser } from "./redux/actions/userActions";
 function App() {
   const dispatch = useDispatch();
   const [currentUser, setUser] = useState();
-  const test = useUserAuth()
+  const test = useUserAuth();
   // console.log(test);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(getAuth(), setUser);
@@ -39,47 +39,49 @@ function App() {
     return unsubscribe;
   }, [currentUser, dispatch]);
   return (
-    <BrowserRouter>
-      <UserAuthContextProvider>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            {/*public routes */}
-            <Route path="signin" element={<SignIn />} />
-            {/* <Route path="register" element={<Register />} /> */}
-            <Route path="unauthorized" element={<Unauthorized />} />
-            {/* <Route path="forgotpassword" element={<ForgotPassword />} /> */}
+    <main className="light-mode" id='App'>
+      <BrowserRouter>
+        <UserAuthContextProvider>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              {/*public routes */}
+              <Route path="signin" element={<SignIn />} />
+              {/* <Route path="register" element={<Register />} /> */}
+              <Route path="unauthorized" element={<Unauthorized />} />
+              {/* <Route path="forgotpassword" element={<ForgotPassword />} /> */}
 
-            {/*We want to protect these routes */}
-            <Route element={<ProtectedRoute user={currentUser} />}>
-              <Route index element={<Home />} />
-              <Route path="bugs" element={<Bugs />} />
-              <Route path="projects" element={<Projects />} />
-              <Route path="projects/:id" element={<Project />} />
-              <Route path="bugs/:id" element={<Bug />} />
-              {/* Admin/Project Managers only */}
-              <Route
-                path="projects/:id/managemembers"
-                element={<ManageMembers />}
-              />
-              {/* Admin only */}
-              <Route path="manageusers" element={<ManageUsers />} />
-              {/* <Route path="users" element={<Users />} />
+              {/*We want to protect these routes */}
+              <Route element={<ProtectedRoute user={currentUser} />}>
+                <Route index element={<Home />} />
+                <Route path="bugs" element={<Bugs />} />
+                <Route path="projects" element={<Projects />} />
+                <Route path="projects/:id" element={<Project />} />
+                <Route path="bugs/:id" element={<Bug />} />
+                {/* Admin/Project Managers only */}
+                <Route
+                  path="projects/:id/managemembers"
+                  element={<ManageMembers />}
+                />
+                {/* Admin only */}
+                <Route path="manageusers" element={<ManageUsers />} />
+                {/* <Route path="users" element={<Users />} />
               <Route path="users/:id" element={<User />} /> */}
-              <Route path="createproject" element={<CreateProject />} />
-            </Route>
-            {/* <Route index element={<Home />} />
+                <Route path="createproject" element={<CreateProject />} />
+              </Route>
+              {/* <Route index element={<Home />} />
             <Route path="bugs" element={<Bugs />} />
             <Route path="projects" element={<Projects />} />
             <Route path="projects/:id" element={<Project/>} />
             <Route path="editprofile" element={<EditProfile />} />
             <Route path="updatepassword" element={<UpdatePassword />} />
             <Route path="users" element={<Users/>} /> */}
-            {/*catch all */}
-            <Route path="*" element={<NoPage />} />
-          </Route>
-        </Routes>
-      </UserAuthContextProvider>
-    </BrowserRouter>
+              {/*catch all */}
+              <Route path="*" element={<NoPage />} />
+            </Route>
+          </Routes>
+        </UserAuthContextProvider>
+      </BrowserRouter>
+    </main>
   );
 }
 

@@ -119,6 +119,19 @@ const CreateProject = () => {
           placeholder={`Character limit is ${MAX_TITLE_LENGTH}...`}
         />
       </span>
+      <div className="flex-column description full-height">
+        <label htmlFor="description">Description:</label>
+        <textarea
+          required
+          id="description"
+          cols="30"
+          rows="10"
+          className="full-height"
+          value={formInputData.description}
+          onChange={handleInputChange}
+          placeholder={`Character limit is ${MAX_DESCRIPTION_LENGTH}...`}
+        />
+      </div>
       <span className="info flex-column gap-md">
         <span className="flex-column gap-lg">
           <span className="flex-column">
@@ -154,19 +167,7 @@ const CreateProject = () => {
           </select>
         </span>
       </span>
-      <div className="flex-column description full-height">
-        <label htmlFor="description">Description:</label>
-        <textarea
-          required
-          id="description"
-          cols="30"
-          rows="10"
-          className="full-height"
-          value={formInputData.description}
-          onChange={handleInputChange}
-          placeholder={`Character limit is ${MAX_DESCRIPTION_LENGTH}...`}
-        />
-      </div>
+
       <div className="h-lg full-width available">
         <table className="full-width">
           <caption>Available</caption>

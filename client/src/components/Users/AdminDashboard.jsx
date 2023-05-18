@@ -174,7 +174,7 @@ const AdminDashboard = () => {
 
   return (
     <>
-      <div className="page">
+      <div className="page mobile-column">
         <h1>Welcome username</h1>
         <a href="/createproject" aria-label="Open create project form">
           {" "}

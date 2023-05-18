@@ -78,38 +78,8 @@ const SignIn = () => {
         </button>
         <button onClick={SignInAsDemoAdmin}>Login as Demo Admin</button>
         <button>Login with Google</button>
-        <button>Sign Up</button>
+        <a href="/signup">Sign Up</a>
       </div>
-      {/* <Avatar sx={{ m: 1, bgcolor: "white", border: "2px solid #1976d2" }}>
-        <LockOutlinedIcon color="primary" />
-      </Avatar> */}
-      {/* {error && (
-        <Alert variant="filled" color="error">
-          {error}
-        </Alert>
-      )} */}
-      {/* <Button
-        onClick={GoogleLogin}
-        aria-label="Login with google"
-        type="submit"
-        fullWidth
-        variant="contained"
-        sx={{ mt: 3, mb: 2 }}
-      >
-        Login with Google
-      </Button>
-      <Button
-        aria-label="Sign up with google"
-        type="submit"
-        fullWidth
-        variant="contained"
-        onClick={GoogleLogin}
-        sx={{ mt: 3, mb: 2 }}
-      >
-        Sign Up
-      </Button>
-
-      <Copyright sx={{ mt: 8, mb: 4 }} /> */}
     </>
   );
 };
