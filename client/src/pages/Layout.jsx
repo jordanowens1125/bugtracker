@@ -2,13 +2,8 @@ import { Outlet, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useUserAuth } from "../context/userAuthContext";
-
 import { clearMessage, setMessage } from "../redux/actions/messageActions";
 import { removeSelectedUser } from "../redux/actions/userActions";
-
-// const Alert = React.forwardRef(function Alert(props, ref) {
-//   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-// });
 
 const Navbar = () => {
   const currentUser = useSelector((state) => state.currentUser);
@@ -18,6 +13,14 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const [mobile, setMobileOpen] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (messageInfo.open) {
+      setTimeout(() => {
+        dispatch(clearMessage());
+      }, 5000);
+    }
+  }, [messageInfo, dispatch]);
 
   const changeTheme = () => {
     const element = document.getElementById("App");
@@ -49,8 +52,8 @@ const Navbar = () => {
   const handleMobileClose = () => {
     setMobileOpen(false);
     document.body.style.overflow = "unset";
-    const display = document.getElementById('mobile-display')
-    display.style.position = 'unset'
+    const display = document.getElementById("mobile-display");
+    display.style.position = "unset";
   };
 
   const signOut = async () => {
@@ -98,21 +101,17 @@ const Navbar = () => {
           </nav>
         )}
 
-        {/* Popup to show status or crud operations  */}
-        {/* <Snackbar
-          open={messageInfo.open}
-          autoHideDuration={4000}
-          onClose={handleAlertClose}
-        >
-          <Alert
-            onClose={handleAlertClose}
-            variant="filled"
-            severity="success"
-            sx={{ width: "100%" }}
-          >
-            {messageInfo.text}
-          </Alert>
-        </Snackbar> */}
+        {messageInfo.open && (
+          <>
+            <div className="noti">
+              <button className="button-primary" onClick={handleAlertClose}>
+                Close
+              </button>
+              {messageInfo.text}
+            </div>
+          </>
+        )}
+
         <div className="right flex-column p-md">
           <Outlet />
         </div>

@@ -637,6 +637,27 @@ button:disabled:hover {
 }
 /*  */
 
+.noti {
+  position: absolute;
+  bottom: 10px;
+  width: 60%;
+  background-color: var(--tri-bg-color);
+  color: var(--tri-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 15%;
+  left: 30%;
+  border-radius: 10px;
+  z-index: 5;
+}
+
+.noti button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
 /* Switch css */
 .switch {
   position: relative;

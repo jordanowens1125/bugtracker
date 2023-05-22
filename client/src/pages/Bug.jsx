@@ -5,6 +5,8 @@ import BugComments from "../components/Bugs/BugComments";
 import dayjs from "dayjs";
 import { statusList } from "../constants/bug";
 import { priorities } from "../constants/bug";
+import { useDispatch } from "react-redux";
+import { setMessage } from "../redux/actions/messageActions";
 
 const findUser = (user, users) => {
   for (let i = 0; i < users.length; i++) {
@@ -22,6 +24,7 @@ const Bug = () => {
   const [users, setUsers] = useState([]);
   const [updattedBug, setUpdattedBug] = useState("");
   const [index, setIndex] = useState(-1);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchBug = async () => {
@@ -59,7 +62,6 @@ const Bug = () => {
     e.preventDefault();
     if (index < 0) {
       updattedBug.assignedTo = undefined;
-      console.log(1234);
     } else {
       updattedBug.assignedTo = users[index]._id;
     }
@@ -69,6 +71,7 @@ const Bug = () => {
     updattedBug.assignedTo = users[index];
     setEditMode(false);
     setBug(updattedBug);
+    dispatch(setMessage(`Bug ${bug.title} has been successfully edited!`));
   };
 
   return (

@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { fetchUsers } from "../api/users";
 import { roles } from "../constants/user";
 import api from "../api/index";
+import { setMessage } from "../redux/actions/messageActions";
+import { useDispatch } from "react-redux";
 
 const ManageUsers = () => {
   const [role, setRole] = useState("Developer");
   const [filtered, setFiltered] = useState([]);
   const [indexesToUpdate, setIndexesToUpdate] = useState([]);
+  const dispatch = useDispatch()
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetchUsers();
@@ -29,6 +32,9 @@ const ManageUsers = () => {
       ids.push(copy[indexesToUpdate[i]]._id);
     }
     await api.users.updateRoles(role, ids);
+    dispatch(
+      setMessage(`Users were successfully updated`)
+    );
     const checkboxes = document.getElementsByClassName("checkbox");
     for (let i = 0; i < checkboxes.length; i++) {
       checkboxes[i].checked = false;

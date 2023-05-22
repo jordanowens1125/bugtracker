@@ -4,6 +4,8 @@ import ProjectDashboard from "../components/Projects/ProjectDashboard";
 import api from "../api/index";
 import dayjs from "dayjs";
 import { priorities, statusList } from "../constants/bug";
+import { useDispatch } from "react-redux";
+import { setMessage } from "../redux/actions/messageActions";
 
 const initialBugState = {
   title: "",
@@ -20,6 +22,8 @@ const Project = () => {
   const [project, setProject] = useState("");
   const [createBugMode, setCreateBugMode] = useState(false);
   const [bug, setBug] = useState(initialBugState);
+  const dispatch = useDispatch()
+
   const addNewBug = async (e) => {
     e.preventDefault();
     bug.projectID = projectID;
@@ -29,6 +33,9 @@ const Project = () => {
     console.log(copiedProject);
     setProject(copiedProject);
     cancel();
+    dispatch(
+      setMessage(`Bug ${newBug.title} has been successfully created!`)
+    );
   };
   const cancel = () => {
     setBug(initialBugState);

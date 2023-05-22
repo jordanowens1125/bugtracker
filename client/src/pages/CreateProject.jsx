@@ -72,11 +72,11 @@ const CreateProject = () => {
       const newInputValue = { ...formInputData };
       newInputValue["members"] = memberIds;
       await api.projects.createProject(newInputValue);
-      // dispatch(
-      //   setMessage(
-      //     `Project ${newInputValue.title} has been successfully created`
-      //   )
-      // );
+      dispatch(
+        setMessage(
+          `Project ${newInputValue.title} has been successfully created`
+        )
+      );
       setSavedAvailable(available);
       setFormInputData(initialState);
     } else {
@@ -168,7 +168,7 @@ const CreateProject = () => {
         </span>
       </span>
 
-      <div className="h-lg full-width available">
+      <div className="h-lg  available">
         <table className="full-width">
           <caption>Available</caption>
           <thead>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loading from "../Loading";
 import api from "../../api";
+import { setMessage } from "../../redux/actions/messageActions";
 
 const checkIfUserIsAssignedToProject = (user, project) => {
   if (user) {
@@ -32,6 +33,8 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
   const [editMode, setEditMode] = useState(false);
   const [edit, setEdit] = useState();
   const [projectDisplay, setProjectDisplay] = useState(project);
+  const dispatch = useDispatch()
+
 
   const handleChange = (e) => {
     const copy = { ...edit };
@@ -46,11 +49,13 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(edit);
     await api.projects.updateProjectInfo(project._id, edit);
     setProjectDisplay(edit);
     setEdit(edit);
     setEditMode(false);
+    dispatch(
+      setMessage(`Project ${project.title} has been successfully edited!`)
+    );
   };
 
   useEffect(() => {

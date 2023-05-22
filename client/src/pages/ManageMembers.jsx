@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../api/index";
+import { useDispatch } from "react-redux";
+import { setMessage } from "../redux/actions/messageActions";
 
 const ManageMembers = () => {
   const projectID = useParams().id;
@@ -10,6 +12,7 @@ const ManageMembers = () => {
   const [savedCurrent, setSavedCurrent] = useState([]);
   const [savedAvailable, setSavedAvailable] = useState([]);
   const [canSave, setCanSave] = useState(false);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (projectID && projectID !== "") {
@@ -63,6 +66,11 @@ const ManageMembers = () => {
       setSavedAvailable(availableMembers);
       setSavedCurrent(currentMembers);
       setCanSave(false);
+      dispatch(
+        setMessage(
+          `Project ${project.title} has been successfully updated!`
+        )
+      );
     }
   };
 
@@ -95,7 +103,7 @@ const ManageMembers = () => {
           </button>
         </span>
 
-        <div className="selected h-lg full-width">
+        <div className="full-width selected h-lg">
           <table className="full-width">
             <caption>Current Members</caption>
             <thead>
