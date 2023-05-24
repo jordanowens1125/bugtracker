@@ -13,6 +13,20 @@ const getBugs = async (req, res) => {
   }
 };
 
+const getBugsByUser = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const bugs = await Bug.find({
+      assignedTo: id,
+    })
+      .populate("projectID")
+      .populate("assignedTo");
+    res.status(200).json(bugs);
+  } catch (error) {
+    res.status(404).json({ message: error });
+  }
+};
+
 const createBug = async (req, res) => {
   try {
     let bug = req.body;
@@ -184,4 +198,11 @@ const updateBug = async (req, res) => {
   }
 };
 
-module.exports = { getBugs, createBug, deleteBug, getBug, updateBug };
+module.exports = {
+  getBugs,
+  createBug,
+  deleteBug,
+  getBug,
+  updateBug,
+  getBugsByUser,
+};

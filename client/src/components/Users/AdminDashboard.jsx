@@ -1,68 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { ResponsivePie } from "@nivo/pie";
+import PieChart from "../Charts/PieChart";
 import api from "../../api/index";
-
-const TicketsByProject = ({ data /* see data tab */ }) => (
-  <ResponsivePie
-    data={data}
-    margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
-    innerRadius={0.5}
-    padAngle={0.9}
-    cornerRadius={3}
-    activeOuterRadiusOffset={8}
-    borderWidth={1}
-    borderColor={{
-      from: "color",
-      modifiers: [["darker", 0.2]],
-    }}
-    arcLinkLabelsSkipAngle={10}
-    arcLinkLabelsTextColor="#333333"
-    arcLinkLabelsThickness={2}
-    arcLinkLabelsColor={{ from: "color" }}
-    arcLabelsSkipAngle={10}
-    arcLabelsTextColor={{
-      from: "color",
-      modifiers: [["darker", 2]],
-    }}
-    colors={["#7f55da", "#4d4599", "#5594da", "#9555da", "#3c6899"]}
-    defs={[
-      {
-        id: "dots",
-        type: "patternDots",
-        background: "inherit",
-        color: "rgba(255, 255, 255, 0.3)",
-        size: 4,
-        padding: 1,
-        stagger: true,
-      },
-    ]}
-    legends={[
-      {
-        anchor: "bottom",
-        direction: "row",
-        justify: false,
-        translateX: 0,
-        translateY: 56,
-        itemsSpacing: 0,
-        itemWidth: 100,
-        itemHeight: 18,
-        itemTextColor: "#999",
-        itemDirection: "left-to-right",
-        itemOpacity: 1,
-        symbolSize: 18,
-        symbolShape: "circle",
-        effects: [
-          {
-            on: "hover",
-            style: {
-              itemTextColor: "#000",
-            },
-          },
-        ],
-      },
-    ]}
-  />
-);
 
 const AdminDashboard = () => {
   const [bugsByProject, setBugsByProject] = useState([]);
@@ -167,36 +105,76 @@ const AdminDashboard = () => {
       groupedByProjects(request);
       byPriority(request);
       byStatus(request);
-      byDevs(request)
+      byDevs(request);
     };
     fetchBug();
   }, []);
 
   return (
     <>
-      <div className="page mobile-column">
-        <h1>Welcome username</h1>
-        <a href="/createproject" aria-label="Open create project form">
-          {" "}
-          Create Project
-        </a>
-        <h2>Tickets: {bugs.length}</h2>
-        <div className="flex mobile-column">
+      <a href="/createproject" aria-label="Open create project form">
+        {" "}
+        Create Project
+      </a>
+      <h2>Tickets: {bugs.length}</h2>
+      <div className="flex mobile-column full-width space-between">
+        <div className="flex-column aic text-align">
+          <i className="full-width chart-header">Projects</i>
           <div className="chart">
-            <TicketsByProject data={bugsByProject} />
-          </div>
-          <div className="chart">
-            <TicketsByProject data={priority} />
-          </div>
-          <div className="chart">
-            <TicketsByProject data={status} />
-          </div>
-          <div className="chart">
-            <TicketsByProject data={dev} />
+            <PieChart data={bugsByProject} />
           </div>
         </div>
-        tickets projects Schedule
+
+        <div className="flex-column aic text-align">
+          <i className="full-width chart-header">Priority</i>
+          <div className="chart">
+            <PieChart data={priority} />
+          </div>
+        </div>
+
+        <div className="flex-column aic text-align">
+          <i className="full-width chart-header">Status</i>
+          <div className="chart">
+            <PieChart data={status} />
+          </div>
+        </div>
+
+        <div className="flex-column aic text-align">
+          <i className="full-width chart-header">Developers</i>
+          <div className="chart">
+            <PieChart data={dev} />
+          </div>
+        </div>
       </div>
+      <table className="full-width">
+        <caption>Tasks Activity</caption>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Project</th>
+            <th>Assigned To</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {bugs.map((bug) => (
+            <tr key={bug._id}>
+              <td>{bug.title}</td>
+              <td>{bug.description}</td>
+              <td>{bug.priority}</td>
+              <td>{bug.status}</td>
+              <td>{bug.projectID.title}</td>
+              <td>{bug.assignedTo ? <>{bug.assignedTo.name}</> : <>N/A</>}</td>
+              <td className="flex-column gap-md">
+                <a href={`/bugs/${bug._id}`}> See Details</a>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 };

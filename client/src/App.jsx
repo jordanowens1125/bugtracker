@@ -1,10 +1,4 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  createHashRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
@@ -16,7 +10,6 @@ import "./App.css";
 import Unauthorized from "./pages/Unauthorized";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import api from "./api/index";
 import { UserAuthContextProvider } from "./context/userAuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Bug from "./pages/Bug";
@@ -25,23 +18,16 @@ import ManageUsers from "./pages/ManageUsers";
 import CreateProject from "./pages/CreateProject";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState } from "react";
-import { useUserAuth } from "./context/userAuthContext";
-import { selectedUser } from "./redux/actions/userActions";
+import DemoUserSignin from "./pages/DemoUserSignin";
+import Settings from "./pages/Settings";
+// import Chat from "./pages/Chat";
 
 function App() {
   const dispatch = useDispatch();
   const [currentUser, setUser] = useState();
-  const test = useUserAuth();
-  // console.log(test);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(getAuth(), setUser);
-    // const fetchData = async () => {
-    //   //const current = await api.users.fetchUserByEmail(user.email);
-    //   //dispatch(selectedUser(current))
-    // };
-    // if (user) {
-    //   fetchData();
-    // }
+    // console.log(getAuth())
     return unsubscribe;
   }, [currentUser, dispatch]);
 
@@ -50,11 +36,12 @@ function App() {
       <BrowserRouter>
         <UserAuthContextProvider>
           <Routes>
-            <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Layout user={currentUser} />}>
               {/*public routes */}
               <Route path="signin" element={<SignIn />} />
               {/* <Route path="register" element={<Register />} /> */}
               <Route path="unauthorized" element={<Unauthorized />} />
+              <Route path="demo" element={<DemoUserSignin />} />
               {/* <Route path="forgotpassword" element={<ForgotPassword />} /> */}
 
               {/*We want to protect these routes */}
@@ -74,10 +61,13 @@ function App() {
                 {/* <Route path="users" element={<Users />} />
               <Route path="users/:id" element={<User />} /> */}
                 <Route path="createproject" element={<CreateProject />} />
+                {/* <Route path="chat" element={<Chat />} /> */}
+                <Route path="settings" element={<Settings />} />
               </Route>
               {/*catch all */}
-              <Route element={<NoPage />} />
+              <Route path="*" element={<NoPage />} />
             </Route>
+            <Route path="*" element={<NoPage />} />
           </Routes>
         </UserAuthContextProvider>
       </BrowserRouter>

@@ -13,7 +13,8 @@ const UserDashboard = () => {
   const isPM = user.role === "Project Manager";
   useEffect(() => {}, [user]);
   return (
-    <>
+    <div className="page mobile-column flex-column aic p-md">
+      <h1>Welcome, {user.name}</h1>
       {isUserAnAdmin && (
         <>
           <AdminDashboard />
@@ -21,7 +22,7 @@ const UserDashboard = () => {
       )}
       {isUserADeveloper && (
         <>
-          <DeveloperDashboard />
+          <DeveloperDashboard user={user} />
         </>
       )}
       {isUserAViewer && (
@@ -30,7 +31,7 @@ const UserDashboard = () => {
         </>
       )}
       {isPM && <></>}
-    </>
+    </div>
   );
 };
 

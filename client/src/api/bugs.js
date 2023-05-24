@@ -1,9 +1,13 @@
-
 import axios from "axios";
 const baseURL = process.env.REACT_APP_BASELINE_URL + "bugs";
 
 export const fetchBugs = async () =>
   await axios.get(baseURL).then((response) => {
+    return response.data;
+  });
+
+export const fetchBugsByUser = async (userid) =>
+  await axios.get(`${baseURL}/user/${userid}`).then((response) => {
     return response.data;
   });
 

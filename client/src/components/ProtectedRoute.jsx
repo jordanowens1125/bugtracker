@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useUserAuth } from "../context/userAuthContext";
+import { Navigate, Outlet, useLocation, } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectedUser } from "../redux/actions/userActions";
 import Loading from "./Loading";
@@ -8,7 +7,6 @@ import api from "../api/index";
 
 const ProtectedRoute = ({ user }) => {
   const location = useLocation();
-  // const users = useSelector((state) => state.allUsers.users);
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +17,6 @@ const ProtectedRoute = ({ user }) => {
       fetchData();
     }
   }, [user, dispatch]);
-
   if (user === undefined) return <Loading />;
 
   return user ? (

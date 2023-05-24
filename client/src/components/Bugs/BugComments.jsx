@@ -9,8 +9,7 @@ const checkIfUserCanMakeComments = (user, bug) => {
       if (user.role === "Admin") {
         return true;
       } else if (bug.assignedTo) {
-        const userIDs = bug.assignedTo.map((user) => user._id);
-        if (userIDs.includes(user._id)) {
+        if (bug.assignedTo._id === user._id) {
           return true;
         }
       }
@@ -36,6 +35,8 @@ const BugComments = ({ bug }) => {
   useEffect(() => {}, [bug]);
 
   const currentUser = useSelector((state) => state.currentUser);
+  console.log(currentUser);
+  console.log(bug);
   const userCanCommentsOnThisBug = checkIfUserCanMakeComments(currentUser, bug);
 
   const [chatInput, setChatInput] = useState({

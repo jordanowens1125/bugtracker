@@ -5,15 +5,14 @@ import { useUserAuth } from "../context/userAuthContext";
 import { clearMessage, setMessage } from "../redux/actions/messageActions";
 import { removeSelectedUser } from "../redux/actions/userActions";
 
-const Navbar = () => {
+const Navbar = ({user}) => {
   const currentUser = useSelector((state) => state.currentUser);
-  const { user, logOut } = useUserAuth();
+  const { logOut } = useUserAuth();
   const [theme, setTheme] = useState("light-mode");
   const messageInfo = useSelector((state) => state.message);
   const dispatch = useDispatch();
   const [mobile, setMobileOpen] = useState(false);
   const navigate = useNavigate();
-
   useEffect(() => {
     if (messageInfo.open) {
       setTimeout(() => {
@@ -72,27 +71,27 @@ const Navbar = () => {
       <div className="flex desktop desktop-display">
         {user && (
           <nav className="full-vh flex-column desktop-nav primary">
-            <div className="flex-column aic space-around full-height">
+            <div className="flex-column space-around full-height ">
               <div className="flex-column gap-lg">
                 <a href="/">Dashboard</a>
                 <a href="/Projects">Projects</a>
                 <a href="/Bugs">Bugs</a>
-                {currentUser.role === "Admin" && (
-                  <a href="/manageusers">Manage Users</a>
-                )}
-                {currentUser.role === "Admin" && (
-                  <a href="/createproject">Create Project</a>
-                )}
                 {/* <a href="/Bugs">Schedule</a> */}
               </div>
+              {currentUser.role === "Admin" && (
+                <div className="flex-column gap-lg">
+                  <a href="/manageusers">Manage Users</a>
+                  <a href="/createproject">Create Project</a>
+                </div>
+              )}
+
               <div className="flex-column gap-lg">
                 <a href="/Settings">Settings</a>
-                <a href="/Account">Account</a>
-                <a href="/Chat">Chat</a>
-                <label className="switch">
+                {/* <a href="/Chat">Chat</a> */}
+                {/* <label className="switch">
                   <input type="checkbox" aria-label="Change Color Theme" />
                   <span className="slider round" onClick={changeTheme}></span>
-                </label>
+                </label> */}
                 <span onClick={signOut} className="p-sm">
                   Log Out
                 </span>
@@ -167,7 +166,7 @@ const Navbar = () => {
             {messageInfo.text}
           </Alert>
         </Snackbar> */}
-        <div className="bottom">
+        <div className="bottom flex-column aic jcc">
           <Outlet />
         </div>
       </div>

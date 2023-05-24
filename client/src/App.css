@@ -94,11 +94,11 @@ a:-webkit-any-link {
 /* End of weight and height */
 
 .overflow-x {
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 .overflow-y {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .no-overflow {
@@ -112,6 +112,10 @@ a:-webkit-any-link {
 .grey-border {
   border: var(--tri-bg-color) 3px solid;
   border-radius: 20px;
+}
+
+.text-align {
+  text-align: center;
 }
 
 /* Padding */
@@ -132,6 +136,10 @@ a:-webkit-any-link {
 
 .p-l-md {
   padding-left: 10px;
+}
+
+.p-l-lg {
+  padding-left: 20px;
 }
 
 .p-right-md {
@@ -234,6 +242,8 @@ td {
 caption {
   caption-side: top;
   color: var(--primary-color);
+  padding: 10px;
+  font-style: italic;
 }
 
 table {
@@ -361,12 +371,17 @@ button:disabled:hover {
 
 /* Chart div */
 .chart {
-  width: 300px;
+  width: 275px;
   aspect-ratio: 1;
   max-width: 90vw;
-  border: 5px solid var(--secondary-bg-color);
+  border: 3px solid var(--secondary-bg-color);
   border-radius: 20px;
   overflow: hidden;
+}
+
+.chart-header {
+  color: var(--primary-color);
+  align-self: center;
 }
 /* End of chart div */
 
@@ -506,7 +521,9 @@ button:disabled:hover {
   color: black;
   background-color: var(--secondary-bg-color);
 }
-
+.page {
+  width: 100%;
+}
 /* create-project */
 .create-project {
   display: grid;

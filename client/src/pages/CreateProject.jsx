@@ -103,7 +103,7 @@ const CreateProject = () => {
   };
 
   return (
-    <form className="create-project page " onSubmit={handleFormSubmit}>
+    <form className="create-project page" onSubmit={handleFormSubmit}>
       <span className="header">
         <a href="/projects">See all projects</a>
         <h1>Create Project</h1>
@@ -213,7 +213,7 @@ const CreateProject = () => {
           </tbody>
         </table>
       </div>
-      <div className="h-lg full-width selected">
+      <div className="h-lg  selected">
         <table className="full-width">
           <caption>Selected</caption>
           <thead>
