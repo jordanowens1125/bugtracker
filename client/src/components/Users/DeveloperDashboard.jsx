@@ -9,6 +9,16 @@ const DeveloperDashboard = ({ user }) => {
   const [status, setStatus] = useState([]);
   // const [type, setType] = useState([]);
   console.log(bugs);
+  useEffect(() => {
+    const fetchBug = async () => {
+      const request = await api.bugs.fetchBugsByUser(user._id);
+      setBugs(request);
+      // byType(request);
+    };
+    console.log(1);
+    fetchBug();
+  }, [user]);
+  
   const byPriority = (bugs) => {
     const projects = {};
     const result = [];
@@ -31,28 +41,6 @@ const DeveloperDashboard = ({ user }) => {
     setPriority(result);
   };
 
-  // const byType = (bugs) => {
-  //   const projects = {};
-  //   const result = [];
-  //   bugs.map((bug) => {
-  //     if (projects[bug.type]) {
-  //       projects[bug.type] += 1;
-  //       return bug;
-  //     } else {
-  //       projects[bug.type] = 1;
-  //       return 1;
-  //     }
-  //   });
-  //   Object.keys(projects).map((project) =>
-  //     result.push({
-  //       id: project,
-  //       label: project,
-  //       value: projects[project],
-  //     })
-  //   );
-  //   setType(result);
-  // };
-
   const byStatus = (bugs) => {
     const projects = {};
     const result = [];
@@ -74,19 +62,6 @@ const DeveloperDashboard = ({ user }) => {
     );
     setStatus(result);
   };
-
-  useEffect(() => {
-    const fetchBug = async () => {
-      const request = await api.bugs.fetchBugsByUser(user._id);
-      setBugs(request);
-      byPriority(request);
-      byStatus(request);
-      // byType(request);
-    };
-    if (user) {
-      fetchBug();
-    }
-  }, [user]);
 
   return (
     <>

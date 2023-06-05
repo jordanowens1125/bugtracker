@@ -1,11 +1,12 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import useAuthContext from "../../hooks/useAuthContext";
 import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
 dayjs.extend(relativeTime);
 const Comment = ({ comment }) => {
-  const currentUser = useSelector((state) => state.currentUser);
-  const isThisACurrentUserComment = comment.creator._id === currentUser._id;
+  const { user } = useAuthContext();
+  console.log(comment);
+  const isThisACurrentUserComment = comment.creator._id === user._id;
   // console.log(comment);
   return (
     <>

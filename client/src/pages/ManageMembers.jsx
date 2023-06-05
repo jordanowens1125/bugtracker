@@ -21,7 +21,7 @@ const ManageMembers = () => {
         //console.log(fetchedproject);
         setProject(fetchedproject.project);
         const users = fetchedproject.availableMembers.filter(
-          (user) => user.role !== "Deleted" && user.role !== "Admin"
+          (user) => user.role !== "Deleted" && user.role !== "Admin" && user !== 'Viewer'
         );
         setAvailableMembers(users);
         setSavedAvailable(users);

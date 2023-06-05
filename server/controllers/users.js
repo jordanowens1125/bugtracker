@@ -3,7 +3,46 @@ const User = require("../models/user");
 const Bug = require("../models/bug");
 const Comment = require("../models/comment");
 const Project = require("../models/project");
-const project = require("../models/project");
+const JWT = require("jsonwebtoken");
+
+const createToken = (_id) => {
+  return JWT.sign({ _id }, process.env.SECRET, {
+    expiresIn: "2d",
+  });
+};
+
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.signIn(email, password);
+    //make token
+    delete user.password;
+    const token = createToken(user._id);
+    res.status(200).json({
+      name: user.name,
+      role: user.role,
+      token,
+      email: user.email,
+      _id: user._id,
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const signUp = async (req, res) => {
+  const { email, password, role, name } = req.body;
+  try {
+    const user = await User.signUp(email, password, name, role);
+    //make token
+    const token = createToken(user._id);
+    res
+      .status(200)
+      .json({ email, token, name: user.name, role: user.role, _id: user._id });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
 
 const getUsers = async (req, res) => {
   try {
@@ -14,27 +53,6 @@ const getUsers = async (req, res) => {
   } catch (error) {
     res.status(404).json({ message: error });
   }
-};
-
-const findOrCreateUser = async (req, res) => {
-  try {
-    let foundUser = await User.findOne({ email: req.body.email });
-    if (!foundUser) {
-      foundUser = await User.create(req.body);
-    }
-    res.status(200).json(foundUser);
-  } catch (error) {
-    res.status(404).json({ message: error });
-  }
-};
-
-const getUserByEmail = async (req, res) => {
-  try {
-    let user = await User.findOne({ email: req.params.email });
-    if (user) {
-      res.status(200).json(user);
-    }
-  } catch (error) {}
 };
 
 const deleteUser = async (req, res) => {
@@ -69,6 +87,18 @@ const deleteUser = async (req, res) => {
     );
     await User.findOneAndDelete({ _id: req.params.id });
     res.status(200).json(user);
+    //res.status(200).json()
+  } catch (error) {
+    res.status(404).json({ message: error });
+  }
+};
+
+const deleteUsers = async (req, res) => {
+  try {
+    let { userIDs } = req.body;
+    console.log(userIDs);
+    await User.deleteMany({ _id: { $in: userIDs } });
+    res.status(200).json();
     //res.status(200).json()
   } catch (error) {
     res.status(404).json({ message: error });
@@ -235,7 +265,6 @@ const unAssignUserFromProject = async (req, res) => {
 
 module.exports = {
   getUsers,
-  findOrCreateUser,
   deleteUser,
   getUser,
   unAssignBugFromUser,
@@ -244,6 +273,8 @@ module.exports = {
   assignBugToUser,
   unAssignUserFromProject,
   unAssignUsersFromProject,
-  getUserByEmail,
   updateRoles,
+  signUp,
+  deleteUsers,
+  loginUser,
 };

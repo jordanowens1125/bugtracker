@@ -1,36 +1,19 @@
 import React from "react";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import DeveloperDashboard from "./DeveloperDashboard";
 import AdminDashboard from "./AdminDashboard";
 import ViewerDashboard from "./ViewerDashboard";
 
-const UserDashboard = () => {
-  const user = useSelector((state) => state.currentUser);
-  const isUserAnAdmin = user.role === "Admin";
-  const isUserADeveloper = user.role === "Developer";
-  const isUserAViewer = user.role === "Viewer";
-  const isPM = user.role === "Project Manager";
-  useEffect(() => {}, [user]);
+const UserDashboard = ({ user }) => {
+  const dashboards = {
+    Admin: <AdminDashboard />,
+    Developer: <DeveloperDashboard user={user} />,
+    Viewer: <ViewerDashboard />,
+    //'Project Manager':
+  };
   return (
     <div className="page mobile-column flex-column aic p-md">
-      <h1>Welcome, {user.name}</h1>
-      {isUserAnAdmin && (
-        <>
-          <AdminDashboard />
-        </>
-      )}
-      {isUserADeveloper && (
-        <>
-          <DeveloperDashboard user={user} />
-        </>
-      )}
-      {isUserAViewer && (
-        <>
-          <ViewerDashboard />
-        </>
-      )}
-      {isPM && <></>}
+      <h1>Welcome, {user.email}</h1>
+      {dashboards[user.role]}
     </div>
   );
 };

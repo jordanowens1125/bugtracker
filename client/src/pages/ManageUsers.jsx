@@ -4,15 +4,18 @@ import { roles } from "../constants/user";
 import api from "../api/index";
 import { setMessage } from "../redux/actions/messageActions";
 import { useDispatch } from "react-redux";
+import useAuthContext from '../hooks/useAuthContext'
 
 const ManageUsers = () => {
   const [role, setRole] = useState("Developer");
   const [filtered, setFiltered] = useState([]);
   const [indexesToUpdate, setIndexesToUpdate] = useState([]);
+  const { user } = useAuthContext()
+  
   const dispatch = useDispatch()
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetchUsers();
+    const fetchData = async (user) => {
+      const response = await fetchUsers(user);
       // setUsers(response);
       setFiltered(
         response.filter(
@@ -20,8 +23,8 @@ const ManageUsers = () => {
         )
       );
     };
-    fetchData();
-  }, []);
+    fetchData(user);
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +34,7 @@ const ManageUsers = () => {
       copy[indexesToUpdate[i]].role = role;
       ids.push(copy[indexesToUpdate[i]]._id);
     }
-    await api.users.updateRoles(role, ids);
+    await api.users.updateRoles(user, role, ids);
     dispatch(
       setMessage(`Users were successfully updated`)
     );

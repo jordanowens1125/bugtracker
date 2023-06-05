@@ -1,70 +1,157 @@
 import axios from "axios";
-
 const baseURL = process.env.REACT_APP_BASELINE_URL + "users";
 
-export const fetchUsers = async () =>
-  await axios.get(baseURL).then((response) => {
-    return response.data;
-  });
-
-export const findOrCreateUser = async (newUser) =>
-  await axios.post(`${baseURL}/findorcreate`, newUser).then((response) => {
-    return response.data;
-  });
-
-export const updateUser = async (updatedUser) =>
+export const fetchUsers = async (loggedInUser) =>
   await axios
-    .put(`${baseURL}/${updatedUser.id}`, updatedUser)
+    .get(baseURL, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${loggedInUser.token}`,
+      },
+    })
     .then((response) => {
       return response.data;
     });
 
-export const updateRoles = async (role, members) =>
+export const updateUser = async (loggedInUser, updatedUser) =>
+  await axios
+    .put(`${baseURL}/${updatedUser.id}`, updatedUser, {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${loggedInUser.token}`,
+    })
+    .then((response) => {
+      return response.data;
+    });
+
+export const updateRoles = async (loggedInUser, role, members) =>
   //members is a list of ids from users
   await axios
-    .put(`${baseURL}/updateroles`, { role, members })
+    .put(
+      `${baseURL}/updateroles`,
+      { role, members },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${loggedInUser.token}`,
+        },
+      }
+    )
     .then((response) => {
       return response.data;
     });
 
-export const fetchUser = async (id) =>
-  await axios.get(`${baseURL}/${id}`).then((response) => {
-    return response.data;
-  });
-
-export const fetchUserByEmail = async (email) =>
-  await axios.get(`${baseURL}/email/${email}`).then((response) => {
-    return response.data;
-  });
-
-export const deleteUser = async (user) =>
-  await axios.delete(`${baseURL}/delete/${user._id}`, user).then((response) => {
-    return response.data;
-  });
-
-export const addUserToProject = async (userID, projectID) =>
+export const fetchUser = async (loggedInUser, id) =>
   await axios
-    .put(`${baseURL}/project/${userID}`, { projectID: projectID })
-    .then((response) => {
-      return response.data;
-    });
-
-export const unAssignUserFromProject = async (userID, projectID) =>
-  await axios.put(`${baseURL}/unassignuserfromproject`, { userID, projectID });
-
-export const assignBugToUser = async (userID, bugID) =>
-  await axios
-    .put(`${baseURL}/assignbugtouser/${userID}`, { userID, bugID })
-    .then((response) => {
-      return response.data;
-    });
-
-export const unAssignBugFromUser = async (userID, bugID) =>
-  await axios
-    .put(`${baseURL}/unassignbugfromuser/${userID}`, {
-      userID,
-      bugID,
+    .get(`${baseURL}/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${loggedInUser.token}`,
+      },
     })
+    .then((response) => {
+      return response.data;
+    });
+
+export const fetchUserByEmail = async (loggedInUser, email) =>
+  await axios
+    .get(`${baseURL}/email/${email}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${loggedInUser.token}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+
+export const deleteUser = async (loggedInUser, user) =>
+  await axios
+    .delete(`${baseURL}/delete/${user._id}`, user, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${loggedInUser.token}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+
+export const deleteUsers = async (loggedInUser, userIDs) =>
+  await axios
+    .delete(`${baseURL}/delete`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${loggedInUser.token}`,
+      },
+      data: { userIDs:  userIDs  },
+    })
+    .then((response) => {
+      return response;
+    });
+
+export const addUserToProject = async (loggedInUser, userID, projectID) =>
+  await axios
+    .put(
+      `${baseURL}/project/${userID}`,
+      { projectID: projectID },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${loggedInUser.token}`,
+        },
+      }
+    )
+    .then((response) => {
+      return response.data;
+    });
+
+export const unAssignUserFromProject = async (
+  loggedInUser,
+  userID,
+  projectID
+) =>
+  await axios.put(
+    `${baseURL}/unassignuserfromproject`,
+    { userID, projectID },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${loggedInUser.token}`,
+      },
+    }
+  );
+
+export const assignBugToUser = async (loggedInUser, userID, bugID) =>
+  await axios
+    .put(
+      `${baseURL}/assignbugtouser/${userID}`,
+      { userID, bugID },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${loggedInUser.token}`,
+        },
+      }
+    )
+    .then((response) => {
+      return response.data;
+    });
+
+export const unAssignBugFromUser = async (loggedInUser, userID, bugID) =>
+  await axios
+    .put(
+      `${baseURL}/unassignbugfromuser/${userID}`,
+      {
+        userID,
+        bugID,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${loggedInUser.token}`,
+        },
+      }
+    )
     .then((response) => {
       return response.data;
     });

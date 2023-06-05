@@ -1,16 +1,15 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useUserAuth } from "../context/userAuthContext";
+import useAuthContext from "../hooks/useAuthContext";
 import { clearMessage, setMessage } from "../redux/actions/messageActions";
-import { removeSelectedUser } from "../redux/actions/userActions";
-
-const Navbar = ({user}) => {
-  const currentUser = useSelector((state) => state.currentUser);
-  const { logOut } = useUserAuth();
+import { useLogOut } from "../hooks/useLogOut.js";
+const Navbar = () => {
+  const { signOut } = useLogOut();
   const [theme, setTheme] = useState("light-mode");
   const messageInfo = useSelector((state) => state.message);
   const dispatch = useDispatch();
+  const { user } = useAuthContext();
   const [mobile, setMobileOpen] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
@@ -55,10 +54,9 @@ const Navbar = ({user}) => {
     display.style.position = "unset";
   };
 
-  const signOut = async () => {
+  const logOut = async () => {
     try {
-      await logOut();
-      dispatch(removeSelectedUser());
+      await signOut();
       dispatch(setMessage(`You have successfully signed out!`));
       navigate("/signin");
     } catch (e) {
@@ -78,10 +76,12 @@ const Navbar = ({user}) => {
                 <a href="/Bugs">Bugs</a>
                 {/* <a href="/Bugs">Schedule</a> */}
               </div>
-              {currentUser.role === "Admin" && (
+              {user.role === "Admin" && (
                 <div className="flex-column gap-lg">
-                  <a href="/manageusers">Manage Users</a>
                   <a href="/createproject">Create Project</a>
+                  <a href="/manageusers">Manage User Roles</a>
+                  <a href="/createuser">Add User</a>
+                  <a href="/deleteusers">Delete Users</a>
                 </div>
               )}
 
@@ -92,7 +92,7 @@ const Navbar = ({user}) => {
                   <input type="checkbox" aria-label="Change Color Theme" />
                   <span className="slider round" onClick={changeTheme}></span>
                 </label> */}
-                <span onClick={signOut} className="p-sm">
+                <span onClick={logOut} className="p-sm">
                   Log Out
                 </span>
               </div>
@@ -130,12 +130,17 @@ const Navbar = ({user}) => {
                           <a href="/">Dashboard</a>
                           <a href="/Projects">Projects</a>
                           <a href="/Bugs">Bugs</a>
-                          {currentUser.role === "Admin" && (
-                            <a href="/manageusers">Manage Users</a>
+                          {user.role === "Admin" && (
+                            <>
+                              <a href="/createproject">Create Project</a>
+                              <a href="/manageusers">Manage User Roles</a>
+                              <a href="/createuser">Add User</a>
+                              <a href="/deleteusers">Delete Users</a>
+                            </>
                           )}
-                          {currentUser.role === "Admin" && (
-                            <a href="/createproject">Create Project</a>
-                          )}
+                          <span onClick={logOut} className="p-sm">
+                            Log Out
+                          </span>
                         </div>
                       </>
                     )}

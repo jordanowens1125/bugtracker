@@ -3,6 +3,7 @@ import api from "../api/index";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { setMessage } from "../redux/actions/messageActions";
+import useAuthContext from "../hooks/useAuthContext";
 
 const MAX_TITLE_LENGTH = 30;
 const MAX_DESCRIPTION_LENGTH = 200;
@@ -21,14 +22,14 @@ const initialState = {
 };
 
 const CreateProject = () => {
-  const userIsAnAdmin = true; //checkIfUserIsAnAdmin(currentUser);
   const [available, setAvailable] = useState([]);
   const [savedAvailable, setSavedAvailable] = useState([]);
   const dispatch = useDispatch();
   const [formInputData, setFormInputData] = useState(initialState);
+  const { user } = useAuthContext();
   useEffect(() => {
-    const fetchData = async () => {
-      const users = await api.users.fetchUsers();
+    const fetchData = async (user) => {
+      const users = await api.users.fetchUsers(user);
       const filtered = users.filter(
         (user) =>
           (user.role !== "Deleted" &&
@@ -39,8 +40,8 @@ const CreateProject = () => {
       setAvailable(filtered);
       setSavedAvailable(filtered);
     };
-    fetchData();
-  }, []);
+    fetchData(user);
+  }, [user]);
 
   const reset = () => {
     setFormInputData(initialState);

@@ -73,6 +73,10 @@ a:-webkit-any-link {
   max-width: 100%;
 }
 
+.max-w-lg{
+  max-width: 600px;
+}
+
 .w-content {
   width: fit-content;
 }
@@ -118,6 +122,14 @@ a:-webkit-any-link {
   text-align: center;
 }
 
+
+.error{
+  border: 1px solid red;
+  background-color: pink;
+  color: red;
+  padding: 10px;
+  border-radius: 5px;
+}
 /* Padding */
 .p-none {
   padding: 0;
@@ -366,6 +378,10 @@ button:disabled:hover {
 /* Color */
 .primary {
   color: var(--primary-color);
+}
+
+.secondary{
+  color: var(--tri-color);
 }
 /* Color */
 

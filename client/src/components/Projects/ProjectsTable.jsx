@@ -1,9 +1,11 @@
 import React from "react";
 import { useEffect } from "react";
+import useAuthContext from "../../hooks/useAuthContext";
 
-const ProjectsTable = ({projects}) => {
+const ProjectsTable = ({ projects }) => {
   const hasProjects = projects.length > 0;
-
+  const { user } = useAuthContext();
+  const isAdmin = user.role === "Admin";
   useEffect(() => {}, [projects]);
   return (
     <>
@@ -29,10 +31,12 @@ const ProjectsTable = ({projects}) => {
                     <td>{project.title}</td>
                     <td>{project.description}</td>
                     <td className="flex-column gap-md">
-                        <a href={`/projects/${project._id}`}> See Details</a>
+                      <a href={`/projects/${project._id}`}> See Details</a>
+                      {isAdmin && (
                         <a href={`/projects/${project._id}/managemembers`}>
                           Manage Members
                         </a>
+                      )}
                     </td>
                   </tr>
                 ))}

@@ -35,8 +35,7 @@ const BugComments = ({ bug }) => {
   useEffect(() => {}, [bug]);
 
   const currentUser = useSelector((state) => state.currentUser);
-  console.log(currentUser);
-  console.log(bug);
+ 
   const userCanCommentsOnThisBug = checkIfUserCanMakeComments(currentUser, bug);
 
   const [chatInput, setChatInput] = useState({

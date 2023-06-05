@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const {
   getUsers,
-  findOrCreateUser,
   deleteUser,
   getUser,
   updateUser,
@@ -11,14 +10,25 @@ const {
   unAssignUsersFromProject,
   unAssignUserFromProject,
   assignBugToUser,
-  getUserByEmail,
+  signUp,
   updateRoles,
+  loginUser,
+  deleteUsers,
 } = require("../controllers/users");
 
 /* GET users listing. */
 router.get("/", getUsers);
-router.get("/email/:email", getUserByEmail);
-router.post("/findorcreate", findOrCreateUser);
+//login
+router.post("/login", loginUser);
+
+//signup
+router.post("/signup", signUp);
+
+//require auth 
+const requireAuth = require('../middleware/requireAuth')
+router.use(requireAuth)
+
+router.delete("/delete", deleteUsers);
 router.delete("/delete/:id", deleteUser);
 router.put("/project/:id", assignUserToProject);
 router.put("/removeproject", unAssignUsersFromProject);

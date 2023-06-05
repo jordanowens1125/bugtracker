@@ -14,10 +14,10 @@ const Projects = () => {
     <>
       <div className="flex-column gap-md">
         <h1>Projects</h1>
-        <a href="/createproject" aria-label="Open create project form">
+        {/* <a href="/createproject" aria-label="Open create project form">
           {" "}
           Create Project
-        </a>
+        </a> */}
 
         <ProjectsTable projects={projects} />
       </div>

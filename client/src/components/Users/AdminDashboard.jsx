@@ -112,11 +112,11 @@ const AdminDashboard = () => {
 
   return (
     <>
-      <a href="/createproject" aria-label="Open create project form">
+      {/* <a href="/createproject" aria-label="Open create project form">
         {" "}
         Create Project
-      </a>
-      <h2>Tickets: {bugs.length}</h2>
+      </a> */}
+      <h3>Tickets: {bugs.length}</h3>
       <div className="flex mobile-column full-width space-between">
         <div className="flex-column aic text-align">
           <i className="full-width chart-header">Projects</i>

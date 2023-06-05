@@ -1,20 +1,11 @@
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import UserDashboard from "../components/Users/UserDashboard";
-import { useUserAuth } from "../context/userAuthContext";
+import useAuthContext from "../hooks/useAuthContext";
 
 const Home = () => {
-  const { user } = useUserAuth();
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!user) {
-      navigate("/signin");
-    }
-  }, [user, navigate]);
-
+  const { user } = useAuthContext();
   return (
     <>
-      <UserDashboard />
+      <UserDashboard user={user} />
     </>
   );
 };

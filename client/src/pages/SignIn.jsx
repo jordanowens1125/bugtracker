@@ -1,39 +1,58 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useUserAuth } from "../context/userAuthContext";
-import { selectedUser } from "../redux/actions/userActions";
-import api from "../api/index";
+import React, { useState } from "react";
+import { useLogin } from "../hooks/useLogin";
 
 const SignIn = () => {
-  const { user } = useUserAuth();
-  const dispatch = useDispatch();
-
-  const { logIn, googleSignIn } = useUserAuth();
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [user, navigate]);
-
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { signIn, error, isLoading } = useLogin();
+  // const [error, setError] = useState("");
+  const submit = async (e) => {
+    e.preventDefault();
+    await signIn(email, password);
+  };
   return (
     <>
       <div className="flex-column jcc full-height aic page">
-        <form className="flex-column aic jcc cover">
-          <span>Log In</span>
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Password" />
+        <form
+          className="flex-column aic jcc cover full-width"
+          onSubmit={submit}
+        >
+          <h1>Log In</h1>
+          <label htmlFor="Email:">Email: </label>
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.currentTarget.value)}
+            aria-label="Email"
+            className="full-width"
+          />
+          <label htmlFor="Password:">Password:</label>
+          <input
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.currentTarget.value)}
+            aria-label="Password"
+            className="full-width"
+          />
+          {error && (
+            <span className="error full-width text-align">{error}</span>
+          )}
 
-          <button className="button-primary">Login</button>
-          <a href="/demo" className="button-secondary">
+          <button
+            className="button-primary full-width"
+            type="submit"
+            disabled={isLoading}
+          >
+            Login
+          </button>
+          <a href="/demo" className="button-secondary full-width text-align">
             Login as Demo User
           </a>
-          <a href="/signup" className="button-ghost">Sign Up</a>
+          {/* <a href="/signup" className="button-ghost full-width text-align">
+            Sign Up
+          </a> */}
         </form>
       </div>
     </>

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loading from "../Loading";
 import api from "../../api";
 import { setMessage } from "../../redux/actions/messageActions";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const checkIfUserIsAssignedToProject = (user, project) => {
   if (user) {
@@ -26,15 +27,14 @@ function checkProject(project) {
 }
 
 const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
-  const user = useSelector((state) => state.currentUser);
+  const { user } = useAuthContext();
   const userIsAdmin = user.role === "Admin";
   const userIsAssignedToProject = checkIfUserIsAssignedToProject(user, project);
   const isCurrentProjectFilled = checkProject(project);
   const [editMode, setEditMode] = useState(false);
   const [edit, setEdit] = useState();
   const [projectDisplay, setProjectDisplay] = useState(project);
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const copy = { ...edit };
@@ -117,25 +117,34 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
               <>
                 <h1>{projectDisplay.title}</h1>
                 <p>{projectDisplay.description}</p>
-                <span>
-                  <button
-                    className="button-primary"
-                    onClick={() => setEditMode(true)}
-                  >
-                    Edit Project
-                  </button>
-                </span>
+                {userIsAdmin && (
+                  <span>
+                    <button
+                      className="button-primary"
+                      onClick={() => setEditMode(true)}
+                    >
+                      Edit Project
+                    </button>
+                  </span>
+                )}
               </>
             )}
 
             <div className="flex gap-lg full-width full-height children-equal-flex">
               <div className="flex-column gap-lg h-lg">
-                <a
-                  href={`/projects/${project._id}/managemembers`}
-                  className="button"
-                >
-                  Manage Members
-                </a>
+                {userIsAdmin ? (
+                  <a
+                    href={`/projects/${project._id}/managemembers`}
+                    className="button"
+                  >
+                    Manage Members
+                  </a>
+                ) : (
+                  <>
+                    <span className="p-md">Members</span>
+                  </>
+                )}
+
                 <table className="p-md full-width h-lg">
                   <thead>
                     <tr>

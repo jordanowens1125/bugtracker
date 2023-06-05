@@ -25,7 +25,7 @@ const Bug = () => {
   const [updattedBug, setUpdattedBug] = useState("");
   const [index, setIndex] = useState(-1);
   const dispatch = useDispatch();
-
+  console.log(users);
   useEffect(() => {
     const fetchBug = async () => {
       const request = await api.bugs.fetchBug(id);

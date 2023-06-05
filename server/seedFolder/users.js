@@ -8,7 +8,6 @@ const seedUsers = [
     assignedBugs: [],
     comments: [],
     role: "Deleted",
-    uid: "4iZTTHtRTpVgBbKJmERBlB2BpIF2",
     name: "Deleted User",
     assignable: false,
     deleted: true,
@@ -19,7 +18,6 @@ const seedUsers = [
     project: "63ab7ace4e39c16c9b79e3ac",
     assignedBugs: ["63ab78cc81174e7f3a98fd0e"],
     comments: [],
-    uid: "ADhHPJnIh5gaE0yrWcCID8KhEQn1",
     role: "Developer",
     name: "Hillard Amerigo",
     assignable: false,
@@ -30,7 +28,6 @@ const seedUsers = [
     project: "63ab7ace4e39c16c9b79e3ac",
     comments: [],
     assignedBugs: [],
-    uid: "bjyglte3H1Y0eghVkQyia4s652X2",
     role: "Developer",
     name: "James Davis",
     assignable: false,
@@ -41,7 +38,6 @@ const seedUsers = [
     project: "63ab7ace4e39c16c9b79e3ac",
     comments: [],
     assignedBugs: [],
-    uid: "7LzLmAWeTnSGyBUcNIezArzEZee2",
     role: "Developer",
     name: "Filip Mendez",
     assignable: false,
@@ -49,7 +45,6 @@ const seedUsers = [
   new User({
     _id: mongoose.Types.ObjectId("63a36a4d3f0f5cf676acf07f"),
     email: "lenz@sbcglobal.net",
-    uid: "7i3EJNn8UQUjOf1F6TNUJrUWByu2",
     comments: [],
     assignedBugs: [],
     role: "Developer",
@@ -58,7 +53,6 @@ const seedUsers = [
   new User({
     _id: mongoose.Types.ObjectId("63a36a4d3f0f5cf676acf080"),
     email: "glenz@sbcglobal.net",
-    uid: "Tkviefr3G7WxKR3RhbwyFtT3BlE3",
     comments: [],
     assignedBugs: [],
     role: "Developer",
@@ -67,7 +61,6 @@ const seedUsers = [
   new User({
     _id: mongoose.Types.ObjectId("63a36a4d3f0f5cf676acf081"),
     email: "durist@comcast.net",
-    uid: "2MqkVzdIc4SxkaUwhluUkyuiWp42",
     comments: [],
     assignedBugs: [],
     role: "Developer",
@@ -76,7 +69,6 @@ const seedUsers = [
   new User({
     _id: mongoose.Types.ObjectId("63a36a4d3f0f5cf676acf082"),
     email: "stomv@hotmail.com",
-    uid: "LGGTxeIQcaWCV9KyOuIoO4QxSp93",
     comments: [],
     assignedBugs: [],
     role: "Developer",
@@ -85,7 +77,6 @@ const seedUsers = [
   new User({
     _id: mongoose.Types.ObjectId("63a36a4d3f0f5cf676acf083"),
     email: "mschwartz@sbcglobal.net",
-    uid: "EyQWiqdFHbNfWrzC5lo51dcpHFX2",
     comments: [],
     assignedBugs: [],
     name: "Emily Schwartz",
@@ -93,7 +84,6 @@ const seedUsers = [
   new User({
     _id: mongoose.Types.ObjectId("63a36a4d3f0f5cf676acf084"),
     email: "bryanw@hotmail.com",
-    uid: "ciEapaHyEtNlETxmm7Ju7F8KyUW2",
     comments: [],
     assignedBugs: [],
     name: "Bryan Woodard",
@@ -101,7 +91,6 @@ const seedUsers = [
   new User({
     _id: mongoose.Types.ObjectId("63a36a4d3f0f5cf676acf085"),
     email: "chaikin@aol.com",
-    uid: "RoDsXf0Mc7gPsYf3tzzbiJTGU7h1",
     comments: [],
     assignedBugs: [],
     role: "Developer",
@@ -110,7 +99,6 @@ const seedUsers = [
   new User({
     _id: mongoose.Types.ObjectId("63a36a4d3f0f5cf676acf086"),
     email: "phish@verizon.net",
-    uid: "CKMZfqzakpa5eQtUxbZgdn0P7Ih1",
     comments: [],
     assignedBugs: [],
     role: "Developer",
@@ -119,7 +107,6 @@ const seedUsers = [
   new User({
     _id: mongoose.Types.ObjectId("63a36a4d3f0f5cf676acf087"),
     email: "jramio@msn.com",
-    uid: "Y0HYlLEzWLd2Ex8eYDK6VFnUohJ2",
     comments: [],
     assignedBugs: [],
     role: "Developer",
@@ -128,7 +115,6 @@ const seedUsers = [
   new User({
     _id: mongoose.Types.ObjectId("63a36a4d3f0f5cf676acf088"),
     email: "pakaste@yahoo.ca",
-    uid: "ijDn7f3cKzTj8y4xiWDXGUq17hB2",
     assignedBugs: [],
     comments: [],
     role: "Developer",
@@ -137,7 +123,6 @@ const seedUsers = [
   new User({
     _id: mongoose.Types.ObjectId("63a36a4d3f0f5cf676acf089"),
     email: "am@live.com",
-    uid: "uJMbVJPyaGcr0OP3nqfmgujBUeg2",
     comments: [],
     assignedBugs: [],
     role: "Developer",
@@ -145,8 +130,7 @@ const seedUsers = [
   }),
   new User({
     _id: new mongoose.Types.ObjectId(),
-    email: "demodeveloper@gmail.com",
-    uid: "qlrmJPCKxETb37OKOx8KVWWXetc2",
+    email: "DemoDeveloper@gmail.com",
     comments: [],
     assignedBugs: [],
     role: "Developer",
@@ -154,8 +138,7 @@ const seedUsers = [
   }),
   new User({
     _id: new mongoose.Types.ObjectId(),
-    email: "demoadmin@gmail.com",
-    uid: "cASZy98Ay3P4r69AMQaojvRSw1m1",
+    email: "DemoAdmin@gmail.com",
     comments: [],
     assignedBugs: [],
     role: "Admin",
