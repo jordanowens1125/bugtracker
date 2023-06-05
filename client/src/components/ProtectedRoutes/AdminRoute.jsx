@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import useAuthContext from "../hooks/useAuthContext";
+import useAuthContext from "../../hooks/useAuthContext";
 const Admin = () => {
   const { user } = useAuthContext();
   const location = useLocation();

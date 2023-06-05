@@ -144,7 +144,7 @@ const AdminDashboard = () => {
         </div>
 
         <div className="flex-column aic text-align">
-          <i className="full-width chart-header">Developers</i>
+          <i className="full-width chart-header">Assigned To</i>
           <div className="chart">
             <PieChart data={dev} />
           </div>

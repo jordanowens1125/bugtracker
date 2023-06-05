@@ -128,9 +128,7 @@ const DeveloperDashboard = () => {
           )}
         </>
       )}
-      {
-        !project&&(<>No Project Currently Assigned</>)
-      }
+      {!project && <>No Project Currently Assigned</>}
     </main>
   );
 };

@@ -137,7 +137,7 @@ const ProjectManagerDashboard = () => {
             </div>
           </div>
           <table className="full-width">
-            <caption>Tasks Activity</caption>
+            <caption>Project Tasks</caption>
             <thead>
               <tr>
                 <th>Title</th>

@@ -28,13 +28,19 @@ const Bug = () => {
   const { user } = useAuthContext();
   const dispatch = useDispatch();
 
+  const canEdit =
+    user.role === "Admin" ||
+    user.role === "Project Manager" ||
+    user.role === "Reviewer";
+
   useEffect(() => {
     const fetchBug = async () => {
       const request = await api.bugs.fetchBug(id);
       const bug = request.bug;
       setBug(bug);
       setUpdattedBug(bug);
-      setUsers(request.members);
+      //only developers
+      setUsers(request.members.filter(user=>user.role==='Developer'));
       if (bug.assignedTo) {
         setIndex(findUser(request.bug.assignedTo, request.members));
       }
@@ -200,15 +206,14 @@ const Bug = () => {
                   <p>Start: {dayjs(bug.openDate).format("YYYY-MM-DD")}</p>
                   <p>Deadline: {dayjs(bug.deadline).format("YYYY-MM-DD")}</p>
                   <span>
-                    {user.role === "Admin" ||
-                      (user.role === "Project Manager" && (
-                        <button
-                          className="button-secondary"
-                          onClick={() => setEditMode(true)}
-                        >
-                          Edit
-                        </button>
-                      ))}
+                    {canEdit && (
+                      <button
+                        className="button-secondary"
+                        onClick={() => setEditMode(true)}
+                      >
+                        Edit
+                      </button>
+                    )}
                   </span>
                 </>
               )}

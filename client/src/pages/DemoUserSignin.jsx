@@ -38,17 +38,29 @@ const DemoUserSignin = () => {
   // };
 
   return (
-    <div className="border text-align flex-column aic">
-      <h1>Login as Demo User</h1>
+    <div className="full-height page text-align flex-column aic jcc">
+      <h1 className="primary">Login as Demo User</h1>
       {error && <span className="error full-width text-align">{error}</span>}
-      <div className="max-w-lg">
-        <button onClick={SignInAsDemoDeveloper} disabled={isLoading}>
-          Demo developer
+      <div className="max-w-lg flex">
+        <button
+          className="button-secondary"
+          onClick={SignInAsDemoDeveloper}
+          disabled={isLoading}
+        >
+          Demo Developer
         </button>
-        <button onClick={SignInAsDemoAdmin} disabled={isLoading}>
+        <button
+          className="button-secondary"
+          onClick={SignInAsDemoAdmin}
+          disabled={isLoading}
+        >
           Demo Admin
         </button>
-        <button onClick={SignInAsDemoPM} disabled={isLoading}>
+        <button
+          className="button-secondary"
+          onClick={SignInAsDemoPM}
+          disabled={isLoading}
+        >
           Project Manager
         </button>
         {/* <button onClick={SignInAsDemoReviewer} disabled={isLoading}>

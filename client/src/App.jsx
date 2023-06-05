@@ -12,17 +12,19 @@ import ManageMembers from "./pages/ManageMembers";
 import ManageUsers from "./pages/ManageUsers";
 import CreateProject from "./pages/CreateProject";
 import DemoUserSignin from "./pages/DemoUserSignin";
-import RequireAuth from "./components/RequireAuth";
-import SignedOut from "./components/SignedOut";
+import RequireAuth from "./components/ProtectedRoutes/RequireAuth";
+import SignedOut from "./components/ProtectedRoutes/SignedOut";
 import CreateUser from "./pages/CreateUser";
 import DeleteUsers from "./pages/DeleteUsers";
-import AdminRoute from "./components/AdminRoute";
+import AdminRoute from "./components/ProtectedRoutes/AdminRoute";
 import AdminOnly from "./pages/AdminOnly";
-import ProjectManagerRoute from "./components/ProjectManagerRoute";
+import ProjectManagerRoute from "./components/ProtectedRoutes/ProjectManagerRoute";
 import PMOnly from "./pages/PMOnly";
 import AdminDashboard from "./components/Users/AdminDashboard";
 import DeveloperDashboard from "./components/Users/DeveloperDashboard";
 import ProjectManagerDashboard from "./components/Users/ProjectManagerDashboard";
+import DeveloperRoute from "./components/ProtectedRoutes/DeveloperRoute";
+import DevOnly from "./pages/DevOnly";
 // import Settings from "./pages/Settings";
 //import SignUp from "./pages/SignUp";
 // import Chat from "./pages/Chat";
@@ -68,10 +70,13 @@ function App() {
                 <Route path="deleteusers" element={<DeleteUsers />} />
               </Route>
 
-              <Route path="developer" element={<DeveloperDashboard />} />
+              <Route element={<DeveloperRoute />}>
+                <Route path="developer" element={<DeveloperDashboard />} />
+              </Route>
 
               <Route path="admin/unauthorized" element={<AdminOnly />} />
               <Route path="projectmanager/unauthorized" element={<PMOnly />} />
+              <Route path="developer/unauthorized" element={<DevOnly />} />
               <Route path="*" element={<NoPage />} />
             </Route>
 

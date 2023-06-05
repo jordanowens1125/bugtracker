@@ -14,11 +14,7 @@ const Projects = () => {
     <>
       <div className="flex-column gap-md">
         <h1>Projects</h1>
-        {/* <a href="/createproject" aria-label="Open create project form">
-          {" "}
-          Create Project
-        </a> */}
-
+        {/* <p>{projects.length}</p> */}
         <ProjectsTable projects={projects} />
       </div>
     </>
