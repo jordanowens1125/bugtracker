@@ -9,6 +9,7 @@ const DeleteUsers = () => {
   const [filtered, setFiltered] = useState([]);
   const { user } = useAuthContext();
   const [count, setCount] = useState(0);
+  const dispatch = useDispatch();
   // const [selectedUsers, setSelectedUsers] = useState([]);
   // const [deleteMode, setDeleteode] = useState(false);
   const [keys, setKeys] = useState({});
@@ -18,7 +19,7 @@ const DeleteUsers = () => {
       // setUsers(response);
       setFiltered(
         response.filter(
-          (user) => user.role !== "Deleted" //&& user.role !== "Admin"
+          (user) => user.role !== "Deleted" && user.role !== "Admin"
         )
       );
     };
@@ -46,22 +47,19 @@ const DeleteUsers = () => {
       return b - a;
     });
     for (let i = 0; i < indexes.length; i++) {
-      copy.splice(indexes[i],1)
+      copy.splice(indexes[i], 1);
     }
-    //setFiltered(copy);
-    return [indexes.map((index) => keys[index]._id),copy];
+    return [indexes.map((index) => keys[index]._id), copy];
   };
 
-  const DeleteSelected = async() => {
+  const DeleteSelected = async () => {
     let [ids, newUsers] = convertListToIDs();
-    console.log(user);
-    const response = await api.users.deleteUsers(user, ids)
-    if (response.ok) {
-      setCount(0)
-      setFiltered(newUsers)
-    }
-    else {
-      
+    const response = await api.users.deleteUsers(user, ids);
+    if (response.status === 200) {
+      dispatch(setMessage(`${count} user/users successfully deleted.`));
+      setCount(0);
+      setFiltered(newUsers);
+    } else {
     }
   };
   return (
@@ -114,7 +112,11 @@ const DeleteUsers = () => {
               })}
             </>
           ) : (
-            <></>
+            <>
+              <tr>
+                <td>No Users</td>
+              </tr>
+            </>
           )}
         </tbody>
       </table>

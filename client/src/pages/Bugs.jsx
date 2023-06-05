@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 const Bugs = () => {
   const [bugs, setBugs] = useState([]);
   const hasBugs = bugs.length > 0;
+  
   useEffect(() => {
     const fetchData = async () => {
       const response = await api.bugs.fetchBugs();

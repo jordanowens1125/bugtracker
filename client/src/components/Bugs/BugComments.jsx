@@ -1,22 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
 import api from "../../api/index";
 import Comment from "./Comment";
+import useAuthContext from "../../hooks/useAuthContext";
 
-const checkIfUserCanMakeComments = (user, bug) => {
-  if (user) {
-    if (bug) {
-      if (user.role === "Admin") {
-        return true;
-      } else if (bug.assignedTo) {
-        if (bug.assignedTo._id === user._id) {
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-};
 const AlwaysScrollToBottom = () => {
   const elementRef = useRef();
   useEffect(() => elementRef.current.scrollIntoView());
@@ -32,11 +18,13 @@ const scrollToBottom = () => {
 
 const BugComments = ({ bug }) => {
   const [comments, setComments] = useState(bug.comments);
-  useEffect(() => {}, [bug]);
 
-  const currentUser = useSelector((state) => state.currentUser);
- 
-  const userCanCommentsOnThisBug = checkIfUserCanMakeComments(currentUser, bug);
+  const { user } = useAuthContext();
+
+  const userCanCommentsOnThisBug =
+    (bug.assignedTo && bug.assignedTo._id === user._id) ||
+    user.role === "Admin" ||
+    user.role === "Project Manager";
 
   const [chatInput, setChatInput] = useState({
     text: "",
@@ -55,7 +43,7 @@ const BugComments = ({ bug }) => {
     e.preventDefault();
     if (chatInput.text !== "") {
       const newComment = { ...chatInput };
-      newComment.creator = currentUser._id;
+      newComment.creator = user._id;
       newComment.bugID = bug._id;
       //bug projectID property is a project object so get id
       newComment.projectID = bug.projectID;
@@ -64,7 +52,7 @@ const BugComments = ({ bug }) => {
       const response = await api.comments.createComment(newComment);
       //need to set creator so that info is correctly
       //displayed as owned by the current user
-      response.creator = currentUser;
+      response.creator = user;
       const updatedComments = [...comments, response];
       setComments(updatedComments);
       setChatInput({

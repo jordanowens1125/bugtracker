@@ -14,6 +14,7 @@ const {
   updateRoles,
   loginUser,
   deleteUsers,
+  getPM,
 } = require("../controllers/users");
 
 /* GET users listing. */
@@ -31,6 +32,7 @@ router.use(requireAuth)
 router.delete("/delete", deleteUsers);
 router.delete("/delete/:id", deleteUser);
 router.put("/project/:id", assignUserToProject);
+router.get("/projectmanager/:id", getPM);
 router.put("/removeproject", unAssignUsersFromProject);
 router.put("/assignbugtouser/:id", assignBugToUser);
 router.put("/unassignbugfromuser/:id", unAssignBugFromUser);

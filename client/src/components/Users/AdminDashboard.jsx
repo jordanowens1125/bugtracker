@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import PieChart from "../Charts/PieChart";
 import api from "../../api/index";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const AdminDashboard = () => {
+  const { user } = useAuthContext();
   const [bugsByProject, setBugsByProject] = useState([]);
   const [priority, setPriority] = useState([]);
   const [status, setStatus] = useState([]);
@@ -12,13 +14,19 @@ const AdminDashboard = () => {
   const byDevs = (bugs) => {
     const devs = {};
     const result = [];
+    devs["Unassigned"] = 0;
     bugs.map((bug) => {
-      if (devs[bug.assignedTo]) {
-        devs[bug.assignedTo] += 1;
-        return bug;
+      if (bug.assignedTo) {
+        if (devs[bug.assignedTo.name]) {
+          devs[bug.assignedTo.name] += 1;
+          return bug;
+        } else {
+          devs[bug.assignedTo.name] = 1;
+          return 1;
+        }
       } else {
-        devs[bug.assignedTo] = 1;
-        return 1;
+        devs["Unassigned"] += 1;
+        return 0;
       }
     });
     Object.keys(devs).map((dev) =>
@@ -28,7 +36,6 @@ const AdminDashboard = () => {
         value: devs[dev],
       })
     );
-    console.log(result);
     setDev(result);
   };
 
@@ -111,11 +118,8 @@ const AdminDashboard = () => {
   }, []);
 
   return (
-    <>
-      {/* <a href="/createproject" aria-label="Open create project form">
-        {" "}
-        Create Project
-      </a> */}
+    <main className="flex-column aic">
+      <h1>Welcome, {user.name}</h1>
       <h3>Tickets: {bugs.length}</h3>
       <div className="flex mobile-column full-width space-between">
         <div className="flex-column aic text-align">
@@ -175,7 +179,7 @@ const AdminDashboard = () => {
           ))}
         </tbody>
       </table>
-    </>
+    </main>
   );
 };
 

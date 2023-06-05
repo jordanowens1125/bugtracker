@@ -7,17 +7,23 @@ import Projects from "./pages/Projects";
 import NoPage from "./pages/NoPage";
 import Project from "./pages/Project";
 import "./App.css";
-import Unauthorized from "./pages/Unauthorized";
 import Bug from "./pages/Bug";
 import ManageMembers from "./pages/ManageMembers";
 import ManageUsers from "./pages/ManageUsers";
 import CreateProject from "./pages/CreateProject";
 import DemoUserSignin from "./pages/DemoUserSignin";
-import Settings from "./pages/Settings";
 import RequireAuth from "./components/RequireAuth";
 import SignedOut from "./components/SignedOut";
 import CreateUser from "./pages/CreateUser";
 import DeleteUsers from "./pages/DeleteUsers";
+import AdminRoute from "./components/AdminRoute";
+import AdminOnly from "./pages/AdminOnly";
+import ProjectManagerRoute from "./components/ProjectManagerRoute";
+import PMOnly from "./pages/PMOnly";
+import AdminDashboard from "./components/Users/AdminDashboard";
+import DeveloperDashboard from "./components/Users/DeveloperDashboard";
+import ProjectManagerDashboard from "./components/Users/ProjectManagerDashboard";
+// import Settings from "./pages/Settings";
 //import SignUp from "./pages/SignUp";
 // import Chat from "./pages/Chat";
 
@@ -31,27 +37,41 @@ function App() {
             <Route element={<RequireAuth />}>
               <Route index element={<Home />} />
               <Route path="bugs" element={<Bugs />} />
+
               <Route path="projects" element={<Projects />} />
               <Route path="projects/:id" element={<Project />} />
               <Route path="bugs/:id" element={<Bug />} />
-
-              {/* Admin/Project Managers only */}
-              <Route
-                path="projects/:id/managemembers"
-                element={<ManageMembers />}
-              />
-
-              {/* Admin only */}
-              <Route path="manageusers" element={<ManageUsers />} />
-              {/* <Route path="users" element={<Users />} />
-                <Route path="users/:id" element={<User />} /> */}
-              <Route path="createproject" element={<CreateProject />} />
-              <Route path="createuser" element={<CreateUser />} />
-              {/* <Route path="deleteusers" element={<DeleteUsers />} /> */}
-
+              {/* <Route path="settings" element={<Settings />} /> */}
               {/* <Route path="chat" element={<Chat />} /> */}
-              <Route path="settings" element={<Settings />} />
-              <Route path="unauthorized" element={<Unauthorized />} />
+
+              <Route element={<ProjectManagerRoute />}>
+                {/* Admin/Project Managers only */}
+                <Route
+                  path="projects/:id/managemembers"
+                  element={<ManageMembers />}
+                />{" "}
+                <Route path="createproject" element={<CreateProject />} />
+                <Route
+                  path="projectmanager"
+                  element={<ProjectManagerDashboard />}
+                />
+              </Route>
+
+              <Route element={<AdminRoute />}>
+                <Route path="admin" element={<AdminDashboard />} />
+                {/* Admin only */}
+                <Route path="manageusers" element={<ManageUsers />} />
+                {/* <Route path="users" element={<Users />} />
+                <Route path="users/:id" element={<User />} /> */}
+
+                <Route path="createuser" element={<CreateUser />} />
+                <Route path="deleteusers" element={<DeleteUsers />} />
+              </Route>
+
+              <Route path="developer" element={<DeveloperDashboard />} />
+
+              <Route path="admin/unauthorized" element={<AdminOnly />} />
+              <Route path="projectmanager/unauthorized" element={<PMOnly />} />
               <Route path="*" element={<NoPage />} />
             </Route>
 

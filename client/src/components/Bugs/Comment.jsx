@@ -5,7 +5,6 @@ import dayjs from "dayjs";
 dayjs.extend(relativeTime);
 const Comment = ({ comment }) => {
   const { user } = useAuthContext();
-  console.log(comment);
   const isThisACurrentUserComment = comment.creator._id === user._id;
   // console.log(comment);
   return (

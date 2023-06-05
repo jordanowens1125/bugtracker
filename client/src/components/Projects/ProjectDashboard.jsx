@@ -28,7 +28,7 @@ function checkProject(project) {
 
 const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
   const { user } = useAuthContext();
-  const userIsAdmin = user.role === "Admin";
+  const userCanEdit = user.role === "Admin" || user.role === "Project Manager";
   const userIsAssignedToProject = checkIfUserIsAssignedToProject(user, project);
   const isCurrentProjectFilled = checkProject(project);
   const [editMode, setEditMode] = useState(false);
@@ -117,7 +117,7 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
               <>
                 <h1>{projectDisplay.title}</h1>
                 <p>{projectDisplay.description}</p>
-                {userIsAdmin && (
+                {userCanEdit && (
                   <span>
                     <button
                       className="button-primary"
@@ -132,7 +132,7 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
 
             <div className="flex gap-lg full-width full-height children-equal-flex">
               <div className="flex-column gap-lg h-lg">
-                {userIsAdmin ? (
+                {userCanEdit ? (
                   <a
                     href={`/projects/${project._id}/managemembers`}
                     className="button"
@@ -141,7 +141,11 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
                   </a>
                 ) : (
                   <>
-                    <span className="p-md">Members</span>
+                    <span className="p-md">
+                      <b>
+                        <i className="secondary">Members</i>
+                      </b>
+                    </span>
                   </>
                 )}
 
@@ -178,13 +182,25 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
               </div>
               <div className="flex-column gap-lg h-lg">
                 <span className="flex space-between">
-                  <button
-                    className="button-secondary"
-                    disabled={createBugMode}
-                    onClick={() => setBugMode(true)}
-                  >
-                    Add New Bug
-                  </button>
+                  {userCanEdit ? (
+                    <>
+                      <button
+                        className="button-secondary"
+                        disabled={createBugMode}
+                        onClick={() => setBugMode(true)}
+                      >
+                        Add New Bug
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <span className="p-md">
+                        <b>
+                          <i className="secondary">Bugs</i>
+                        </b>
+                      </span>
+                    </>
+                  )}
                 </span>
 
                 <table className="p-md full-width">

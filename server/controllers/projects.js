@@ -99,6 +99,12 @@ const updateMembers = async (req, res) => {
         assignable: true,
       }
     );
+    await Bug.updateMany(
+      {
+        assignedTo: { $in: req.body.oldIds },
+      },
+      { assignedTo: null }
+    );
     await User.updateMany(
       { _id: { $in: req.body.newIds } },
       {

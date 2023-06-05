@@ -10,7 +10,7 @@ const DemoUserSignin = () => {
       process.env.REACT_APP_DEMO_DEVELOPER_EMAIL,
       process.env.REACT_APP_DEMO_DEVELOPER_PASSWORD
     );
-    navigate('/')
+    navigate("/");
   };
 
   const SignInAsDemoAdmin = async () => {
@@ -21,13 +21,40 @@ const DemoUserSignin = () => {
     navigate("/");
   };
 
+  const SignInAsDemoPM = async () => {
+    await signIn(
+      process.env.REACT_APP_DEMO_PM_EMAIL,
+      process.env.REACT_APP_DEMO_PM_PASSWORD
+    );
+    navigate("/");
+  };
+
+  // const SignInAsDemoReviewer = async () => {
+  //   await signIn(
+  //     process.env.REACT_APP_DEMO_REVIEWER_EMAIL,
+  //     process.env.REACT_APP_DEMO_REVIEWER_PASSWORD
+  //   );
+  //   //navigate("/");
+  // };
+
   return (
-    <div>
+    <div className="border text-align flex-column aic">
       <h1>Login as Demo User</h1>
-      <button onClick={SignInAsDemoDeveloper}>Demo developer</button>
-      <button onClick={SignInAsDemoAdmin}>Demo Admin</button>
-      <button>Project Manager</button>
-      <button>Reviewer</button>
+      {error && <span className="error full-width text-align">{error}</span>}
+      <div className="max-w-lg">
+        <button onClick={SignInAsDemoDeveloper} disabled={isLoading}>
+          Demo developer
+        </button>
+        <button onClick={SignInAsDemoAdmin} disabled={isLoading}>
+          Demo Admin
+        </button>
+        <button onClick={SignInAsDemoPM} disabled={isLoading}>
+          Project Manager
+        </button>
+        {/* <button onClick={SignInAsDemoReviewer} disabled={isLoading}>
+          Reviewer
+        </button> */}
+      </div>
     </div>
   );
 };

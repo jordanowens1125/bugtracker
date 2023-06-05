@@ -3,7 +3,7 @@ const User = require("../models/user");
 
 const seedUsers = [
   new User({
-    _id: mongoose.Types.ObjectId("000000000000000000000000"),
+    _id: mongoose.Types.ObjectId("647dfd59428b6224924a43f3"),
     email: "deletedUser@live.com",
     assignedBugs: [],
     comments: [],

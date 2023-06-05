@@ -96,7 +96,27 @@ const deleteUser = async (req, res) => {
 const deleteUsers = async (req, res) => {
   try {
     let { userIDs } = req.body;
-    console.log(userIDs);
+    await Project.updateMany(
+      {},
+      {
+        $pull: {
+          members: { _id: { $in: userIDs } },
+        },
+      }
+    );
+    await Comment.updateMany(
+      { creator: { $in: userIDs } },
+      {
+        creator: mongoose.Types.ObjectId("647dfd59428b6224924a43f3"),
+      }
+    );
+
+    await Bug.updateMany(
+      { assignedTo: { $in: userIDs } },
+      {
+        assignedTo: undefined,
+      }
+    );
     await User.deleteMany({ _id: { $in: userIDs } });
     res.status(200).json();
     //res.status(200).json()
@@ -108,7 +128,21 @@ const deleteUsers = async (req, res) => {
 const getUser = async (req, res) => {
   try {
     let id = req.params.id;
-    const user = await User.findById(id).populate("project");
+    const user = await User.findById(id)
+      .populate("project")
+      .populate("assignedBugs");
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(404).json({ message: error });
+  }
+};
+
+const getPM = async (req, res) => {
+  try {
+    let id = req.params.id;
+    const user = await User.findById(id).populate([
+      { path: "project", populate: [{ path: "bugs", populate:[{path:'assignedTo'}] }] },
+    ]);
     res.status(200).json(user);
   } catch (error) {
     res.status(404).json({ message: error });
@@ -277,4 +311,5 @@ module.exports = {
   signUp,
   deleteUsers,
   loginUser,
+  getPM,
 };

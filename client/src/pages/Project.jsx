@@ -74,7 +74,6 @@ const Project = () => {
             <label htmlFor="title">Title: </label>
             <input
               type="text"
-              placeholder="Title..."
               value={bug.title}
               onChange={handleInputChange}
               name="title"

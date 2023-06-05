@@ -52,6 +52,18 @@ export const fetchUser = async (loggedInUser, id) =>
       return response.data;
     });
 
+    export const fetchPM = async (loggedInUser, id) =>
+      await axios
+        .get(`${baseURL}/projectmanager/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${loggedInUser.token}`,
+          },
+        })
+        .then((response) => {
+          return response.data;
+        });
+
 export const fetchUserByEmail = async (loggedInUser, email) =>
   await axios
     .get(`${baseURL}/email/${email}`, {

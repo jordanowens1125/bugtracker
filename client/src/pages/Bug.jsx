@@ -7,6 +7,7 @@ import { statusList } from "../constants/bug";
 import { priorities } from "../constants/bug";
 import { useDispatch } from "react-redux";
 import { setMessage } from "../redux/actions/messageActions";
+import useAuthContext from "../hooks/useAuthContext";
 
 const findUser = (user, users) => {
   for (let i = 0; i < users.length; i++) {
@@ -24,8 +25,9 @@ const Bug = () => {
   const [users, setUsers] = useState([]);
   const [updattedBug, setUpdattedBug] = useState("");
   const [index, setIndex] = useState(-1);
+  const { user } = useAuthContext();
   const dispatch = useDispatch();
-  console.log(users);
+
   useEffect(() => {
     const fetchBug = async () => {
       const request = await api.bugs.fetchBug(id);
@@ -49,7 +51,6 @@ const Bug = () => {
       setIndex(value);
     }
     copy[name] = value;
-    console.log(copy);
     setUpdattedBug(copy);
   };
 
@@ -199,12 +200,15 @@ const Bug = () => {
                   <p>Start: {dayjs(bug.openDate).format("YYYY-MM-DD")}</p>
                   <p>Deadline: {dayjs(bug.deadline).format("YYYY-MM-DD")}</p>
                   <span>
-                    <button
-                      className="button-secondary"
-                      onClick={() => setEditMode(true)}
-                    >
-                      Edit
-                    </button>
+                    {user.role === "Admin" ||
+                      (user.role === "Project Manager" && (
+                        <button
+                          className="button-secondary"
+                          onClick={() => setEditMode(true)}
+                        >
+                          Edit
+                        </button>
+                      ))}
                   </span>
                 </>
               )}

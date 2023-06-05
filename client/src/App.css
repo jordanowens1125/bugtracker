@@ -325,14 +325,14 @@ button,
   transition: 0.5s;
 }
 
-a {
+a, .a {
   transition: 0.5s;
   padding: 10px;
   border-radius: 8px;
   width: fit-content;
 }
 
-button:hover,
+button:hover,.a:hover,
 a:hover {
   transform: scale(1.03);
   cursor: pointer;
@@ -517,7 +517,7 @@ button:disabled:hover {
   padding: 10px;
   border-radius: 10px;
   background-color: var(--tri-bg-color);
-  color: #3c4aa3;
+  color: var(--tri-color);
   overflow-wrap: break-word;
   max-width: 250px;
 }
@@ -585,8 +585,6 @@ button:disabled:hover {
 }
 /* End of bug */
 
-/* manage users page */
-.manage-users,
 .manage-members {
   display: grid;
   gap: 10px;
@@ -598,28 +596,25 @@ button:disabled:hover {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.manage-users .header,
 .manage-members .header {
   grid-area: header;
 }
 
-.manage-users .search,
+
 .manage-members .search {
   grid-area: search;
 }
 
-.manage-users .submit,
 .manage-members .submit {
   grid-area: submit;
 }
 
-.manage-users .available,
+
 .manage-members .available {
   grid-area: available;
   height: 600px;
 }
 
-.manage-users .selected,
 .manage-members .selected {
   grid-area: selected;
   height: 600px;
