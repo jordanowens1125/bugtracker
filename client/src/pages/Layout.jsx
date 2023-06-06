@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import useAuthContext from "../hooks/useAuthContext";
 import { clearMessage, setMessage } from "../redux/actions/messageActions";
 import { useLogOut } from "../hooks/useLogOut.js";
+import Hamburger from "../assets/Hamburger";
+
 const Navbar = () => {
   const { signOut } = useLogOut();
   const [theme, setTheme] = useState("light-mode");
@@ -72,6 +74,7 @@ const Navbar = () => {
             <div className="flex-column space-around full-height ">
               <div className="flex-column gap-lg">
                 <a href="/">Dashboard</a>
+                {/* <a href="/Tasks">Tasks</a> */}
                 <a href="/Projects">Projects</a>
                 <a href="/Bugs">Bugs</a>
                 {/* <a href="/Bugs">Schedule</a> */}
@@ -134,7 +137,12 @@ const Navbar = () => {
                   {user && (
                     <>
                       <div className="flex-column space-around aic jcc full-height full-width">
-                        <button className="button-ghost" onClick={()=>setMobileOpen(false)}>Close</button>
+                        <button
+                          className="button-ghost"
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          Close
+                        </button>
                         <a href="/">Dashboard</a>
                         <a href="/Projects">Projects</a>
                         <a href="/Bugs">Bugs</a>
@@ -155,8 +163,10 @@ const Navbar = () => {
                 </nav>
               </>
             ) : (
-              <div className="open-mobile-nav" onClick={handleMobileOpen}>
-                Menu item to open mobile nav
+              <div className="open-mobile-nav">
+                <span onClick={handleMobileOpen}>
+                  <Hamburger />
+                </span>
               </div>
             )}
           </>

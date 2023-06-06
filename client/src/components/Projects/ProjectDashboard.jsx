@@ -1,22 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Loading from "../Loading";
+import { useDispatch } from "react-redux";
+import NoData from '../Shared/NoData'
 import api from "../../api";
 import { setMessage } from "../../redux/actions/messageActions";
 import useAuthContext from "../../hooks/useAuthContext";
-
-const checkIfUserIsAssignedToProject = (user, project) => {
-  if (user) {
-    if (user.project) {
-      if (user.project) {
-        if (user.project._id === project._id) {
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-};
 
 function checkProject(project) {
   if (project.bugs) {
@@ -29,7 +16,6 @@ function checkProject(project) {
 const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
   const { user } = useAuthContext();
   const userCanEdit = user.role === "Admin" || user.role === "Project Manager";
-  const userIsAssignedToProject = checkIfUserIsAssignedToProject(user, project);
   const isCurrentProjectFilled = checkProject(project);
   const [editMode, setEditMode] = useState(false);
   const [edit, setEdit] = useState();
@@ -243,7 +229,7 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
           </div>
         </>
       ) : (
-        <Loading></Loading>
+        <NoData title={'Project'}/>
       )}
     </>
   );

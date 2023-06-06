@@ -75,7 +75,7 @@ const DeveloperDashboard = () => {
         <>
           <i>
             <h2>
-              You are assigned To Project:
+              Assigned Project:
               <a href={`/projects/${project._id}`}>{project.title}</a>
             </h2>
           </i>

@@ -46,7 +46,7 @@ const DemoUserSignin = () => {
 
   return (
     <div className="full-height page text-align flex-column aic jcc gap-xl">
-      <h1 className="secondary">Login as Demo User</h1>
+      <h1 className="primary ">Login as Demo User</h1>
 
       <div className="max-w-lg flex mobile-column">
         <button

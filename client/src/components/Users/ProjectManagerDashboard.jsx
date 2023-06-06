@@ -110,7 +110,7 @@ const ProjectManagerDashboard = () => {
           <div>
             <i>
               <h2>
-                You are assigned To Project:
+                Current Project:
                 <a href={`/projects/${project._id}`}>{project.title}</a>
               </h2>
             </i>

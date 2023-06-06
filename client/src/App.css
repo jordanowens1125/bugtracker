@@ -262,7 +262,8 @@ a:-webkit-any-link {
 /* Table css */
 table,
 th,
-td,.nodata {
+td,
+.nodata {
   padding: 20px;
 }
 
@@ -274,7 +275,8 @@ caption,
   font-style: italic;
 }
 
-table, .nodata {
+table,
+.nodata {
   width: 100%;
   border-collapse: collapse;
   background-color: var(--secondary-bg-color);
@@ -464,6 +466,7 @@ button:disabled:hover {
   justify-content: center;
   padding: 20px;
   text-align: center;
+  justify-content: flex-end;
 }
 
 .open-mobile-nav:hover {
@@ -784,6 +787,12 @@ input:checked + .slider:before {
 }
 /* End of Toggle Switch */
 
+svg {
+  fill: inherit;
+  color: var(--primary-color);
+  transition: 1s;
+}
+
 /* responsive */
 @media screen and (min-width: 800px) {
   .desktop {
@@ -836,7 +845,7 @@ input:checked + .slider:before {
     display: flex;
     flex-direction: column;
     text-align: center;
-    padding: 10px;
+    padding: 5px;
   }
   .noti {
     width: 90%;

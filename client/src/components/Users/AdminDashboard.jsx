@@ -124,7 +124,7 @@ const AdminDashboard = () => {
       {bugs.length > 0 ? (
         <>
           <h3>Tickets: {bugs.length}</h3>
-          <div className="flex mobile-column full-width space-between aic">
+          <div className="flex mobile-column full-width space-between aic jcc">
             <PieChart data={bugsByProject} header={"Projects"} />
             <PieChart data={priority} header={"Priority"} />
             <PieChart data={status} header={"Status"} />
@@ -155,7 +155,7 @@ const AdminDashboard = () => {
                     <td>{bug.status}</td>
                     <td>{bug.projectID.title}</td>
                     <td>
-                      {bug.assignedTo ? <>{bug.assignedTo.name}</> : <>N/A</>}
+                      {bug.assignedTo ? <>{bug.assignedTo.name}</> : <>Unassigned</>}
                     </td>
                     <td className="flex-column gap-md">
                       <a href={`/bugs/${bug._id}`}> See Details</a>

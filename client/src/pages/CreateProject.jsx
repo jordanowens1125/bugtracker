@@ -105,7 +105,7 @@ const CreateProject = () => {
 
   return (
     <form
-      className="create-project page mobile-column full-width"
+      className="create-project page mobile-column"
       onSubmit={handleFormSubmit}
     >
       <span className="header">
