@@ -58,7 +58,7 @@ const ManageUsers = () => {
 
   return (
     <>
-      <div className="page flex-column gap-lg aic">
+      <div className="page flex-column gap-md">
         <h1 className="header">Manage Users</h1>
         <div className="flex space-between full-width mobile-column max-w-lg">
           <span className="flex gap-md search space-between full-width">
@@ -95,10 +95,9 @@ const ManageUsers = () => {
             </button>
           </div>
         </div>
-
-        <div className="h-lg full-width">
+        <p className="caption">All Users</p>
+        <div className="overflow-x only-full-width">
           <table className="full-width">
-            <caption>All Users</caption>
             <thead>
               <tr>
                 <th></th>

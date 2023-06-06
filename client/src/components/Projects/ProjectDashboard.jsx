@@ -130,7 +130,7 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
               </>
             )}
 
-            <div className="flex gap-lg full-width full-height children-equal-flex">
+            <div className="flex gap-lg full-width full-height children-equal-flex mobile-column">
               <div className="flex-column gap-lg h-lg">
                 {userCanEdit ? (
                   <a

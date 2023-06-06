@@ -63,7 +63,7 @@ const DeleteUsers = () => {
     }
   };
   return (
-    <main className="full-height">
+    <main className="page flex-column gap-md">
       <span className="flex aic space-between">
         <h1>Delete Users</h1>
         <i>
@@ -80,46 +80,50 @@ const DeleteUsers = () => {
           Delete
         </button>
       </span>
+      <div className="full-width  aic jcc text-align">
+        <p className="caption">All Users</p>
+      </div>
 
-      <table className="full-width">
-        <caption>All Users</caption>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filtered.length > 0 ? (
-            <>
-              {filtered.map((user, index) => {
-                return (
-                  <tr key={user._id}>
-                    <td>
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        onClick={() => handleRowClick(user, index)}
-                      ></input>
-                    </td>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
-                    <td>{user.role}</td>
-                  </tr>
-                );
-              })}
-            </>
-          ) : (
-            <>
-              <tr>
-                <td>No Users</td>
-              </tr>
-            </>
-          )}
-        </tbody>
-      </table>
+      <div className="overflow-x only-full-width">
+        <table className="full-width">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.length > 0 ? (
+              <>
+                {filtered.map((user, index) => {
+                  return (
+                    <tr key={user._id}>
+                      <td>
+                        <input
+                          type="checkbox"
+                          className="checkbox"
+                          onClick={() => handleRowClick(user, index)}
+                        ></input>
+                      </td>
+                      <td>{user.name}</td>
+                      <td>{user.email}</td>
+                      <td>{user.role}</td>
+                    </tr>
+                  );
+                })}
+              </>
+            ) : (
+              <>
+                <tr>
+                  <td>No Users</td>
+                </tr>
+              </>
+            )}
+          </tbody>
+        </table>
+      </div>
     </main>
   );
 };

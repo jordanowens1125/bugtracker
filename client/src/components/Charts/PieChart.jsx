@@ -1,7 +1,7 @@
 import React from 'react'
 import { ResponsivePie } from "@nivo/pie";
 
-const PieChart = ({ data /* see data tab */ }) => {
+const PieChart = ({ data  }) => {
   return (
     <ResponsivePie
       data={data}

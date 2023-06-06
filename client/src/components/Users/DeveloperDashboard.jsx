@@ -67,7 +67,7 @@ const DeveloperDashboard = () => {
   };
 
   return (
-    <main className="flex-column aic">
+    <main className="page flex-column text-align">
       <h1>Welcome, {user.name}</h1>
       {project && (
         <>
@@ -93,35 +93,39 @@ const DeveloperDashboard = () => {
           </div>
           {bugs.length > 0 ? (
             <>
-              <table className="full-width">
-                <caption>Assigned Bugs</caption>
-                <thead>
-                  <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Priority</th>
-                    <th>Status</th>
-                    <th>Project</th>
-                    <th>Deadline</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bugs.map((bug) => (
-                    <tr key={bug._id}>
-                      <td>{bug.title}</td>
-                      <td>{bug.description}</td>
-                      <td>{bug.priority}</td>
-                      <td>{bug.status}</td>
-                      <td>{project.title}</td>
-                      <td>{dayjs(bug.closeDate).format("MM-DD-YY")}</td>
-                      <td className="flex-column gap-md">
-                        <a href={`/bugs/${bug._id}`}> See Details</a>
-                      </td>
+              <div className="full-width  aic jcc text-align">
+                <p className="caption">Assigned Bugs</p>
+              </div>
+              <div className="overflow-x only-full-width">
+                <table className="p-sm">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Priority</th>
+                      <th>Status</th>
+                      <th>Project</th>
+                      <th>Deadline</th>
+                      <th></th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {bugs.map((bug) => (
+                      <tr key={bug._id}>
+                        <td>{bug.title}</td>
+                        <td>{bug.description}</td>
+                        <td>{bug.priority}</td>
+                        <td>{bug.status}</td>
+                        <td>{project.title}</td>
+                        <td>{dayjs(bug.closeDate).format("MM-DD-YY")}</td>
+                        <td className="flex-column gap-md">
+                          <a href={`/bugs/${bug._id}`}> See Details</a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </>
           ) : (
             <>No bugs assigned</>

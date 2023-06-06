@@ -101,14 +101,15 @@ const ProjectManagerDashboard = () => {
     fetchBug();
   }, [user]);
   return (
-    <div className="flex-column aic text-align full-width">
+    <div className="page flex-column text-align">
       <h1>Welcome, {user.name}</h1>
       {project && (
         <>
           <div>
             <i>
               <h2>
-                You are assigned To Project:<a href={`/projects/${project._id}`}>{project.title}</a>
+                You are assigned To Project:
+                <a href={`/projects/${project._id}`}>{project.title}</a>
               </h2>
             </i>
             <h3>Tickets: {bugs.length}</h3>
@@ -136,44 +137,44 @@ const ProjectManagerDashboard = () => {
               </div>
             </div>
           </div>
-          <table className="full-width">
-            <caption>Project Tasks</caption>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Priority</th>
-                <th>Status</th>
-                <th>Project</th>
-                <th>Assigned To</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {bugs.map((bug) => (
-                <tr key={bug._id}>
-                  <td>{bug.title}</td>
-                  <td>{bug.description}</td>
-                  <td>{bug.priority}</td>
-                  <td>{bug.status}</td>
-                  <td>{project.title}</td>
-                  <td>
-                    {bug.assignedTo ? <>{bug.assignedTo.name}</> : <>N/A</>}
-                  </td>
-                  <td className="flex-column gap-md">
-                    <a href={`/bugs/${bug._id}`}> See Details</a>
-                  </td>
+          <div className="full-width  aic jcc text-align">
+            <p className="caption">Project Tasks</p>
+          </div>
+          <div className="overflow-x only-full-width">
+            <table className="full-width overflow-x">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Project</th>
+                  <th>Assigned To</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {bugs.map((bug) => (
+                  <tr key={bug._id}>
+                    <td>{bug.title}</td>
+                    <td>{bug.description}</td>
+                    <td>{bug.priority}</td>
+                    <td>{bug.status}</td>
+                    <td>{project.title}</td>
+                    <td>
+                      {bug.assignedTo ? <>{bug.assignedTo.name}</> : <>N/A</>}
+                    </td>
+                    <td className="flex-column gap-md">
+                      <a href={`/bugs/${bug._id}`}> See Details</a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </>
       )}
-      {
-        !project && (
-          <>No Project Assigned</>
-        )
-      }
+      {!project && <>No Project Assigned</>}
     </div>
   );
 };
