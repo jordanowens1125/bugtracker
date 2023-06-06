@@ -124,7 +124,6 @@ const Navbar = () => {
 
       {/* Mobile */}
       <div className="mobile" id="mobile-display">
-        <div className="flex-column">
           {user && (
             <>
               {mobile ? (
@@ -161,7 +160,6 @@ const Navbar = () => {
               )}
             </>
           )}
-        </div>
         {/* Popup to show status or crud operations  */}
         {/* <Snackbar
           open={messageInfo.open}

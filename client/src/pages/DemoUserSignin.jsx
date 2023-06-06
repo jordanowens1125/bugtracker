@@ -6,27 +6,34 @@ const DemoUserSignin = () => {
   const { signIn, error, isLoading } = useLogin();
   const navigate = useNavigate();
   const SignInAsDemoDeveloper = async () => {
-    await signIn(
+    let response = await signIn(
       process.env.REACT_APP_DEMO_DEVELOPER_EMAIL,
       process.env.REACT_APP_DEMO_DEVELOPER_PASSWORD
     );
-    navigate("/");
+    if (response.ok) {
+      navigate("/");
+    }
   };
 
   const SignInAsDemoAdmin = async () => {
-    await signIn(
+    let response = await signIn(
       process.env.REACT_APP_DEMO_ADMIN_EMAIL,
       process.env.REACT_APP_DEMO_ADMIN_PASSWORD
     );
-    navigate("/");
+    if (response.ok) {
+      navigate("/");
+    }
   };
 
   const SignInAsDemoPM = async () => {
-    await signIn(
+    let response = await signIn(
       process.env.REACT_APP_DEMO_PM_EMAIL,
       process.env.REACT_APP_DEMO_PM_PASSWORD
     );
-    navigate("/");
+
+    if (response.ok) {
+      navigate("/");
+    }
   };
 
   // const SignInAsDemoReviewer = async () => {

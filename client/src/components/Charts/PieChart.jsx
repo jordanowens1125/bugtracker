@@ -5,10 +5,10 @@ const PieChart = ({ data /* see data tab */ }) => {
   return (
     <ResponsivePie
       data={data}
-      margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
-      innerRadius={0.5}
-      padAngle={0.9}
-      cornerRadius={3}
+      margin={{ top: 80, right: 50, bottom: 80, left: 50 }}
+      innerRadius={0.65}
+      padAngle={4}
+      cornerRadius={1.5}
       activeOuterRadiusOffset={8}
       borderWidth={1}
       borderColor={{
@@ -18,8 +18,10 @@ const PieChart = ({ data /* see data tab */ }) => {
       arcLinkLabelsSkipAngle={10}
       arcLinkLabelsTextColor="#333333"
       arcLinkLabelsThickness={2}
+      arcLinkLabelsStraightLength={9}
+      arcLinkLabelsDiagonalLength={9}
       arcLinkLabelsColor={{ from: "color" }}
-      arcLabelsSkipAngle={10}
+      arcLabelsSkipAngle={20}
       arcLabelsTextColor={{
         from: "color",
         modifiers: [["darker", 2]],

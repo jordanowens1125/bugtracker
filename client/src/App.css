@@ -438,7 +438,7 @@ button:disabled:hover {
 }
 
 .mobile-display .bottom {
-  flex: 90%;
+  flex-basis:1 1 0;
   align-items: center;
   justify-content: center;
   display: flex;
@@ -794,7 +794,6 @@ input:checked + .slider:before {
   .page {
     display: flex;
     flex-direction: column;
-    /* height: fit-content; */
     text-align: center;
   }
 }
