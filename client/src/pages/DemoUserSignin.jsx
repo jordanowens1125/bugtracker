@@ -48,7 +48,7 @@ const DemoUserSignin = () => {
     <div className="full-height page text-align flex-column aic jcc">
       <h1 className="primary">Login as Demo User</h1>
       {error && <span className="error full-width text-align">{error}</span>}
-      <div className="max-w-lg flex">
+      <div className="max-w-lg flex mobile-column">
         <button
           className="button-secondary"
           onClick={SignInAsDemoDeveloper}

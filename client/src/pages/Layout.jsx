@@ -124,42 +124,42 @@ const Navbar = () => {
 
       {/* Mobile */}
       <div className="mobile" id="mobile-display">
-          {user && (
-            <>
-              {mobile ? (
-                <>
-                  <nav className="mobile-nav" onClick={handleMobileClose}>
-                    {user && (
-                      <>
-                        <div className="flex-column space-around aic jcc full-height full-width">
-                          <a href="/">Dashboard</a>
-                          <a href="/Projects">Projects</a>
-                          <a href="/Bugs">Bugs</a>
-                          {user.role === "Admin" && (
-                            <>
-                              <a href="/createproject">Create Project</a>
-                              <a href="/manageusers">Manage User Roles</a>
-                              <a href="/createuser">Add User</a>
-                              <a href="/deleteusers">Delete Users</a>
-                            </>
-                          )}
-                          <span onClick={logOut} className="p-sm">
-                            Log Out
-                          </span>
-                        </div>
-                      </>
-                    )}
-                  </nav>
-                </>
-              ) : (
-                <>
-                  <div className="open-mobile-nav" onClick={handleMobileOpen}>
-                    Menu item to open mobile nav
-                  </div>
-                </>
-              )}
-            </>
-          )}
+        {user && (
+          <>
+            {mobile ? (
+              <>
+                <nav className="mobile-nav" onClick={handleMobileClose}>
+                  {user && (
+                    <>
+                      <div className="flex-column space-around aic jcc full-height full-width">
+                        <a href="/">Dashboard</a>
+                        <a href="/Projects">Projects</a>
+                        <a href="/Bugs">Bugs</a>
+                        {user.role === "Admin" && (
+                          <>
+                            <a href="/createproject">Create Project</a>
+                            <a href="/manageusers">Manage User Roles</a>
+                            <a href="/createuser">Add User</a>
+                            <a href="/deleteusers">Delete Users</a>
+                          </>
+                        )}
+                        <span onClick={logOut} className="p-sm primary .a">
+                          Log Out
+                        </span>
+                      </div>
+                    </>
+                  )}
+                </nav>
+              </>
+            ) : (
+              <>
+                <div className="open-mobile-nav" onClick={handleMobileOpen}>
+                  Menu item to open mobile nav
+                </div>
+              </>
+            )}
+          </>
+        )}
         {/* Popup to show status or crud operations  */}
         {/* <Snackbar
           open={messageInfo.open}
