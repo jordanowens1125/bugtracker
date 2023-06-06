@@ -175,7 +175,7 @@ const Navbar = () => {
             {messageInfo.text}
           </Alert>
         </Snackbar> */}
-        <div className="bottom flex-column aic jcc p-md">
+        <div className="bottom full-height">
           <Outlet />
         </div>
       </div>
