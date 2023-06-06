@@ -104,12 +104,15 @@ const CreateProject = () => {
   };
 
   return (
-    <form className="create-project page" onSubmit={handleFormSubmit}>
+    <form
+      className="create-project page mobile-column full-width"
+      onSubmit={handleFormSubmit}
+    >
       <span className="header">
-        <a href="/projects">See all projects</a>
+        <a href="/projects">See All Projects</a>
         <h1>Create Project</h1>
       </span>
-      <span className="title flex-column">
+      <span className="title flex-column full-width">
         <label htmlFor="title">Title:</label>
         <input
           type="text"
@@ -118,9 +121,10 @@ const CreateProject = () => {
           value={formInputData.title}
           onChange={handleInputChange}
           placeholder={`Character limit is ${MAX_TITLE_LENGTH}...`}
+          className="full-width"
         />
       </span>
-      <div className="flex-column description full-height">
+      <div className="flex-column description full-height full-width">
         <label htmlFor="description">Description:</label>
         <textarea
           required
@@ -133,7 +137,7 @@ const CreateProject = () => {
           placeholder={`Character limit is ${MAX_DESCRIPTION_LENGTH}...`}
         />
       </div>
-      <span className="info flex-column gap-md">
+      <span className="info flex-column gap-md full-width">
         <span className="flex-column gap-lg">
           <span className="flex-column">
             <label htmlFor="startDate">Start:</label>
@@ -169,7 +173,7 @@ const CreateProject = () => {
         </span>
       </span>
 
-      <div className="h-lg  available">
+      <div className="h-lg  available full-width">
         <table className="full-width">
           <caption>Available</caption>
           <thead>
@@ -214,7 +218,7 @@ const CreateProject = () => {
           </tbody>
         </table>
       </div>
-      <div className="h-lg  selected">
+      <div className="h-lg  selected full-width">
         <table className="full-width">
           <caption>Selected</caption>
           <thead>
@@ -257,7 +261,7 @@ const CreateProject = () => {
           </tbody>
         </table>
       </div>
-      <span className="submit flex space-between flex-end">
+      <span className="submit flex space-between flex-end full-width">
         <button className="button-secondary" onClick={reset} type="button">
           Reset
         </button>

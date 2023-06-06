@@ -3,6 +3,8 @@ import PieChart from "../Charts/PieChart";
 import api from "../../api/index";
 import dayjs from "dayjs";
 import useAuthContext from "../../hooks/useAuthContext";
+import NoData from "../Shared/NoData";
+import NoProject from "../Shared/NoProject";
 
 const DeveloperDashboard = () => {
   const { user } = useAuthContext();
@@ -77,22 +79,13 @@ const DeveloperDashboard = () => {
               <a href={`/projects/${project._id}`}>{project.title}</a>
             </h2>
           </i>
-          <div className="flex mobile-column full-width aic jcc">
-            <div className="flex-column aic text-align">
-              <i className="full-width chart-header">Priority</i>
-              <div className="chart">
-                <PieChart data={priority} />
-              </div>
-            </div>
-            <div className="flex-column aic text-align">
-              <i className="full-width chart-header">Status</i>
-              <div className="chart">
-                <PieChart data={status} />
-              </div>
-            </div>
-          </div>
+
           {bugs.length > 0 ? (
             <>
+              <div className="flex mobile-column full-width aic jcc">
+                <PieChart data={priority} header={"Priority"} />
+                <PieChart data={status} header={"Status"} />
+              </div>
               <div className="full-width  aic jcc text-align">
                 <p className="caption">Assigned Bugs</p>
               </div>
@@ -128,11 +121,13 @@ const DeveloperDashboard = () => {
               </div>
             </>
           ) : (
-            <>No bugs assigned</>
+            <>
+              <NoData />
+            </>
           )}
         </>
       )}
-      {!project && <>No Project Currently Assigned</>}
+      {!project && <NoProject />}
     </main>
   );
 };

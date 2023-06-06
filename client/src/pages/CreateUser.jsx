@@ -27,7 +27,7 @@ const CreateUser = () => {
     }
   };
   return (
-    <form className="page flex-column max-w-lg" onSubmit={handleSubmit}>
+    <form className="flex-column max-w-lg mobile-column p-top-md" onSubmit={handleSubmit}>
       <h1> Create User</h1>
       <label htmlFor="Name">Name:</label>
       <input

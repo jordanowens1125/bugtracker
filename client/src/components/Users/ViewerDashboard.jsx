@@ -1,15 +1,11 @@
 import React from 'react'
-// import  Button  from '@mui/material/Button';
 import { useEffect } from 'react';
 
 const ViewerDashboard = () => {
-    // const handleRequest = () => {
-        
-    // }
     useEffect(()=>{})
     return (
       <>
-        <div>Viewer Dashboard</div>
+        <h1>Viewer Dashboard</h1>
         <div>
           <p>
             You are currently unassigned to any projects because you are only a

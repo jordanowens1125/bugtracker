@@ -61,7 +61,6 @@ const Project = () => {
   }, [projectID]);
   return (
     <>
-      
       <ProjectDashboard
         project={project}
         createBugMode={createBugMode}

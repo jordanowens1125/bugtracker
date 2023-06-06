@@ -1,11 +1,20 @@
 import api from "../api";
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
+import NoData from "../components/Shared/NoData";
 
 const Bugs = () => {
   const [bugs, setBugs] = useState([]);
-  const hasBugs = bugs.length > 0;
 
+  const [input, setInput] = useState("");
+  const handleInputChange = (e) => {
+    setInput(e.currentTarget.value);
+  };
+  const filtered = bugs.filter((project) => {
+    const capitalizedTitle = project.title.toUpperCase();
+    return capitalizedTitle.includes(input.toUpperCase());
+  });
+  const hasBugs = filtered.length > 0;
   useEffect(() => {
     const fetchData = async () => {
       const response = await api.bugs.fetchBugs();
@@ -15,15 +24,23 @@ const Bugs = () => {
   }, []);
   return (
     <>
-      <div className="flex-column gap-md page">
+      <div className="flex-column gap-md page mobile-column">
         <h1>Bugs</h1>
-        {hasBugs ? (
-          <>
-            <div className="flex-column gap-md">
-              <span className="flex gap-md">
-                <input type="text" placeholder="Search for bug..." />
-                <button className="button-secondary">Clear</button>
-              </span>
+
+        <div className="flex-column gap-md mobile-column">
+          <span className="flex gap-md">
+            <input
+              type="text"
+              placeholder="Search By Title..."
+              value={input}
+              onChange={handleInputChange}
+            />
+            <button className="button-secondary" onClick={() => setInput("")}>
+              Clear
+            </button>
+          </span>
+          {hasBugs ? (
+            <>
               <div className="overflow-x only-full-width">
                 <table className="padding-md full-width">
                   <thead>
@@ -38,7 +55,7 @@ const Bugs = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {bugs.map((bug) => (
+                    {filtered.map((bug) => (
                       <tr key={bug._id}>
                         <td>{bug.title}</td>
                         <td>{bug.description}</td>
@@ -54,11 +71,11 @@ const Bugs = () => {
                   </tbody>
                 </table>
               </div>
-            </div>
-          </>
-        ) : (
-          <h1>No Bugs</h1>
-        )}
+            </>
+          ) : (
+            <NoData />
+          )}
+        </div>
       </div>
     </>
   );

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PieChart from "../Charts/PieChart";
 import api from "../../api/index";
 import useAuthContext from "../../hooks/useAuthContext";
+import NoData from "../Shared/NoData";
 
 const AdminDashboard = () => {
   const { user } = useAuthContext();
@@ -118,73 +119,58 @@ const AdminDashboard = () => {
   }, []);
 
   return (
-    <main className="flex-column aic page border">
+    <main className="flex-column aic page">
       <h1>Welcome, {user.name}</h1>
-      <h3>Tickets: {bugs.length}</h3>
-      <div className="flex mobile-column full-width space-between">
-        <div className="flex-column aic text-align">
-          <i className="full-width chart-header">Projects</i>
-          <div className="chart">
-            <PieChart data={bugsByProject} />
+      {bugs.length > 0 ? (
+        <>
+          <h3>Tickets: {bugs.length}</h3>
+          <div className="flex mobile-column full-width space-between aic">
+            <PieChart data={bugsByProject} header={"Projects"} />
+            <PieChart data={priority} header={"Priority"} />
+            <PieChart data={status} header={"Status"} />
+            <PieChart data={dev} header={"Assigned To"} />
           </div>
-        </div>
-
-        <div className="flex-column aic text-align">
-          <i className="full-width chart-header">Priority</i>
-          <div className="chart">
-            <PieChart data={priority} />
+          <div className="full-width  aic jcc text-align">
+            <p className="caption">Tasks Activity</p>
           </div>
-        </div>
-
-        <div className="flex-column aic text-align">
-          <i className="full-width chart-header">Status</i>
-          <div className="chart">
-            <PieChart data={status} />
+          <div className="overflow-x only-full-width">
+            <table className="p-sm">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Project</th>
+                  <th>Assigned To</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {bugs.map((bug) => (
+                  <tr key={bug._id}>
+                    <td>{bug.title}</td>
+                    <td>{bug.description}</td>
+                    <td>{bug.priority}</td>
+                    <td>{bug.status}</td>
+                    <td>{bug.projectID.title}</td>
+                    <td>
+                      {bug.assignedTo ? <>{bug.assignedTo.name}</> : <>N/A</>}
+                    </td>
+                    <td className="flex-column gap-md">
+                      <a href={`/bugs/${bug._id}`}> See Details</a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        </div>
-
-        <div className="flex-column aic text-align">
-          <i className="full-width chart-header">Assigned To</i>
-          <div className="chart">
-            <PieChart data={dev} />
-          </div>
-        </div>
-      </div>
-      <div className="full-width  aic jcc text-align">
-        <p className="caption">Tasks Activity</p>
-      </div>
-      <div className="overflow-x only-full-width">
-        <table className="p-sm">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Priority</th>
-              <th>Status</th>
-              <th>Project</th>
-              <th>Assigned To</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {bugs.map((bug) => (
-              <tr key={bug._id}>
-                <td>{bug.title}</td>
-                <td>{bug.description}</td>
-                <td>{bug.priority}</td>
-                <td>{bug.status}</td>
-                <td>{bug.projectID.title}</td>
-                <td>
-                  {bug.assignedTo ? <>{bug.assignedTo.name}</> : <>N/A</>}
-                </td>
-                <td className="flex-column gap-md">
-                  <a href={`/bugs/${bug._id}`}> See Details</a>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+        </>
+      ) : (
+        <>
+          <NoData />
+        </>
+      )}
     </main>
   );
 };

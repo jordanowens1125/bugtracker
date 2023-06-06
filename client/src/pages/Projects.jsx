@@ -14,7 +14,6 @@ const Projects = () => {
     <>
       <div className="flex-column gap-md page">
         <h1>Projects</h1>
-        {/* <p>{projects.length}</p> */}
         <ProjectsTable projects={projects} />
       </div>
     </>

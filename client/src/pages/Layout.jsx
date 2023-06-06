@@ -112,7 +112,9 @@ const Navbar = () => {
               <button className="button-primary" onClick={handleAlertClose}>
                 Close
               </button>
-              {messageInfo.text}
+              <div className="only-60-width text-align">
+                <p> {messageInfo.text}</p>
+              </div>
             </div>
           </>
         )}
@@ -132,6 +134,7 @@ const Navbar = () => {
                   {user && (
                     <>
                       <div className="flex-column space-around aic jcc full-height full-width">
+                        <button className="button-ghost" onClick={()=>setMobileOpen(false)}>Close</button>
                         <a href="/">Dashboard</a>
                         <a href="/Projects">Projects</a>
                         <a href="/Bugs">Bugs</a>
@@ -152,31 +155,26 @@ const Navbar = () => {
                 </nav>
               </>
             ) : (
-              <>
-                <div className="open-mobile-nav" onClick={handleMobileOpen}>
-                  Menu item to open mobile nav
-                </div>
-              </>
+              <div className="open-mobile-nav" onClick={handleMobileOpen}>
+                Menu item to open mobile nav
+              </div>
             )}
           </>
         )}
-        {/* Popup to show status or crud operations  */}
-        {/* <Snackbar
-          open={messageInfo.open}
-          autoHideDuration={4000}
-          onClose={handleAlertClose}
-        >
-          <Alert
-            onClose={handleAlertClose}
-            variant="filled"
-            severity="success"
-            sx={{ width: "100%" }}
-          >
-            {messageInfo.text}
-          </Alert>
-        </Snackbar> */}
         <div className="bottom full-height">
           <Outlet />
+          {messageInfo.open && (
+            <>
+              <div className="noti">
+                <button className="button-primary" onClick={handleAlertClose}>
+                  Close
+                </button>
+                <div className="only-60-width text-align">
+                  <p> {messageInfo.text}</p>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>

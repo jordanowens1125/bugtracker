@@ -40,7 +40,7 @@ const Bug = () => {
       setBug(bug);
       setUpdattedBug(bug);
       //only developers
-      setUsers(request.members.filter(user=>user.role==='Developer'));
+      setUsers(request.members.filter((user) => user.role === "Developer"));
       if (bug.assignedTo) {
         setIndex(findUser(request.bug.assignedTo, request.members));
       }
@@ -83,147 +83,149 @@ const Bug = () => {
 
   return (
     <>
-      <a href={`/projects/${bug.projectID?._id || "-"}`} className="p-none">
-        Go to bug project
-      </a>
-      <div className="bug-page full-width page">
-        {bug && (
-          <>
-            <section className="p-md gap-md flex-column mobile-column jcc">
-              {editMode ? (
-                <>
-                  <form
-                    className="flex-column full-width"
-                    onSubmit={handleSubmit}
-                  >
-                    <label htmlFor="title">Title: </label>
-                    <input
-                      type="text"
-                      placeholder="Title..."
-                      value={updattedBug.title}
-                      onChange={handleInputChange}
-                      name="title"
-                    />
-                    <label htmlFor="title">Assigned To: </label>
-                    <select
-                      name="assignedTo"
-                      value={index}
-                      onChange={handleInputChange}
+      <div className="page mobile-column aic">
+        <a href={`/projects/${bug.projectID?._id || "-"}`} className="p-top-lg">
+          Go To Bug Project
+        </a>
+        <div className="bug-page full-width page">
+          {bug && (
+            <>
+              <section className="p-md gap-md flex-column mobile-column jcc">
+                {editMode ? (
+                  <>
+                    <form
+                      className="flex-column full-width"
+                      onSubmit={handleSubmit}
                     >
-                      {users.length > 0 ? (
-                        <>
-                          <option value={-1}>Not Assigned</option>
-                          {users.map((user, index) => {
-                            return (
-                              <option key={user._id} value={index}>
-                                {user.name}
-                              </option>
-                            );
-                          })}
-                        </>
-                      ) : (
-                        <>
-                          <option value="">No users</option>
-                        </>
+                      <label htmlFor="title">Title: </label>
+                      <input
+                        type="text"
+                        placeholder="Title..."
+                        value={updattedBug.title}
+                        onChange={handleInputChange}
+                        name="title"
+                      />
+                      <label htmlFor="title">Assigned To: </label>
+                      <select
+                        name="assignedTo"
+                        value={index}
+                        onChange={handleInputChange}
+                      >
+                        {users.length > 0 ? (
+                          <>
+                            <option value={-1}>Not Assigned</option>
+                            {users.map((user, index) => {
+                              return (
+                                <option key={user._id} value={index}>
+                                  {user.name}
+                                </option>
+                              );
+                            })}
+                          </>
+                        ) : (
+                          <>
+                            <option value="">No users</option>
+                          </>
+                        )}
+                      </select>
+                      <label htmlFor="title">Description: </label>
+                      <textarea
+                        type="text"
+                        rows="4"
+                        value={updattedBug.description}
+                        onChange={handleInputChange}
+                        name="description"
+                      />
+                      <label htmlFor="title">Priority: </label>
+                      <select
+                        name="priority"
+                        value={updattedBug.priority}
+                        onChange={handleInputChange}
+                      >
+                        {priorities.map((priority) => {
+                          return (
+                            <option value={priority} key={priority}>
+                              {priority}
+                            </option>
+                          );
+                        })}
+                      </select>
+                      <label htmlFor="title">Status: </label>
+                      <select
+                        name="status"
+                        value={updattedBug.status}
+                        onChange={handleInputChange}
+                      >
+                        {statusList.map((status) => {
+                          return (
+                            <option value={status} key={status}>
+                              {status}
+                            </option>
+                          );
+                        })}
+                      </select>
+                      <label htmlFor="openDate">Start:</label>
+                      <input
+                        type="date"
+                        name="openDate"
+                        id="openDate"
+                        value={dayjs(updattedBug.openDate).format("YYYY-MM-DD")}
+                        onChange={handleInputChange}
+                      />
+                      <label htmlFor="deadline">Deadline:</label>
+                      <input
+                        type="date"
+                        name="deadline"
+                        id="deadline"
+                        value={dayjs(updattedBug.deadline).format("YYYY-MM-DD")}
+                        onChange={handleInputChange}
+                      />
+                      <span className="flex gap-md space-between">
+                        <button
+                          className="button-secondary"
+                          type="button"
+                          onClick={reset}
+                        >
+                          Cancel
+                        </button>
+                        <button className="button-primary" type="submit">
+                          Submit
+                        </button>
+                      </span>
+                    </form>
+                  </>
+                ) : (
+                  <>
+                    {/* Only admin and project managers can change these */}
+                    <h1>Title: {bug.title}</h1>
+                    <p>Description: {bug.description}</p>
+                    {/*  */}
+                    <p>Project Title: {bug.projectID.title}</p>
+                    <p>Assigned To: {bug.assignedTo?.name || "Not Assigned"}</p>
+                    <p>Priority: {bug.priority}</p>
+                    <p>Status: {bug.status}</p>
+                    <p>Start: {dayjs(bug.openDate).format("YYYY-MM-DD")}</p>
+                    <p>Deadline: {dayjs(bug.deadline).format("YYYY-MM-DD")}</p>
+                    <span>
+                      {canEdit && (
+                        <button
+                          className="button-secondary"
+                          onClick={() => setEditMode(true)}
+                        >
+                          Edit
+                        </button>
                       )}
-                    </select>
-                    <label htmlFor="title">Description: </label>
-                    <textarea
-                      type="text"
-                      rows="4"
-                      value={updattedBug.description}
-                      onChange={handleInputChange}
-                      name="description"
-                    />
-                    <label htmlFor="title">Priority: </label>
-                    <select
-                      name="priority"
-                      value={updattedBug.priority}
-                      onChange={handleInputChange}
-                    >
-                      {priorities.map((priority) => {
-                        return (
-                          <option value={priority} key={priority}>
-                            {priority}
-                          </option>
-                        );
-                      })}
-                    </select>
-                    <label htmlFor="title">Status: </label>
-                    <select
-                      name="status"
-                      value={updattedBug.status}
-                      onChange={handleInputChange}
-                    >
-                      {statusList.map((status) => {
-                        return (
-                          <option value={status} key={status}>
-                            {status}
-                          </option>
-                        );
-                      })}
-                    </select>
-                    <label htmlFor="openDate">Start:</label>
-                    <input
-                      type="date"
-                      name="openDate"
-                      id="openDate"
-                      value={dayjs(updattedBug.openDate).format("YYYY-MM-DD")}
-                      onChange={handleInputChange}
-                    />
-                    <label htmlFor="deadline">Deadline:</label>
-                    <input
-                      type="date"
-                      name="deadline"
-                      id="deadline"
-                      value={dayjs(updattedBug.deadline).format("YYYY-MM-DD")}
-                      onChange={handleInputChange}
-                    />
-                    <span className="flex gap-md space-between">
-                      <button
-                        className="button-secondary"
-                        type="button"
-                        onClick={reset}
-                      >
-                        Cancel
-                      </button>
-                      <button className="button-primary" type="submit">
-                        Submit
-                      </button>
                     </span>
-                  </form>
-                </>
-              ) : (
-                <>
-                  {/* Only admin and project managers can change these */}
-                  <h1>Title: {bug.title}</h1>
-                  <p>Description: {bug.description}</p>
-                  {/*  */}
-                  <p>Project Title: {bug.projectID.title}</p>
-                  <p>Assigned To: {bug.assignedTo?.name || "Not Assigned"}</p>
-                  <p>Priority: {bug.priority}</p>
-                  <p>Status: {bug.status}</p>
-                  <p>Start: {dayjs(bug.openDate).format("YYYY-MM-DD")}</p>
-                  <p>Deadline: {dayjs(bug.deadline).format("YYYY-MM-DD")}</p>
-                  <span>
-                    {canEdit && (
-                      <button
-                        className="button-secondary"
-                        onClick={() => setEditMode(true)}
-                      >
-                        Edit
-                      </button>
-                    )}
-                  </span>
-                </>
-              )}
-            </section>
-            <div className="h-xl overflow-y comments-section">
-              <BugComments bug={bug} />
-            </div>
-          </>
-        )}
-        {!bug && <>No bug found</>}
+                  </>
+                )}
+              </section>
+              <div className="h-xl overflow-y comments-section">
+                <BugComments bug={bug} />
+              </div>
+            </>
+          )}
+          {!bug && <>No bug found</>}
+        </div>
       </div>
     </>
   );

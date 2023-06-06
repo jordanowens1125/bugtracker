@@ -56,7 +56,7 @@ const DeleteUsers = () => {
     let [ids, newUsers] = convertListToIDs();
     const response = await api.users.deleteUsers(user, ids);
     if (response.status === 200) {
-      dispatch(setMessage(`${count} user/users successfully deleted.`));
+      dispatch(setMessage(`Successfully deleted ${count} user/users .`));
       setCount(0);
       setFiltered(newUsers);
     } else {
@@ -64,7 +64,7 @@ const DeleteUsers = () => {
   };
   return (
     <main className="page flex-column gap-md">
-      <span className="flex aic space-between">
+      <span className="flex aic space-between mobile-column">
         <h1>Delete Users</h1>
         <i>
           Selected Users :{" "}
@@ -92,6 +92,8 @@ const DeleteUsers = () => {
               <th>Name</th>
               <th>Email</th>
               <th>Role</th>
+              <th>Project</th>
+                    <th className="text-align">Bug Count</th>
             </tr>
           </thead>
           <tbody>
@@ -110,6 +112,8 @@ const DeleteUsers = () => {
                       <td>{user.name}</td>
                       <td>{user.email}</td>
                       <td>{user.role}</td>
+                      <td>{user.project?.title || ""}</td>
+                        <td className="text-align">{user.assignedBugs.length || 0}</td>
                     </tr>
                   );
                 })}

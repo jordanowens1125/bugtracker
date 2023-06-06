@@ -1,21 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import useAuthContext from "../../hooks/useAuthContext";
+import NoData from '../Shared/NoData'
 
 const ProjectsTable = ({ projects }) => {
-  const hasProjects = projects.length > 0;
   const { user } = useAuthContext();
-  const isAdmin = user.role === "Admin";
+  const [input, setInput] = useState("");
+  const CanManageMembers =
+    user.role === "Admin" || user.role === "Project Manager";
+  const filtered = projects.filter((project) => {
+    const capitalizedTitle = project.title.toUpperCase();
+    return capitalizedTitle.includes(input.toUpperCase());
+  });
+  const hasProjects = filtered.length > 0;
+  const handleInputChange = (e) => {
+    setInput(e.currentTarget.value);
+  };
   useEffect(() => {}, [projects]);
   return (
     <>
-      {hasProjects ? (
-        <>
-          <div className="flex-column gap-md">
-            <span className="flex gap-md">
-              <input type="text" placeholder="Search for project" />
-              <button className="button-secondary">Clear</button>
-            </span>
+      <div className="flex-column gap-md mobile-column page">
+        <span className="flex gap-md mobile-column">
+          <input
+            type="text"
+            placeholder="Search By Project Title"
+            value={input}
+            onChange={handleInputChange}
+          />
+          <button className="button-secondary" onClick={() => setInput("")}>
+            Clear
+          </button>
+        </span>
+        {hasProjects ? (
+          <>
             <div className="overflow-x only-full-width">
               <table className="padding-md full-width">
                 <thead>
@@ -26,13 +43,13 @@ const ProjectsTable = ({ projects }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {projects.map((project) => (
+                  {filtered.map((project) => (
                     <tr key={project._id}>
                       <td>{project.title}</td>
                       <td>{project.description}</td>
                       <td className="flex-column gap-md">
                         <a href={`/projects/${project._id}`}> See Details</a>
-                        {isAdmin && (
+                        {CanManageMembers && (
                           <a href={`/projects/${project._id}/managemembers`}>
                             Manage Members
                           </a>
@@ -43,11 +60,11 @@ const ProjectsTable = ({ projects }) => {
                 </tbody>
               </table>
             </div>
-          </div>
-        </>
-      ) : (
-        "No projects"
-      )}
+          </>
+        ) : (
+          <NoData title={"Projects"} />
+        )}
+      </div>
     </>
   );
 };
