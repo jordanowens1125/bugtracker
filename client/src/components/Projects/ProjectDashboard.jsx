@@ -40,7 +40,7 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
     setEdit(edit);
     setEditMode(false);
     dispatch(
-      setMessage(`Project ${project.title} has been successfully edited!`)
+      setMessage(`Project ${edit.title} has been successfully edited!`)
     );
   };
 
