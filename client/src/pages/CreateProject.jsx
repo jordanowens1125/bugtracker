@@ -85,7 +85,6 @@ const CreateProject = () => {
   };
 
   const addUser = (user, index) => {
-    console.log(index);
     const copy = structuredClone(formInputData);
     const copyAvailable = [...available];
     copyAvailable.splice(index, 1);
@@ -173,7 +172,7 @@ const CreateProject = () => {
         </span>
       </span>
 
-      <div className="h-lg  available full-width">
+      <div className="h-lg  available only-full-width">
         <table className="full-width">
           <caption>Available</caption>
           <thead>
@@ -218,7 +217,7 @@ const CreateProject = () => {
           </tbody>
         </table>
       </div>
-      <div className="h-lg  selected full-width">
+      <div className="h-lg  selected only-full-width">
         <table className="full-width">
           <caption>Selected</caption>
           <thead>
