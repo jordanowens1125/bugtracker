@@ -116,7 +116,7 @@ const ProjectManagerDashboard = () => {
             </i>
           </div>
           <h3>Tickets: {bugs.length}</h3>
-          <div className="flex mobile-column full-width space-between">
+          <div className="flex mobile-column full-width aic jcc gap-md">
             <PieChart data={priority} header={"Priority"} />
 
             <PieChart data={status} header={"Status"} />

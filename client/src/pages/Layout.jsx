@@ -154,6 +154,9 @@ const Navbar = () => {
                             <a href="/deleteusers">Delete Users</a>
                           </>
                         )}
+                        {user.role === "Project Manager" && (
+                          <a href="/createproject">Create Project</a>
+                        )}
                         <span onClick={logOut} className="p-sm primary .a">
                           Log Out
                         </span>

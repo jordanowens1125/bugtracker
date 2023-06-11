@@ -34,7 +34,7 @@ const ProjectsTable = ({ projects }) => {
         {hasProjects ? (
           <>
             <div className="overflow-x only-full-width">
-              <table className="padding-md full-width">
+              <table className="p-md full-width">
                 <thead>
                   <tr>
                     <th>Title</th>
