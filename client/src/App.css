@@ -845,7 +845,7 @@ svg {
     display: flex;
     flex-direction: column;
     text-align: center;
-    padding: 5px;
+    padding: 10px;
   }
   .noti {
     width: 90%;
