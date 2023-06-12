@@ -27,7 +27,7 @@ const CreateUser = () => {
   };
   return (
     <form
-      className="flex-column max-w-lg mobile-column p-top-md"
+      className="flex-column max-w-lg mobile-column page"
       onSubmit={handleSubmit}
     >
       <h1> Create User</h1>
@@ -37,6 +37,7 @@ const CreateUser = () => {
         value={name}
         onChange={(e) => setName(e.currentTarget.value)}
         required
+        className="full-width"
       />
       <label htmlFor="Email">Email:</label>
       <input
@@ -44,33 +45,34 @@ const CreateUser = () => {
         value={email}
         onChange={(e) => setEmail(e.currentTarget.value)}
         required
-        className=""
+        className="full-width"
       />
       <label htmlFor="Password">Password:</label>
-      <div className="flex gap-0 relative">
-            <input
-              type={viewPassword ? "text" : "password"}
-              required
-              value={password}
-              onChange={(e) => setPassword(e.currentTarget.value)}
-              aria-label="Password"
-              className="grow"
-            />
-            <button
-              type="button"
-              onClick={() => setViewPassword(!viewPassword)}
-              className="password-view flex aic jcc"
-            >
-              {viewPassword ? <Eye /> : <EyeHide />}
-            </button>
-          </div>
+      <div className="flex full-width gap-0 jcc">
+        <input
+          type={viewPassword ? "text" : "password"}
+          required
+          value={password}
+          onChange={(e) => setPassword(e.currentTarget.value)}
+          aria-label="Password"
+          className="grow"
+        />
+        <button
+          type="button"
+          onClick={() => setViewPassword(!viewPassword)}
+          className="password-view flex aic jcc"
+        >
+          {viewPassword ? <Eye /> : <EyeHide />}
+        </button>
+      </div>
       <label htmlFor="Role">User Role:</label>
-      <span>
+      <span className="full-width">
         <select
           name="Role"
           id="Role"
           onChange={(e) => setRole(e.currentTarget.value)}
           value={role}
+          className="full-width"
         >
           {roles.map((role) => (
             <option value={role} key={role}>
@@ -80,8 +82,12 @@ const CreateUser = () => {
         </select>
       </span>
       {error && <span className="error full-width text-align">{error}</span>}
-      <span>
-        <button type="submit" className="button-primary" disabled={isLoading}>
+      <span className="full-width">
+        <button
+          type="submit"
+          className="button-primary full-width"
+          disabled={isLoading}
+        >
           Create User
         </button>
       </span>

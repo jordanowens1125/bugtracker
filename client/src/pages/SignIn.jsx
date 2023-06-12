@@ -30,7 +30,7 @@ const SignIn = () => {
             className="full-width"
           />
           <label htmlFor="Password:">Password:</label>
-          <div className="flex full-width gap-0 aic jcc">
+          <div className="flex full-width gap-0 jcc">
             <input
               type={viewPassword ? "text" : "password"}
               required
