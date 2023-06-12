@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
+import Eye from "../assets/Eye";
+import EyeHide from "../assets/EyeHide";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signIn, error, isLoading } = useLogin();
-  // const [error, setError] = useState("");
+  const [viewPassword, setViewPassword] = useState(false);
   const submit = async (e) => {
     e.preventDefault();
     await signIn(email, password);
@@ -28,14 +30,24 @@ const SignIn = () => {
             className="full-width"
           />
           <label htmlFor="Password:">Password:</label>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.currentTarget.value)}
-            aria-label="Password"
-            className="full-width"
-          />
+          <div className="flex full-width gap-0 aic jcc">
+            <input
+              type={viewPassword ? "text" : "password"}
+              required
+              value={password}
+              onChange={(e) => setPassword(e.currentTarget.value)}
+              aria-label="Password"
+              className="grow"
+            />
+            <button
+              type="button"
+              onClick={() => setViewPassword(!viewPassword)}
+              className="password-view flex aic jcc"
+            >
+              {viewPassword ? <Eye /> : <EyeHide />}
+            </button>
+          </div>
+
           {error && (
             <span className="error full-width text-align">{error}</span>
           )}

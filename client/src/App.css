@@ -39,6 +39,10 @@ html {
   width: fit-content;
 }
 
+.relative {
+  position: relative;
+}
+
 a:-webkit-any-link {
   text-decoration: none;
   color: var(--primary-color);
@@ -208,6 +212,9 @@ a:-webkit-any-link {
   align-items: flex-end;
 }
 
+.gap-0 {
+  gap: 0;
+}
 .gap-md {
   gap: 10px;
 }
@@ -350,7 +357,7 @@ a,
   width: fit-content;
 }
 
-button:hover,
+button:not(.password-view):hover,
 .a:hover,
 a:hover {
   transform: scale(1.03);
@@ -384,6 +391,11 @@ button:disabled:hover {
   transform: unset;
 }
 
+.password-view:hover{
+  cursor: pointer;
+}
+
+/* End of button css */
 /* Background css */
 .primary-bg {
   background-color: var(--primary-color);
@@ -845,7 +857,7 @@ svg {
     display: flex;
     flex-direction: column;
     text-align: center;
-    padding: 5px;
+    padding: 10px;
   }
   .noti {
     width: 90%;

@@ -3,12 +3,15 @@ import { roles } from "../constants/user";
 import { useCreateUser } from "../hooks/createUser";
 import { useDispatch } from "react-redux";
 import { setMessage } from "../redux/actions/messageActions";
+import Eye from '../assets/Eye'
+import EyeHide from '../assets/EyeHide'
 
 const CreateUser = () => {
   const [role, setRole] = useState("Developer");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [viewPassword, setViewPassword] = useState(false);
   const { signup, error, isLoading } = useCreateUser();
   const dispatch = useDispatch();
 
@@ -16,18 +19,17 @@ const CreateUser = () => {
     e.preventDefault();
     const responseOk = await signup(email, password, role, name);
     if (responseOk) {
-      dispatch(
-        setMessage(
-          `${name} has been successfully created.`
-        )
-      );
-      setName('')
-      setEmail('')
-      setPassword('')
+      dispatch(setMessage(`${name} has been successfully created.`));
+      setName("");
+      setEmail("");
+      setPassword("");
     }
   };
   return (
-    <form className="flex-column max-w-lg mobile-column p-top-md" onSubmit={handleSubmit}>
+    <form
+      className="flex-column max-w-lg mobile-column p-top-md"
+      onSubmit={handleSubmit}
+    >
       <h1> Create User</h1>
       <label htmlFor="Name">Name:</label>
       <input
@@ -42,14 +44,26 @@ const CreateUser = () => {
         value={email}
         onChange={(e) => setEmail(e.currentTarget.value)}
         required
+        className=""
       />
       <label htmlFor="Password">Password:</label>
-      <input
-        type="text"
-        value={password}
-        onChange={(e) => setPassword(e.currentTarget.value)}
-        required
-      />
+      <div className="flex gap-0 relative">
+            <input
+              type={viewPassword ? "text" : "password"}
+              required
+              value={password}
+              onChange={(e) => setPassword(e.currentTarget.value)}
+              aria-label="Password"
+              className="grow"
+            />
+            <button
+              type="button"
+              onClick={() => setViewPassword(!viewPassword)}
+              className="password-view flex aic jcc"
+            >
+              {viewPassword ? <Eye /> : <EyeHide />}
+            </button>
+          </div>
       <label htmlFor="Role">User Role:</label>
       <span>
         <select
