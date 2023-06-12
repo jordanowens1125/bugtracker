@@ -29,6 +29,7 @@ app.use("/users", require("./routes/users"));
 app.use("/projects", require("./routes/projects"));
 app.use("/bugs", require("./routes/bugs"));
 app.use("/comments", require("./routes/comments"));
+app.use("/persist", require("./routes/persist"));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

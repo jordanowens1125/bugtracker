@@ -116,7 +116,7 @@ const AdminDashboard = () => {
       byDevs(request);
     };
     fetchBug();
-  }, []);
+  }, [user]);
 
   return (
     <main className="flex-column aic page">
@@ -155,7 +155,11 @@ const AdminDashboard = () => {
                     <td>{bug.status}</td>
                     <td>{bug.projectID.title}</td>
                     <td>
-                      {bug.assignedTo ? <>{bug.assignedTo.name}</> : <>Unassigned</>}
+                      {bug.assignedTo ? (
+                        <>{bug.assignedTo.name}</>
+                      ) : (
+                        <>Unassigned</>
+                      )}
                     </td>
                     <td className="flex-column gap-md">
                       <a href={`/bugs/${bug._id}`}> See Details</a>
