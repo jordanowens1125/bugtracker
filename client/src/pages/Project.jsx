@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { priorities, statusList } from "../constants/bug";
 import { useDispatch } from "react-redux";
 import { setMessage } from "../redux/actions/messageActions";
+import useAuthContext from "../hooks/useAuthContext";
 
 const initialBugState = {
   title: "",
@@ -22,12 +23,12 @@ const Project = () => {
   const [project, setProject] = useState("");
   const [createBugMode, setCreateBugMode] = useState(false);
   const [bug, setBug] = useState(initialBugState);
+  const { user } = useAuthContext();
   const dispatch = useDispatch();
-
   const addNewBug = async (e) => {
     e.preventDefault();
     bug.projectID = projectID;
-    const newBug = await api.bugs.createBug(bug);
+    const newBug = await api.bugs.createBug(user, bug);
     const copiedProject = { ...project };
     copiedProject.bugs.push(newBug);
     setProject(copiedProject);
@@ -49,13 +50,13 @@ const Project = () => {
   useEffect(() => {
     if (projectID && projectID !== "") {
       const fetchProjectDetails = async () => {
-        const fetchedproject = await api.projects.fetchProject(projectID);
+        const fetchedproject = await api.projects.fetchProject(user, projectID);
         //return 1 project
         setProject(fetchedproject.project);
       };
       fetchProjectDetails();
     }
-  }, [projectID]);
+  }, [projectID, user]);
   return (
     <>
       <div className="page mobile-column">

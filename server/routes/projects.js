@@ -9,6 +9,10 @@ const {
   updateMembers,
 } = require("../controllers/projects");
 
+//require auth 
+// const requireAuth = require('../middleware/requireAuth')
+// router.use(requireAuth)
+
 /* GET project listings. */
 router.get("/", getProjects);
 router.post("/create", createProject);

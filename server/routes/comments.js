@@ -8,6 +8,10 @@ const {
   updateComment,
 } = require("../controllers/comments");
 
+//require auth 
+// const requireAuth = require('../middleware/requireAuth')
+// router.use(requireAuth)
+
 /* GET users listing. */
 router.get("/:bugID", getComments);
 router.post("/create", createComment);

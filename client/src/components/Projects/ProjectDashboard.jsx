@@ -35,7 +35,7 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await api.projects.updateProjectInfo(project._id, edit);
+    await api.projects.updateProjectInfo(user, project._id, edit);
     setProjectDisplay(edit);
     setEdit(edit);
     setEditMode(false);
@@ -154,13 +154,7 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
                         ))}
                       </>
                     ) : (
-                      <>
-                        <tr>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                        </tr>
-                      </>
+                      <NoData />
                     )}
                   </tbody>
                 </table>

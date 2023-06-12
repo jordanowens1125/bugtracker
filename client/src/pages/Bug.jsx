@@ -35,7 +35,7 @@ const Bug = () => {
 
   useEffect(() => {
     const fetchBug = async () => {
-      const request = await api.bugs.fetchBug(id);
+      const request = await api.bugs.fetchBug(user, id);
       const bug = request.bug;
       setBug(bug);
       setUpdattedBug(bug);
@@ -46,7 +46,7 @@ const Bug = () => {
       }
     };
     fetchBug();
-  }, [id]);
+  }, [id, user]);
 
   const handleInputChange = (e) => {
     let value = e.currentTarget.value;
@@ -74,7 +74,7 @@ const Bug = () => {
     }
 
     bug.assignedTo = bug?.assignedTo?._id || undefined;
-    await api.bugs.updateBug(bug, updattedBug);
+    await api.bugs.updateBug(user, bug, updattedBug);
     updattedBug.assignedTo = users[index];
     setEditMode(false);
     setBug(updattedBug);
@@ -84,13 +84,17 @@ const Bug = () => {
   return (
     <>
       <div className="page mobile-column aic">
-        <a href={`/projects/${bug.projectID?._id || "-"}`} className="p-top-lg">
-          Go To Bug Project
-        </a>
-        <div className="bug-page full-width page">
+        <div className="bug-page full-width page mobile-column">
           {bug && (
             <>
-              <section className="p-md gap-md flex-column mobile-column jcc">
+              {" "}
+              
+              <section className="p-md gap-md flex-column mobile-column jcc"><a
+                href={`/projects/${bug.projectID?._id || "-"}`}
+                className="p-top-lg"
+              >
+                Go To Bug Project
+              </a>
                 {editMode ? (
                   <>
                     <form

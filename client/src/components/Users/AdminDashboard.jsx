@@ -108,7 +108,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const fetchBug = async () => {
-      const request = await api.bugs.fetchBugs();
+      const request = await api.bugs.fetchBugs(user);
       setBugs(request);
       groupedByProjects(request);
       byPriority(request);

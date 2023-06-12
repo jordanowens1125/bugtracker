@@ -72,10 +72,10 @@ const CreateProject = () => {
     if (validated) {
       const newInputValue = { ...formInputData };
       newInputValue["members"] = memberIds;
-      await api.projects.createProject(newInputValue);
+      await api.projects.createProject(user, newInputValue);
       dispatch(
         setMessage(
-          `Project ${newInputValue.title} has been successfully created`
+          `Project ${newInputValue.title} has been successfully created!`
         )
       );
       setSavedAvailable(available);

@@ -19,8 +19,7 @@ const seedDB = async () => {
     await Bug.deleteMany({});
     await Bug.insertMany(seedBugs);
 
-    await Comment.deleteMany({});
-    await Comment.insertMany(seedComments);
+     
 
     await Project.deleteMany({});
     await Project.insertMany(seedProjects);

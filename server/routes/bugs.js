@@ -9,7 +9,11 @@ const {
   getBugsByUser,
 } = require("../controllers/bugs");
 
-/* GET users listing. */
+//require auth 
+const requireAuth = require('../middleware/requireAuth')
+router.use(requireAuth)
+
+/* GET bugs listing. */
 router.get("/", getBugs);
 router.get("/user/:id", getBugsByUser);
 router.post("/create", createBug);

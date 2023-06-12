@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import api from "../api/index";
 import { useDispatch } from "react-redux";
 import { setMessage } from "../redux/actions/messageActions";
+import useAuthContext from "../hooks/useAuthContext";
 
 const ManageMembers = () => {
   const projectID = useParams().id;
@@ -12,16 +13,19 @@ const ManageMembers = () => {
   const [savedCurrent, setSavedCurrent] = useState([]);
   const [savedAvailable, setSavedAvailable] = useState([]);
   const [canSave, setCanSave] = useState(false);
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
+  const { user } = useAuthContext();
   useEffect(() => {
     if (projectID && projectID !== "") {
       const fetchProjectDetails = async () => {
-        const fetchedproject = await api.projects.fetchProject(projectID);
+        const fetchedproject = await api.projects.fetchProject(user, projectID);
         //console.log(fetchedproject);
         setProject(fetchedproject.project);
         const users = fetchedproject.availableMembers.filter(
-          (user) => user.role !== "Deleted" && user.role !== "Admin" && user !== 'Viewer'
+          (user) =>
+            user.role !== "Deleted" &&
+            user.role !== "Admin" &&
+            user !== "Viewer"
         );
         setAvailableMembers(users);
         setSavedAvailable(users);
@@ -30,7 +34,7 @@ const ManageMembers = () => {
       };
       fetchProjectDetails();
     }
-  }, [projectID]);
+  }, [projectID, user]);
 
   const removeUser = (user, index) => {
     const copyCurrent = [...currentMembers];
@@ -62,14 +66,12 @@ const ManageMembers = () => {
     if (canSave) {
       const oldIds = savedCurrent.map((item) => item._id);
       const newIds = currentMembers.map((item) => item._id);
-      await api.projects.updateMembers(projectID, oldIds, newIds);
+      await api.projects.updateMembers(user, projectID, oldIds, newIds);
       setSavedAvailable(availableMembers);
       setSavedCurrent(currentMembers);
       setCanSave(false);
       dispatch(
-        setMessage(
-          `Project ${project.title} has been successfully updated!`
-        )
+        setMessage(`Project ${project.title} has been successfully updated!`)
       );
     }
   };
@@ -78,7 +80,9 @@ const ManageMembers = () => {
     <>
       <div className="manage-members page">
         <div className="header flex-column mobile-column">
-          <a href={`/projects/${projectID}`} className="p-none">To Project Page</a>
+          <a href={`/projects/${projectID}`} className="p-none">
+            To Project Page
+          </a>
           <h3> Project: {project.title} </h3>
           <p>Description: {project.description}</p>
         </div>
