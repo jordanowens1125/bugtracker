@@ -12,7 +12,7 @@ const ManageUsers = () => {
   const [indexesToUpdate, setIndexesToUpdate] = useState({});
   const [count, setCount] = useState(0);
   const { user } = useAuthContext();
-  console.log(filtered);
+  
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async (user) => {
@@ -67,7 +67,6 @@ const ManageUsers = () => {
     <>
       <div className="page flex-column gap-md">
         <h1 className="header">Manage Users</h1>
-        <p className="caption ">All Users</p>
         <div className="flex aic space-between mobile-column jcc">
           {/* <span className="flex gap-md search mobile-column">
             <input type="text" placeholder="Search for member" />
@@ -77,7 +76,7 @@ const ManageUsers = () => {
           </span> */}
           <span className="flex gap-md aic mobile-column">
             <label htmlFor="Role" className="">
-              Role to be assigned to users:
+              New role to be assigned to selected users:
             </label>
             <select
               name="Role"

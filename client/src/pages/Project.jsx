@@ -30,7 +30,6 @@ const Project = () => {
     const newBug = await api.bugs.createBug(bug);
     const copiedProject = { ...project };
     copiedProject.bugs.push(newBug);
-    console.log(copiedProject);
     setProject(copiedProject);
     cancel();
     dispatch(setMessage(`Bug ${newBug.title} has been successfully created!`));
