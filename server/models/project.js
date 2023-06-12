@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const ProjectSchema = new Schema({
   title: { type: String, required: true, unique: true },
-  description: String,
+  description: { type: String, required: true },
   status: {
     type: String,
     enum: ["Behind", "Completed", "On Track"],

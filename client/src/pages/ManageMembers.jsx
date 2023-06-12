@@ -77,8 +77,8 @@ const ManageMembers = () => {
   return (
     <>
       <div className="manage-members page">
-        <div className="header">
-          <a href={`/projects/${projectID}`}>To Project Page</a>
+        <div className="header flex-column mobile-column">
+          <a href={`/projects/${projectID}`} className="p-none">To Project Page</a>
           <h3> Project: {project.title} </h3>
           <p>Description: {project.description}</p>
         </div>
@@ -103,7 +103,7 @@ const ManageMembers = () => {
           </button>
         </span>
 
-        <div className="full-width selected h-lg">
+        <div className="selected h-lg">
           <table className="full-width">
             <caption>Current Members</caption>
             <thead>

@@ -80,10 +80,14 @@ const getProject = async (req, res) => {
 
 const updateProjectInfo = async (req, res) => {
   try {
-    const updatedProject = await Project.findByIdAndUpdate(req.params.id, {
-      title: req.body.title,
-      description: req.body.description,
-    });
+    const updatedProject = await Project.findByIdAndUpdate(
+      { _id: req.params.id },
+      {
+        title: req.body.title,
+        description: req.body.description,
+      }
+    );
+
     res.status(200).json(updatedProject);
   } catch (error) {
     res.status(404).json({ message: error });
