@@ -3,7 +3,8 @@ This project is a task manager app that enables user roles, CRUD - Create, Read,
 
 **Link to project:** https://bugtracker-frontend-2zlk.onrender.com
 
-https://github.com/jordanowens1125/bugtracker/assets/60613533/8b408d16-04b8-4b36-a5c5-ef41b94408d3
+https://github.com/jordanowens1125/bugtracker/assets/60613533/dcbedfee-84c3-4a51-bb0c-2bd10620e7db
+
 
 ## How It's Made:
 
