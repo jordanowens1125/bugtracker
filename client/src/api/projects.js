@@ -28,8 +28,10 @@ export const createProject = async (loggedInUser, newProject) =>
 export const updateProjectInfo = async (loggedInUser, id, updatedProject) =>
   await axios
     .put(`${baseURL}/${id}`, updatedProject, {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${loggedInUser.token}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${loggedInUser.token}`,
+      },
     })
     .then((response) => {
       return response.data;
@@ -41,8 +43,10 @@ export const updateMembers = async (loggedInUser, id, oldIds, newIds) =>
       `${baseURL}/${id}/updatemembers`,
       { oldIds, newIds },
       {
+        headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${loggedInUser.token}`,
+      },
       }
     )
     .then((response) => {

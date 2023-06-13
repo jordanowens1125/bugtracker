@@ -16,8 +16,10 @@ export const fetchUsers = async (loggedInUser) =>
 export const updateUser = async (loggedInUser, updatedUser) =>
   await axios
     .put(`${baseURL}/${updatedUser.id}`, updatedUser, {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${loggedInUser.token}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${loggedInUser.token}`,
+      },
     })
     .then((response) => {
       return response.data;

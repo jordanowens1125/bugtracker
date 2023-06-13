@@ -1,18 +1,42 @@
 import axios from "axios";
 const baseURL = process.env.REACT_APP_BASELINE_URL + "comments";
 
-export const fetchBugComments = async (bugID) =>
-  await axios.get(`${baseURL}/${bugID}`).then((response) => {
-    return response.data;
+export const fetchBugComments = async (loggedInUser, bugID) =>
+  await axios
+    .get(`${baseURL}/${bugID}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${loggedInUser.token}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+
+export const createComment = async (loggedInUser, newComment) =>
+  await axios
+    .post(`${baseURL}/create`, newComment, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${loggedInUser.token}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+
+export const deleteComment = async (loggedInUser, comment) =>
+  await axios.delete(`${baseURL}/delete/${comment._id}`, comment, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${loggedInUser.token}`,
+    },
   });
 
-export const createComment = async (newComment) =>
-  await axios.post(`${baseURL}/create`, newComment).then((response) => {
-    return response.data;
+export const setDeletedUserComments = async (loggedInUser, user) =>
+  await axios.put(`${baseURL}/setdeletedusercomments`, user, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${loggedInUser.token}`,
+    },
   });
-
-export const deleteComment = async (comment) =>
-  await axios.delete(`${baseURL}/delete/${comment._id}`, comment);
-
-export const setDeletedUserComments = async (user) =>
-  await axios.put(`${baseURL}/setdeletedusercomments`, user);
