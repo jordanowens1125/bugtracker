@@ -15,16 +15,15 @@ By utilizing react context, users can be given access to certain pages depending
 
 ## Functionality 
 
-**Tech used:** Project Manager
+**Project Manager**
 
 Project managers are shown tasks as it pertains to their assigned project on their dashboard. Project managers are able to create new tasks and projects. Project managers can also manage the members of a given project by adding and removing members from a project.
 
-**Tech used:** Admin
+**Admin** 
 
 Admins are shown all task data across the application within their dashboard. The abilities of the admin include that of the project manager while also including user management. This includes changing user roles and adding and deleting users. 
 
-
-**Tech used:** Developer
+**Developer** 
 
 Developers are shown the tasks assigned to them and are able to make comments on those tasks.
 
