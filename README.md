@@ -16,11 +16,3 @@ By utilizing react context, users can be given access to certain pages depending
 The home page serves as a dashboard in which displays info associated with the given user's data, particularly their role.
 
 ## Functionality 
-- Dashboard
-- - * Admin
-- - 
-- - Project Manager
-- - Developer
-- - All tasks data broken down by project, priority, status, and who the bugs are assigned to
-- 
-![Alt text](image.png)
