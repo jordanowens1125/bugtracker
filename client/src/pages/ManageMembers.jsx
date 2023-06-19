@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../api/index";
-import { useDispatch } from "react-redux";
-import { setMessage } from "../redux/actions/messageActions";
 import useAuthContext from "../hooks/useAuthContext";
+import useMessageContext from "../hooks/messageContext";
 
 const ManageMembers = () => {
   const projectID = useParams().id;
@@ -13,8 +12,8 @@ const ManageMembers = () => {
   const [savedCurrent, setSavedCurrent] = useState([]);
   const [savedAvailable, setSavedAvailable] = useState([]);
   const [canSave, setCanSave] = useState(false);
-  const dispatch = useDispatch();
   const { user } = useAuthContext();
+  const messageInfo = useMessageContext();
   useEffect(() => {
     if (projectID && projectID !== "") {
       const fetchProjectDetails = async () => {
@@ -70,9 +69,10 @@ const ManageMembers = () => {
       setSavedAvailable(availableMembers);
       setSavedCurrent(currentMembers);
       setCanSave(false);
-      dispatch(
-        setMessage(`Project ${project.title} has been successfully updated!`)
-      );
+      messageInfo.dispatch({
+        type: "SHOW",
+        payload: `Project ${project.title} has been successfully updated!`,
+      });
     }
   };
 

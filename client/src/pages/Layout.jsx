@@ -1,26 +1,24 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import useAuthContext from "../hooks/useAuthContext";
-import { clearMessage, setMessage } from "../redux/actions/messageActions";
 import { useLogOut } from "../hooks/useLogOut.js";
 import Hamburger from "../assets/Hamburger";
+import useMessageContext from "../hooks/messageContext";
 
 const Navbar = () => {
   const { signOut } = useLogOut();
   const [theme, setTheme] = useState("light-mode");
-  const messageInfo = useSelector((state) => state.message);
-  const dispatch = useDispatch();
   const { user } = useAuthContext();
+  const messageInfo = useMessageContext();
   const [mobile, setMobileOpen] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    if (messageInfo.open) {
+    if (messageInfo.display) {
       setTimeout(() => {
-        dispatch(clearMessage());
+        messageInfo.dispatch({ type: "CLEAR" });
       }, 5000);
     }
-  }, [messageInfo, dispatch]);
+  }, [messageInfo]);
 
   const changeTheme = () => {
     const element = document.getElementById("App");
@@ -39,7 +37,7 @@ const Navbar = () => {
     if (reason === "clickaway") {
       return;
     }
-    dispatch(clearMessage());
+    messageInfo.dispatch({ type: "CLEAR" });
   };
 
   const handleMobileOpen = () => {
@@ -58,8 +56,8 @@ const Navbar = () => {
 
   const logOut = async () => {
     try {
-      await signOut();
-      dispatch(setMessage(`You have successfully signed out!`));
+      signOut();
+      messageInfo.dispatch({ type: "SHOW", payload: 'You have successfully signed out!' });
       navigate("/signin");
     } catch (e) {
       console.log("Error: ", e);
@@ -109,14 +107,14 @@ const Navbar = () => {
           </nav>
         )}
 
-        {messageInfo.open && (
+        {messageInfo.display && (
           <>
             <div className="noti">
               <button className="button-primary" onClick={handleAlertClose}>
                 Close
               </button>
               <div className="only-60-width text-align">
-                <p> {messageInfo.text}</p>
+                <p> {messageInfo.message}</p>
               </div>
             </div>
           </>

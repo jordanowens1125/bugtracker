@@ -5,9 +5,8 @@ import BugComments from "../components/Bugs/BugComments";
 import dayjs from "dayjs";
 import { statusList } from "../constants/bug";
 import { priorities } from "../constants/bug";
-import { useDispatch } from "react-redux";
-import { setMessage } from "../redux/actions/messageActions";
 import useAuthContext from "../hooks/useAuthContext";
+import useMessageContext from "../hooks/messageContext";
 
 const findUser = (user, users) => {
   for (let i = 0; i < users.length; i++) {
@@ -26,8 +25,7 @@ const Bug = () => {
   const [updattedBug, setUpdattedBug] = useState("");
   const [index, setIndex] = useState(-1);
   const { user } = useAuthContext();
-  const dispatch = useDispatch();
-
+  const messageInfo = useMessageContext();
   const canEdit =
     user.role === "Admin" ||
     user.role === "Project Manager" ||
@@ -78,7 +76,10 @@ const Bug = () => {
     updattedBug.assignedTo = users[index];
     setEditMode(false);
     setBug(updattedBug);
-    dispatch(setMessage(`Bug ${bug.title} has been successfully edited!`));
+    messageInfo.dispatch({
+      type: "SHOW",
+      payload: `Bug ${bug.title} has been successfully edited!`,
+    });
   };
 
   return (
@@ -88,13 +89,13 @@ const Bug = () => {
           {bug && (
             <>
               {" "}
-              
-              <section className="p-md gap-md flex-column mobile-column jcc"><a
-                href={`/projects/${bug.projectID?._id || "-"}`}
-                className="p-top-lg"
-              >
-                Go To Bug Project
-              </a>
+              <section className="p-md gap-md flex-column mobile-column jcc">
+                <a
+                  href={`/projects/${bug.projectID?._id || "-"}`}
+                  className="p-top-lg"
+                >
+                  Go To Bug Project
+                </a>
                 {editMode ? (
                   <>
                     <form

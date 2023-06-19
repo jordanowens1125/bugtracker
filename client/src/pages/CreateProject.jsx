@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import api from "../api/index";
 import dayjs from "dayjs";
-import { useDispatch } from "react-redux";
-import { setMessage } from "../redux/actions/messageActions";
 import useAuthContext from "../hooks/useAuthContext";
+import useMessageContext from "../hooks/messageContext";
 
 const MAX_TITLE_LENGTH = 30;
 const MAX_DESCRIPTION_LENGTH = 200;
@@ -24,7 +23,7 @@ const initialState = {
 const CreateProject = () => {
   const [available, setAvailable] = useState([]);
   const [savedAvailable, setSavedAvailable] = useState([]);
-  const dispatch = useDispatch();
+  const messageInfo = useMessageContext()
   const [formInputData, setFormInputData] = useState(initialState);
   const { user } = useAuthContext();
   useEffect(() => {
@@ -73,11 +72,10 @@ const CreateProject = () => {
       const newInputValue = { ...formInputData };
       newInputValue["members"] = memberIds;
       await api.projects.createProject(user, newInputValue);
-      dispatch(
-        setMessage(
-          `Project ${newInputValue.title} has been successfully created!`
-        )
-      );
+      messageInfo.dispatch({
+        type: "SHOW",
+        payload: `Project ${newInputValue.title} has been successfully created!`,
+      });
       setSavedAvailable(available);
       setFormInputData(initialState);
     } else {

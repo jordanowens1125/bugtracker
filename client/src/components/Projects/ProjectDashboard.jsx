@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import NoData from "../Shared/NoData";
 import api from "../../api";
-import { setMessage } from "../../redux/actions/messageActions";
 import useAuthContext from "../../hooks/useAuthContext";
+import useMessageContext from "../../hooks/messageContext";
 
 function checkProject(project) {
   if (project.bugs) {
@@ -20,8 +19,7 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
   const [editMode, setEditMode] = useState(false);
   const [edit, setEdit] = useState();
   const [projectDisplay, setProjectDisplay] = useState(project);
-  const dispatch = useDispatch();
-
+  const messageInfo = useMessageContext();
   const handleChange = (e) => {
     const copy = { ...edit };
     copy[e.currentTarget.name] = e.currentTarget.value;
@@ -39,7 +37,10 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
     setProjectDisplay(edit);
     setEdit(edit);
     setEditMode(false);
-    dispatch(setMessage(`Project ${edit.title} has been successfully edited!`));
+    messageInfo.dispatch({
+      type: "SHOW",
+      payload: `Project ${edit.title} has been successfully edited!`,
+    });
   };
 
   useEffect(() => {

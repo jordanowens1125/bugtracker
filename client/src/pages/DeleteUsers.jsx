@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { setMessage } from "../redux/actions/messageActions";
-import { useDispatch } from "react-redux";
 import useAuthContext from "../hooks/useAuthContext";
 import api from "../api/index";
 import { fetchUsers } from "../api/users";
+import useMessageContext from "../hooks/messageContext";
 
 const DeleteUsers = () => {
   const [filtered, setFiltered] = useState([]);
   const { user } = useAuthContext();
   const [count, setCount] = useState(0);
-  const dispatch = useDispatch();
+  const messageInfo = useMessageContext();
   // const [selectedUsers, setSelectedUsers] = useState([]);
   // const [deleteMode, setDeleteode] = useState(false);
   const [keys, setKeys] = useState({});
@@ -56,7 +55,11 @@ const DeleteUsers = () => {
     let [ids, newUsers] = convertListToIDs();
     const response = await api.users.deleteUsers(user, ids);
     if (response.status === 200) {
-      dispatch(setMessage(`Successfully deleted ${count} user/users .`));
+      messageInfo.dispatch({
+        type: "SHOW",
+        payload: `Successfully deleted ${count} user/users .`,
+      });
+      
       setCount(0);
       setFiltered(newUsers);
     } else {
@@ -103,9 +106,11 @@ const DeleteUsers = () => {
                   return (
                     <tr key={user._id}>
                       <td>
+                        <label htmlFor="checkbox"></label>
                         <input
                           type="checkbox"
                           className="checkbox"
+                          name="checkbox"
                           onClick={() => handleRowClick(user, index)}
                         ></input>
                       </td>

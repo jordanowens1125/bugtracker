@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { roles } from "../constants/user";
 import { useCreateUser } from "../hooks/createUser";
-import { useDispatch } from "react-redux";
-import { setMessage } from "../redux/actions/messageActions";
-import Eye from '../assets/Eye'
-import EyeHide from '../assets/EyeHide'
+import Eye from "../assets/Eye";
+import EyeHide from "../assets/EyeHide";
+import useMessageContext from "../hooks/messageContext";
 
 const CreateUser = () => {
   const [role, setRole] = useState("Developer");
@@ -13,13 +12,15 @@ const CreateUser = () => {
   const [password, setPassword] = useState("");
   const [viewPassword, setViewPassword] = useState(false);
   const { signup, error, isLoading } = useCreateUser();
-  const dispatch = useDispatch();
-
+  const messageInfo = useMessageContext();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const responseOk = await signup(email, password, role, name);
     if (responseOk) {
-      dispatch(setMessage(`${name} has been successfully created.`));
+      messageInfo.dispatch({
+        type: "SHOW",
+        payload: `${name} has been successfully created.`,
+      });
       setName("");
       setEmail("");
       setPassword("");
@@ -69,7 +70,6 @@ const CreateUser = () => {
       <span className="full-width">
         <select
           name="Role"
-          id="Role"
           onChange={(e) => setRole(e.currentTarget.value)}
           value={role}
           className="full-width"

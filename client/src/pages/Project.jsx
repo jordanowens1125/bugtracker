@@ -4,9 +4,8 @@ import ProjectDashboard from "../components/Projects/ProjectDashboard";
 import api from "../api/index";
 import dayjs from "dayjs";
 import { priorities, statusList } from "../constants/bug";
-import { useDispatch } from "react-redux";
-import { setMessage } from "../redux/actions/messageActions";
 import useAuthContext from "../hooks/useAuthContext";
+import useMessageContext from "../hooks/messageContext";
 
 const initialBugState = {
   title: "",
@@ -24,7 +23,7 @@ const Project = () => {
   const [createBugMode, setCreateBugMode] = useState(false);
   const [bug, setBug] = useState(initialBugState);
   const { user } = useAuthContext();
-  const dispatch = useDispatch();
+  const messageInfo = useMessageContext();
   const addNewBug = async (e) => {
     e.preventDefault();
     bug.projectID = projectID;
@@ -33,7 +32,11 @@ const Project = () => {
     copiedProject.bugs.push(newBug);
     setProject(copiedProject);
     cancel();
-    dispatch(setMessage(`Bug ${newBug.title} has been successfully created!`));
+    messageInfo.dispatch({
+      type: "SHOW",
+      payload: `Bug ${newBug.title} has been successfully created!`,
+    });
+      
   };
   const cancel = () => {
     setBug(initialBugState);

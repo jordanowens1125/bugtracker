@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { fetchUsers } from "../api/users";
 import { roles } from "../constants/user";
 import api from "../api/index";
-import { setMessage } from "../redux/actions/messageActions";
-import { useDispatch } from "react-redux";
 import useAuthContext from "../hooks/useAuthContext";
+import useMessageContext from "../hooks/messageContext";
 
 const ManageUsers = () => {
   const [role, setRole] = useState("Developer");
@@ -12,8 +11,7 @@ const ManageUsers = () => {
   const [indexesToUpdate, setIndexesToUpdate] = useState({});
   const [count, setCount] = useState(0);
   const { user } = useAuthContext();
-  
-  const dispatch = useDispatch();
+  const messageInfo = useMessageContext();
   useEffect(() => {
     const fetchData = async (user) => {
       const response = await fetchUsers(user);
@@ -36,7 +34,11 @@ const ManageUsers = () => {
       let index = parseInt(indexes[i]);
       copy[index].role = role;
     }
-    dispatch(setMessage(`Users were successfully updated`));
+    messageInfo.dispatch({
+      type: "SHOW",
+      payload: `User(s) were successfully updated`,
+    });
+
     clearCheckBoxes();
     setIndexesToUpdate({});
     setFiltered(copy);
@@ -131,7 +133,9 @@ const ManageUsers = () => {
                         <td>{user.email}</td>
                         <td>{user.role}</td>
                         <td>{user.project?.title || ""}</td>
-                        <td className="text-align">{user.assignedBugs.length || 0}</td>
+                        <td className="text-align">
+                          {user.assignedBugs.length || 0}
+                        </td>
                       </tr>
                     );
                   })}
