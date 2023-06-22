@@ -4,6 +4,20 @@ import { useCreateUser } from "../hooks/createUser";
 import Eye from "../assets/Eye";
 import EyeHide from "../assets/EyeHide";
 import useMessageContext from "../hooks/messageContext";
+import Input from "../components/Shared/GeneralInput";
+import Select from "../components/Shared/Select";
+
+const Button = ({ onClick, content, submit, disabled }) => {
+  return (
+    <button
+      type={submit ? "submit" : "button"}
+      onClick={onClick}
+      className="password-view flex aic jcc"
+    >
+      {content}
+    </button>
+  );
+};
 
 const CreateUser = () => {
   const [role, setRole] = useState("Developer");
@@ -32,55 +46,37 @@ const CreateUser = () => {
       onSubmit={handleSubmit}
     >
       <h1> Create User</h1>
-      <label htmlFor="Name">Name:</label>
-      <input
-        type="text"
+      <Input
         value={name}
         onChange={(e) => setName(e.currentTarget.value)}
-        required
-        className="full-width"
+        label={"Name"}
+        type={"text"}
       />
-      <label htmlFor="Email">Email:</label>
-      <input
-        type="email"
+      <Input
         value={email}
         onChange={(e) => setEmail(e.currentTarget.value)}
-        required
-        className="full-width"
+        label={"Email"}
+        type={"email"}
       />
-      <label htmlFor="Password">Password:</label>
-      <div className="flex full-width gap-0 jcc">
-        <input
-          type={viewPassword ? "text" : "password"}
-          required
-          value={password}
-          onChange={(e) => setPassword(e.currentTarget.value)}
-          aria-label="Password"
-          className="grow"
-        />
-        <button
-          type="button"
-          onClick={() => setViewPassword(!viewPassword)}
-          className="password-view flex aic jcc"
-        >
-          {viewPassword ? <Eye /> : <EyeHide />}
-        </button>
-      </div>
-      <label htmlFor="Role">User Role:</label>
-      <span className="full-width">
-        <select
-          name="Role"
-          onChange={(e) => setRole(e.currentTarget.value)}
-          value={role}
-          className="full-width"
-        >
-          {roles.map((role) => (
-            <option value={role} key={role}>
-              {role}
-            </option>
-          ))}
-        </select>
-      </span>
+      <Input
+        value={password}
+        onChange={(e) => setPassword(e.currentTarget.value)}
+        label={"Password"}
+        type={viewPassword ? "text" : "password"}
+        content={
+          <Button
+            type="button"
+            onClick={() => setViewPassword(!viewPassword)}
+            content={viewPassword ? <Eye /> : <EyeHide />}
+          />
+        }
+      />
+      <Select
+        label={"User Role"}
+        value={role}
+        onChange={(e) => setRole(e.currentTarget.value)}
+        listofOptions={roles}
+      />
       {error && <span className="error full-width text-align">{error}</span>}
       <span className="full-width">
         <button

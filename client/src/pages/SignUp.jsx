@@ -1,11 +1,26 @@
 import React, { useState } from "react";
 import { useSignup } from "../hooks/useSignup";
+import Input from "../components/Shared/GeneralInput";
+import Eye from "../assets/Eye";
+import EyeHide from "../assets/EyeHide";
+
+const Button = ({ onClick, content, submit, disabled }) => {
+  return (
+    <button
+      type={submit ? "submit" : "button"}
+      onClick={onClick}
+      className="password-view flex aic jcc"
+    >
+      {content}
+    </button>
+  );
+};
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signup, error, isLoading } = useSignup();
-
+  const [viewPassword, setViewPassword] = useState(false);
   const submit = async (e) => {
     e.preventDefault();
     await signup(email, password);
@@ -15,22 +30,24 @@ const SignUp = () => {
       <form className="flex-column aic cover" onSubmit={submit}>
         <h1>Sign Up</h1>
         <label htmlFor="Email:">Email: </label>
-        <input
-          type="email"
-          required
+        <Input
           value={email}
           onChange={(e) => setEmail(e.currentTarget.value)}
-          aria-label="Email"
-          className="full-width"
+          label={"Email"}
+          type={"email"}
         />
-        <label htmlFor="Password:">Password:</label>
-        <input
-          type="password"
-          required
+        <Input
           value={password}
           onChange={(e) => setPassword(e.currentTarget.value)}
-          aria-label="Password"
-          className="full-width"
+          label={"Password"}
+          type={viewPassword ? "text" : "password"}
+          content={
+            <Button
+              type="button"
+              onClick={() => setViewPassword(!viewPassword)}
+              content={viewPassword ? <Eye /> : <EyeHide />}
+            />
+          }
         />
         {error && <span className="error full-width text-align">{error}</span>}
         <button

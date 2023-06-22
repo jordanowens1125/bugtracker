@@ -7,6 +7,8 @@ import { statusList } from "../constants/bug";
 import { priorities } from "../constants/bug";
 import useAuthContext from "../hooks/useAuthContext";
 import useMessageContext from "../hooks/messageContext";
+import Input from "../components/Shared/GeneralInput";
+import Select from "../components/Shared/Select";
 
 const findUser = (user, users) => {
   for (let i = 0; i < users.length; i++) {
@@ -49,7 +51,7 @@ const Bug = () => {
   const handleInputChange = (e) => {
     let value = e.currentTarget.value;
     const copy = { ...updattedBug };
-    const name = e.currentTarget.name;
+    const name = e.currentTarget.id || e.currentTarget.name;
     if (name === "assignedTo") {
       value = +value;
       setIndex(value);
@@ -102,13 +104,11 @@ const Bug = () => {
                       className="flex-column full-width"
                       onSubmit={handleSubmit}
                     >
-                      <label htmlFor="title">Title: </label>
-                      <input
-                        type="text"
-                        placeholder="Title..."
+                      <Input
                         value={updattedBug.title}
                         onChange={handleInputChange}
-                        name="title"
+                        placeholder="Title..."
+                        label={"Title"}
                       />
                       <label htmlFor="title">Assigned To: </label>
                       <select
@@ -141,49 +141,33 @@ const Bug = () => {
                         onChange={handleInputChange}
                         name="description"
                       />
-                      <label htmlFor="title">Priority: </label>
-                      <select
-                        name="priority"
+                      <Select
+                        label={"Priority"}
+                        id={"priority"}
                         value={updattedBug.priority}
                         onChange={handleInputChange}
-                      >
-                        {priorities.map((priority) => {
-                          return (
-                            <option value={priority} key={priority}>
-                              {priority}
-                            </option>
-                          );
-                        })}
-                      </select>
-                      <label htmlFor="title">Status: </label>
-                      <select
-                        name="status"
+                        listofOptions={priorities}
+                      />
+                      <Select
+                        label={"Status"}
+                        id={"status"}
                         value={updattedBug.status}
                         onChange={handleInputChange}
-                      >
-                        {statusList.map((status) => {
-                          return (
-                            <option value={status} key={status}>
-                              {status}
-                            </option>
-                          );
-                        })}
-                      </select>
-                      <label htmlFor="openDate">Start:</label>
-                      <input
-                        type="date"
-                        name="openDate"
-                        id="openDate"
+                        listofOptions={statusList}
+                      />
+                      <Input
                         value={dayjs(updattedBug.openDate).format("YYYY-MM-DD")}
                         onChange={handleInputChange}
-                      />
-                      <label htmlFor="deadline">Deadline:</label>
-                      <input
+                        label={"Start"}
                         type="date"
-                        name="deadline"
-                        id="deadline"
+                        id="openDate"
+                      />
+                      <Input
                         value={dayjs(updattedBug.deadline).format("YYYY-MM-DD")}
                         onChange={handleInputChange}
+                        label={"Deadline"}
+                        type="date"
+                        id="deadline"
                       />
                       <span className="flex gap-md space-between">
                         <button

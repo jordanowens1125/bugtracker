@@ -4,6 +4,7 @@ import { roles } from "../constants/user";
 import api from "../api/index";
 import useAuthContext from "../hooks/useAuthContext";
 import useMessageContext from "../hooks/messageContext";
+import Select from "../components/Shared/Select";
 
 const ManageUsers = () => {
   const [role, setRole] = useState("Developer");
@@ -77,22 +78,12 @@ const ManageUsers = () => {
             </button>
           </span> */}
           <span className="flex gap-md aic mobile-column">
-            <label htmlFor="Role" className="">
-              New role to be assigned to selected users:
-            </label>
-            <select
-              name="Role"
+            <Select
+              label={" New role to be assigned to selected users:"}
               onChange={(e) => setRole(e.currentTarget.value)}
               value={role}
-              className="primary-border"
-            >
-              {roles.map((role) => (
-                <option value={role} key={role}>
-                  {role}
-                </option>
-              ))}
-              {/* <option value={"Deleted"}>Deleted</option> */}
-            </select>
+              listofOptions={roles}
+            />
           </span>
           <button
             type="button"

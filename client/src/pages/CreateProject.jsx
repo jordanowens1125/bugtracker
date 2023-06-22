@@ -3,6 +3,8 @@ import api from "../api/index";
 import dayjs from "dayjs";
 import useAuthContext from "../hooks/useAuthContext";
 import useMessageContext from "../hooks/messageContext";
+import Input from "../components/Shared/GeneralInput";
+import Select from "../components/Shared/Select";
 
 const MAX_TITLE_LENGTH = 30;
 const MAX_DESCRIPTION_LENGTH = 200;
@@ -23,7 +25,7 @@ const initialState = {
 const CreateProject = () => {
   const [available, setAvailable] = useState([]);
   const [savedAvailable, setSavedAvailable] = useState([]);
-  const messageInfo = useMessageContext()
+  const messageInfo = useMessageContext();
   const [formInputData, setFormInputData] = useState(initialState);
   const { user } = useAuthContext();
   useEffect(() => {
@@ -110,15 +112,12 @@ const CreateProject = () => {
         <h1>Create Project</h1>
       </span>
       <span className="title flex-column full-width">
-        <label htmlFor="title">Title:</label>
-        <input
-          type="text"
-          required
-          id="title"
+        <Input
           value={formInputData.title}
           onChange={handleInputChange}
           placeholder={`Character limit is ${MAX_TITLE_LENGTH}...`}
-          className="full-width"
+          label={"Title"}
+          id={"title"}
         />
       </span>
       <div className="flex-column description full-height full-width">
@@ -137,21 +136,21 @@ const CreateProject = () => {
       <span className="info flex-column gap-md full-width">
         <span className="flex-column gap-lg">
           <span className="flex-column">
-            <label htmlFor="startDate">Start:</label>
-            <input
+            <Input
               type="date"
               name="startDate"
               id="startDate"
+              label={"Start Date"}
               value={formInputData.startDate}
               onChange={handleInputChange}
             />
           </span>
           <span className="flex-column">
-            <label htmlFor="deadline">Deadline:</label>
-            <input
+            <Input
               type="date"
               name="deadline"
               id="deadline"
+              label={"Deadline Date"}
               value={formInputData.deadline}
               onChange={handleInputChange}
             />
