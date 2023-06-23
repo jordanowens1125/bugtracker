@@ -4,7 +4,6 @@ import dayjs from "dayjs";
 import useAuthContext from "../hooks/useAuthContext";
 import useMessageContext from "../hooks/messageContext";
 import Input from "../components/Shared/GeneralInput";
-import Select from "../components/Shared/Select";
 
 const MAX_TITLE_LENGTH = 30;
 const MAX_DESCRIPTION_LENGTH = 200;

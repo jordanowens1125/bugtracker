@@ -1,7 +1,28 @@
 import React, { useState } from "react";
-import { useEffect } from "react";
 import useAuthContext from "../../hooks/useAuthContext";
-import NoData from '../Shared/NoData'
+import NoData from "../Shared/NoData";
+import Table from "../Shared/Table";
+
+const TableBodyElement = (projects, CanManageMembers) => {
+  return (
+    <>
+      {projects.map((project) => (
+        <tr key={project._id}>
+          <td>{project.title}</td>
+          <td>{project.description}</td>
+          <td className="flex-column gap-md">
+            <a href={`/projects/${project._id}`}> See Details</a>
+            {CanManageMembers && (
+              <a href={`/projects/${project._id}/managemembers`}>
+                Manage Members
+              </a>
+            )}
+          </td>
+        </tr>
+      ))}
+    </>
+  );
+};
 
 const ProjectsTable = ({ projects }) => {
   const { user } = useAuthContext();
@@ -16,7 +37,9 @@ const ProjectsTable = ({ projects }) => {
   const handleInputChange = (e) => {
     setInput(e.currentTarget.value);
   };
-  useEffect(() => {}, [projects]);
+
+  const headings = ["Title", "Description", "More"];
+
   return (
     <>
       <div className="flex-column gap-md mobile-column page">
@@ -34,31 +57,10 @@ const ProjectsTable = ({ projects }) => {
         {hasProjects ? (
           <>
             <div className="overflow-x only-full-width">
-              <table className="p-md full-width">
-                <thead>
-                  <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>More</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filtered.map((project) => (
-                    <tr key={project._id}>
-                      <td>{project.title}</td>
-                      <td>{project.description}</td>
-                      <td className="flex-column gap-md">
-                        <a href={`/projects/${project._id}`}> See Details</a>
-                        {CanManageMembers && (
-                          <a href={`/projects/${project._id}/managemembers`}>
-                            Manage Members
-                          </a>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <Table
+                headings={headings}
+                content={TableBodyElement(filtered, CanManageMembers)}
+              />
             </div>
           </>
         ) : (

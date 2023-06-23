@@ -5,6 +5,32 @@ import api from "../api/index";
 import useAuthContext from "../hooks/useAuthContext";
 import useMessageContext from "../hooks/messageContext";
 import Select from "../components/Shared/Select";
+import Table from "../components/Shared/Table";
+
+const UsersBodyElement = (users, handleRowClick) => {
+  return (
+    <>
+      {users.map((user, index) => {
+        return (
+          <tr key={user._id}>
+            <td>
+              <input
+                type="checkbox"
+                className="checkbox"
+                onClick={() => handleRowClick(user, index)}
+              ></input>
+            </td>
+            <td>{user.name}</td>
+            <td>{user.email}</td>
+            <td>{user.role}</td>
+            <td>{user.project?.title || ""}</td>
+            <td className="text-align">{user.assignedBugs.length || 0}</td>
+          </tr>
+        );
+      })}
+    </>
+  );
+};
 
 const ManageUsers = () => {
   const [role, setRole] = useState("Developer");
@@ -98,40 +124,10 @@ const ManageUsers = () => {
         <div className="overflow-x only-full-width">
           {filtered.length > 0 ? (
             <>
-              <table className="full-width">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Project</th>
-                    <th className="text-align">Bug Count</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filtered.map((user, index) => {
-                    return (
-                      <tr key={user._id}>
-                        <td>
-                          <input
-                            type="checkbox"
-                            className="checkbox"
-                            onClick={() => handleRowClick(user, index)}
-                          ></input>
-                        </td>
-                        <td>{user.name}</td>
-                        <td>{user.email}</td>
-                        <td>{user.role}</td>
-                        <td>{user.project?.title || ""}</td>
-                        <td className="text-align">
-                          {user.assignedBugs.length || 0}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+              <Table
+                headings={["", "Name", "Email", "Role", "Project", "Bug Count"]}
+                content={UsersBodyElement(filtered, handleRowClick)}
+              />
             </>
           ) : (
             <>

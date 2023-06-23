@@ -3,6 +3,7 @@ import NoData from "../Shared/NoData";
 import api from "../../api";
 import useAuthContext from "../../hooks/useAuthContext";
 import useMessageContext from "../../hooks/messageContext";
+import Table from "../Shared/Table";
 
 function checkProject(project) {
   if (project.bugs) {
@@ -11,6 +12,63 @@ function checkProject(project) {
     return false;
   }
 }
+
+const ProjectTableBodyContent = (members) => {
+  return (
+    <>
+      {members.map((member) => (
+        <tr key={member._id}>
+          <td>{member.name}</td>
+          <td>{member.email}</td>
+          <td>{member.role}</td>
+        </tr>
+      ))}
+    </>
+  );
+};
+
+const ProjectResult = (members) => {
+  const result = {
+    false: <NoData title={"Members"} />,
+    true: (
+      <Table
+        headings={["Name", "Email", "Role"]}
+        content={ProjectTableBodyContent(members)}
+      />
+    ),
+  };
+  return result[members.length>0];
+};
+
+const BugTableBodyContent = (bugs) => {
+  return (
+    <>
+      {bugs.map((bug) => (
+        <tr key={bug._id}>
+          <td>{bug.title}</td>
+          <td>{bug.status}</td>
+          <td>{bug.priority}</td>
+          <td className="flex-column gap-md">
+            <a href={`/bugs/${bug._id}`}>Details</a>
+          </td>
+        </tr>
+      ))}
+    </>
+  );
+};
+
+const BugResult = (bugs) => {
+  const result = {
+    false: <NoData title={"Bugs"} />,
+    true: (
+      <Table
+        headings={["Name", "Email", "Role"]}
+        content={BugTableBodyContent(bugs)}
+      />
+    ),
+  };
+  return result[bugs.length > 0];
+};
 
 const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
   const { user } = useAuthContext();
@@ -135,30 +193,7 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
                 </>
               )}
               <div className="overflow-x only-full-width">
-                <table className="p-md full-width">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Role</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {project.members.length > 0 ? (
-                      <>
-                        {project.members.map((member) => (
-                          <tr key={member._id}>
-                            <td>{member.name}</td>
-                            <td>{member.email}</td>
-                            <td>{member.role}</td>
-                          </tr>
-                        ))}
-                      </>
-                    ) : (
-                      <NoData />
-                    )}
-                  </tbody>
-                </table>
+                {ProjectResult(project.members)}
               </div>
             </div>
             <div className="flex-column gap-lg h-lg mobile-column">
@@ -184,39 +219,7 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
                 )}
               </span>
               <div className="overflow-x only-full-width">
-                <table className="p-sm">
-                  <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>Status</th>
-                      <th>Priority</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {project.bugs.length > 0 ? (
-                      <>
-                        {project.bugs.map((bug) => (
-                          <tr key={bug._id}>
-                            <td>{bug.title}</td>
-                            <td>{bug.status}</td>
-                            <td>{bug.priority}</td>
-                            <td className="flex-column gap-md">
-                              <a href={`/bugs/${bug._id}`}>Details</a>
-                            </td>
-                          </tr>
-                        ))}
-                      </>
-                    ) : (
-                      <>
-                        <tr>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                        </tr>
-                      </>
-                    )}
-                  </tbody>
-                </table>
+                {BugResult(project.bugs, "Bugs")}
               </div>
             </div>
           </div>

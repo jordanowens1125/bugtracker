@@ -3,6 +3,27 @@ import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import NoData from "../components/Shared/NoData";
 import useAuthContext from "../hooks/useAuthContext";
+import Table from "../components/Shared/Table";
+
+const TableBodyElement = (bugs) => {
+  return (
+    <>
+      {bugs.map((bug) => (
+        <tr key={bug._id}>
+          <td>{bug.title}</td>
+          <td>{bug.description}</td>
+          <td>{bug.priority}</td>
+          <td>{bug.status}</td>
+          <td>{dayjs(bug.openDate).format("YYYY-MM-DD")}</td>
+          <td>{dayjs(bug.deadline).format("YYYY-MM-DD")}</td>
+          <td className="flex-column gap-md">
+            <a href={`/bugs/${bug._id}`}> See Details</a>
+          </td>
+        </tr>
+      ))}
+    </>
+  );
+};
 
 const Bugs = () => {
   const [bugs, setBugs] = useState([]);
@@ -18,6 +39,16 @@ const Bugs = () => {
   });
 
   const hasBugs = filtered.length > 0;
+
+  const headings = [
+    "Title",
+    "Description",
+    "Priority",
+    "Status",
+    "Open Date",
+    "Close Date",
+    "More",
+  ];
   useEffect(() => {
     const fetchData = async () => {
       const response = await api.bugs.fetchBugs(user);
@@ -45,34 +76,10 @@ const Bugs = () => {
           {hasBugs ? (
             <>
               <div className="overflow-x only-full-width">
-                <table className="padding-md full-width">
-                  <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>Description</th>
-                      <th>Priority</th>
-                      <th>Status</th>
-                      <th>Open Date</th>
-                      <th>Close Date</th>
-                      <th>More</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filtered.map((bug) => (
-                      <tr key={bug._id}>
-                        <td>{bug.title}</td>
-                        <td>{bug.description}</td>
-                        <td>{bug.priority}</td>
-                        <td>{bug.status}</td>
-                        <td>{dayjs(bug.openDate).format("YYYY-MM-DD")}</td>
-                        <td>{dayjs(bug.deadline).format("YYYY-MM-DD")}</td>
-                        <td className="flex-column gap-md">
-                          <a href={`/bugs/${bug._id}`}> See Details</a>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                <Table
+                  headings={headings}
+                  content={TableBodyElement(filtered)}
+                />
               </div>
             </>
           ) : (

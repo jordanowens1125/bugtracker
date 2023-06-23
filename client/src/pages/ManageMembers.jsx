@@ -3,6 +3,56 @@ import { useParams } from "react-router-dom";
 import api from "../api/index";
 import useAuthContext from "../hooks/useAuthContext";
 import useMessageContext from "../hooks/messageContext";
+import NoData from "../components/Shared/NoData";
+import Table from "../components/Shared/Table";
+
+const CurrentMembersElement = (users, removeUser) => {
+  return (
+    <>
+      {users.map((user, index) => {
+        return (
+          <tr key={user._id}>
+            <td>
+              <button
+                className="button-secondary w-md"
+                onClick={() => removeUser(user, index)}
+              >
+                Remove
+              </button>
+            </td>
+            <td>{user.name}</td>
+            <td>{user.email}</td>
+            <td>{user.role}</td>
+          </tr>
+        );
+      })}
+    </>
+  );
+};
+
+const AvailableMembersElement = (users, addUser) => {
+  return (
+    <>
+      {users.map((user, index) => {
+        return (
+          <tr key={user._id}>
+            <td>
+              <button
+                className="button-secondary w-md"
+                onClick={() => addUser(user, index)}
+              >
+                Add User
+              </button>
+            </td>
+            <td>{user.name}</td>
+            <td>{user.email}</td>
+            <td>{user.role}</td>
+          </tr>
+        );
+      })}
+    </>
+  );
+};
 
 const ManageMembers = () => {
   const projectID = useParams().id;
@@ -108,96 +158,38 @@ const ManageMembers = () => {
         </span>
 
         <div className="selected h-lg">
-          <table className="full-width">
-            <caption>Current Members</caption>
-            <thead>
-              <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentMembers && (
-                <>
-                  {currentMembers.length > 0 ? (
-                    <>
-                      {currentMembers.map((user, index) => {
-                        return (
-                          <tr key={user._id}>
-                            <td>
-                              <button
-                                className="button-secondary w-md"
-                                onClick={() => removeUser(user, index)}
-                              >
-                                Remove
-                              </button>
-                            </td>
-                            <td>{user.name}</td>
-                            <td>{user.email}</td>
-                            <td>{user.role}</td>
-                          </tr>
-                        );
-                      })}
-                    </>
-                  ) : (
-                    <>
-                      <tr>
-                        <td>No users</td>
-                      </tr>
-                    </>
-                  )}
-                </>
-              )}
-            </tbody>
-          </table>
+          {currentMembers && currentMembers.length > 0 ? (
+            <>
+              <Table
+                headings={["Name", "Email", "Role"]}
+                caption={"Current Members"}
+                content={CurrentMembersElement(currentMembers, removeUser)}
+              />
+            </>
+          ) : (
+            <div className="full-width flex-column text-align">
+              <p>Current Members</p>
+              <NoData title="Users" />
+            </div>
+          )}
         </div>
         <div className="available h-lg">
-          <table className="full-width">
-            <caption>Available Members</caption>
-            <thead>
-              <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-              </tr>
-            </thead>
-            <tbody>
-              {availableMembers && (
-                <>
-                  {availableMembers.length > 0 ? (
-                    <>
-                      {availableMembers.map((user, index) => {
-                        return (
-                          <tr key={user._id}>
-                            <td>
-                              <button
-                                className="button-secondary w-md"
-                                onClick={() => addUser(user, index)}
-                              >
-                                Add User
-                              </button>
-                            </td>
-                            <td>{user.name}</td>
-                            <td>{user.email}</td>
-                            <td>{user.role}</td>
-                          </tr>
-                        );
-                      })}
-                    </>
-                  ) : (
-                    <>
-                      <tr>
-                        <td>No users</td>
-                      </tr>
-                    </>
-                  )}
-                </>
-              )}
-            </tbody>
-          </table>
+          {availableMembers && availableMembers.length > 0 ? (
+            <>
+              <Table
+                headings={["Name", "Email", "Role"]}
+                caption={"Available Members"}
+                content={AvailableMembersElement(availableMembers, addUser)}
+              />
+            </>
+          ) : (
+            <>
+              <div className="full-width flex-column text-align">
+                <p className="primary">Available Members</p>
+                <NoData title="Users" />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>
