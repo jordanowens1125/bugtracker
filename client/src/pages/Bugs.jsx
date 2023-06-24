@@ -14,7 +14,6 @@ const TableBodyElement = (bugs) => {
           <td>{bug.description}</td>
           <td>{bug.priority}</td>
           <td>{bug.status}</td>
-          <td>{dayjs(bug.openDate).format("YYYY-MM-DD")}</td>
           <td>{dayjs(bug.deadline).format("YYYY-MM-DD")}</td>
           <td className="flex-column gap-md">
             <a href={`/bugs/${bug._id}`}> See Details</a>
@@ -45,8 +44,7 @@ const Bugs = () => {
     "Description",
     "Priority",
     "Status",
-    "Open Date",
-    "Close Date",
+    "Deadline",
     "More",
   ];
   useEffect(() => {
@@ -59,7 +57,7 @@ const Bugs = () => {
   return (
     <>
       <div className="flex-column gap-md page mobile-column">
-        <h1>Bugs</h1>
+        <h1>Tickets</h1>
 
         <div className="flex-column gap-md mobile-column">
           <span className="flex gap-md">

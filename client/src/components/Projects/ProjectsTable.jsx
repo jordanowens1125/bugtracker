@@ -29,13 +29,17 @@ const ProjectsTable = ({ projects }) => {
   const [input, setInput] = useState("");
   const CanManageMembers =
     user.role === "Admin" || user.role === "Project Manager";
-  const filtered = projects.filter((project) => {
+  let filtered = projects.filter((project) => {
     const capitalizedTitle = project.title.toUpperCase();
     return capitalizedTitle.includes(input.toUpperCase());
   });
   const hasProjects = filtered.length > 0;
   const handleInputChange = (e) => {
     setInput(e.currentTarget.value);
+  };
+
+  const Reset = () => {
+    setInput("");
   };
 
   const headings = ["Title", "Description", "More"];
@@ -50,8 +54,8 @@ const ProjectsTable = ({ projects }) => {
             value={input}
             onChange={handleInputChange}
           />
-          <button className="button-secondary" onClick={() => setInput("")}>
-            Clear
+          <button className="button-secondary" onClick={Reset}>
+            Reset
           </button>
         </span>
         {hasProjects ? (

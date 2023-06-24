@@ -6,6 +6,9 @@ import useAuthContext from "../hooks/useAuthContext";
 import useMessageContext from "../hooks/messageContext";
 import Select from "../components/Shared/Select";
 import Table from "../components/Shared/Table";
+import CreateUserModal from "../components/ManageUsers.jsx/CreateUserModal";
+import NoData from "../components/Shared/NoData";
+import DeleteUsersModal from "../components/ManageUsers.jsx/DeleteUsersModal";
 
 const UsersBodyElement = (users, handleRowClick) => {
   return (
@@ -23,8 +26,9 @@ const UsersBodyElement = (users, handleRowClick) => {
             <td>{user.name}</td>
             <td>{user.email}</td>
             <td>{user.role}</td>
-            <td>{user.project?.title || ""}</td>
-            <td className="text-align">{user.assignedBugs.length || 0}</td>
+            <td>
+              <a href={`/profile/${user._id}`}>Details</a>
+            </td>
           </tr>
         );
       })}
@@ -39,6 +43,8 @@ const ManageUsers = () => {
   const [count, setCount] = useState(0);
   const { user } = useAuthContext();
   const messageInfo = useMessageContext();
+  const [createMode, setCreateMode] = useState(false);
+  const [deleteMode, setDeleteMode] = useState(false);
   useEffect(() => {
     const fetchData = async (user) => {
       const response = await fetchUsers(user);
@@ -72,6 +78,17 @@ const ManageUsers = () => {
     setCount(0);
   };
 
+  const handleDelete = async () => {
+    setDeleteMode(false);
+    clearCheckBoxes();
+    messageInfo.dispatch({
+      type: "SHOW",
+      payload: `User(s) were successfully deleted`,
+    });
+    setIndexesToUpdate({});
+    setCount(0);
+  };
+
   const clearCheckBoxes = () => {
     const checkboxes = document.getElementsByClassName("checkbox");
     for (let i = 0; i < checkboxes.length; i++) {
@@ -94,45 +111,69 @@ const ManageUsers = () => {
 
   return (
     <>
+      {createMode && <CreateUserModal cancel={() => setCreateMode(false)} />}
+      {deleteMode && (
+        <DeleteUsersModal
+          cancel={() => setDeleteMode(false)}
+          users={filtered}
+          indexes={indexesToUpdate}
+          handleDelete={handleDelete}
+          setUsers={setFiltered}
+        />
+      )}
       <div className="page flex-column gap-md">
         <h1 className="header">Manage Users</h1>
-        <div className="flex aic space-between mobile-column jcc">
-          {/* <span className="flex gap-md search mobile-column">
+        {/* <span className="flex gap-md search mobile-column">
             <input type="text" placeholder="Search for member" />
             <button className="button-secondary" type="button">
               Clear
             </button>
           </span> */}
-          <span className="flex gap-md aic mobile-column">
-            <Select
-              label={" New role to be assigned to selected users:"}
-              onChange={(e) => setRole(e.currentTarget.value)}
-              value={role}
-              listofOptions={roles}
-            />
+        <span className="flex mobile-column w-content">
+          <Select
+            label={" New role to be assigned to selected users:"}
+            onChange={(e) => setRole(e.currentTarget.value)}
+            value={role}
+            listofOptions={roles}
+          />
+        </span>
+        <span className="flex gap-md space-between mobile-column">
+          <span className="flex">
+            <button
+              type="button"
+              onClick={handleSubmit}
+              disabled={count === 0}
+              className="button-primary"
+            >
+              Update Users Roles
+            </button>
+            <button
+              type="button"
+              onClick={() => setCreateMode(true)}
+              className="button-secondary"
+            >
+              Create New User
+            </button>
           </span>
+
           <button
             type="button"
-            onClick={handleSubmit}
+            onClick={() => setDeleteMode(true)}
             disabled={count === 0}
-            className="button-primary"
+            className="button-delete"
           >
-            Update Users
+            Delete Users
           </button>
-        </div>
+        </span>
 
         <div className="overflow-x only-full-width">
           {filtered.length > 0 ? (
-            <>
-              <Table
-                headings={["", "Name", "Email", "Role", "Project", "Bug Count"]}
-                content={UsersBodyElement(filtered, handleRowClick)}
-              />
-            </>
+            <Table
+              headings={["", "Name", "Email", "Role", "More"]}
+              content={UsersBodyElement(filtered, handleRowClick)}
+            />
           ) : (
-            <>
-              <div>No Users</div>
-            </>
+            <NoData title={"Users"} />
           )}
         </div>
       </div>

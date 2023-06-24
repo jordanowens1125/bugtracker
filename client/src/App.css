@@ -18,6 +18,8 @@ body {
   --secondary-color: #ba9cf7;
   --tri-bg-color: #e2eaff;
   --tri-color: #3c4aa3;
+  --urg-bg-color: #f9e8e8;
+  --urg-color: #d53a3a;
   background-color: var(--bg-color);
 }
 
@@ -143,9 +145,9 @@ a:-webkit-any-link {
 }
 
 .error {
-  border: 1px solid red;
-  background-color: pink;
-  color: red;
+  border: 1px solid var(--urg-color);
+  background-color: var(--secondary-bg-color);
+  color: var(--urg-color);
   padding: 10px;
   border-radius: 5px;
 }
@@ -347,6 +349,7 @@ button,
   color: inherit;
   border: none;
   transition: 0.5s;
+  font-weight: bold;
 }
 
 a,
@@ -373,7 +376,6 @@ button:disabled {
 .button-primary {
   color: white;
   background-color: var(--primary-color);
-  font-weight: bold;
 }
 
 .button-secondary {
@@ -386,12 +388,22 @@ button:disabled {
   border: 1px solid var(--primary-color);
 }
 
+.button-delete {
+  color: var(--urg-color);
+  background-color: var(--secondary-bg-color);
+}
+
+.button-urgent {
+  background-color: var(--urg-color);
+  color: var(--secondary-bg-color);
+}
+
 button:disabled:hover {
   cursor: not-allowed;
   transform: unset;
 }
 
-.password-view:hover{
+.password-view:hover {
   cursor: pointer;
 }
 

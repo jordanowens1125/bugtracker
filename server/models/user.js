@@ -8,7 +8,14 @@ const UserSchema = new Schema({
   email: { type: String, required: true, unique: true },
   role: {
     type: String,
-    enum: ["Admin", "Developer", "Viewer", "Deleted", "Project Manager", "Reviewer"],
+    enum: [
+      "Admin",
+      "Developer",
+      "Viewer",
+      "Deleted",
+      "Project Manager",
+      "Reviewer",
+    ],
     default: "Viewer",
   },
   password: {
@@ -23,6 +30,8 @@ const UserSchema = new Schema({
   deleted: { type: Boolean, default: false },
   //profile image
   photoURL: { type: String },
+  demo: { type: Boolean, default: true },
+  joinedDate: {type: Date, default: Date.now()}
 });
 
 //making a static signup method

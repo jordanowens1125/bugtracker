@@ -14,7 +14,6 @@ import CreateProject from "./pages/CreateProject";
 import DemoUserSignin from "./pages/DemoUserSignin";
 import RequireAuth from "./components/ProtectedRoutes/RequireAuth";
 import SignedOut from "./components/ProtectedRoutes/SignedOut";
-import CreateUser from "./pages/CreateUser";
 import DeleteUsers from "./pages/DeleteUsers";
 import AdminRoute from "./components/ProtectedRoutes/AdminRoute";
 import AdminOnly from "./pages/AdminOnly";
@@ -25,6 +24,8 @@ import DeveloperDashboard from "./components/Users/DeveloperDashboard";
 import ProjectManagerDashboard from "./components/Users/ProjectManagerDashboard";
 import DeveloperRoute from "./components/ProtectedRoutes/DeveloperRoute";
 import DevOnly from "./pages/DevOnly";
+import Profile from "./pages/Profile";
+import Users from "./pages/Users";
 // import Settings from "./pages/Settings";
 //import SignUp from "./pages/SignUp";
 // import Chat from "./pages/Chat";
@@ -40,7 +41,8 @@ function App() {
               <Route index element={<Home />} />
               <Route path="bugs" element={<Bugs />} />
 
-              <Route path="projects" element={<Projects />} />
+              <Route path="profile" element={<Profile />} />
+
               <Route path="projects/:id" element={<Project />} />
               <Route path="bugs/:id" element={<Bug />} />
               {/* <Route path="settings" element={<Settings />} /> */}
@@ -63,10 +65,9 @@ function App() {
                 <Route path="admin" element={<AdminDashboard />} />
                 {/* Admin only */}
                 <Route path="manageusers" element={<ManageUsers />} />
-                {/* <Route path="users" element={<Users />} />
-                <Route path="users/:id" element={<User />} /> */}
-
-                <Route path="createuser" element={<CreateUser />} />
+                <Route path="users" element={<Users />} />
+                <Route path="profile/:id" element={<Profile />} />
+                <Route path="projects" element={<Projects />} />
                 <Route path="deleteusers" element={<DeleteUsers />} />
               </Route>
 

@@ -4,6 +4,7 @@ import api from "../../api";
 import useAuthContext from "../../hooks/useAuthContext";
 import useMessageContext from "../../hooks/messageContext";
 import Table from "../Shared/Table";
+import EditProjectModal from "./EditProjectModal";
 
 function checkProject(project) {
   if (project.bugs) {
@@ -13,7 +14,7 @@ function checkProject(project) {
   }
 }
 
-const ProjectTableBodyContent = (members) => {
+const ProjectTableBodyContent = (members, isUserAdmin) => {
   return (
     <>
       {members.map((member) => (
@@ -21,23 +22,27 @@ const ProjectTableBodyContent = (members) => {
           <td>{member.name}</td>
           <td>{member.email}</td>
           <td>{member.role}</td>
+          <td>
+            {isUserAdmin && <a href={`/profile/${member._id}`}>Details</a>}
+          </td>
         </tr>
       ))}
     </>
   );
 };
 
-const ProjectResult = (members) => {
+const ProjectResult = (members, isUserAdmin) => {
   const result = {
-    false: <NoData title={"Members"} />,
+    false: <NoData title={"Developers"} caption={"Developers"} />,
     true: (
       <Table
         headings={["Name", "Email", "Role"]}
-        content={ProjectTableBodyContent(members)}
+        content={ProjectTableBodyContent(members, isUserAdmin)}
+        caption={"Developers"}
       />
     ),
   };
-  return result[members.length>0];
+  return result[members.length > 0];
 };
 
 const BugTableBodyContent = (bugs) => {
@@ -59,11 +64,12 @@ const BugTableBodyContent = (bugs) => {
 
 const BugResult = (bugs) => {
   const result = {
-    false: <NoData title={"Bugs"} />,
+    false: <NoData title={"Bugs"} caption={"Bugs"} />,
     true: (
       <Table
-        headings={["Name", "Email", "Role"]}
+        headings={["Title", "Status", "Priority"]}
         content={BugTableBodyContent(bugs)}
+        caption={"Bugs"}
       />
     ),
   };
@@ -116,44 +122,12 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
           <a href="/projects">All Projects</a>
           {editMode ? (
             <>
-              <form className="flex-column gap-lg" onSubmit={handleSubmit}>
-                <span className="flex-column">
-                  <label htmlFor="Title">Title:</label>
-                  <input
-                    type="text"
-                    placeholder="Title..."
-                    name="title"
-                    value={edit.title}
-                    onChange={handleChange}
-                    required
-                  />
-                </span>
-                <span className="flex-column">
-                  <label htmlFor="Description">Description:</label>
-                  <textarea
-                    name="description"
-                    id="description"
-                    cols="30"
-                    rows="5"
-                    placeholder="Description..."
-                    value={edit.description}
-                    onChange={handleChange}
-                    required
-                  ></textarea>
-                </span>
-                <span className="flex gap-md">
-                  <button
-                    className="button-secondary"
-                    onClick={handleCancel}
-                    type="button"
-                  >
-                    Cancel
-                  </button>
-                  <button className="button-primary" type="submit">
-                    Submit
-                  </button>
-                </span>
-              </form>
+              <EditProjectModal
+                handleCancel={handleCancel}
+                handleSubmit={handleSubmit}
+                handleChange={handleChange}
+                edit={edit}
+              />
             </>
           ) : (
             <>
@@ -161,13 +135,26 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
                 <h1 className="p-md">{projectDisplay.title}</h1>
                 <p className="p-md">{projectDisplay.description}</p>
                 {userCanEdit && (
-                  <span>
+                  <span className="flex">
                     <button
                       className="button-primary"
                       onClick={() => setEditMode(true)}
                     >
                       Edit Project
                     </button>
+                    <button
+                      className="button-secondary"
+                      disabled={createBugMode}
+                      onClick={() => setBugMode(true)}
+                    >
+                      Add New Bug
+                    </button>
+                    <a
+                      href={`/projects/${project._id}/managemembers`}
+                      className="button-secondary"
+                    >
+                      Manage Members
+                    </a>
                   </span>
                 )}
               </div>
@@ -176,48 +163,11 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
 
           <div className="flex gap-md only-full-width children-equal-flex mobile-column">
             <div className="flex-column gap-lg h-lg mobile-column">
-              {userCanEdit ? (
-                <a
-                  href={`/projects/${project._id}/managemembers`}
-                  className="button"
-                >
-                  Manage Members
-                </a>
-              ) : (
-                <>
-                  <span className="p-md">
-                    <b>
-                      <i className="secondary">Members</i>
-                    </b>
-                  </span>
-                </>
-              )}
               <div className="overflow-x only-full-width">
-                {ProjectResult(project.members)}
+                {ProjectResult(project.members, user.role === "Admin")}
               </div>
             </div>
             <div className="flex-column gap-lg h-lg mobile-column">
-              <span className="flex space-between">
-                {userCanEdit ? (
-                  <>
-                    <button
-                      className="button-secondary"
-                      disabled={createBugMode}
-                      onClick={() => setBugMode(true)}
-                    >
-                      Add New Bug
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <span className="p-md">
-                      <b>
-                        <i className="secondary">Bugs</i>
-                      </b>
-                    </span>
-                  </>
-                )}
-              </span>
               <div className="overflow-x only-full-width">
                 {BugResult(project.bugs, "Bugs")}
               </div>

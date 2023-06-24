@@ -4,6 +4,8 @@ import dayjs from "dayjs";
 import useAuthContext from "../hooks/useAuthContext";
 import useMessageContext from "../hooks/messageContext";
 import Input from "../components/Shared/GeneralInput";
+import NoData from "../components/Shared/NoData";
+import Table from "../components/Shared/Table";
 
 const MAX_TITLE_LENGTH = 30;
 const MAX_DESCRIPTION_LENGTH = 200;
@@ -11,14 +13,55 @@ const MAX_DESCRIPTION_LENGTH = 200;
 const initialState = {
   title: "",
   description: "",
-  status: "On Track",
-  startDate: dayjs(new Date()).format("YYYY-MM-DD"),
   deadline: dayjs(new Date()).format("YYYY-MM-DD"),
   history: [],
   members: [],
   bugs: [],
+  projectManager: {},
   client: "",
   public: true,
+};
+
+const TableContent = ({ members, removeUser, addUser }) => {
+  return (
+    <>
+      {members.map((user, index) => {
+        return (
+          <tr key={user._id}>
+            {removeUser && (
+              <td>
+                <button
+                  className="button-secondary"
+                  type="button"
+                  onClick={() => removeUser(user, index)}
+                >
+                  Remove
+                </button>
+              </td>
+            )}
+            {addUser && (
+              <>
+                <td>
+                  <button
+                    className="button-secondary"
+                    onClick={() => {
+                      addUser(user, index);
+                    }}
+                    type="button"
+                  >
+                    Add
+                  </button>
+                </td>
+              </>
+            )}
+            <td>{user.name}</td>
+            <td>{user.email}</td>
+            <td>{user.role}</td>
+          </tr>
+        );
+      })}
+    </>
+  );
 };
 
 const CreateProject = () => {
@@ -133,128 +176,50 @@ const CreateProject = () => {
         />
       </div>
       <span className="info flex-column gap-md full-width">
-        <span className="flex-column gap-lg">
-          <span className="flex-column">
-            <Input
-              type="date"
-              name="startDate"
-              id="startDate"
-              label={"Start Date"}
-              value={formInputData.startDate}
-              onChange={handleInputChange}
-            />
-          </span>
-          <span className="flex-column">
-            <Input
-              type="date"
-              name="deadline"
-              id="deadline"
-              label={"Deadline Date"}
-              value={formInputData.deadline}
-              onChange={handleInputChange}
-            />
-          </span>
-        </span>
         <span className="flex-column">
-          <label htmlFor="">Public/Private</label>
-          <select
-            name="public"
-            value={formInputData.public}
+          <Input
+            type="date"
+            name="deadline"
+            id="deadline"
+            label={"Deadline Date"}
+            value={formInputData.deadline}
             onChange={handleInputChange}
-          >
-            <option value={true}>Public</option>
-            <option value={false}>Private</option>
-          </select>
+          />
         </span>
       </span>
 
       <div className="h-lg  available only-full-width">
-        <table className="full-width">
-          <caption>Available</caption>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-            </tr>
-          </thead>
-          <tbody>
-            {available.length > 0 ? (
-              <>
-                {available.map((user, index) => {
-                  return (
-                    <tr key={user._id}>
-                      <td>
-                        <button
-                          className="button-secondary"
-                          onClick={() => {
-                            addUser(user, index);
-                          }}
-                          type="button"
-                        >
-                          Add
-                        </button>
-                      </td>
-                      <td>{user.name}</td>
-                      <td>{user.email}</td>
-                      <td>{user.role}</td>
-                    </tr>
-                  );
-                })}
-              </>
-            ) : (
-              <>
-                <tr>
-                  <td>No Users</td>
-                </tr>
-              </>
-            )}
-          </tbody>
-        </table>
+        {available.length > 0 ? (
+          <>
+            <Table
+              caption={"Available"}
+              headings={["", "Name", "Email", "Role"]}
+              content={<TableContent members={available} addUser={addUser} />}
+            />
+          </>
+        ) : (
+          <>
+            <NoData title={"Users"} caption={"Available Members"} />
+          </>
+        )}
       </div>
       <div className="h-lg  selected only-full-width">
-        <table className="full-width">
-          <caption>Selected</caption>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-            </tr>
-          </thead>
-          <tbody>
-            {formInputData.members.length > 0 ? (
-              <>
-                {formInputData.members.map((user, index) => {
-                  return (
-                    <tr key={user._id}>
-                      <td>
-                        <button
-                          className="button-secondary"
-                          type="button"
-                          onClick={() => removeUser(user, index)}
-                        >
-                          Remove
-                        </button>
-                      </td>
-                      <td>{user.name}</td>
-                      <td>{user.email}</td>
-                      <td>{user.role}</td>
-                    </tr>
-                  );
-                })}
-              </>
-            ) : (
-              <>
-                <tr>
-                  <td>No Users</td>
-                </tr>
-              </>
-            )}
-          </tbody>
-        </table>
+        {formInputData.members.length > 0 ? (
+          <>
+            <Table
+              headings={["Name", "Email", "Role"]}
+              caption={"Selected"}
+              content={
+                <TableContent
+                  members={formInputData.members}
+                  removeUser={removeUser}
+                />
+              }
+            />
+          </>
+        ) : (
+          <NoData title="Users" caption={"Selected"} />
+        )}
       </div>
       <span className="submit flex space-between flex-end full-width">
         <button className="button-secondary" onClick={reset} type="button">

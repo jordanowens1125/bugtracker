@@ -57,7 +57,10 @@ const Navbar = () => {
   const logOut = async () => {
     try {
       signOut();
-      messageInfo.dispatch({ type: "SHOW", payload: 'You have successfully signed out!' });
+      messageInfo.dispatch({
+        type: "SHOW",
+        payload: "You have successfully signed out!",
+      });
       navigate("/signin");
     } catch (e) {
       console.log("Error: ", e);
@@ -71,18 +74,30 @@ const Navbar = () => {
           <nav className="full-vh flex-column desktop-nav primary">
             <div className="flex-column space-around full-height ">
               <div className="flex-column gap-lg">
-                <a href="/">Dashboard</a>
-                {/* <a href="/Tasks">Tasks</a> */}
-                <a href="/Projects">Projects</a>
-                <a href="/Bugs">Bugs</a>
+
+                {user.role === "Project Manager" && (
+                  <a href="/">Manage Projects</a>
+                )}
+
+                {user.role === "Developer" && <a href="/">My Projects</a>}
+
+                {user.role === "Admin" && <a href="/">Dashboard</a>}
+
+                {/* <a href="/">My Tickets</a>
+                <a href="/createticket">Submit Ticket</a> */}
+                
+                {user.role === "Admin" && (
+                  <div className="flex-column gap-lg">
+                    <a href="/Projects">Projects</a>
+                    <a href="/Bugs">Tickets</a>
+                  </div>
+                )}
                 {/* <a href="/Bugs">Schedule</a> */}
               </div>
               {user.role === "Admin" && (
                 <div className="flex-column gap-lg">
                   <a href="/createproject">Create Project</a>
-                  <a href="/manageusers">Manage User Roles</a>
-                  <a href="/createuser">Add User</a>
-                  <a href="/deleteusers">Delete Users</a>
+                  <a href="/manageusers">Manage Users</a>
                 </div>
               )}
 
@@ -94,7 +109,7 @@ const Navbar = () => {
 
               <div className="flex-column gap-lg">
                 {/* <a href="/Settings">Settings</a> */}
-                {/* <a href="/Chat">Chat</a> */}
+                <a href="/Profile">My Profile</a>
                 {/* <label className="switch">
                   <input type="checkbox" aria-label="Change Color Theme" />
                   <span className="slider round" onClick={changeTheme}></span>
@@ -142,19 +157,18 @@ const Navbar = () => {
                           Close
                         </button>
                         <a href="/">Dashboard</a>
-                        <a href="/Projects">Projects</a>
-                        <a href="/Bugs">Bugs</a>
                         {user.role === "Admin" && (
                           <>
+                            <a href="/Projects">Projects</a>
+                            <a href="/Bugs">Tickets</a>
                             <a href="/createproject">Create Project</a>
-                            <a href="/manageusers">Manage User Roles</a>
-                            <a href="/createuser">Add User</a>
-                            <a href="/deleteusers">Delete Users</a>
+                            <a href="/manageusers">Manage Users</a>
                           </>
                         )}
                         {user.role === "Project Manager" && (
                           <a href="/createproject">Create Project</a>
                         )}
+                        <a href="/Profile">My Profile</a>
                         <span onClick={logOut} className="p-sm primary .a">
                           Log Out
                         </span>

@@ -1,12 +1,14 @@
-import React from 'react'
+import React from "react";
 
-const NoData = ({ title = 'Bugs' }) => {
-  
+const NoData = ({ title = "Bugs", caption }) => {
   return (
-    <div className="nodata secondary">
-      <b>No {title} To Display</b>
+    <div className="flex-column">
+      <p className="primary">{caption}</p>
+      <div className="nodata secondary text-align">
+        <b>No {title} To Display</b>
+      </div>
     </div>
   );
-}
+};
 
-export default NoData
+export default NoData;
