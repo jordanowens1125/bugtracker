@@ -5,6 +5,11 @@ import { priorities } from "../constants/bug";
 import useAuthContext from "../hooks/useAuthContext";
 import api from "../api";
 import useMessageContext from "../hooks/messageContext";
+import SelectByField from "../components/Shared/SelectByField";
+import Buttons from "../components/Shared/Buttons";
+import Select from "../components/Shared/Select";
+import Error from "../components/Shared/Error";
+import TextArea from "../components/Shared/TextArea";
 
 const initialTicketState = {
   title: "",
@@ -34,10 +39,12 @@ const CreateTicket = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const copy = { ...ticket };
+    copy.creator = user._id;
     await api.bugs.createBug(user, ticket);
     messageInfo.dispatch({
       type: "SHOW",
-      payload: `Successfully created ticket ${ticket.title} .`,
+      payload: `Successfully created ticket ${ticket.title}.`,
     });
     setTicket(initialTicketState);
   };
@@ -46,7 +53,6 @@ const CreateTicket = () => {
     const fetchData = async () => {
       const response = await api.projects.fetchProjects(user);
       setProjects(response);
-      setTicket({ ...ticket, projectID: response[0]._id });
       if (response.length === 0) {
         setError(
           "Currently unable to create tickets because there are no projects available."
@@ -60,10 +66,11 @@ const CreateTicket = () => {
     <form className="page flex-column" onSubmit={handleSubmit}>
       <h1>Create Ticket</h1>
       {error && (
-        <span className="error">
-          Currently unable to create tickets because there are no projects
-          available.
-        </span>
+        <Error
+          text={
+            "Currently unable to create tickets because there are no projects available."
+          }
+        />
       )}
       <Input
         value={ticket.title}
@@ -72,31 +79,20 @@ const CreateTicket = () => {
         id={"title"}
         disabled={noprojects}
       />
-      <label htmlFor="title">Description: </label>
-      <textarea
-        type="text"
-        rows="4"
+      <TextArea
         value={ticket.description}
         onChange={handleInputChange}
-        name="description"
-        required
-        disabled={noprojects}
+        id={"description"}
+        label={"Description"}
       />
-      <label htmlFor="title">Priority: </label>
-      <select
-        name="priority"
+      <Select
         value={ticket.priority}
+        id={"priority"}
         onChange={handleInputChange}
+        listofOptions={priorities}
         disabled={noprojects}
-      >
-        {priorities.map((priority) => {
-          return (
-            <option value={priority} key={priority}>
-              {priority}
-            </option>
-          );
-        })}
-      </select>
+        label={"Priority"}
+      />
       <Input
         value={dayjs(ticket.deadline).format("YYYY-MM-DD")}
         label={"Deadline"}
@@ -105,32 +101,17 @@ const CreateTicket = () => {
         id={"deadline"}
         disabled={noprojects}
       />
-      <label htmlFor="title">Project: </label>
-      <select
-        name="projectID"
+      <SelectByField
+        label={"Project"}
         value={ticket.projectID}
         onChange={handleInputChange}
-        required
         disabled={noprojects}
-      >
-        {projects.map((project) => {
-          return (
-            <option value={project._id} key={project._id}>
-              {project.title}
-            </option>
-          );
-        })}
-      </select>
-
-      <span className="flex">
-        <button
-          className="button-primary"
-          type="submit"
-          disabled={projects.length === 0}
-        >
-          Submit
-        </button>
-      </span>
+        field={"_id"}
+        displayfield={"title"}
+        id={"projectID"}
+        listofOptions={projects}
+      />
+      <Buttons submit={"Submit"} disabled={projects.length === 0} />
     </form>
   );
 };

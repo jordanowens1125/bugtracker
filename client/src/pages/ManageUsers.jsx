@@ -1,40 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { fetchUsers } from "../api/users";
-import { roles } from "../constants/user";
 import api from "../api/index";
 import useAuthContext from "../hooks/useAuthContext";
 import useMessageContext from "../hooks/messageContext";
-import Select from "../components/Shared/Select";
-import Table from "../components/Shared/Table";
 import CreateUserModal from "../components/ManageUsers.jsx/CreateUserModal";
-import NoData from "../components/Shared/NoData";
 import DeleteUsersModal from "../components/ManageUsers.jsx/DeleteUsersModal";
-
-const UsersBodyElement = (users, handleRowClick) => {
-  return (
-    <>
-      {users.map((user, index) => {
-        return (
-          <tr key={user._id}>
-            <td>
-              <input
-                type="checkbox"
-                className="checkbox"
-                onClick={() => handleRowClick(user, index)}
-              ></input>
-            </td>
-            <td>{user.name}</td>
-            <td>{user.email}</td>
-            <td>{user.role}</td>
-            <td>
-              <a href={`/profile/${user._id}`}>Details</a>
-            </td>
-          </tr>
-        );
-      })}
-    </>
-  );
-};
+import ManageUsersPage from "../components/ManageUsers.jsx/Page";
 
 const ManageUsers = () => {
   const [role, setRole] = useState("Developer");
@@ -127,63 +98,16 @@ const ManageUsers = () => {
           setUsers={setFiltered}
         />
       )}
-      <div className="page flex-column gap-md">
-        <h1 className="header">Manage Users</h1>
-        {/* <span className="flex gap-md search mobile-column">
-            <input type="text" placeholder="Search for member" />
-            <button className="button-secondary" type="button">
-              Clear
-            </button>
-          </span> */}
-        <span className="flex mobile-column w-content">
-          <Select
-            label={" New role to be assigned to selected users:"}
-            onChange={(e) => setRole(e.currentTarget.value)}
-            value={role}
-            listofOptions={roles}
-          />
-        </span>
-        <span className="flex gap-md space-between mobile-column">
-          <span className="flex">
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={count === 0}
-              className="button-primary"
-            >
-              Update Users Roles
-            </button>
-            <button
-              type="button"
-              onClick={() => setCreateMode(true)}
-              className="button-secondary"
-            >
-              Create New User
-            </button>
-          </span>
-
-          <button
-            type="button"
-            onClick={() => setDeleteMode(true)}
-            disabled={count === 0}
-            className="button-delete"
-          >
-            Delete Users
-          </button>
-        </span>
-
-        <div className="overflow-x only-full-width">
-          {filtered.length > 0 ? (
-            <Table
-              headings={["", "Name", "Email", "Role", "More"]}
-              content={UsersBodyElement(filtered, handleRowClick)}
-              caption={"Select Users to Edit"}
-            />
-          ) : (
-            <NoData title={"Users"} />
-          )}
-        </div>
-      </div>
+      <ManageUsersPage
+        setRole={setRole}
+        role={role}
+        handleRowClick={handleRowClick}
+        count={count}
+        setCreateMode={setCreateMode}
+        setDeleteMode={setDeleteMode}
+        filtered={filtered}
+        handleSubmit={handleSubmit}
+      />
     </>
   );
 };

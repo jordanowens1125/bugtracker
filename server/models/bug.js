@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const BugSchema = new Schema({
   title: { type: String, required: true },
-  creator: String,
+  creator: { type: Schema.Types.ObjectId, ref: "User" },
   description: String,
   status: {
     type: String,

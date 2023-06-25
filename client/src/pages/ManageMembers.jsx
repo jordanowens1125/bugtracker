@@ -129,6 +129,7 @@ const ManageMembers = () => {
   return (
     <>
       <div className="manage-members page">
+        <h1>This page will be added to project page edit modal as a select list...</h1>
         <div className="header flex-column mobile-column">
           <a href={`/projects/${projectID}`} className="p-none">
             To Project Page
@@ -139,7 +140,7 @@ const ManageMembers = () => {
 
         <span className="submit flex aic jcc space-between">
           <button className="button-secondary" onClick={reset}>
-            Reset
+            Reset Filters
           </button>
           <button
             className="button-primary"

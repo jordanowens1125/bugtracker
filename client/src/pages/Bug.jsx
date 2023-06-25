@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../api/index";
-import BugComments from "../components/Bugs/BugComments";
-import dayjs from "dayjs";
-import { statusList } from "../constants/bug";
-import { priorities } from "../constants/bug";
 import useAuthContext from "../hooks/useAuthContext";
 import useMessageContext from "../hooks/messageContext";
-import Input from "../components/Shared/GeneralInput";
-import Select from "../components/Shared/Select";
+import EditBugModal from "../components/Bug/EditBugModal";
+import BugInfo from "../components/Bug/BugInfo";
 
 const findUser = (user, users) => {
   for (let i = 0; i < users.length; i++) {
@@ -88,130 +84,18 @@ const Bug = () => {
     <>
       <div className="page mobile-column aic">
         <div className="bug-page full-width page mobile-column">
+          {editMode && (
+            <EditBugModal
+              updattedBug={updattedBug}
+              handleInputChange={handleInputChange}
+              reset={reset}
+              users={users}
+              index={index}
+              handleSubmit={handleSubmit}
+            />
+          )}
           {bug && (
-            <>
-              {" "}
-              <section className="p-md gap-md flex-column mobile-column jcc">
-                <a
-                  href={`/projects/${bug.projectID?._id || "-"}`}
-                  className="p-top-lg"
-                >
-                  Go To Bug Project
-                </a>
-                {editMode ? (
-                  <>
-                    <form
-                      className="flex-column full-width"
-                      onSubmit={handleSubmit}
-                    >
-                      <Input
-                        value={updattedBug.title}
-                        onChange={handleInputChange}
-                        placeholder="Title..."
-                        label={"Title"}
-                      />
-                      <label htmlFor="title">Assigned To: </label>
-                      <select
-                        name="assignedTo"
-                        value={index}
-                        onChange={handleInputChange}
-                      >
-                        {users.length > 0 ? (
-                          <>
-                            <option value={-1}>Not Assigned</option>
-                            {users.map((user, index) => {
-                              return (
-                                <option key={user._id} value={index}>
-                                  {user.name}
-                                </option>
-                              );
-                            })}
-                          </>
-                        ) : (
-                          <>
-                            <option value="">No users</option>
-                          </>
-                        )}
-                      </select>
-                      <label htmlFor="title">Description: </label>
-                      <textarea
-                        type="text"
-                        rows="4"
-                        value={updattedBug.description}
-                        onChange={handleInputChange}
-                        name="description"
-                      />
-                      <Select
-                        label={"Priority"}
-                        id={"priority"}
-                        value={updattedBug.priority}
-                        onChange={handleInputChange}
-                        listofOptions={priorities}
-                      />
-                      <Select
-                        label={"Status"}
-                        id={"status"}
-                        value={updattedBug.status}
-                        onChange={handleInputChange}
-                        listofOptions={statusList}
-                      />
-                      <Input
-                        value={dayjs(updattedBug.openDate).format("YYYY-MM-DD")}
-                        onChange={handleInputChange}
-                        label={"Start"}
-                        type="date"
-                        id="openDate"
-                      />
-                      <Input
-                        value={dayjs(updattedBug.deadline).format("YYYY-MM-DD")}
-                        onChange={handleInputChange}
-                        label={"Deadline"}
-                        type="date"
-                        id="deadline"
-                      />
-                      <span className="flex gap-md space-between">
-                        <button
-                          className="button-secondary"
-                          type="button"
-                          onClick={reset}
-                        >
-                          Cancel
-                        </button>
-                        <button className="button-primary" type="submit">
-                          Submit
-                        </button>
-                      </span>
-                    </form>
-                  </>
-                ) : (
-                  <>
-                    {/* Only admin and project managers can change these */}
-                    <h1>Title: {bug.title}</h1>
-                    <p>Description: {bug.description}</p>
-                    {/*  */}
-                    <p>Project Title: {bug.projectID.title}</p>
-                    <p>Assigned To: {bug.assignedTo?.name || "Not Assigned"}</p>
-                    <p>Priority: {bug.priority}</p>
-                    <p>Status: {bug.status}</p>
-                    <p>Start: {dayjs(bug.openDate).format("YYYY-MM-DD")}</p>
-                    <p>Deadline: {dayjs(bug.deadline).format("YYYY-MM-DD")}</p>
-                    <span>
-                      {canEdit && (
-                        <button
-                          className="button-secondary"
-                          onClick={() => setEditMode(true)}
-                        >
-                          Edit
-                        </button>
-                      )}
-                    </span>
-                  </>
-                )}
-              </section>
-              <div className="h-xl overflow-y comments-section">
-                <BugComments bug={bug} />
-              </div>
-            </>
+            <BugInfo bug={bug} canEdit={canEdit} setEditMode={setEditMode} />
           )}
           {!bug && <>No bug found</>}
         </div>

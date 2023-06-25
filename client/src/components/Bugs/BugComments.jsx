@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import api from "../../api/index";
 import Comment from "./Comment";
 import useAuthContext from "../../hooks/useAuthContext";
+import Buttons from "../Shared/Buttons";
 
 const AlwaysScrollToBottom = () => {
   const elementRef = useRef();
@@ -97,9 +98,7 @@ const BugComments = ({ bug }) => {
                 className="full-height grow no-outline"
                 id="text"
               />
-              <button className="button-primary" type="submit">
-                Submit
-              </button>
+              <Buttons submit={"Submit"} />
             </form>
           )}
         </>

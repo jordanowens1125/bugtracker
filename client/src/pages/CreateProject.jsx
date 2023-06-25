@@ -1,69 +1,17 @@
 import React, { useEffect, useState } from "react";
 import api from "../api/index";
-import dayjs from "dayjs";
 import useAuthContext from "../hooks/useAuthContext";
 import useMessageContext from "../hooks/messageContext";
 import Input from "../components/Shared/GeneralInput";
-import NoData from "../components/Shared/NoData";
-import Table from "../components/Shared/Table";
-import SelectByField from "../components/Shared/SelectByField";
-
-const MAX_TITLE_LENGTH = 30;
-const MAX_DESCRIPTION_LENGTH = 200;
-
-const initialState = {
-  title: "",
-  description: "",
-  deadline: dayjs(new Date()).format("YYYY-MM-DD"),
-  history: [],
-  members: [],
-  bugs: [],
-  projectManager: {},
-  client: "",
-  public: true,
-};
-
-const TableContent = ({ members, removeUser, addUser }) => {
-  return (
-    <>
-      {members.map((user, index) => {
-        return (
-          <tr key={user._id}>
-            {removeUser && (
-              <td>
-                <button
-                  className="button-secondary"
-                  type="button"
-                  onClick={() => removeUser(user, index)}
-                >
-                  Remove
-                </button>
-              </td>
-            )}
-            {addUser && (
-              <>
-                <td>
-                  <button
-                    className="button-secondary"
-                    onClick={() => {
-                      addUser(user, index);
-                    }}
-                    type="button"
-                  >
-                    Add
-                  </button>
-                </td>
-              </>
-            )}
-            <td>{user.name}</td>
-            <td>{user.email}</td>
-            <td>{user.role}</td>
-          </tr>
-        );
-      })}
-    </>
-  );
-};
+import {
+  initialState,
+  MAX_DESCRIPTION_LENGTH,
+  MAX_TITLE_LENGTH,
+} from "../components/CreateProject/constants";
+import SelectProjectManager from "../components/CreateProject/SelectProjectManager";
+import MultiSelect from "../components/Shared/MultiSelect";
+import TextArea from "../components/Shared/TextArea";
+import Buttons from "../components/Shared/Buttons";
 
 const CreateProject = () => {
   const [available, setAvailable] = useState([]);
@@ -71,6 +19,7 @@ const CreateProject = () => {
   const messageInfo = useMessageContext();
   const [formInputData, setFormInputData] = useState(initialState);
   const { user } = useAuthContext();
+
   useEffect(() => {
     const fetchData = async (user) => {
       const users = await api.users.fetchUsers(user);
@@ -106,13 +55,14 @@ const CreateProject = () => {
       ...formInputData,
       [inputFieldName]: inputFieldValue,
     };
+    console.log(NewInputValue);
     setFormInputData(NewInputValue);
   };
 
-  // const handleDeveloperSelect = (e) => {
-  //   e.preventDefault();
-  //   console.log(e.target.value);
-  // };
+  const handleDeveloperSelect = (e) => {
+    e.preventDefault();
+    console.log(e.target.value);
+  };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -152,90 +102,52 @@ const CreateProject = () => {
   };
 
   return (
-    <form
-      className="create-project page flex-column"
-      onSubmit={handleFormSubmit}
-    >
-      <span className="header">
-        <a href="/projects">See All Projects</a>
-        <h1>Create Project</h1>
-      </span>
-      <span className="title flex-column full-width">
-        <Input
-          value={formInputData.title}
-          onChange={handleInputChange}
-          placeholder={`Character limit is ${MAX_TITLE_LENGTH}...`}
-          label={"Title"}
-          id={"title"}
-        />
-      </span>
-      <div className="flex-column full-width">
-        <label htmlFor="description">Description:</label>
-        <textarea
-          required
-          id="description"
-          rows="10"
-          value={formInputData.description}
-          onChange={handleInputChange}
-          placeholder={`Character limit is ${MAX_DESCRIPTION_LENGTH}...`}
-        />
-      </div>
-      <span className="flex-column full-width">
-        <span className="flex-column">
-          <Input
-            type="date"
-            name="deadline"
-            id="deadline"
-            label={"Deadline Date"}
-            value={formInputData.deadline}
-            onChange={handleInputChange}
-          />
-        </span>
-      </span>
-      {/* <SelectByField label={"Developers"} value={}/> */}
-      {/* <label htmlFor={"label"}>{"Developers"}:</label>
-      <select multiple onChange={handleDeveloperSelect} name="Members">
-        {available.map((member) => (
-          <option key={member._id} value={member._id}>
-            {member.name}
-          </option>
-        ))}
-      </select> */}
-      <div className="h-lg only-full-width">
-        {available.length > 0 ? (
-          <Table
-            caption={"Available"}
-            headings={["", "Name", "Email", "Role"]}
-            content={<TableContent members={available} addUser={addUser} />}
-          />
-        ) : (
-          <NoData title={"Users"} caption={"Available Members"} />
-        )}
-      </div>
-      <div className="h-lg only-full-width">
-        {formInputData.members.length > 0 ? (
-          <Table
-            headings={["Name", "Email", "Role"]}
-            caption={"Selected"}
-            content={
-              <TableContent
-                members={formInputData.members}
-                removeUser={removeUser}
-              />
-            }
-          />
-        ) : (
-          <NoData title="Users" caption={"Selected"} />
-        )}
-      </div>
-      <span className="flex">
-        <button className="button-secondary" onClick={reset} type="button">
-          Reset
-        </button>
-        <button className="button-primary" type="submit">
-          Submit
-        </button>
-      </span>
+    <form className="page flex-column" onSubmit={handleFormSubmit}>
+      <h1>Create Project</h1>
+      <Input
+        value={formInputData.title}
+        onChange={handleInputChange}
+        placeholder={`Character limit is ${MAX_TITLE_LENGTH}...`}
+        label={"Title"}
+        id={"title"}
+      />
+      <TextArea
+        value={formInputData.description}
+        onChange={handleInputChange}
+        placeholder={`Character limit is ${MAX_DESCRIPTION_LENGTH}...`}
+        label={"Description"}
+        id={"description"}
+      />
+      <Input
+        type="date"
+        name="deadline"
+        id="deadline"
+        label={"Deadline Date"}
+        value={formInputData.deadline}
+        onChange={handleInputChange}
+      />
+
+      <SelectProjectManager
+        list={available.filter((user) => user.role === "Project Manager")}
+        label={"Project Manager"}
+        onChange={handleInputChange}
+        displayfield={"name"}
+        id="projectManager"
+        field={"_id"}
+      />
+      <MultiSelect
+        label={"Developers"}
+        id={"members"}
+        listOfOptions={available.filter((user) => user.role === "Developer")}
+        field={"_id"}
+        displayfield={"name"}
+        onChange={handleDeveloperSelect}
+      />
+      <Buttons
+        secondary={"Reset"}
+        secondaryFunction={reset}
+        submit={"Submit"}
+      />
     </form>
   );
 };

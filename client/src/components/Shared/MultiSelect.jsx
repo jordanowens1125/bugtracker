@@ -1,26 +1,21 @@
-const SelectByField = ({
+const MultiSelect = ({
   label,
-  value,
   onChange,
-  listofOptions,
+  listOfOptions,
   id,
   field,
   displayfield,
-  placeholder,
-  required = true,
 }) => {
   return (
     <>
-      <label htmlFor={id || label}>{label}:</label>
+      <label htmlFor={label}>{label}:</label>
       <select
         name={id}
-        value={value}
         onChange={onChange}
         className="full-width"
-        required={required}
+        multiple
       >
-        <option value={undefined}>{placeholder}</option>
-        {listofOptions.map((option) => (
+        {listOfOptions.map((option) => (
           <option value={option[field]} key={option[field]}>
             {option[displayfield]}
           </option>
@@ -30,4 +25,4 @@ const SelectByField = ({
   );
 };
 
-export default SelectByField;
+export default MultiSelect;

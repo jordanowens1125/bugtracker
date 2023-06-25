@@ -6,6 +6,7 @@ import EyeHide from "../../assets/EyeHide";
 import useMessageContext from "../../hooks/messageContext";
 import Input from "../../components/Shared/GeneralInput";
 import Select from "../../components/Shared/Select";
+import Buttons from "../Shared/Buttons";
 
 const Button = ({ onClick, content, submit, disabled }) => {
   return (
@@ -88,15 +89,12 @@ const CreateUserModal = ({ cancel, users, setUsers }) => {
           listofOptions={roles}
         />
         {error && <span className="error full-width text-align">{error}</span>}
-        <span className="flex">
-          {" "}
-          <button type="button" className="button-secondary" onClick={cancel}>
-            Cancel
-          </button>
-          <button type="submit" className="button-primary" disabled={isLoading}>
-            Create User
-          </button>
-        </span>
+        <Buttons
+          secondary={"Cancel"}
+          secondaryFunction={cancel}
+          submit={"Create User"}
+          disabled={isLoading}
+        />
       </form>
     </div>
   );

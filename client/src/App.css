@@ -673,7 +673,7 @@ button:disabled:hover {
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4); /* Black w*/
   padding: 10px;
-  z-index: 100;
+  z-index: 5;
 }
 
 .modal-content {
@@ -707,7 +707,7 @@ button:disabled:hover {
   height: 10%;
   right: 8px;
   border-radius: 10px;
-  z-index: 5;
+  z-index: 6;
 }
 
 .noti button {

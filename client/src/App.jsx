@@ -15,7 +15,6 @@ import CreateTicket from "./pages/CreateTicket";
 import DemoUserSignin from "./pages/DemoUserSignin";
 import RequireAuth from "./components/ProtectedRoutes/RequireAuth";
 import SignedOut from "./components/ProtectedRoutes/SignedOut";
-import DeleteUsers from "./pages/DeleteUsers";
 import AdminRoute from "./components/ProtectedRoutes/AdminRoute";
 import AdminOnly from "./pages/AdminOnly";
 import ProjectManagerRoute from "./components/ProtectedRoutes/ProjectManagerRoute";
@@ -26,7 +25,6 @@ import ProjectManagerDashboard from "./components/Users/ProjectManagerDashboard"
 import DeveloperRoute from "./components/ProtectedRoutes/DeveloperRoute";
 import DevOnly from "./pages/DevOnly";
 import Profile from "./pages/Profile";
-import Users from "./pages/Users";
 // import Settings from "./pages/Settings";
 //import SignUp from "./pages/SignUp";
 // import Chat from "./pages/Chat";
@@ -67,10 +65,8 @@ function App() {
                 <Route path="admin" element={<AdminDashboard />} />
                 {/* Admin only */}
                 <Route path="manageusers" element={<ManageUsers />} />
-                <Route path="users" element={<Users />} />
                 <Route path="profile/:id" element={<Profile />} />
                 <Route path="projects" element={<Projects />} />
-                <Route path="deleteusers" element={<DeleteUsers />} />
               </Route>
 
               <Route element={<DeveloperRoute />}>

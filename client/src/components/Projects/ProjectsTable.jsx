@@ -42,8 +42,6 @@ const ProjectsTable = ({ projects }) => {
     setInput("");
   };
 
-  const headings = ["Title", "Description", "More"];
-
   return (
     <>
       <div className="flex-column gap-md mobile-column page">
@@ -62,7 +60,7 @@ const ProjectsTable = ({ projects }) => {
           <>
             <div className="overflow-x only-full-width">
               <Table
-                headings={headings}
+                headings={["Title", "Description", "More"]}
                 content={TableBodyElement(filtered, CanManageMembers)}
               />
             </div>
