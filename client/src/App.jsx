@@ -11,6 +11,7 @@ import Bug from "./pages/Bug";
 import ManageMembers from "./pages/ManageMembers";
 import ManageUsers from "./pages/ManageUsers";
 import CreateProject from "./pages/CreateProject";
+import CreateTicket from "./pages/CreateTicket";
 import DemoUserSignin from "./pages/DemoUserSignin";
 import RequireAuth from "./components/ProtectedRoutes/RequireAuth";
 import SignedOut from "./components/ProtectedRoutes/SignedOut";
@@ -45,6 +46,7 @@ function App() {
 
               <Route path="projects/:id" element={<Project />} />
               <Route path="bugs/:id" element={<Bug />} />
+              <Route path="createticket" element={<CreateTicket />} />
               {/* <Route path="settings" element={<Settings />} /> */}
               {/* <Route path="chat" element={<Chat />} /> */}
 

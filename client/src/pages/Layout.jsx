@@ -74,18 +74,17 @@ const Navbar = () => {
           <nav className="full-vh flex-column desktop-nav primary">
             <div className="flex-column space-around full-height ">
               <div className="flex-column gap-lg">
-
                 {user.role === "Project Manager" && (
                   <a href="/">Manage Projects</a>
                 )}
 
                 {user.role === "Developer" && <a href="/">My Projects</a>}
 
-                {user.role === "Admin" && <a href="/">Dashboard</a>}
+                {user.role === "Admin" && <a href="/">Home</a>}
 
                 {/* <a href="/">My Tickets</a>
                 <a href="/createticket">Submit Ticket</a> */}
-                
+
                 {user.role === "Admin" && (
                   <div className="flex-column gap-lg">
                     <a href="/Projects">Projects</a>
@@ -94,18 +93,21 @@ const Navbar = () => {
                 )}
                 {/* <a href="/Bugs">Schedule</a> */}
               </div>
-              {user.role === "Admin" && (
-                <div className="flex-column gap-lg">
-                  <a href="/createproject">Create Project</a>
-                  <a href="/manageusers">Manage Users</a>
-                </div>
-              )}
 
-              {user.role === "Project Manager" && (
-                <div className="flex-column gap-lg">
+              <div className="flex-column gap-lg">
+                {user.role === "Admin" && (
+                  <>
+                    <a href="/createproject">Create Project</a>
+                    <a href="/manageusers">Manage Users</a>
+                  </>
+                )}
+
+                {user.role === "Project Manager" && (
                   <a href="/createproject">Create Project</a>
-                </div>
-              )}
+                )}
+
+                <a href="/createticket">Create Ticket</a>
+              </div>
 
               <div className="flex-column gap-lg">
                 {/* <a href="/Settings">Settings</a> */}
@@ -156,7 +158,7 @@ const Navbar = () => {
                         >
                           Close
                         </button>
-                        <a href="/">Dashboard</a>
+                        <a href="/">Home</a>
                         {user.role === "Admin" && (
                           <>
                             <a href="/Projects">Projects</a>

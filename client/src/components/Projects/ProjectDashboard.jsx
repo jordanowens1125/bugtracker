@@ -160,17 +160,14 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
               </div>
             </>
           )}
-
-          <div className="flex gap-md only-full-width children-equal-flex mobile-column">
-            <div className="flex-column gap-lg h-lg mobile-column">
-              <div className="overflow-x only-full-width">
-                {ProjectResult(project.members, user.role === "Admin")}
-              </div>
+          <div className="flex-column gap-lg h-lg mobile-column">
+            <div className="overflow-x only-full-width">
+              {ProjectResult(project.members, user.role === "Admin")}
             </div>
-            <div className="flex-column gap-lg h-lg mobile-column">
-              <div className="overflow-x only-full-width">
-                {BugResult(project.bugs, "Bugs")}
-              </div>
+          </div>
+          <div className="flex-column gap-lg h-lg mobile-column">
+            <div className="overflow-x only-full-width">
+              {BugResult(project.bugs, "Bugs")}
             </div>
           </div>
         </>

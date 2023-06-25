@@ -111,7 +111,13 @@ const ManageUsers = () => {
 
   return (
     <>
-      {createMode && <CreateUserModal cancel={() => setCreateMode(false)} />}
+      {createMode && (
+        <CreateUserModal
+          cancel={() => setCreateMode(false)}
+          users={filtered}
+          setUsers={setFiltered}
+        />
+      )}
       {deleteMode && (
         <DeleteUsersModal
           cancel={() => setDeleteMode(false)}
@@ -171,6 +177,7 @@ const ManageUsers = () => {
             <Table
               headings={["", "Name", "Email", "Role", "More"]}
               content={UsersBodyElement(filtered, handleRowClick)}
+              caption={"Select Users to Edit"}
             />
           ) : (
             <NoData title={"Users"} />

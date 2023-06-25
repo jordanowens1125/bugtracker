@@ -1,4 +1,12 @@
-const Select = ({ label, value, onChange, listofOptions, id, field }) => {
+const SelectByField = ({
+  label,
+  value,
+  onChange,
+  listofOptions,
+  id,
+  field,
+  displayfield,
+}) => {
   return (
     <>
       <label htmlFor={label}>{label}:</label>
@@ -9,8 +17,8 @@ const Select = ({ label, value, onChange, listofOptions, id, field }) => {
         className="full-width"
       >
         {listofOptions.map((option) => (
-          <option value={option} key={option}>
-            {option}
+          <option value={option[field]} key={option[field]}>
+            {option[displayfield]}
           </option>
         ))}
       </select>
@@ -18,4 +26,4 @@ const Select = ({ label, value, onChange, listofOptions, id, field }) => {
   );
 };
 
-export default Select;
+export default SelectByField;

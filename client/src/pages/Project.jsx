@@ -13,7 +13,6 @@ const initialBugState = {
   assignedTo: undefined,
   priority: "Low",
   status: "Open",
-  openDate: dayjs(new Date()).format("YYYY-MM-DD"),
   deadline: dayjs(new Date()).format("YYYY-MM-DD"),
 };
 
@@ -123,20 +122,6 @@ const Project = () => {
                   return (
                     <option value={priority} key={priority}>
                       {priority}
-                    </option>
-                  );
-                })}
-              </select>
-              <label htmlFor="title">Status: </label>
-              <select
-                name="status"
-                value={bug.status}
-                onChange={handleInputChange}
-              >
-                {statusList.map((status) => {
-                  return (
-                    <option value={status} key={status}>
-                      {status}
                     </option>
                   );
                 })}

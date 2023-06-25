@@ -6,6 +6,7 @@ import useMessageContext from "../hooks/messageContext";
 import Input from "../components/Shared/GeneralInput";
 import NoData from "../components/Shared/NoData";
 import Table from "../components/Shared/Table";
+import SelectByField from "../components/Shared/SelectByField";
 
 const MAX_TITLE_LENGTH = 30;
 const MAX_DESCRIPTION_LENGTH = 200;
@@ -90,6 +91,7 @@ const CreateProject = () => {
     setFormInputData(initialState);
     setAvailable(savedAvailable);
   };
+
   const handleInputChange = (e) => {
     const inputFieldValue = e.target.value;
     const inputFieldName = e.target.name || e.target.id;
@@ -106,6 +108,11 @@ const CreateProject = () => {
     };
     setFormInputData(NewInputValue);
   };
+
+  // const handleDeveloperSelect = (e) => {
+  //   e.preventDefault();
+  //   console.log(e.target.value);
+  // };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -146,7 +153,7 @@ const CreateProject = () => {
 
   return (
     <form
-      className="create-project page mobile-column"
+      className="create-project page flex-column"
       onSubmit={handleFormSubmit}
     >
       <span className="header">
@@ -162,20 +169,18 @@ const CreateProject = () => {
           id={"title"}
         />
       </span>
-      <div className="flex-column description full-height full-width">
+      <div className="flex-column full-width">
         <label htmlFor="description">Description:</label>
         <textarea
           required
           id="description"
-          cols="30"
           rows="10"
-          className="full-height"
           value={formInputData.description}
           onChange={handleInputChange}
           placeholder={`Character limit is ${MAX_DESCRIPTION_LENGTH}...`}
         />
       </div>
-      <span className="info flex-column gap-md full-width">
+      <span className="flex-column full-width">
         <span className="flex-column">
           <Input
             type="date"
@@ -187,41 +192,43 @@ const CreateProject = () => {
           />
         </span>
       </span>
-
-      <div className="h-lg  available only-full-width">
+      {/* <SelectByField label={"Developers"} value={}/> */}
+      {/* <label htmlFor={"label"}>{"Developers"}:</label>
+      <select multiple onChange={handleDeveloperSelect} name="Members">
+        {available.map((member) => (
+          <option key={member._id} value={member._id}>
+            {member.name}
+          </option>
+        ))}
+      </select> */}
+      <div className="h-lg only-full-width">
         {available.length > 0 ? (
-          <>
-            <Table
-              caption={"Available"}
-              headings={["", "Name", "Email", "Role"]}
-              content={<TableContent members={available} addUser={addUser} />}
-            />
-          </>
+          <Table
+            caption={"Available"}
+            headings={["", "Name", "Email", "Role"]}
+            content={<TableContent members={available} addUser={addUser} />}
+          />
         ) : (
-          <>
-            <NoData title={"Users"} caption={"Available Members"} />
-          </>
+          <NoData title={"Users"} caption={"Available Members"} />
         )}
       </div>
-      <div className="h-lg  selected only-full-width">
+      <div className="h-lg only-full-width">
         {formInputData.members.length > 0 ? (
-          <>
-            <Table
-              headings={["Name", "Email", "Role"]}
-              caption={"Selected"}
-              content={
-                <TableContent
-                  members={formInputData.members}
-                  removeUser={removeUser}
-                />
-              }
-            />
-          </>
+          <Table
+            headings={["Name", "Email", "Role"]}
+            caption={"Selected"}
+            content={
+              <TableContent
+                members={formInputData.members}
+                removeUser={removeUser}
+              />
+            }
+          />
         ) : (
           <NoData title="Users" caption={"Selected"} />
         )}
       </div>
-      <span className="submit flex space-between flex-end full-width">
+      <span className="flex">
         <button className="button-secondary" onClick={reset} type="button">
           Reset
         </button>

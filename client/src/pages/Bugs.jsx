@@ -4,6 +4,8 @@ import dayjs from "dayjs";
 import NoData from "../components/Shared/NoData";
 import useAuthContext from "../hooks/useAuthContext";
 import Table from "../components/Shared/Table";
+import Select from '../components/Shared/Select'
+// import statusList from '../constants/bug'
 
 const TableBodyElement = (bugs) => {
   return (
@@ -70,6 +72,7 @@ const Bugs = () => {
             <button className="button-secondary" onClick={() => setInput("")}>
               Clear
             </button>
+            {/* <Select label={''} value={'Status'} listofOptions={statusList}/> */}
           </span>
           {hasBugs ? (
             <>

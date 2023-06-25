@@ -608,42 +608,6 @@ button:disabled:hover {
 .page {
   width: 100%;
 }
-/* create-project */
-.create-project {
-  display: grid;
-  gap: 10px;
-  grid-template-areas:
-    "header . . ."
-    "title title submit submit"
-    "info info description description"
-    "available available selected selected";
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.create-project .title {
-  grid-area: title;
-}
-
-.create-project .info {
-  grid-area: info;
-}
-
-.create-project .submit {
-  grid-area: submit;
-}
-
-.create-project .description {
-  grid-area: description;
-}
-
-.create-project .available {
-  grid-area: available;
-}
-
-.create-project .selected {
-  grid-area: selected;
-}
-/* End of create project */
 
 /* bug  */
 .bug-page {
@@ -817,6 +781,10 @@ svg {
   transition: 1s;
 }
 
+.mobile-text-align{
+  text-align: left;
+}
+
 /* responsive */
 @media screen and (min-width: 800px) {
   .desktop {
@@ -824,6 +792,9 @@ svg {
   }
   .mobile {
     display: none;
+  }
+  .mobile-text-align {
+    text-align: center;
   }
   #mobile-display {
     display: none;

@@ -20,14 +20,13 @@ export const useCreateUser = () => {
       }
     );
     const json = await response.json();
-
     if (!response.ok) {
       setIsLoading(false);
       setError(json.message);
     } else {
       setIsLoading(false);
     }
-    return response.ok
+    return { response, user: json };
   };
   return { signup, isLoading, error };
 };

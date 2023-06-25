@@ -19,7 +19,7 @@ const Button = ({ onClick, content, submit, disabled }) => {
   );
 };
 
-const CreateUserModal = ({ cancel }) => {
+const CreateUserModal = ({ cancel, users, setUsers }) => {
   const [role, setRole] = useState("Developer");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,10 +27,12 @@ const CreateUserModal = ({ cancel }) => {
   const [viewPassword, setViewPassword] = useState(false);
   const { signup, error, isLoading } = useCreateUser();
   const messageInfo = useMessageContext();
+  const [stayOpen, setStayOpen] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const responseOk = await signup(email, password, role, name);
-    if (responseOk) {
+    const { response, user } = await signup(email, password, role, name);
+    if (response.ok) {
       messageInfo.dispatch({
         type: "SHOW",
         payload: `${name} has been successfully created.`,
@@ -38,12 +40,22 @@ const CreateUserModal = ({ cancel }) => {
       setName("");
       setEmail("");
       setPassword("");
+      if (!stayOpen) {
+        cancel();
+      }
+      setUsers(users.concat(user));
     }
   };
+
   return (
     <div className="modal">
       <form className="modal-content" onSubmit={handleSubmit}>
-        <h1> Create New User</h1>
+        <span className="flex aic">
+          <h1> Create New User</h1>
+          <input type="checkbox" onClick={() => setStayOpen(!stayOpen)} />
+          <label htmlFor="vehicle2">Stay Open</label>
+        </span>
+
         <Input
           value={name}
           onChange={(e) => setName(e.currentTarget.value)}
@@ -77,11 +89,12 @@ const CreateUserModal = ({ cancel }) => {
         />
         {error && <span className="error full-width text-align">{error}</span>}
         <span className="flex">
-          <button type="submit" className="button-primary" disabled={isLoading}>
-            Create User
-          </button>
+          {" "}
           <button type="button" className="button-secondary" onClick={cancel}>
             Cancel
+          </button>
+          <button type="submit" className="button-primary" disabled={isLoading}>
+            Create User
           </button>
         </span>
       </form>

@@ -7,6 +7,7 @@ const Input = ({
   type = "text",
   content,
   placeholder,
+  disabled = false,
 }) => {
   return (
     <>
@@ -22,6 +23,7 @@ const Input = ({
           className="grow"
           placeholder={placeholder}
           aria-label={label}
+          disabled={disabled}
         ></input>
         {content}
       </div>
