@@ -1,6 +1,6 @@
 import React from "react";
 
-const NoData = ({ title = "Bugs", caption }) => {
+const NoData = ({ title = "Tickets", caption }) => {
   return (
     <div className="flex-column text-align">
       <p className="primary">{caption}</p>

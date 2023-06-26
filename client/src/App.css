@@ -20,6 +20,10 @@ body {
   --tri-color: #3c4aa3;
   --urg-bg-color: #f9e8e8;
   --urg-color: #d53a3a;
+  --bg-4: #7f55da;
+  --bg-5: #5594da;
+  --bg-6: #9555da;
+  --bg-7: #3c6899;
   background-color: var(--bg-color);
 }
 
@@ -61,6 +65,12 @@ a:-webkit-any-link {
 .only-full-width {
   max-width: 100%;
   width: 100%;
+}
+
+.only-full-height{
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
 }
 
 .only-60-width {
@@ -300,7 +310,6 @@ tr {
 th,
 td {
   text-align: left;
-  /* border-right: 1px #ccc solid; */
 }
 /* End of table css */
 
@@ -420,6 +429,22 @@ button:disabled:hover {
 .secondary-bg {
   background-color: var(--secondary-bg-color);
 }
+
+.bg-4 {
+  background-color: var(--bg-4);
+  color: var(--bg-color);
+}
+
+.bg-5 {
+  background-color: var(--bg-5);
+  color: var(--bg-color);
+}
+
+.bg-6 {
+  background-color: var(--bg-6);
+  color: var(--bg-color);
+}
+
 /*end of background*/
 
 /* Color */
@@ -439,14 +464,19 @@ button:disabled:hover {
   align-items: center;
   text-align: center;
   gap: 10px;
+  flex-grow: 1;
 }
 
 .chart {
-  width: 250px;
+  height: 250px;
   aspect-ratio: 1;
   border: 3px solid var(--secondary-bg-color);
-  border-radius: 20px;
   overflow: hidden;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
 }
 
 .chart-header {
@@ -781,8 +811,8 @@ svg {
   transition: 1s;
 }
 
-.mobile-text-align{
-  text-align: left;
+.mobile-text-align {
+  text-align: center;
 }
 
 /* responsive */
@@ -794,7 +824,7 @@ svg {
     display: none;
   }
   .mobile-text-align {
-    text-align: center;
+    text-align: left;
   }
   #mobile-display {
     display: none;
@@ -820,21 +850,6 @@ svg {
     width: 100%;
     max-width: unset;
   }
-
-  .manage-members,
-  .create-project {
-    padding-right: unset;
-    padding: 10px;
-    overflow-x: auto;
-  }
-
-  .manage-members .selected,
-  .create-project .selected,
-  .manage-members .available,
-  .create-project .available {
-    height: fit-content;
-    max-height: 600px;
-  }
   .bug-page,
   .page {
     display: flex;
@@ -856,5 +871,9 @@ svg {
     top: 0.5px;
     right: 0.5px;
     padding: 6px;
+  }
+  .mobile-column-reverse {
+    display: flex;
+    flex-direction: column-reverse;
   }
 }

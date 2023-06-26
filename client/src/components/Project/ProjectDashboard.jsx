@@ -82,18 +82,14 @@ const ProjectDashboard = ({ project, createBugMode, setBugMode }) => {
                 setEditMode={setEditMode}
               />
             )}
-            <div className="flex-column gap-lg h-lg mobile-column">
-              <div className="overflow-x only-full-width">
+            <div className="h-lg">
                 {ProjectTableBodyContent(
                   project.members,
                   user.role === "Admin"
                 )}
-              </div>
             </div>
-            <div className="flex-column gap-lg h-lg mobile-column">
-              <div className="overflow-x only-full-width">
+            <div className="h-lg">
                 {BugTableContent(project.bugs, "Bugs")}
-              </div>
             </div>
           </div>
         </>

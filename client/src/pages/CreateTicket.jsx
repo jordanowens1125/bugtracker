@@ -27,6 +27,7 @@ const CreateTicket = () => {
   const { user } = useAuthContext();
   const messageInfo = useMessageContext();
   const noprojects = projects.length === 0;
+
   const handleInputChange = (e) => {
     const inputFieldValue = e.target.value;
     const inputFieldName = e.target.name || e.target.id;
@@ -41,21 +42,34 @@ const CreateTicket = () => {
     e.preventDefault();
     const copy = { ...ticket };
     copy.creator = user._id;
-    await api.bugs.createBug(user, ticket);
-    messageInfo.dispatch({
-      type: "SHOW",
-      payload: `Successfully created ticket ${ticket.title}.`,
-    });
-    setTicket(initialTicketState);
+    try {
+      await api.bugs.createBug(user, ticket);
+      messageInfo.dispatch({
+        type: "SHOW",
+        payload: `Successfully created ticket ${ticket.title}.`,
+      });
+      setTicket(initialTicketState);
+      document.getElementById("projectID").value = -1;
+    } catch (error) {
+      setError(
+        `Currently unable to create tickets because of the following error: ${error.message}`
+      );
+    }
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await api.projects.fetchProjects(user);
-      setProjects(response);
-      if (response.length === 0) {
+      try {
+        const response = await api.projects.fetchProjects(user);
+        setProjects(response);
+        if (response.length === 0) {
+          setError(
+            "Currently unable to create tickets because there are no projects available."
+          );
+        }
+      } catch (error) {
         setError(
-          "Currently unable to create tickets because there are no projects available."
+          `Currently unable to create tickets because of the following error: ${error.message}`
         );
       }
     };
@@ -65,13 +79,7 @@ const CreateTicket = () => {
   return (
     <form className="page flex-column" onSubmit={handleSubmit}>
       <h1>Create Ticket</h1>
-      {error && (
-        <Error
-          text={
-            "Currently unable to create tickets because there are no projects available."
-          }
-        />
-      )}
+      {error && <Error text={error} />}
       <Input
         value={ticket.title}
         label={"Title"}
@@ -84,6 +92,7 @@ const CreateTicket = () => {
         onChange={handleInputChange}
         id={"description"}
         label={"Description"}
+        disabled={noprojects}
       />
       <Select
         value={ticket.priority}

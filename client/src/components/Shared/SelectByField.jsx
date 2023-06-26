@@ -8,16 +8,19 @@ const SelectByField = ({
   displayfield,
   placeholder,
   required = true,
+  disabled
 }) => {
   return (
     <>
       <label htmlFor={id || label}>{label}:</label>
       <select
         name={id}
+        id={id}
         value={value}
         onChange={onChange}
         className="full-width"
         required={required}
+        disabled={disabled}
       >
         <option value={undefined}>{placeholder}</option>
         {listofOptions.map((option) => (

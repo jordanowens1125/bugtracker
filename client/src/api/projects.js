@@ -10,6 +10,7 @@ export const fetchProjects = async (loggedInUser) =>
       },
     })
     .then((response) => {
+      console.log(response);
       return response.data;
     });
 

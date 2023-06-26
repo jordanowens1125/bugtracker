@@ -15,6 +15,7 @@ const {
   loginUser,
   deleteUsers,
   getPM,
+  getAdmin,
 } = require("../controllers/users");
 
 /* GET users listing. */
@@ -25,14 +26,15 @@ router.post("/login", loginUser);
 //signup
 router.post("/signup", signUp);
 
-//require auth 
-const requireAuth = require('../middleware/requireAuth')
-router.use(requireAuth)
+//require auth
+const requireAuth = require("../middleware/requireAuth");
+router.use(requireAuth);
 
 router.delete("/delete", deleteUsers);
 router.delete("/delete/:id", deleteUser);
 router.put("/project/:id", assignUserToProject);
 router.get("/projectmanager/:id", getPM);
+router.get("/admin", getAdmin);
 router.put("/removeproject", unAssignUsersFromProject);
 router.put("/assignbugtouser/:id", assignBugToUser);
 router.put("/unassignbugfromuser/:id", unAssignBugFromUser);

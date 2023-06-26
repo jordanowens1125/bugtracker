@@ -192,7 +192,7 @@ const Navbar = () => {
           <Outlet />
           {messageInfo.open && (
             <>
-              <div className="noti">
+              <div className="noti border">
                 <button className="button-primary" onClick={handleAlertClose}>
                   Close
                 </button>

@@ -11,7 +11,8 @@ const Select = ({
     <>
       <label htmlFor={id || label}>{label}:</label>
       <select
-        name={id}
+        name={id || label}
+        id={id || label}
         value={value}
         onChange={onChange}
         className="full-width"

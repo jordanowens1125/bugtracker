@@ -11,14 +11,6 @@
 # production
 /build
 
-#linting
-
-
-#formatting
-
-
-/nextsteps
-nextsteps
 # misc
 .DS_Store
 .env.local

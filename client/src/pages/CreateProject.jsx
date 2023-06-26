@@ -26,10 +26,8 @@ const CreateProject = () => {
       const filtered = users.filter(
         (user) =>
           (user.role !== "Deleted" &&
-            user.role !== "Admin" &&
-            user.project === undefined) ||
-          null
-      );
+            user.role !== "Admin"
+      ));
       setAvailable(filtered);
       setSavedAvailable(filtered);
     };
@@ -55,13 +53,19 @@ const CreateProject = () => {
       ...formInputData,
       [inputFieldName]: inputFieldValue,
     };
-    console.log(NewInputValue);
     setFormInputData(NewInputValue);
   };
 
   const handleDeveloperSelect = (e) => {
-    e.preventDefault();
-    console.log(e.target.value);
+    const members = [...formInputData.members] ;
+    console.log(members);
+    if (!members.includes(e.target.value)) {
+      members.push(e.target.value);
+    } else {
+      members.splice(members.indexOf(e.target.value), 1);
+    }
+    console.log(formInputData.members);
+    setFormInputData({ ...formInputData, members });
   };
 
   const handleFormSubmit = async (e) => {

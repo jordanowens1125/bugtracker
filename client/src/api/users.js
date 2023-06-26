@@ -54,17 +54,29 @@ export const fetchUser = async (loggedInUser, id) =>
       return response.data;
     });
 
-    export const fetchPM = async (loggedInUser, id) =>
-      await axios
-        .get(`${baseURL}/projectmanager/${id}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${loggedInUser.token}`,
-          },
-        })
-        .then((response) => {
-          return response.data;
-        });
+export const fetchPM = async (loggedInUser, id) =>
+  await axios
+    .get(`${baseURL}/projectmanager/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${loggedInUser.token}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+
+export const fetchAdmin = async (loggedInUser) =>
+  await axios
+    .get(`${baseURL}/admin`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${loggedInUser.token}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
 
 export const fetchUserByEmail = async (loggedInUser, email) =>
   await axios
@@ -97,7 +109,7 @@ export const deleteUsers = async (loggedInUser, userIDs) =>
         "Content-Type": "application/json",
         Authorization: `Bearer ${loggedInUser.token}`,
       },
-      data: { userIDs:  userIDs  },
+      data: { userIDs: userIDs },
     })
     .then((response) => {
       return response;

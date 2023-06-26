@@ -1,6 +1,5 @@
-import React from "react";
 import { ResponsivePie } from "@nivo/pie";
-
+// console.log(AnyChart);
 const PieChart = ({ data, header }) => {
   return (
     <div className="chart-container">
@@ -8,7 +7,7 @@ const PieChart = ({ data, header }) => {
       <div className="chart full-width">
         <ResponsivePie
           data={data}
-          margin={{ top: 80, right: 50, bottom: 80, left: 50 }}
+          margin={{ top: 80, right: 100, bottom: 80, left: 100 }}
           innerRadius={0.65}
           padAngle={4}
           cornerRadius={1.5}
@@ -39,31 +38,6 @@ const PieChart = ({ data, header }) => {
               size: 4,
               padding: 1,
               stagger: true,
-            },
-          ]}
-          legends={[
-            {
-              anchor: "bottom",
-              direction: "row",
-              justify: false,
-              translateX: 0,
-              translateY: 56,
-              itemsSpacing: 0,
-              itemWidth: 100,
-              itemHeight: 18,
-              itemTextColor: "#999",
-              itemDirection: "left-to-right",
-              itemOpacity: 1,
-              symbolSize: 18,
-              symbolShape: "circle",
-              effects: [
-                {
-                  on: "hover",
-                  style: {
-                    itemTextColor: "#000",
-                  },
-                },
-              ],
             },
           ]}
         />

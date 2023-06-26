@@ -141,9 +141,23 @@ const getPM = async (req, res) => {
   try {
     let id = req.params.id;
     const user = await User.findById(id).populate([
-      { path: "project", populate: [{ path: "bugs", populate:[{path:'assignedTo'}] }] },
+      {
+        path: "project",
+        populate: [{ path: "bugs", populate: [{ path: "assignedTo" }] }],
+      },
     ]);
     res.status(200).json(user);
+  } catch (error) {
+    res.status(404).json({ message: error });
+  }
+};
+
+const getAdmin = async (req, res) => {
+  try {
+    const users = await User.find();
+    const bugs = await Bug.find().populate("projectID").populate("assignedTo");
+    const projects = await Project.find();
+    res.status(200).json({ users, bugs, projects });
   } catch (error) {
     res.status(404).json({ message: error });
   }
@@ -312,4 +326,5 @@ module.exports = {
   deleteUsers,
   loginUser,
   getPM,
+  getAdmin,
 };

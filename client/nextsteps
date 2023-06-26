@@ -6,17 +6,12 @@ remove ability to delete users from users page
 screen recording function to show how to create bug
 add tags to bugs
 
-helmet to protect apis??
 add validation for project and bug titles
 
 ***Styling***
 styling and ui!!
 Dark/light mode
-popups when api requests are correctly handled
 project timeline/dashboard layout
-
-***User authentication/authorization***
-ban from adding comments if they put something they are not suppose to
 
 ***aggregate api call***??
 edroh on youtube 7 hour video

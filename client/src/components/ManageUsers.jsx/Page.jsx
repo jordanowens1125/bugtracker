@@ -31,7 +31,7 @@ const ManageUsersPage = ({
         />
       </span>
       <span className="flex gap-md space-between mobile-column">
-        <span className="flex">
+        <span className="flex mobile-column">
           <button
             type="button"
             onClick={handleSubmit}
