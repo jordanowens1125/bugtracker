@@ -11,8 +11,6 @@ const BugSchema = new Schema({
       "In Progress",
       "Closed",
       "In Review",
-      "Assigned",
-      "Not Assigned",
       "Open",
     ],
     default: "Open",

@@ -67,9 +67,22 @@ const getProject = async (req, res) => {
     let id = req.params.id;
     const project = await Project.findById(id)
       .populate("bugs")
+      .populate("projectManager")
       .populate("members");
     const unAssignedMembers = await User.find({
-      project: undefined,
+      $or: [
+        {
+          role: "Project Manager",
+        },
+        {
+          role: "Developer",
+        },
+      ],
+      $and: [
+        {
+          project: undefined,
+        },
+      ],
     });
     const availableMembers = unAssignedMembers;
     res.status(200).json({ project, availableMembers });
@@ -80,12 +93,29 @@ const getProject = async (req, res) => {
 
 const updateProjectInfo = async (req, res) => {
   try {
+    const oldProject = await Project.findById(req.params.id);
+
+    if (oldProject.projectManager !== req.body.projectManager) {
+      await User.findByIdAndUpdate(
+        { _id: oldProject.projectManager },
+        {
+          project: null,
+          assignable: true,
+        }
+      );
+
+      await User.findByIdAndUpdate(
+        { _id: req.body.projectManager },
+        {
+          project: req.params.id,
+          assignable: false,
+        }
+      );
+    }
+
     const updatedProject = await Project.findByIdAndUpdate(
       { _id: req.params.id },
-      {
-        title: req.body.title,
-        description: req.body.description,
-      }
+      req.body
     );
 
     res.status(200).json(updatedProject);

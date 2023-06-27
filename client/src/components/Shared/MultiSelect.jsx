@@ -14,6 +14,7 @@ const MultiSelect = ({
         onChange={onChange}
         className="full-width"
         multiple
+        size={6}
       >
         {listOfOptions.map((option) => (
           <option value={option[field]} key={option[field]}>

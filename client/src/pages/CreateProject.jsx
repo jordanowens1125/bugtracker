@@ -8,10 +8,10 @@ import {
   MAX_DESCRIPTION_LENGTH,
   MAX_TITLE_LENGTH,
 } from "../components/CreateProject/constants";
-import SelectProjectManager from "../components/CreateProject/SelectProjectManager";
 import MultiSelect from "../components/Shared/MultiSelect";
 import TextArea from "../components/Shared/TextArea";
 import Buttons from "../components/Shared/Buttons";
+import SelectByField from "../components/Shared/SelectByField";
 
 const CreateProject = () => {
   const [available, setAvailable] = useState([]);
@@ -24,10 +24,8 @@ const CreateProject = () => {
     const fetchData = async (user) => {
       const users = await api.users.fetchUsers(user);
       const filtered = users.filter(
-        (user) =>
-          (user.role !== "Deleted" &&
-            user.role !== "Admin"
-      ));
+        (user) => user.role !== "Deleted" && user.role !== "Admin"
+      );
       setAvailable(filtered);
       setSavedAvailable(filtered);
     };
@@ -57,23 +55,22 @@ const CreateProject = () => {
   };
 
   const handleDeveloperSelect = (e) => {
-    const members = [...formInputData.members] ;
-    console.log(members);
-    if (!members.includes(e.target.value)) {
-      members.push(e.target.value);
-    } else {
-      members.splice(members.indexOf(e.target.value), 1);
+    const options = e.target.options;
+
+    var value = [];
+    for (var i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        value.push(options[i].value);
+      }
     }
-    console.log(formInputData.members);
-    setFormInputData({ ...formInputData, members });
+    setFormInputData({ ...formInputData, members: value });
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     //change list of members to ids here
     const memberIds = formInputData.members.map((member) => member._id);
-    const validated = true;
-    if (validated) {
+    try {
       const newInputValue = { ...formInputData };
       newInputValue["members"] = memberIds;
       await api.projects.createProject(user, newInputValue);
@@ -83,26 +80,9 @@ const CreateProject = () => {
       });
       setSavedAvailable(available);
       setFormInputData(initialState);
-    } else {
+    } catch (error) {
+      
     }
-  };
-
-  const addUser = (user, index) => {
-    const copy = structuredClone(formInputData);
-    const copyAvailable = [...available];
-    copyAvailable.splice(index, 1);
-    copy.members.push(user);
-    setFormInputData(copy);
-    setAvailable(copyAvailable);
-  };
-
-  const removeUser = (user, index) => {
-    const copy = { ...formInputData };
-    const copyAvailable = [...available];
-    copy.members.splice(index, 1);
-    copyAvailable.push(user);
-    setFormInputData(formInputData);
-    setAvailable(copyAvailable);
   };
 
   return (
@@ -130,14 +110,15 @@ const CreateProject = () => {
         value={formInputData.deadline}
         onChange={handleInputChange}
       />
-
-      <SelectProjectManager
-        list={available.filter((user) => user.role === "Project Manager")}
+       <SelectByField
         label={"Project Manager"}
+        value={formInputData.projectManager}
         onChange={handleInputChange}
-        displayfield={"name"}
-        id="projectManager"
         field={"_id"}
+        displayfield={"name"}
+        id={"projectManager"}
+        placeholder={'Select a Project Manager'}
+        listofOptions={available.filter((user) => user.role === "Project Manager")}
       />
       <MultiSelect
         label={"Developers"}

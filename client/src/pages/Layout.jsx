@@ -88,7 +88,7 @@ const Navbar = () => {
                 {user.role === "Admin" && (
                   <div className="flex-column gap-lg">
                     <a href="/Projects">Projects</a>
-                    <a href="/Bugs">Tickets</a>
+                    <a href="/tickets">Tickets</a>
                   </div>
                 )}
                 {/* <a href="/Bugs">Schedule</a> */}
@@ -162,7 +162,7 @@ const Navbar = () => {
                         {user.role === "Admin" && (
                           <>
                             <a href="/Projects">Projects</a>
-                            <a href="/Bugs">Tickets</a>
+                            <a href="/Tickets">Tickets</a>
                             <a href="/createproject">Create Project</a>
                             <a href="/manageusers">Manage Users</a>
                           </>

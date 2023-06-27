@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
-import Bugs from "./pages/Bugs";
+import Tickets from "./pages/Tickets";
 import Projects from "./pages/Projects";
 import NoPage from "./pages/NoPage";
 import Project from "./pages/Project";
@@ -38,7 +38,7 @@ function App() {
             {/*We want to protect these routes */}
             <Route element={<RequireAuth />}>
               <Route index element={<Home />} />
-              <Route path="bugs" element={<Bugs />} />
+              <Route path="tickets" element={<Tickets />} />
 
               <Route path="profile" element={<Profile />} />
 

@@ -45,9 +45,9 @@ const AdminDashboard = () => {
       {bugs.length > 0 ? (
         <>
           <div className="full-width flex mobile-column-reverse">
-            <div className="chart bg-6">Projects: {projects.length}</div>
-            <div className="chart bg-5">Tickets: {bugs.length}</div>
-            <div className="chart bg-4">Users: {users.length}</div>
+            <div className="chart bg-6">Total Projects: {projects.length}</div>
+            <div className="chart bg-5">Total Tickets: {bugs.length}</div>
+            <div className="chart bg-4">Total Users: {users.length}</div>
           </div>
           <div className="flex full-width ">
             <div className="chart">
@@ -66,9 +66,9 @@ const AdminDashboard = () => {
             </div>
           </div>
           <div className="flex full-width">
-            <PieChart data={bugsByProject} header={"Projects"} />
-            <PieChart data={priority} header={"Priority"} />
-            <PieChart data={status} header={"Status"} />
+            <PieChart data={bugsByProject} header={"By Projects"} />
+            <PieChart data={priority} header={"By Priority"} />
+            <PieChart data={status} header={"By Status"} />
             <PieChart data={dev} header={"Assigned To"} />
           </div>
         </>

@@ -9,6 +9,7 @@ const UserTableBody = (users, handleRowClick) => {
                 type="checkbox"
                 className="checkbox"
                 onClick={() => handleRowClick(user, index)}
+                disabled={user.demo}
               ></input>
             </td>
             <td>{user.name}</td>

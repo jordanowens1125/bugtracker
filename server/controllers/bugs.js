@@ -31,7 +31,7 @@ const createBug = async (req, res) => {
   try {
     let bug = req.body;
     if (bug.assignedTo == "") {
-      bug.assignedTo = [];
+      bug.assignedTo = null;
     }
     //add bug to project
     const newBug = await Bug.create(bug);

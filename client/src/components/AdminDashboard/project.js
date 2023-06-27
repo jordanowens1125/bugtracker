@@ -1,5 +1,5 @@
 export const groupByStatus = (projects) => {
-  const statuses = {'Deployed':0, "Production":0};
+  const statuses = {'Development':0, "Production":0};
   const result = [];
   projects.map((project) => {
     if (statuses[project.status]) {

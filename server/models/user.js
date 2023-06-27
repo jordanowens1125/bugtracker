@@ -14,7 +14,7 @@ const UserSchema = new Schema({
       "Viewer",
       "Deleted",
       "Project Manager",
-      "Reviewer",
+      "Submitter",
     ],
     default: "Viewer",
   },
@@ -30,8 +30,8 @@ const UserSchema = new Schema({
   deleted: { type: Boolean, default: false },
   //profile image
   photoURL: { type: String },
-  demo: { type: Boolean, default: true },
-  joinedDate: {type: Date, default: Date.now()}
+  demo: { type: Boolean, default: false },
+  joinedDate: { type: Date, default: Date.now() },
 });
 
 //making a static signup method

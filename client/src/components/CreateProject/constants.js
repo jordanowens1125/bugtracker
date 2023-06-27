@@ -8,7 +8,6 @@ export const initialState = {
   deadline: dayjs(new Date()).format("YYYY-MM-DD"),
   history: [],
   members: [],
-  bugs: [],
   projectManager: '',
   client: "",
   public: true,

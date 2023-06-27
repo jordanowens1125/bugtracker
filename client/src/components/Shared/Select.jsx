@@ -6,6 +6,7 @@ const Select = ({
   id,
   disabled,
   required = true,
+  placeholder,
 }) => {
   return (
     <>
@@ -19,6 +20,9 @@ const Select = ({
         disabled={disabled}
         required={required}
       >
+        <option value={""} key={placeholder}>
+          {placeholder}
+        </option>
         {listofOptions.map((option) => (
           <option value={option} key={option}>
             {option}

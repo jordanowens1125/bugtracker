@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const User = require("./models/user");
 const Project = require("./models/project");
 const Bug = require("./models/bug");
@@ -9,17 +10,27 @@ const seedProjects = require("./seedFolder/projects");
 const seedUsers = require("./seedFolder/users");
 const seedBugs = require("./seedFolder/bugs");
 const seedComments = require("./seedFolder/comments");
-connectDB();
+
+const saltRounds = 10;
 
 const seedDB = async () => {
   try {
+    const usersWithHashedPasswordsPromiseArray = seedUsers.map(async (user) => {
+      let hashedPassword = await bcrypt.hash(user.password, saltRounds);
+      user.password = hashedPassword;
+      return user;
+    });
+
+    const usersWithHashedPasswords = await Promise.all(
+      usersWithHashedPasswordsPromiseArray
+    );
+
+    await connectDB();
     await User.deleteMany({});
-    await User.insertMany(seedUsers);
+    await User.insertMany(usersWithHashedPasswords);
 
     await Bug.deleteMany({});
     await Bug.insertMany(seedBugs);
-
-     
 
     await Project.deleteMany({});
     await Project.insertMany(seedProjects);

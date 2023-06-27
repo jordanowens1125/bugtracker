@@ -1,7 +1,7 @@
 const Table = ({ headings, content, caption }) => {
   return (
     <>
-      <div className="mobile-text-align flex-column">
+      <div className="mobile-text-align flex-column ">
         <p className="caption">{caption}</p>
         <table className="p-md full-width mobile-text-align h-lg overflow-y overflow-x">
           <thead>

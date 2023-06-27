@@ -10,6 +10,7 @@ import initialBugState from "../components/Project/initialBugState";
 const Project = () => {
   const projectID = useParams().id;
   const [project, setProject] = useState("");
+  const [available, setAvailable] = useState("");
   const [createBugMode, setCreateBugMode] = useState(false);
   const [bug, setBug] = useState(initialBugState);
   const { user } = useAuthContext();
@@ -17,15 +18,17 @@ const Project = () => {
   const addNewBug = async (e) => {
     e.preventDefault();
     bug.projectID = projectID;
-    const newBug = await api.bugs.createBug(user, bug);
-    const copiedProject = { ...project };
-    copiedProject.bugs.push(newBug);
-    setProject(copiedProject);
-    cancel();
-    messageInfo.dispatch({
-      type: "SHOW",
-      payload: `Bug ${newBug.title} has been successfully created!`,
-    });
+    try {
+      const newBug = await api.bugs.createBug(user, bug);
+      const copiedProject = { ...project };
+      copiedProject.bugs.push(newBug);
+      setProject(copiedProject);
+      cancel();
+      messageInfo.dispatch({
+        type: "SHOW",
+        payload: `Bug ${newBug.title} has been successfully created!`,
+      });
+    } catch (error) {}
   };
 
   const cancel = () => {
@@ -46,6 +49,7 @@ const Project = () => {
         const fetchedproject = await api.projects.fetchProject(user, projectID);
         //return 1 project
         setProject(fetchedproject.project);
+        setAvailable(fetchedproject.availableMembers);
       };
       fetchProjectDetails();
     }
@@ -57,6 +61,7 @@ const Project = () => {
           project={project}
           createBugMode={createBugMode}
           setBugMode={setCreateBugMode}
+          available={available}
         />
         {createBugMode && (
           <CreateTicketModal

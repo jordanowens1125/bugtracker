@@ -6,8 +6,8 @@ const ProjectSchema = new Schema({
   description: { type: String, required: true },
   status: {
     type: String,
-    enum: ["Production", "Deployment"],
-    default: "Production",
+    enum: ["Production", "Development"],
+    default: "Development",
   },
   startDate: { type: Date, default: Date.now },
   completionDate: { type: Date },

@@ -1,12 +1,18 @@
 import Input from "../Shared/GeneralInput";
 import TextArea from "../Shared/TextArea";
 import Buttons from "../Shared/Buttons";
+import MultiSelect from "../Shared/MultiSelect";
+import SelectByField from "../Shared/SelectByField";
+import dayjs from "dayjs";
 
 const EditProjectModal = ({
   handleSubmit,
   handleChange,
   handleCancel,
   edit,
+  developers,
+  handleDevSelect,
+  projectManagers,
 }) => {
   return (
     <div className="modal">
@@ -16,7 +22,6 @@ const EditProjectModal = ({
           label={"Title"}
           value={edit.title}
           onChange={handleChange}
-          required={true}
           id={"title"}
         />
         <TextArea
@@ -25,6 +30,31 @@ const EditProjectModal = ({
           value={edit.description}
           onChange={handleChange}
         />
+        <Input
+          label={"Deadline"}
+          value={dayjs(edit.deadline).format("YYYY-MM-DD")}
+          onChange={handleChange}
+          id={"deadline"}
+          type={"date"}
+        />
+        <SelectByField
+          label={"Project Manager"}
+          id={"projectManager"}
+          listofOptions={projectManagers}
+          value={edit.projectManager}
+          field={"_id"}
+          displayfield={"name"}
+          placeholder={"Select a project manager"}
+          onChange={handleChange}
+        />
+        {/* <MultiSelect
+          label={"Developers"}
+          onChange={handleDevSelect}
+          listOfOptions={developers}
+          displayfield={"name"}
+          field={"_id"}
+          id={'members'}
+        /> */}
         <Buttons
           secondary={"Cancel"}
           secondaryFunction={handleCancel}

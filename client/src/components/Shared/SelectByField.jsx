@@ -22,7 +22,7 @@ const SelectByField = ({
         required={required}
         disabled={disabled}
       >
-        <option value={undefined}>{placeholder}</option>
+        <option value={''} disabled='disabled'>{placeholder}</option>
         {listofOptions.map((option) => (
           <option value={option[field]} key={option[field]}>
             {option[displayfield]}
