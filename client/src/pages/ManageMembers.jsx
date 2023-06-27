@@ -71,10 +71,7 @@ const ManageMembers = () => {
         //console.log(fetchedproject);
         setProject(fetchedproject.project);
         const users = fetchedproject.availableMembers.filter(
-          (user) =>
-            user.role !== "Deleted" &&
-            user.role !== "Admin" &&
-            user !== "Viewer"
+          (user) => user.role === "Developer"
         );
         setAvailableMembers(users);
         setSavedAvailable(users);
@@ -129,7 +126,9 @@ const ManageMembers = () => {
   return (
     <>
       <div className="manage-members page">
-        <h1>This page will be added to project page edit modal as a select list...</h1>
+        <h1>
+          This page will be added to project page edit modal as a select list...
+        </h1>
         <div className="header flex-column mobile-column">
           <a href={`/projects/${projectID}`} className="p-none">
             To Project Page

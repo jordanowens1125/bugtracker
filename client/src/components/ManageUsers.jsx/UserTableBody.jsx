@@ -3,7 +3,7 @@ const UserTableBody = (users, handleRowClick) => {
     <>
       {users.map((user, index) => {
         return (
-          <tr key={user._id}>
+          <tr key={user._id} onMouseOver={() => console.log(123)}>
             <td>
               <input
                 type="checkbox"
@@ -12,7 +12,9 @@ const UserTableBody = (users, handleRowClick) => {
                 disabled={user.demo}
               ></input>
             </td>
-            <td>{user.name}</td>
+            <td>
+              {user.name}{" "}
+            </td>
             <td>{user.email}</td>
             <td>{user.role}</td>
             <td>

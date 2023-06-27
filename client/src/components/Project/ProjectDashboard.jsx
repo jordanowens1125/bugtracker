@@ -77,7 +77,7 @@ const ProjectDashboard = ({
             handleChange={handleChange}
             edit={edit}
             developers={[
-              ...project.members,
+              ...project.members.filter((user) => user.role === "Developer"),
               ...available.filter((user) => user.role === "Developer"),
             ]}
             projectManagers={[

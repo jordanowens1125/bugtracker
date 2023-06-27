@@ -36,7 +36,7 @@ const CreateTicketModal = ({
           label={"Assigned To"}
           onChange={handleInputChange}
           placeholder={"Not Assigned"}
-          listofOptions={project.members}
+          listofOptions={project.members.filter((user) => user.role === "Developer")}
           displayfield={"name"}
           field={"_id"}
           required={false}

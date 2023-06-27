@@ -30,12 +30,15 @@ const Profile = () => {
     fetchUserInfo();
   }, [user, userID]);
   return (
-    <div className="page border flex-column aic jcc">
-      <p>{info._id}</p>
-      <p>{info.email}</p>
-      <p>{info.name}</p>
-      <p>{info.role}</p>
-      <p>{info.joinedDate}</p>
+    <div className="page flex-column aic jcc full-height">
+      <div className="flex-column cover mobile-column">
+        <h1 className="border-bottom full-width">User Account</h1>
+        <p>ID:{info._id}</p>
+        <p>Email: {info.email}</p>
+        <p>Name: {info.name}</p>
+        <p>Role: {info.role}</p>
+        <p>Created Date: {info.joinedDate}</p>
+      </div>
     </div>
   );
 };

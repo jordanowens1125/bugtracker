@@ -15,7 +15,13 @@ const ManageUsersPage = ({
 }) => {
   return (
     <div className="page flex-column">
-      <h1>Manage Users</h1>
+      <div className="flex aic mobile-column">
+        <h1>Manage Users</h1>
+        <p>
+          <i className="primary">*</i>Demo users can not be altered
+        </p>
+      </div>
+
       {/* <span className="flex gap-md search mobile-column">
             <input type="text" placeholder="Search for member" />
             <button className="button-secondary" type="button">

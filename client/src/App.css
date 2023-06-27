@@ -142,6 +142,10 @@ a:-webkit-any-link {
   border: 2px solid var(--secondary-color);
 }
 
+.border-bottom{
+  border-bottom: 5px solid var(--bg-color);
+}
+
 .grey-border {
   border: var(--tri-bg-color) 3px solid;
   border-radius: 20px;

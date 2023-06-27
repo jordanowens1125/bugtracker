@@ -75,7 +75,7 @@ const ProjectsTable = ({ projects }) => {
               label={"Status"}
               value={status}
               placeholder={"Any Status"}
-              listofOptions={["On Track", "Production", "Development"]}
+              listofOptions={["Production", "Development"]}
               onChange={(e) => setStatus(e.target.value)}
             />
           </div>

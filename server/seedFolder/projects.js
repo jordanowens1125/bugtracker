@@ -6,15 +6,16 @@ const seedProjects = [
     _id: mongoose.Types.ObjectId("63ab7ace4e39c16c9b79e3ac"),
     title: "project0",
     description: "project0",
+    projectManager: "649b03f0be6adba7faa4e0d9",
     startDate: "2022-12-23",
     completionDate: "",
     deadline: "2022-12-28",
     history: [],
     client: "",
-    
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b0bb3479c88b6723de6"),
+    projectManager: "649b03f0be6adba7faa4e0d9",
     title: "Demo Project join me!",
     description: "Need as many members as possible",
     startDate: "2022-12-23",
@@ -28,6 +29,7 @@ const seedProjects = [
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b4b670edf15eec361f3"),
+    projectManager: "649b03f0be6adba7faa4e0d9",
     title: "project2",
     description: "project2",
     startDate: "2022-12-23",
@@ -40,6 +42,7 @@ const seedProjects = [
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b54ebd9c511b8b3d141"),
+    projectManager: "649b03f0be6adba7faa4e0d9",
     title: "project3",
     description: "project3",
     startDate: "2022-12-23",
@@ -53,6 +56,7 @@ const seedProjects = [
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b5d0533bd9b5c7d7f98"),
+    projectManager: "649b03f0be6adba7faa4e0d9",
     title: "project4",
     description: "project4",
     startDate: "2022-12-23",
@@ -65,6 +69,7 @@ const seedProjects = [
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b648a07b772c2bbdade"),
+    projectManager: "649b03f0be6adba7faa4e0d9",
     title: "project5",
     description: "project5",
     startDate: "2022-12-23",
@@ -78,6 +83,7 @@ const seedProjects = [
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b6cfca6608e56763800"),
+    projectManager: "649b03f0be6adba7faa4e0d9",
     title: "project6",
     description: "project6",
     startDate: "2022-12-23",
@@ -90,6 +96,7 @@ const seedProjects = [
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b759ff366538007353e"),
+    projectManager: "649b03f0be6adba7faa4e0d9",
     title: "Lucky number 7",
     description: "project7",
     startDate: "2022-12-23",
@@ -103,6 +110,7 @@ const seedProjects = [
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b7de41f92bef4f993ce"),
+    projectManager: "649b03f0be6adba7faa4e0d9",
     title: "project8",
     description: "project8",
     startDate: "2022-12-23",
@@ -115,6 +123,7 @@ const seedProjects = [
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b8526c52518a266d934"),
+    projectManager: "649b03f0be6adba7faa4e0d9",
     title: "project9",
     description: "project9",
     startDate: "2022-12-23",
@@ -127,6 +136,7 @@ const seedProjects = [
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b8ddee3668fbd9429a1"),
+    projectManager: "649b03f0be6adba7faa4e0d9",
     title: "project10",
     description: "project10",
     startDate: "2022-12-23",
@@ -139,6 +149,7 @@ const seedProjects = [
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b950da91f090593d81f"),
+    projectManager: "649b03f0be6adba7faa4e0d9",
     title: "project11",
     description: "project11",
     startDate: "2022-12-23",
@@ -151,6 +162,7 @@ const seedProjects = [
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b9bf017f7b415156ea7"),
+    projectManager: "649b03f0be6adba7faa4e0d9",
     title: "project12",
     description: "project12",
     startDate: "2022-12-23",
@@ -163,6 +175,7 @@ const seedProjects = [
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7ba3906128dbe6e18d43"),
+    projectManager: "649b03f0be6adba7faa4e0d9",
     title: "project13",
     description: "project13",
     startDate: "2022-12-23",
@@ -175,6 +188,7 @@ const seedProjects = [
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7baa8f1d56a3b78bda15"),
+    projectManager: "649b03f0be6adba7faa4e0d9",
     title: "project14",
     description: "project14",
     startDate: "2022-12-23",

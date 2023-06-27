@@ -110,14 +110,14 @@ const Navbar = () => {
               </div>
 
               <div className="flex-column gap-lg">
-                {/* <a href="/Settings">Settings</a> */}
-                <a href="/Profile">My Profile</a>
+                {/* <a href="/Profile">My Profile</a> */}
+
                 {/* <label className="switch">
                   <input type="checkbox" aria-label="Change Color Theme" />
                   <span className="slider round" onClick={changeTheme}></span>
                 </label> */}
                 <span onClick={logOut}>
-                  <button className="primary .a">Log Out</button>
+                  <p className="primary a">Log Out</p>
                 </span>
               </div>
             </div>
@@ -170,9 +170,9 @@ const Navbar = () => {
                         {user.role === "Project Manager" && (
                           <a href="/createproject">Create Project</a>
                         )}
-                        <a href="/Profile">My Profile</a>
-                        <span onClick={logOut} className="p-sm primary .a">
-                          Log Out
+                        {/* <a href="/Profile">My Profile</a> */}
+                        <span onClick={logOut}>
+                          <p className="primary a">Log Out</p>
                         </span>
                       </div>
                     </>
