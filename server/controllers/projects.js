@@ -16,8 +16,9 @@ const getProjects = async (req, res) => {
 const createProject = async (req, res) => {
   try {
     const project = await Project.create(req.body);
+    console.log(project);
     await User.updateMany(
-      { _id: { $in: req.body.members } },
+      { _id: { $in: [...req.body.members, req.body.projectManager] } },
       {
         project: project._id,
         assignable: false,
@@ -80,7 +81,7 @@ const getProject = async (req, res) => {
       ],
       $and: [
         {
-          project: undefined,
+          project: null,
         },
       ],
     });
@@ -91,131 +92,42 @@ const getProject = async (req, res) => {
   }
 };
 
-const updateProjectInfo = async (req, res) => {
+const updateProject = async (req, res) => {
   try {
+    //find the project by id to get the old member ids
     const oldProject = await Project.findById(req.params.id);
 
-    if (oldProject.projectManager !== req.body.projectManager) {
-      await User.findByIdAndUpdate(
-        { _id: oldProject.projectManager },
-        {
-          project: null,
-          assignable: true,
-        }
-      );
-
-      await User.findByIdAndUpdate(
-        { _id: req.body.projectManager },
-        {
-          project: req.params.id,
-          assignable: false,
-        }
-      );
-    }
-
-    const updatedProject = await Project.findByIdAndUpdate(
-      { _id: req.params.id },
-      req.body
-    );
-
-    res.status(200).json(updatedProject);
-  } catch (error) {
-    res.status(404).json({ message: error });
-  }
-};
-
-const updateMembers = async (req, res) => {
-  try {
+    //remove the project from the old members
     await User.updateMany(
-      { _id: { $in: req.body.oldIds } },
+      { _id: { $in: [...oldProject.members, oldProject.projectManager] } },
       {
         project: null,
         assignable: true,
       }
     );
-    await Bug.updateMany(
-      {
-        assignedTo: { $in: req.body.oldIds },
-      },
-      { assignedTo: null }
-    );
-    await User.updateMany(
-      { _id: { $in: req.body.newIds } },
-      {
-        project: req.params.id,
-        assignable: false,
-      }
-    );
 
-    const project = await Project.findByIdAndUpdate(req.params.id, {
-      members: req.body.newIds,
-    });
-    res.status(200).json(project);
-  } catch (error) {
-    res.status(404).json({ message: error });
-  }
-};
+    let { title, description, status, deadline,  members } = req.body;
 
-const updateProject = async (req, res) => {
-  try {
-    //find the project by id to get the old member ids
-    const oldProject = await Project.findById(req.params.id);
-    //remove the project from the old members
-    await User.updateMany(
-      { $in: oldProject.members },
-      {
-        project: undefined,
-        assignable: true,
-      }
-    );
     //remove the members from the project
     await Project.findByIdAndUpdate(req.params.id, {
-      $pull: {
-        members: { $in: oldProject.members },
-      },
-    });
-
-    let {
+      projectManager: req.body.projectManager,
       title,
       description,
       status,
-      startDate,
       deadline,
-      history,
       members,
-      bugs,
-      public,
-    } = req.body;
-    //console.log(members)
+    });
 
     //add the new members to the project
-    const users = await User.updateMany(
-      { _id: { $in: members } },
+    await User.updateMany(
+      { _id: { $in: [...members, req.body.projectManager] } },
       {
         project: req.params.id,
         assignable: false,
       }
     );
 
-    //remove bugs from users who are no longer in this project
-
-    await Project.findByIdAndUpdate(req.params.id, {
-      title,
-      description,
-      status,
-      startDate,
-      deadline,
-      history,
-      members,
-      bugs,
-      public,
-    });
-
-    const project = await Project.findById(req.params.id)
-      .populate("members")
-      .populate("bugs");
-
-    res.status(200).json(project);
+    res.status(200).json();
   } catch (error) {
     res.status(404).json({ message: error });
   }
@@ -227,6 +139,4 @@ module.exports = {
   deleteProject,
   getProject,
   updateProject,
-  updateProjectInfo,
-  updateMembers,
 };

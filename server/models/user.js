@@ -24,6 +24,7 @@ const UserSchema = new Schema({
     select: false,
   },
   assignedBugs: [{ type: Schema.Types.ObjectId, ref: "Bug" }],
+  createdBugs: [{ type: Schema.Types.ObjectId, ref: "Bug" }],
   comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
   project: { type: Schema.Types.ObjectId, ref: "Project" },
   assignable: { type: Boolean, default: true },

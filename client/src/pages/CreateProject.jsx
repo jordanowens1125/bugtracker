@@ -8,33 +8,32 @@ import {
   MAX_DESCRIPTION_LENGTH,
   MAX_TITLE_LENGTH,
 } from "../components/CreateProject/constants";
-import MultiSelect from "../components/Shared/MultiSelect";
 import TextArea from "../components/Shared/TextArea";
 import Buttons from "../components/Shared/Buttons";
 import SelectByField from "../components/Shared/SelectByField";
+import SelectedDevelopers from "../components/CreateProject/SelectedDevelopers";
 
 const CreateProject = () => {
   const [available, setAvailable] = useState([]);
-  const [savedAvailable, setSavedAvailable] = useState([]);
   const messageInfo = useMessageContext();
   const [formInputData, setFormInputData] = useState(initialState);
   const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchData = async (user) => {
-      const users = await api.users.fetchUsers(user);
-      const filtered = users.filter(
-        (user) => user.role !== "Deleted" && user.role !== "Admin"
-      );
-      setAvailable(filtered);
-      setSavedAvailable(filtered);
+      try {
+        const users = await api.users.fetchAvailableUsers(user);
+        const filtered = users.filter(
+          (user) => user.role !== "Deleted" && user.role !== "Admin"
+        );
+        setAvailable(filtered);
+      } catch (error) {}
     };
     fetchData(user);
   }, [user]);
 
   const reset = () => {
     setFormInputData(initialState);
-    setAvailable(savedAvailable);
   };
 
   const handleInputChange = (e) => {
@@ -54,35 +53,41 @@ const CreateProject = () => {
     setFormInputData(NewInputValue);
   };
 
-  const handleDeveloperSelect = (e) => {
-    const options = e.target.options;
-
-    var value = [];
-    for (var i = 0, l = options.length; i < l; i++) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
+  const handleDeveloperSelect = (e, userID) => {
+    const copy = { ...formInputData };
+    if (e.target.classList.contains("selected")) {
+      e.target.classList.remove("selected");
+      delete copy.members[userID];
+    } else {
+      e.target.classList.add("selected");
+      copy.members[userID] = true;
     }
-    setFormInputData({ ...formInputData, members: value });
+    setFormInputData(copy);
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     //change list of members to ids here
-    const memberIds = formInputData.members.map((member) => member._id);
+    const newInputValue = { ...formInputData };
+    const memberIds = Object.keys(formInputData.members);
+    const selectedIds = [...memberIds, newInputValue.projectManager];
+
     try {
-      const newInputValue = { ...formInputData };
       newInputValue["members"] = memberIds;
       await api.projects.createProject(user, newInputValue);
       messageInfo.dispatch({
         type: "SHOW",
         payload: `Project ${newInputValue.title} has been successfully created!`,
       });
-      setSavedAvailable(available);
       setFormInputData(initialState);
-    } catch (error) {
-      
-    }
+
+      //remove selected users
+      const unSelectedUsers = available.filter(
+        (user) => !selectedIds.find((id) => id === user._id)
+      );
+
+      setAvailable(unSelectedUsers);
+    } catch (error) {}
   };
 
   return (
@@ -110,23 +115,21 @@ const CreateProject = () => {
         value={formInputData.deadline}
         onChange={handleInputChange}
       />
-       <SelectByField
+      <SelectByField
         label={"Project Manager"}
         value={formInputData.projectManager}
         onChange={handleInputChange}
         field={"_id"}
         displayfield={"name"}
         id={"projectManager"}
-        placeholder={'Select a Project Manager'}
-        listofOptions={available.filter((user) => user.role === "Project Manager")}
+        placeholder={"Select a Project Manager"}
+        listofOptions={available.filter(
+          (user) => user.role === "Project Manager"
+        )}
       />
-      <MultiSelect
-        label={"Developers"}
-        id={"members"}
-        listOfOptions={available.filter((user) => user.role === "Developer")}
-        field={"_id"}
-        displayfield={"name"}
-        onChange={handleDeveloperSelect}
+      <SelectedDevelopers
+        developers={available.filter((user) => user.role === "Developer")}
+        handleDeveloperSelect={handleDeveloperSelect}
       />
       <Buttons
         secondary={"Reset"}

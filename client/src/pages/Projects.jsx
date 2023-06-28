@@ -7,8 +7,10 @@ const Projects = () => {
   const { user } = useAuthContext();
   useEffect(() => {
     const fetchData = async () => {
-      const response = await api.projects.fetchProjects(user);
-      setProjects(response);
+      try {
+        const response = await api.projects.fetchProjects(user);
+        setProjects(response);
+      } catch (error) {}
     };
     fetchData();
   }, [user]);
@@ -18,7 +20,7 @@ const Projects = () => {
         <>
           <h1>Projects</h1>
           <ProjectsTable projects={projects} />
-        </> 
+        </>
       </div>
     </>
   );

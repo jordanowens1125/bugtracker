@@ -8,7 +8,6 @@ import NoPage from "./pages/NoPage";
 import Project from "./pages/Project";
 import "./App.css";
 import Bug from "./pages/Bug";
-import ManageMembers from "./pages/ManageMembers";
 import ManageUsers from "./pages/ManageUsers";
 import CreateProject from "./pages/CreateProject";
 import CreateTicket from "./pages/CreateTicket";
@@ -50,10 +49,6 @@ function App() {
 
               <Route element={<ProjectManagerRoute />}>
                 {/* Admin/Project Managers only */}
-                <Route
-                  path="projects/:id/managemembers"
-                  element={<ManageMembers />}
-                />{" "}
                 <Route path="createproject" element={<CreateProject />} />
                 <Route
                   path="projectmanager"

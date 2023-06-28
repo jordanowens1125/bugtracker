@@ -10,37 +10,37 @@ const BarChart = ({ data, column, title }) => {
 
   const getBarColor = (bar) => bar.data.color;
   return (
-    <ResponsiveBar
-      data={coloredData}
-      keys={["value"]}
-      indexBy={column}
-      margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
-      padding={0.05}
-      valueScale={{ type: "linear" }}
-      indexScale={{ type: "band", round: true }}
-      colors={getBarColor}
-      borderColor={{
-        from: "color",
-        modifiers: [["darker", 1.6]],
-      }}
-      axisBottom={{
-        tickSize: 1,
-        tickPadding: 5,
-        tickRotation: 0,
-        legend: title,
-        legendPosition: "middle",
-        legendOffset: 32,
-      }}
-      labelTextColor={{
-        from: "color",
-        modifiers: [["darker", 1.6]],
-      }}
-      tooltip={() => {}}
-      role="application"
-      isFocusable={false}
-      ariaLabel="Nivo bar chart demo"
-      barAriaLabel={(e) => e.id + ": " + e.role + e.indexValue}
-    />
+    <>
+      <div className="chart-container">
+        <i className="chart-header">{title}</i>
+        <div className="chart full-width">
+          <ResponsiveBar
+            data={coloredData}
+            keys={["value"]}
+            indexBy={column}
+            margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
+            padding={0.05}
+            valueScale={{ type: "linear" }}
+            indexScale={{ type: "band", round: true }}
+            colors={getBarColor}
+            borderColor={{
+              from: "color",
+              modifiers: [["darker", 1.6]],
+            }}
+            
+            labelTextColor={{
+              from: "color",
+              modifiers: [["darker", 1.6]],
+            }}
+            tooltip={() => {}}
+            role="application"
+            isFocusable={false}
+            ariaLabel="Nivo bar chart demo"
+            barAriaLabel={(e) => e.id + ": " + e.role + e.indexValue}
+          />
+        </div>
+      </div>
+    </>
   );
 };
 

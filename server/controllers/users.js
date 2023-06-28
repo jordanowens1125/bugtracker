@@ -311,6 +311,29 @@ const unAssignUserFromProject = async (req, res) => {
   }
 };
 
+const getAvailableUsers = async (req, res) => {
+  try {
+    const users = await User.find({
+      $or: [
+        {
+          role: "Project Manager",
+        },
+        {
+          role: "Developer",
+        },
+      ],
+      $and: [
+        {
+          project: undefined,
+        },
+      ],
+    });
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(404).json({ message: err });
+  }
+};
+
 module.exports = {
   getUsers,
   deleteUser,
@@ -327,4 +350,5 @@ module.exports = {
   loginUser,
   getPM,
   getAdmin,
+  getAvailableUsers,
 };

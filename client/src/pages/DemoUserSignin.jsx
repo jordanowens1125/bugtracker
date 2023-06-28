@@ -6,34 +6,40 @@ const DemoUserSignin = () => {
   const { signIn, error, isLoading } = useLogin();
   const navigate = useNavigate();
   const SignInAsDemoDeveloper = async () => {
-    let response = await signIn(
-      process.env.REACT_APP_DEMO_DEVELOPER_EMAIL,
-      process.env.REACT_APP_DEMO_DEVELOPER_PASSWORD
-    );
-    if (response.ok) {
-      navigate("/");
-    }
+    try {
+      let response = await signIn(
+        process.env.REACT_APP_DEMO_DEVELOPER_EMAIL,
+        process.env.REACT_APP_DEMO_DEVELOPER_PASSWORD
+      );
+      if (response.ok) {
+        navigate("/");
+      }
+    } catch (error) {}
   };
 
   const SignInAsDemoAdmin = async () => {
-    let response = await signIn(
-      process.env.REACT_APP_DEMO_ADMIN_EMAIL,
-      process.env.REACT_APP_DEMO_ADMIN_PASSWORD
-    );
-    if (response.ok) {
-      navigate("/");
-    }
+    try {
+      let response = await signIn(
+        process.env.REACT_APP_DEMO_ADMIN_EMAIL,
+        process.env.REACT_APP_DEMO_ADMIN_PASSWORD
+      );
+      if (response.ok) {
+        navigate("/");
+      }
+    } catch (error) {}
   };
 
   const SignInAsDemoPM = async () => {
-    let response = await signIn(
-      process.env.REACT_APP_DEMO_PM_EMAIL,
-      process.env.REACT_APP_DEMO_PM_PASSWORD
-    );
+    try {
+      let response = await signIn(
+        process.env.REACT_APP_DEMO_PM_EMAIL,
+        process.env.REACT_APP_DEMO_PM_PASSWORD
+      );
 
-    if (response.ok) {
-      navigate("/");
-    }
+      if (response.ok) {
+        navigate("/");
+      }
+    } catch (error) {}
   };
 
   // const SignInAsDemoReviewer = async () => {

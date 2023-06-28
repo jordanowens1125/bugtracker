@@ -17,7 +17,7 @@ const initialTicketState = {
   priority: "Low",
   status: "Open",
   deadline: dayjs(new Date()).format("YYYY-MM-DD"),
-  projectID: undefined,
+  projectID: '',
 };
 
 const CreateTicket = () => {
@@ -43,7 +43,7 @@ const CreateTicket = () => {
     const copy = { ...ticket };
     copy.creator = user._id;
     try {
-      await api.bugs.createBug(user, ticket);
+      await api.bugs.createBug(user, copy);
       messageInfo.dispatch({
         type: "SHOW",
         payload: `Successfully created ticket ${ticket.title}.`,
@@ -52,7 +52,7 @@ const CreateTicket = () => {
       document.getElementById("projectID").value = -1;
     } catch (error) {
       setError(
-        `Currently unable to create tickets because of the following error: ${error.message}`
+        `Ticket Creation Unsuccessful: ${error.message}`
       );
     }
   };
@@ -119,6 +119,7 @@ const CreateTicket = () => {
         displayfield={"title"}
         id={"projectID"}
         listofOptions={projects}
+        placeholder={'No Project Selected'}
       />
       <Buttons submit={"Submit"} disabled={projects.length === 0} />
     </form>

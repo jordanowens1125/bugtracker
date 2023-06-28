@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useAuthContext from "../hooks/useAuthContext";
 import { useParams } from "react-router-dom";
 import api from "../api";
+import dayjs from "dayjs";
 
 const state = {
   _id: "",
@@ -17,27 +18,28 @@ const Profile = () => {
   const [info, setInfo] = useState(state);
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const fetchedUser = await api.users.fetchUser(user, userID);
-      const { _id, email, name, role, joinedDate } = fetchedUser;
-      setInfo({
-        _id,
-        email,
-        name,
-        role,
-        joinedDate,
-      });
+      try {
+        const fetchedUser = await api.users.fetchUser(user, userID);
+        const { _id, email, name, role, joinedDate } = fetchedUser;
+        setInfo({
+          _id,
+          email,
+          name,
+          role,
+          joinedDate,
+        });
+      } catch (error) {}
     };
     fetchUserInfo();
   }, [user, userID]);
   return (
     <div className="page flex-column aic jcc full-height">
       <div className="flex-column cover mobile-column">
-        <h1 className="border-bottom full-width">User Account</h1>
+        <h1 className="border-bottom full-width">{info.name}</h1>
         <p>ID:{info._id}</p>
         <p>Email: {info.email}</p>
-        <p>Name: {info.name}</p>
         <p>Role: {info.role}</p>
-        <p>Created Date: {info.joinedDate}</p>
+        <p>Created Date: {dayjs(info.joinedDate).format("YYYY-MM-DD")}</p>
       </div>
     </div>
   );

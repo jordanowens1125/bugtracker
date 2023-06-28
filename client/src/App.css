@@ -106,6 +106,10 @@ a:-webkit-any-link {
   width: fit-content;
 }
 
+.h-sm {
+  height: 200px;
+}
+
 .h-md {
   max-height: 400px;
   overflow-y: auto;
@@ -139,10 +143,10 @@ a:-webkit-any-link {
 }
 
 .primary-border {
-  border: 2px solid var(--secondary-color);
+  border: 2px solid var(--secondary-bg-color);
 }
 
-.border-bottom{
+.border-bottom {
   border-bottom: 5px solid var(--bg-color);
 }
 
@@ -171,6 +175,7 @@ a:-webkit-any-link {
   border-radius: 5px;
 }
 /* Padding */
+#p-none,
 .p-none {
   padding: 0;
 }
@@ -223,7 +228,7 @@ a:-webkit-any-link {
   gap: 10px;
 }
 
-.no-wrap{
+.no-wrap {
   flex-wrap: nowrap;
 }
 
@@ -342,6 +347,9 @@ input,
 fieldset,
 select,
 option,
+.option,
+.option-modal,
+.select-modal,
 textarea {
   border: 2px solid var(--secondary-bg-color);
   padding: 8px;
@@ -350,14 +358,29 @@ textarea {
   margin: 2px;
 }
 
-option {
-  margin: 4px;
+.select-modal {
+  background-color: var(--bg-color);
 }
 
-select[multiple]:focus option:checked {
+.option-modal {
+  background-color: var(--bg-color);
+}
+
+option,
+.option {
+  margin: 4px;
+  cursor: pointer;
+}
+
+select[multiple]:focus option:checked,
+.selected {
   background: var(--primary-color)
     linear-gradient(0deg, var(--primary-color) 0%, var(--primary-color) 100%);
-  color: #6e62e5;
+  color: var(--bg-color);
+}
+
+.selected:hover {
+  cursor: pointer;
 }
 
 input[type="text"]:focus,

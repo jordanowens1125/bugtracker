@@ -67,16 +67,21 @@ const ManageMembers = () => {
   useEffect(() => {
     if (projectID && projectID !== "") {
       const fetchProjectDetails = async () => {
-        const fetchedproject = await api.projects.fetchProject(user, projectID);
-        //console.log(fetchedproject);
-        setProject(fetchedproject.project);
-        const users = fetchedproject.availableMembers.filter(
-          (user) => user.role === "Developer"
-        );
-        setAvailableMembers(users);
-        setSavedAvailable(users);
-        setCurrentMembers(fetchedproject.project.members);
-        setSavedCurrent(fetchedproject.project.members);
+        try {
+          const fetchedproject = await api.projects.fetchProject(
+            user,
+            projectID
+          );
+          //console.log(fetchedproject);
+          setProject(fetchedproject.project);
+          const users = fetchedproject.availableMembers.filter(
+            (user) => user.role === "Developer"
+          );
+          setAvailableMembers(users);
+          setSavedAvailable(users);
+          setCurrentMembers(fetchedproject.project.members);
+          setSavedCurrent(fetchedproject.project.members);
+        } catch (error) {}
       };
       fetchProjectDetails();
     }
@@ -137,7 +142,7 @@ const ManageMembers = () => {
           <p>Description: {project.description}</p>
         </div>
 
-        <span className="submit flex aic jcc space-between">
+        <span className="submit flex aic jcc space-between mobile-column">
           <button className="button-secondary" onClick={reset}>
             Reset Filters
           </button>
@@ -150,7 +155,7 @@ const ManageMembers = () => {
           </button>
         </span>
 
-        <span className="flex gap-md search aic jcc">
+        <span className="flex gap-md search aic jcc mobile-column">
           <input type="text" placeholder="Search for member" />
           <button className="button-secondary" type="button">
             Clear

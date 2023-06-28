@@ -50,20 +50,17 @@ const AdminDashboard = () => {
             <div className="chart bg-4">Total Users: {users.length}</div>
           </div>
           <div className="flex full-width ">
-            <div className="chart">
-              <BarChart
-                data={groupByRoles(users)}
-                column="role"
-                title={"Users By Roles"}
-              />
-            </div>
-            <div className="chart">
-              <BarChart
-                data={groupByStatus(projects)}
-                column="status"
-                title={"Projects By Status"}
-              />
-            </div>
+            <BarChart
+              data={groupByRoles(users)}
+              column="role"
+              title={"Users By Roles"}
+            />
+
+            <BarChart
+              data={groupByStatus(projects)}
+              column="status"
+              title={"Projects By Status"}
+            />
           </div>
           <div className="flex full-width">
             <PieChart data={bugsByProject} header={"By Projects"} />

@@ -40,6 +40,12 @@ const createBug = async (req, res) => {
         bugs: newBug._id,
       },
     });
+
+    await User.findByIdAndUpdate(bug.creator, {
+      $push: {
+        createdBugs: newBug._id,
+      },
+    });
     res.status(200).json(newBug);
   } catch (error) {
     res.status(404).json({ message: error });
@@ -114,16 +120,6 @@ const updateBug = async (req, res) => {
         }
       );
     }
-
-    //remove old bug from old related bugs
-    // await Bug.findByIdAndUpdate(
-    //   { $in: oldBug.relatedBugs },
-    //   {
-    //     $pull: {
-    //       relatedBugs: _id,
-    //     },
-    //   }
-    // );
     if (updatedBug.assignedTo) {
       //add bug to new user
       await User.findByIdAndUpdate(
@@ -135,16 +131,6 @@ const updateBug = async (req, res) => {
         }
       );
     }
-
-    //add bug to new related bugs
-    // await Bug.findByIdAndUpdate(
-    //   { _id: updatedBug.relatedBugs },
-    //   {
-    //     $addToSet: {
-    //       relatedBugs: _id,
-    //     },
-    //   }
-    // );
 
     const {
       title,

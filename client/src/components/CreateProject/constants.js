@@ -7,7 +7,7 @@ export const initialState = {
   description: "",
   deadline: dayjs(new Date()).format("YYYY-MM-DD"),
   history: [],
-  members: [],
+  members: {},
   projectManager: '',
   client: "",
   public: true,

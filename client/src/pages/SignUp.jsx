@@ -23,7 +23,9 @@ const SignUp = () => {
   const [viewPassword, setViewPassword] = useState(false);
   const submit = async (e) => {
     e.preventDefault();
-    await signup(email, password);
+    try {
+      await signup(email, password);
+    } catch (error) {}
   };
   return (
     <div className="flex-column jcc full-height aic page">

@@ -16,10 +16,9 @@ const {
   deleteUsers,
   getPM,
   getAdmin,
+  getAvailableUsers,
 } = require("../controllers/users");
 
-/* GET users listing. */
-router.get("/", getUsers);
 //login
 router.post("/login", loginUser);
 
@@ -30,6 +29,9 @@ router.post("/signup", signUp);
 const requireAuth = require("../middleware/requireAuth");
 router.use(requireAuth);
 
+/* GET users listing. */
+router.get("/", getUsers);
+router.get("/available", getAvailableUsers);
 router.delete("/delete", deleteUsers);
 router.delete("/delete/:id", deleteUser);
 router.put("/project/:id", assignUserToProject);

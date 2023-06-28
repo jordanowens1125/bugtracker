@@ -78,7 +78,7 @@ const Navbar = () => {
                   <a href="/">Manage Projects</a>
                 )}
 
-                {user.role === "Developer" && <a href="/">My Projects</a>}
+                {user.role === "Developer" && <a href="/">My Tickets</a>}
 
                 {user.role === "Admin" && <a href="/">Home</a>}
 

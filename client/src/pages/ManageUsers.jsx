@@ -18,11 +18,13 @@ const ManageUsers = () => {
   const [deleteMode, setDeleteMode] = useState(false);
   useEffect(() => {
     const fetchData = async (user) => {
-      const response = await fetchUsers(user);
-      const users = response.filter(
-        (user) => user.role !== "Deleted" && user.role !== "Admin"
-      );
-      setFiltered(users);
+      try {
+        const response = await fetchUsers(user);
+        const users = response.filter(
+          (user) => user.role !== "Deleted" && user.role !== "Admin"
+        );
+        setFiltered(users);
+      } catch (error) {}
     };
     fetchData(user);
   }, [user]);

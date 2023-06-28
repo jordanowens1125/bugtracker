@@ -38,8 +38,10 @@ const Bugs = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await api.bugs.fetchBugs(user);
-      setBugs(response);
+      try {
+        const response = await api.bugs.fetchBugs(user);
+        setBugs(response);
+      } catch (error) {}
     };
     fetchData();
   }, [user]);

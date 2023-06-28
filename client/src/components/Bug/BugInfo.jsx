@@ -5,8 +5,8 @@ const BugInfo = ({ bug, canEdit, setEditMode }) => {
   return (
     <>
       <section className="p-md gap-md flex-column mobile-column jcc">
-        <a href={`/projects/${bug.projectID?._id || "-"}`} className="p-top-lg">
-          Go To Bug Project
+        <a href={`/projects/${bug.projectID?._id || "-"}`} id='p-none'>
+          To Ticket Project
         </a>
 
         <>

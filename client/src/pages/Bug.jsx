@@ -31,15 +31,17 @@ const Bug = () => {
 
   useEffect(() => {
     const fetchBug = async () => {
-      const request = await api.bugs.fetchBug(user, id);
-      const bug = request.bug;
-      setBug(bug);
-      setUpdattedBug(bug);
-      //only developers
-      setUsers(request.members.filter((user) => user.role === "Developer"));
-      if (bug.assignedTo) {
-        setIndex(findUser(request.bug.assignedTo, request.members));
-      }
+      try {
+        const request = await api.bugs.fetchBug(user, id);
+        const bug = request.bug;
+        setBug(bug);
+        setUpdattedBug(bug);
+        //only developers
+        setUsers(request.members.filter((user) => user.role === "Developer"));
+        if (bug.assignedTo) {
+          setIndex(findUser(request.bug.assignedTo, request.members));
+        }
+      } catch (error) {}
     };
     fetchBug();
   }, [id, user]);
@@ -70,14 +72,16 @@ const Bug = () => {
     }
 
     bug.assignedTo = bug?.assignedTo?._id || undefined;
-    await api.bugs.updateBug(user, bug, updattedBug);
-    updattedBug.assignedTo = users[index];
-    setEditMode(false);
-    setBug(updattedBug);
-    messageInfo.dispatch({
-      type: "SHOW",
-      payload: `Bug ${bug.title} has been successfully edited!`,
-    });
+    try {
+      await api.bugs.updateBug(user, bug, updattedBug);
+      updattedBug.assignedTo = users[index];
+      setEditMode(false);
+      setBug(updattedBug);
+      messageInfo.dispatch({
+        type: "SHOW",
+        payload: `Bug ${bug.title} has been successfully edited!`,
+      });
+    } catch (error) {}
   };
 
   return (
@@ -97,7 +101,7 @@ const Bug = () => {
           {bug && (
             <BugInfo bug={bug} canEdit={canEdit} setEditMode={setEditMode} />
           )}
-          {!bug && <>No bug found</>}
+          {!bug && <>No Bug</>}
         </div>
       </div>
     </>

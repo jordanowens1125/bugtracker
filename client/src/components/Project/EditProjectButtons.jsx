@@ -18,12 +18,6 @@ const EditProjectButtons = ({
       >
         Add New Bug
       </button>
-      <a
-        href={`/projects/${project._id}/managemembers`}
-        className="button-secondary"
-      >
-        Manage Members
-      </a>
     </div>
   );
 };

@@ -20,12 +20,12 @@ const BugTable = (bugs) => {
 
 const BugTableContent = (bugs) => {
   const result = {
-    false: <NoData title={"Bugs"} caption={"Bugs"} />,
+    false: <NoData title={"Tickets"} caption={"Tickets"} />,
     true: (
       <Table
         headings={["Title", "Status", "Priority"]}
         content={BugTable(bugs)}
-        caption={"Bugs"}
+        caption={"Tickets"}
       />
     ),
   };

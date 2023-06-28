@@ -87,7 +87,7 @@ const DeveloperDashboard = () => {
                 <PieChart data={status} header={"Status"} />
               </div>
               <div className="full-width  aic jcc text-align">
-                <p className="caption">Assigned Bugs</p>
+                <p className="caption">Assigned Tickets</p>
               </div>
               <div className="overflow-x only-full-width">
                 <table className="p-sm">

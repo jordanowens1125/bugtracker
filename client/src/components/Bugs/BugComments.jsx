@@ -50,16 +50,18 @@ const BugComments = ({ bug }) => {
       newComment.projectID = bug.projectID;
       const commentTime = new Date(Date.now());
       newComment.date = commentTime.getTime();
-      const response = await api.comments.createComment(user, newComment);
-      //need to set creator so that info is correctly
-      //displayed as owned by the current user
-      response.creator = user;
-      const updatedComments = [...comments, response];
-      setComments(updatedComments);
-      setChatInput({
-        text: "",
-        input: "",
-      });
+      try {
+        const response = await api.comments.createComment(user, newComment);
+        //need to set creator so that info is correctly
+        //displayed as owned by the current user
+        response.creator = user;
+        const updatedComments = [...comments, response];
+        setComments(updatedComments);
+        setChatInput({
+          text: "",
+          input: "",
+        });
+      } catch (error) {}
     }
   };
 

@@ -15,6 +15,7 @@ const Project = () => {
   const [bug, setBug] = useState(initialBugState);
   const { user } = useAuthContext();
   const messageInfo = useMessageContext();
+  
   const addNewBug = async (e) => {
     e.preventDefault();
     bug.projectID = projectID;
@@ -62,6 +63,8 @@ const Project = () => {
           createBugMode={createBugMode}
           setBugMode={setCreateBugMode}
           available={available}
+          setProject={setProject}
+          setAvailable={setAvailable}
         />
         {createBugMode && (
           <CreateTicketModal

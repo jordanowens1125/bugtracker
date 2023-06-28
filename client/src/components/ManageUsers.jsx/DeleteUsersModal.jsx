@@ -28,12 +28,11 @@ const DeleteUsersModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     const ids = indexList.map((index) => users[index]._id);
-    const response = await api.users.deleteUsers(user, ids);
-    if (response.status === 200) {
+    try {
+      await api.users.deleteUsers(user, ids);
       handleDelete();
       removeDeletedUsers();
-    } else {
-    }
+    } catch (error) {}
   };
 
   const removeDeletedUsers = () => {

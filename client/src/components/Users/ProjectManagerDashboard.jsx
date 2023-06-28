@@ -4,6 +4,8 @@ import PieChart from "../Charts/PieChart";
 import useAuthContext from "../../hooks/useAuthContext";
 import NoData from "../Shared/NoData";
 import NoProject from "../Shared/NoProject";
+import PMTableContent from "../ProjectManager/PMTableContent";
+import Table from "../Shared/Table";
 
 const ProjectManagerDashboard = () => {
   const { user } = useAuthContext();
@@ -105,65 +107,37 @@ const ProjectManagerDashboard = () => {
   return (
     <div className="page flex-column text-align">
       <h1>Welcome, {user.name}</h1>
+
       {project && (
         <>
-          <div>
-            <i>
-              <h2>
-                Current Project:
-                <a href={`/projects/${project._id}`}>{project.title}</a>
-              </h2>
-            </i>
-          </div>
-          <h3>Tickets: {bugs.length}</h3>
+          <i>
+            <h2>
+              Current Project:
+              <a href={`/projects/${project._id}`}>{project.title}</a>
+            </h2>
+          </i>
           <div className="flex mobile-column full-width aic jcc gap-md">
-            <PieChart data={priority} header={"Priority"} />
+            <PieChart data={priority} header={"Tickets By Priority"} />
 
-            <PieChart data={status} header={"Status"} />
+            <PieChart data={status} header={"Tickets By Status"} />
 
-            <PieChart data={dev} header={"Assigned To"} />
-          </div>
-          <div className="full-width  aic jcc text-align">
-            <p className="caption">Project Tasks</p>
+            <PieChart data={dev} header={"Tickets By Dev"} />
           </div>
           {bugs.length > 0 ? (
             <>
-              <div className="overflow-x only-full-width">
-                <table className="full-width overflow-x">
-                  <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>Description</th>
-                      <th>Priority</th>
-                      <th>Status</th>
-                      <th>Project</th>
-                      <th>Assigned To</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {bugs.map((bug) => (
-                      <tr key={bug._id}>
-                        <td>{bug.title}</td>
-                        <td>{bug.description}</td>
-                        <td>{bug.priority}</td>
-                        <td>{bug.status}</td>
-                        <td>{project.title}</td>
-                        <td>
-                          {bug.assignedTo ? (
-                            <>{bug.assignedTo.name}</>
-                          ) : (
-                            <>N/A</>
-                          )}
-                        </td>
-                        <td className="flex-column gap-md">
-                          <a href={`/bugs/${bug._id}`}> See Details</a>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              <Table
+                headings={[
+                  "Title",
+                  "Description",
+                  "Priority",
+                  "Status",
+                  "Project",
+                  "Assigned To",
+                ]}
+                content={PMTableContent(bugs, project)}
+                caption={"Project Tickets"}
+                alignAlways={true}
+              />
             </>
           ) : (
             <>

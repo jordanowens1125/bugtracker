@@ -13,6 +13,18 @@ export const fetchUsers = async (loggedInUser) =>
       return response.data;
     });
 
+export const fetchAvailableUsers = async (loggedInUser) =>
+  await axios
+    .get(baseURL + "/available", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${loggedInUser.token}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+
 export const updateUser = async (loggedInUser, updatedUser) =>
   await axios
     .put(`${baseURL}/${updatedUser.id}`, updatedUser, {

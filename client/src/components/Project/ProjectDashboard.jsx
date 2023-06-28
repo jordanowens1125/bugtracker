@@ -21,6 +21,8 @@ const ProjectDashboard = ({
   createBugMode,
   setBugMode,
   available,
+  setProject,
+  setAvailable,
 }) => {
   const { user } = useAuthContext();
   const userCanEdit = user.role === "Admin" || user.role === "Project Manager";
@@ -29,32 +31,84 @@ const ProjectDashboard = ({
   const [edit, setEdit] = useState();
   const [projectDisplay, setProjectDisplay] = useState(project);
   const messageInfo = useMessageContext();
+  const [PMChanged, setPMChanged] = useState(false);
+  const [selected, setSelected] = useState({});
 
   const handleChange = (e) => {
     const copy = { ...edit };
     copy[e.currentTarget.name] = e.currentTarget.value;
     setEdit(copy);
+    if (e.currentTarget.name === "projectManager") {
+      setPMChanged(true);
+    }
   };
 
   const handleCancel = () => {
     setEdit(project);
     setEditMode(false);
+    setSelected(
+      project.members.reduce(function (result, item) {
+        result[item._id] = true;
+        return result;
+      }, {})
+    );
+  };
+
+  const handleDevSelect = (e, developer) => {
+    const copy = { ...selected };
+    if (copy[developer._id]) {
+      e.target.classList.remove("selected");
+      delete copy[developer._id];
+    } else {
+      e.target.classList.add("selected");
+      copy[developer._id] = developer;
+    }
+    setSelected(copy);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const bugIds = edit.bugs.map((bug) => bug._id);
+    let pmID = edit.projectManager._id;
+    let pm = edit.projectManager;
+    if (PMChanged) {
+      pmID = edit.projectManager;
+      pm = available.find((user) => user._id === pmID);
+    }
+
+    const devIDs = Object.keys(selected);
+
+    const newProjectDisplay = {
+      ...edit,
+      projectManager: pm,
+      members: devIDs.map((userid) => selected[userid]),
+    };
+
     const updatedProject = {
       ...edit,
       bugs: bugIds,
-      projectManager: edit.projectManager._id,
+      projectManager: pmID,
+      members: devIDs,
     };
 
     try {
       await api.projects.updateProjectInfo(user, project._id, updatedProject);
-      setProjectDisplay(edit);
+      setProjectDisplay(newProjectDisplay);
+      setProject(newProjectDisplay);
       setEdit(edit);
       setEditMode(false);
+      //remove selected users
+      let unSelectedUsers = available.filter(
+        (user) => !devIDs.find((id) => id === user._id)
+      );
+      if (PMChanged) {
+        //remove new pm from available
+        unSelectedUsers = unSelectedUsers.filter((user) => user._id !== pmID);
+        //add old project manager from project to new available
+        unSelectedUsers = [...unSelectedUsers, project.projectManager];
+      }
+
+      setAvailable(unSelectedUsers);
       messageInfo.dispatch({
         type: "SHOW",
         payload: `Project ${edit.title} has been successfully edited!`,
@@ -63,8 +117,16 @@ const ProjectDashboard = ({
   };
 
   useEffect(() => {
-    setEdit(project);
-    setProjectDisplay(project);
+    if (project) {
+      setEdit(project);
+      setProjectDisplay(project);
+      setSelected(
+        project.members.reduce(function (result, item) {
+          result[item._id] = item;
+          return result;
+        }, {})
+      );
+    }
   }, [project]);
 
   return (
@@ -84,12 +146,14 @@ const ProjectDashboard = ({
               project.projectManager,
               ...available.filter((user) => user.role === "Project Manager"),
             ]}
+            handleDevSelect={handleDevSelect}
+            selected={selected}
           />
         </>
       )}
       {isCurrentProjectFilled ? (
         <>
-          <div className="flex-column full-width">
+          <div className="flex-column only-full-width">
             <h1>{projectDisplay.title}</h1>
             <p>Description: {projectDisplay.description}</p>
             {userCanEdit && (
@@ -106,13 +170,17 @@ const ProjectDashboard = ({
                 Name: {project.projectManager.name || "No PM"}
               </p>
               <p className="p-md">Email : {project.projectManager.email}</p>
-              <a href={`/profile/${project.projectManager._id}`}>Details</a>
+              {user.role === "Admin" && (
+                <a href={`/profile/${project.projectManager._id}`}>Details</a>
+              )}
             </div>
 
             <div className="h-md">
               {ProjectTableBodyContent(project.members, user.role === "Admin")}
             </div>
-            <div className="h-md">{BugTableContent(project.bugs, "Bugs")}</div>
+            <div className="h-md">
+              {BugTableContent(project.bugs, "Tickets")}
+            </div>
           </div>
         </>
       ) : (
