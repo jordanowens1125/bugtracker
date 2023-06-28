@@ -1,5 +1,5 @@
-# Bug Tracker App
-This project is a task manager app that enables user roles, CRUD - Create, Read, Update, Delete functionality to projects, bugs, and users.
+# Issue Tracker App
+This project is a task manager app that enables user roles, CRUD - Create, Read, Update, Delete functionality to projects, tickets, and users.
 
 **Link to project:** https://bugtracker-frontend-2zlk.onrender.com
 
@@ -10,7 +10,7 @@ https://github.com/jordanowens1125/bugtracker/assets/60613533/dcbedfee-84c3-4a51
 
 **Tech used:** HTML, CSS, JavaScript, React, Express, Nivo, JWT, MongoDB
 
-This application is centered around projects, which can have a variety of bugs/tasks. Admin and project managers are gifted the ability to update and edit these projects and their respective tasks as they see fit. This includes assigning and unassigning users to a given project. 
+This application is centered around projects, which can have a variety of tickets/tasks. Admin and project managers are gifted the ability to update and edit these projects and their respective tasks as they see fit. This includes assigning and unassigning users to a given project. 
 
 By utilizing react context, users can be given access to certain pages depending on their role and if they are signed in or not. Upon app load, unsigned users are directed to the login page. They can also navigate from the login page to the demo sign-in page. Once, signed in users are navigated to the home page, and their info is stored in their local storage.  
 

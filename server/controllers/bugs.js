@@ -107,8 +107,8 @@ const getBug = async (req, res) => {
 const updateBug = async (req, res) => {
   try {
     let _id = req.params.id;
-    let updatedBug = req.body.updatedBug;
-    let oldBug = req.body.currentBug;
+    let updatedBug = req.body.updatedTicket;
+    let oldBug = req.body.currentTicket;
     //remove old users from bug
     if (oldBug.assignedTo) {
       await User.findByIdAndUpdate(
@@ -120,6 +120,7 @@ const updateBug = async (req, res) => {
         }
       );
     }
+    
     if (updatedBug.assignedTo) {
       //add bug to new user
       await User.findByIdAndUpdate(
