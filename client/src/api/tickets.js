@@ -1,7 +1,7 @@
 import axios from "axios";
 const baseURL = process.env.REACT_APP_BASELINE_URL + "bugs";
 
-export const fetchBugs = async (loggedInUser) =>
+export const fetchTickets = async (loggedInUser) =>
   await axios
     .get(baseURL, {
       headers: {
@@ -13,7 +13,7 @@ export const fetchBugs = async (loggedInUser) =>
       return response.data;
     });
 
-export const fetchBugsByUser = async (loggedInUser, userid) =>
+export const fetchTicketsByUser = async (loggedInUser, userid) =>
   await axios
     .get(`${baseURL}/user/${userid}`, {
       headers: {
@@ -25,9 +25,9 @@ export const fetchBugsByUser = async (loggedInUser, userid) =>
       return response.data;
     });
 
-export const createBug = async (loggedInUser, newBug) =>
+export const createTicket = async (loggedInUser, newTicket) =>
   await axios
-    .post(`${baseURL}/create`, newBug, {
+    .post(`${baseURL}/create`, newTicket, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${loggedInUser.token}`,
@@ -37,11 +37,15 @@ export const createBug = async (loggedInUser, newBug) =>
       return response.data;
     });
 
-export const updateBug = async (loggedInUser, currentBug, updatedBug) =>
+export const updateTicket = async (
+  loggedInUser,
+  currentTicket,
+  updatedTicket
+) =>
   await axios
     .put(
-      `${baseURL}/${currentBug._id}`,
-      { currentBug, updatedBug },
+      `${baseURL}/${currentTicket._id}`,
+      { currentTicket, updatedTicket },
       {
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +57,7 @@ export const updateBug = async (loggedInUser, currentBug, updatedBug) =>
       return response.data;
     });
 
-export const fetchBug = async (loggedInUser, id) =>
+export const fetchTicket = async (loggedInUser, id) =>
   await axios
     .get(`${baseURL}/${id}`, {
       headers: {
@@ -65,8 +69,8 @@ export const fetchBug = async (loggedInUser, id) =>
       return response.data;
     });
 
-export const deleteBug = async (loggedInUser, bugID) =>
-  await axios.delete(`${baseURL}/delete/${bugID}`, {
+export const deleteTicket = async (loggedInUser, ticketID) =>
+  await axios.delete(`${baseURL}/delete/${ticketID}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${loggedInUser.token}`,

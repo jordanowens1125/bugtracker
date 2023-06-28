@@ -2,9 +2,8 @@ import React from "react";
 
 const EditProjectButtons = ({
   setEditMode,
-  createBugMode,
-  setBugMode,
-  project,
+  createTicketMode,
+  setTicketMode,
 }) => {
   return (
     <div className="flex mobile-column">
@@ -13,10 +12,10 @@ const EditProjectButtons = ({
       </button>
       <button
         className="button-secondary"
-        disabled={createBugMode}
-        onClick={() => setBugMode(true)}
+        disabled={createTicketMode}
+        onClick={() => setTicketMode(true)}
       >
-        Add New Bug
+        Add New Ticket
       </button>
     </div>
   );

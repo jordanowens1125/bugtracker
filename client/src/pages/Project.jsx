@@ -5,44 +5,44 @@ import api from "../api/index";
 import useAuthContext from "../hooks/useAuthContext";
 import useMessageContext from "../hooks/messageContext";
 import CreateTicketModal from "../components/Project/CreateTicketModal";
-import initialBugState from "../components/Project/initialBugState";
+import initialTicketState from "../components/Project/initialTicketState";
 
 const Project = () => {
   const projectID = useParams().id;
   const [project, setProject] = useState("");
   const [available, setAvailable] = useState("");
-  const [createBugMode, setCreateBugMode] = useState(false);
-  const [bug, setBug] = useState(initialBugState);
+  const [createTicketMode, setCreateTicketMode] = useState(false);
+  const [ticket, setTicket] = useState(initialTicketState);
   const { user } = useAuthContext();
   const messageInfo = useMessageContext();
   
-  const addNewBug = async (e) => {
+  const addNewTicket = async (e) => {
     e.preventDefault();
-    bug.projectID = projectID;
+    ticket.projectID = projectID;
     try {
-      const newBug = await api.bugs.createBug(user, bug);
+      const newticket = await api.tickets.createTicket(user, ticket);
       const copiedProject = { ...project };
-      copiedProject.bugs.push(newBug);
+      copiedProject.bugs.push(newticket);
       setProject(copiedProject);
       cancel();
       messageInfo.dispatch({
         type: "SHOW",
-        payload: `Bug ${newBug.title} has been successfully created!`,
+        payload: `Ticket ${newticket.title} has been successfully created!`,
       });
     } catch (error) {}
   };
 
   const cancel = () => {
-    setBug(initialBugState);
-    setCreateBugMode(false);
+    setTicket(initialTicketState);
+    setCreateTicketMode(false);
   };
 
   const handleInputChange = (e) => {
     let value = e.currentTarget.value;
-    const copy = { ...bug };
+    const copy = { ...ticket };
     const name = e.currentTarget.name;
     copy[name] = value;
-    setBug(copy);
+    setTicket(copy);
   };
   useEffect(() => {
     if (projectID && projectID !== "") {
@@ -60,17 +60,17 @@ const Project = () => {
       <div className="page mobile-column">
         <ProjectDashboard
           project={project}
-          createBugMode={createBugMode}
-          setBugMode={setCreateBugMode}
+          createTicketMode={createTicketMode}
+          setTicketMode={setCreateTicketMode}
           available={available}
           setProject={setProject}
           setAvailable={setAvailable}
         />
-        {createBugMode && (
+        {createTicketMode && (
           <CreateTicketModal
             project={project}
-            bug={bug}
-            onSubmit={addNewBug}
+            ticket={ticket}
+            onSubmit={addNewTicket}
             handleInputChange={handleInputChange}
             cancel={cancel}
           />

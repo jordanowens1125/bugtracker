@@ -1,16 +1,16 @@
 import dayjs from "dayjs";
-const BugsTableBody = ({ bugs }) => {
+const BugsTableBody = ({ tickets }) => {
   return (
     <>
-      {bugs.map((bug) => (
-        <tr key={bug._id}>
-          <td>{bug.title}</td>
-          <td>{bug.description}</td>
-          <td>{bug.priority}</td>
-          <td>{bug.status}</td>
-          <td>{dayjs(bug.deadline).format("YYYY-MM-DD")}</td>
+      {tickets.map((ticket) => (
+        <tr key={ticket._id}>
+          <td>{ticket.title}</td>
+          <td>{ticket.description}</td>
+          <td>{ticket.priority}</td>
+          <td>{ticket.status}</td>
+          <td>{dayjs(ticket.deadline).format("YYYY-MM-DD")}</td>
           <td className="flex-column gap-md">
-            <a href={`/bugs/${bug._id}`}> See Details</a>
+            <a href={`/tickets/${ticket._id}`}> See Details</a>
           </td>
         </tr>
       ))}

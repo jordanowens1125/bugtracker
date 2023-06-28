@@ -1,16 +1,16 @@
 import NoData from "../Shared/NoData";
 import Table from "../Shared/Table";
 
-const BugTable = (bugs) => {
+const TicketTable = (tickets) => {
   return (
     <>
-      {bugs.map((bug) => (
-        <tr key={bug._id}>
-          <td>{bug.title}</td>
-          <td>{bug.status}</td>
-          <td>{bug.priority}</td>
+      {tickets.map((ticket) => (
+        <tr key={ticket._id}>
+          <td>{ticket.title}</td>
+          <td>{ticket.status}</td>
+          <td>{ticket.priority}</td>
           <td className="flex-column gap-md">
-            <a href={`/bugs/${bug._id}`}>Details</a>
+            <a href={`/tickets/${ticket._id}`}>Details</a>
           </td>
         </tr>
       ))}
@@ -18,18 +18,18 @@ const BugTable = (bugs) => {
   );
 };
 
-const BugTableContent = (bugs) => {
+const TicketTableContent = (tickets) => {
   const result = {
     false: <NoData title={"Tickets"} caption={"Tickets"} />,
     true: (
       <Table
         headings={["Title", "Status", "Priority"]}
-        content={BugTable(bugs)}
+        content={TicketTable(tickets)}
         caption={"Tickets"}
       />
     ),
   };
-  return result[bugs.length > 0];
+  return result[tickets.length > 0];
 };
 
-export default BugTableContent;
+export default TicketTableContent;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Input from "../components/Shared/GeneralInput";
 import dayjs from "dayjs";
-import { priorities } from "../constants/bug";
+import { priorities } from "../constants/ticket";
 import useAuthContext from "../hooks/useAuthContext";
 import api from "../api";
 import useMessageContext from "../hooks/messageContext";
@@ -43,7 +43,7 @@ const CreateTicket = () => {
     const copy = { ...ticket };
     copy.creator = user._id;
     try {
-      await api.bugs.createBug(user, copy);
+      await api.tickets.createTicket(user, copy);
       messageInfo.dispatch({
         type: "SHOW",
         payload: `Successfully created ticket ${ticket.title}.`,

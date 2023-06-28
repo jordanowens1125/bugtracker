@@ -42,7 +42,6 @@ const AdminDashboard = () => {
   return (
     <main className="flex-column aic page">
       <h1>Welcome, {user.name}</h1>
-      {bugs.length > 0 ? (
         <>
           <div className="full-width flex mobile-column-reverse">
             <div className="chart bg-6">Total Projects: {projects.length}</div>
@@ -69,11 +68,7 @@ const AdminDashboard = () => {
             <PieChart data={dev} header={"Assigned To"} />
           </div>
         </>
-      ) : (
-        <>
-          <NoData />
-        </>
-      )}
+      
     </main>
   );
 };

@@ -25,7 +25,7 @@ export const createProject = async (loggedInUser, newProject) =>
       return response.data;
     });
 
-export const updateProjectInfo = async (loggedInUser, id, updatedProject) =>
+export const updateProject = async (loggedInUser, id, updatedProject) =>
   await axios
     .put(`${baseURL}/${id}`, updatedProject, {
       headers: {

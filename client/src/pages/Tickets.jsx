@@ -39,7 +39,7 @@ const Bugs = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.bugs.fetchBugs(user);
+        const response = await api.tickets.fetchTickets(user);
         setBugs(response);
       } catch (error) {}
     };
@@ -97,7 +97,7 @@ const Bugs = () => {
                     "Deadline",
                     "More",
                   ]}
-                  content={<BugsTableBody bugs={filtered} />}
+                  content={<BugsTableBody tickets={filtered} />}
                 />
               </div>
             </>

@@ -5,7 +5,7 @@ import useAuthContext from "../../hooks/useAuthContext";
 import useMessageContext from "../../hooks/messageContext";
 import EditProjectModal from "./EditProjectModal";
 import ProjectTableBodyContent from "./ProjectTableBodyContent";
-import BugTableContent from "./BugTableContent";
+import TicketTableContent from "./BugTableContent";
 import EditProjectButtons from "./EditProjectButtons";
 
 function checkProject(project) {
@@ -18,8 +18,8 @@ function checkProject(project) {
 
 const ProjectDashboard = ({
   project,
-  createBugMode,
-  setBugMode,
+  createticketMode,
+  setTicketMode,
   available,
   setProject,
   setAvailable,
@@ -92,7 +92,7 @@ const ProjectDashboard = ({
     };
 
     try {
-      await api.projects.updateProjectInfo(user, project._id, updatedProject);
+      await api.projects.updateProject(user, project._id, updatedProject);
       setProjectDisplay(newProjectDisplay);
       setProject(newProjectDisplay);
       setEdit(edit);
@@ -158,8 +158,8 @@ const ProjectDashboard = ({
             <p>Description: {projectDisplay.description}</p>
             {userCanEdit && (
               <EditProjectButtons
-                setBugMode={setBugMode}
-                createBugMode={createBugMode}
+                setTicketMode={setTicketMode}
+                createticketMode={createticketMode}
                 project={project}
                 setEditMode={setEditMode}
               />
@@ -179,7 +179,7 @@ const ProjectDashboard = ({
               {ProjectTableBodyContent(project.members, user.role === "Admin")}
             </div>
             <div className="h-md">
-              {BugTableContent(project.bugs, "Tickets")}
+              {TicketTableContent(project.bugs, "Tickets")}
             </div>
           </div>
         </>

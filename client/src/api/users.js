@@ -159,37 +159,3 @@ export const unAssignUserFromProject = async (
     }
   );
 
-export const assignBugToUser = async (loggedInUser, userID, bugID) =>
-  await axios
-    .put(
-      `${baseURL}/assignbugtouser/${userID}`,
-      { userID, bugID },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${loggedInUser.token}`,
-        },
-      }
-    )
-    .then((response) => {
-      return response.data;
-    });
-
-export const unAssignBugFromUser = async (loggedInUser, userID, bugID) =>
-  await axios
-    .put(
-      `${baseURL}/unassignbugfromuser/${userID}`,
-      {
-        userID,
-        bugID,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${loggedInUser.token}`,
-        },
-      }
-    )
-    .then((response) => {
-      return response.data;
-    });

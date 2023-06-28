@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-const initialBugState = {
+const initialTicketState = {
   title: "",
   description: "",
   assignedTo: '',
@@ -9,4 +9,4 @@ const initialBugState = {
   deadline: dayjs(new Date()).format("YYYY-MM-DD"),
 };
 
-export default initialBugState
+export default initialTicketState

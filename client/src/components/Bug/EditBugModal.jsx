@@ -3,10 +3,10 @@ import TextArea from "../Shared/TextArea";
 import Select from "../Shared/Select";
 import dayjs from "dayjs";
 import Buttons from "../Shared/Buttons";
-import { statusList, priorities } from "../../constants/bug";
+import { statusList, priorities } from "../../constants/ticket";
 
-const EditBugModal = ({
-  updattedBug,
+const EditTicketModal = ({
+  updatedBug,
   handleInputChange,
   reset,
   users,
@@ -16,11 +16,11 @@ const EditBugModal = ({
   return (
     <div className="modal">
       <form className="modal-content" onSubmit={handleSubmit}>
-        <h1>Edit Bug</h1>
+        <h1>Edit Ticket</h1>
         <Input
-          value={updattedBug.title}
+          value={updatedBug.title}
           onChange={handleInputChange}
-          placeholder="Title..."
+          id={"title"}
           label={"Title"}
         />
         <label htmlFor="title">Assigned To: </label>
@@ -44,26 +44,26 @@ const EditBugModal = ({
         </select>
         <TextArea
           label={"Description"}
-          value={updattedBug.description}
+          value={updatedBug.description}
           onChange={handleInputChange}
           id={"description"}
         />
         <Select
           label={"Priority"}
           id={"priority"}
-          value={updattedBug.priority}
+          value={updatedBug.priority}
           onChange={handleInputChange}
           listofOptions={priorities}
         />
         <Select
           label={"Status"}
           id={"status"}
-          value={updattedBug.status}
+          value={updatedBug.status}
           onChange={handleInputChange}
           listofOptions={statusList}
         />
         <Input
-          value={dayjs(updattedBug.deadline).format("YYYY-MM-DD")}
+          value={dayjs(updatedBug.deadline).format("YYYY-MM-DD")}
           onChange={handleInputChange}
           label={"Deadline"}
           type="date"
@@ -79,4 +79,4 @@ const EditBugModal = ({
   );
 };
 
-export default EditBugModal;
+export default EditTicketModal;

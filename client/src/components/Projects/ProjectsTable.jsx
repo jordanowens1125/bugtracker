@@ -4,7 +4,7 @@ import NoData from "../Shared/NoData";
 import Table from "../Shared/Table";
 import Select from "../Shared/Select";
 
-const TableBodyElement = (projects, CanManageMembers) => {
+const TableBodyElement = (projects) => {
   return (
     <>
       {projects.map((project) => (
@@ -14,11 +14,6 @@ const TableBodyElement = (projects, CanManageMembers) => {
           <td>{project.status}</td>
           <td className="flex-column gap-md">
             <a href={`/projects/${project._id}`}> See Details</a>
-            {CanManageMembers && (
-              <a href={`/projects/${project._id}/managemembers`}>
-                Manage Members
-              </a>
-            )}
           </td>
         </tr>
       ))}
@@ -86,7 +81,7 @@ const ProjectsTable = ({ projects }) => {
             <div className="overflow-x only-full-width">
               <Table
                 headings={["Title", "Description", "Status", "More"]}
-                content={TableBodyElement(filtered, CanManageMembers)}
+                content={TableBodyElement(filtered)}
               />
             </div>
           </>

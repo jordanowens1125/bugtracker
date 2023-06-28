@@ -20,7 +20,7 @@ const Bug = () => {
   const [bug, setBug] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [users, setUsers] = useState([]);
-  const [updattedBug, setUpdattedBug] = useState("");
+  const [updatedBug, setUpdatedBug] = useState("");
   const [index, setIndex] = useState(-1);
   const { user } = useAuthContext();
   const messageInfo = useMessageContext();
@@ -32,10 +32,10 @@ const Bug = () => {
   useEffect(() => {
     const fetchBug = async () => {
       try {
-        const request = await api.bugs.fetchBug(user, id);
+        const request = await api.tickets.fetchTicket(user, id);
         const bug = request.bug;
         setBug(bug);
-        setUpdattedBug(bug);
+        setUpdatedBug(bug);
         //only developers
         setUsers(request.members.filter((user) => user.role === "Developer"));
         if (bug.assignedTo) {
@@ -48,35 +48,35 @@ const Bug = () => {
 
   const handleInputChange = (e) => {
     let value = e.currentTarget.value;
-    const copy = { ...updattedBug };
+    const copy = { ...updatedBug };
     const name = e.currentTarget.id || e.currentTarget.name;
     if (name === "assignedTo") {
       value = +value;
       setIndex(value);
     }
     copy[name] = value;
-    setUpdattedBug(copy);
+    setUpdatedBug(copy);
   };
 
   const reset = () => {
     setEditMode(false);
-    setUpdattedBug(bug);
+    setUpdatedBug(bug);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (index < 0) {
-      updattedBug.assignedTo = undefined;
+      updatedBug.assignedTo = undefined;
     } else {
-      updattedBug.assignedTo = users[index]._id;
+      updatedBug.assignedTo = users[index]._id;
     }
 
     bug.assignedTo = bug?.assignedTo?._id || undefined;
     try {
-      await api.bugs.updateBug(user, bug, updattedBug);
-      updattedBug.assignedTo = users[index];
+      await api.tickets.updateTicket(user, bug, updatedBug);
+      updatedBug.assignedTo = users[index];
       setEditMode(false);
-      setBug(updattedBug);
+      setBug(updatedBug);
       messageInfo.dispatch({
         type: "SHOW",
         payload: `Bug ${bug.title} has been successfully edited!`,
@@ -90,7 +90,7 @@ const Bug = () => {
         <div className="bug-page full-width page mobile-column">
           {editMode && (
             <EditBugModal
-              updattedBug={updattedBug}
+              updatedBug={updatedBug}
               handleInputChange={handleInputChange}
               reset={reset}
               users={users}

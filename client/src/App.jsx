@@ -7,7 +7,7 @@ import Projects from "./pages/Projects";
 import NoPage from "./pages/NoPage";
 import Project from "./pages/Project";
 import "./App.css";
-import Bug from "./pages/Bug";
+import Ticket from "./pages/Ticket";
 import ManageUsers from "./pages/ManageUsers";
 import CreateProject from "./pages/CreateProject";
 import CreateTicket from "./pages/CreateTicket";
@@ -42,7 +42,7 @@ function App() {
               <Route path="profile" element={<Profile />} />
 
               <Route path="projects/:id" element={<Project />} />
-              <Route path="bugs/:id" element={<Bug />} />
+              <Route path="tickets/:id" element={<Ticket />} />
               <Route path="createticket" element={<CreateTicket />} />
               {/* <Route path="settings" element={<Settings />} /> */}
               {/* <Route path="chat" element={<Chat />} /> */}

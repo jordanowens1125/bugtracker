@@ -4,11 +4,11 @@ import SelectByField from "../Shared/SelectByField";
 import Select from "../Shared/Select";
 import dayjs from "dayjs";
 import Buttons from "../Shared/Buttons";
-import { priorities } from "../../constants/bug";
+import { priorities } from "../../constants/ticket";
 
 const CreateTicketModal = ({
   project,
-  bug,
+  ticket,
   onSubmit,
   handleInputChange,
   cancel,
@@ -16,22 +16,22 @@ const CreateTicketModal = ({
   return (
     <div className="modal">
       <form className="modal-content" onSubmit={onSubmit}>
-        <h2>New Bug</h2>
+        <h2>New Ticket</h2>
         <h3>Project: {project.title}</h3>
         <Input
           id={"title"}
-          value={bug.title}
+          value={ticket.title}
           onChange={handleInputChange}
           label={"Title"}
         />
         <TextArea
-          value={bug.description}
+          value={ticket.description}
           onChange={handleInputChange}
           id={"description"}
           label={"Description"}
         />
         <SelectByField
-          value={bug.assignedTo}
+          value={ticket.assignedTo}
           id={"assignedTo"}
           label={"Assigned To"}
           onChange={handleInputChange}
@@ -44,7 +44,9 @@ const CreateTicketModal = ({
         <Select
           label={"Priority"}
           name={"priority"}
-          value={bug.priority}
+          id={'priority'}
+          placeholder={'Select a priority'}
+          value={ticket.priority}
           onChange={handleInputChange}
           listofOptions={priorities}
         />
@@ -52,7 +54,7 @@ const CreateTicketModal = ({
           label={"Deadline"}
           type="date"
           id="deadline"
-          value={dayjs(bug.deadline).format("YYYY-MM-DD")}
+          value={dayjs(ticket.deadline).format("YYYY-MM-DD")}
           onChange={handleInputChange}
         />
         <Buttons
