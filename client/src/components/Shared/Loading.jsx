@@ -2,8 +2,10 @@ import React from "react";
 
 const Loading = () => {
   return (
-    <div className="secondary nodata">
-      <b>Loading</b>
+    <div className="nodata">
+      <div className="loading">
+
+      </div>
     </div>
   );
 };

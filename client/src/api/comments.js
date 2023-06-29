@@ -33,10 +33,4 @@ export const deleteComment = async (loggedInUser, comment) =>
     },
   });
 
-export const setDeletedUserComments = async (loggedInUser, user) =>
-  await axios.put(`${baseURL}/setdeletedusercomments`, user, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${loggedInUser.token}`,
-    },
-  });
+
