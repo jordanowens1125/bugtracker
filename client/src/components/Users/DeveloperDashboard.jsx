@@ -82,7 +82,7 @@ const DeveloperDashboard = () => {
 
           {bugs.length > 0 ? (
             <>
-              <div className="flex mobile-column full-width aic jcc">
+              <div className="flex mobile-column full-width">
                 <PieChart data={priority} header={"Priority"} />
                 <PieChart data={status} header={"Status"} />
               </div>
@@ -112,7 +112,7 @@ const DeveloperDashboard = () => {
                         <td>{project.title}</td>
                         <td>{dayjs(bug.closeDate).format("MM-DD-YY")}</td>
                         <td className="flex-column gap-md">
-                          <a href={`/bugs/${bug._id}`}> See Details</a>
+                          <a href={`/tickets/${bug._id}`}> See Details</a>
                         </td>
                       </tr>
                     ))}

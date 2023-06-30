@@ -44,6 +44,7 @@ const Project = () => {
     copy[name] = value;
     setTicket(copy);
   };
+  
   useEffect(() => {
     if (projectID && projectID !== "") {
       const fetchProjectDetails = async () => {

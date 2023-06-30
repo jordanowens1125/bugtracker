@@ -46,6 +46,12 @@ const createBug = async (req, res) => {
         createdBugs: newBug._id,
       },
     });
+
+    await User.findByIdAndUpdate(bug.assignedTo, {
+      $push: {
+        assignedBugs: newBug._id,
+      },
+    });
     res.status(200).json(newBug);
   } catch (error) {
     res.status(404).json({ message: error });
