@@ -159,6 +159,8 @@ const Navbar = () => {
                           Close
                         </button>
                         <a href="/">Home</a>
+                        <a href="/createticket">Create Ticket</a>
+                        
                         {user.role === "Admin" && (
                           <>
                             <a href="/Projects">Projects</a>

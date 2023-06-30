@@ -25,22 +25,14 @@ const EditTicketModal = ({
         />
         <label htmlFor="title">Assigned To: </label>
         <select name="assignedTo" value={index} onChange={handleInputChange}>
-          {users.length > 0 ? (
-            <>
-              <option value={-1}>Not Assigned</option>
-              {users.map((user, index) => {
-                return (
-                  <option key={user._id} value={index}>
-                    {user.name}
-                  </option>
-                );
-              })}
-            </>
-          ) : (
-            <>
-              <option value="">No users</option>
-            </>
-          )}
+          <option value={-1}>Not Assigned</option>
+          {users.map((user) => {
+            return (
+              <option key={user._id} value={user._id}>
+                {user.name}
+              </option>
+            );
+          })}
         </select>
         <TextArea
           label={"Description"}

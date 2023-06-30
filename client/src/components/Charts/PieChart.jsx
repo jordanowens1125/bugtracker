@@ -2,7 +2,7 @@ import { ResponsivePie } from "@nivo/pie";
 // console.log(AnyChart);
 const PieChart = ({ data, header }) => {
   return (
-    <div className="chart-container">
+    <div className="chart-container mobile-full-width">
       <i className="chart-header">{header}</i>
       <div className="chart full-width">
         <ResponsivePie

@@ -1,10 +1,11 @@
 const Table = ({ headings, content, caption, alignAlways }) => {
-  
   return (
     <>
-      <div className={`mobile-text-align flex-column overflow-x only-full-width`}>
-        <p className="caption">{caption}</p>
-        
+      {" "}
+      <p className="caption">{caption}</p>
+      <div
+        className={`mobile-text-align flex-column overflow-x only-full-width`}
+      >
         <table className="p-md full-width mobile-text-align h-lg overflow-y overflow-x">
           <thead>
             <tr>

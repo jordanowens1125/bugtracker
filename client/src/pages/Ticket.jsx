@@ -9,7 +9,7 @@ import BugInfo from "../components/Bug/BugInfo";
 const findUser = (user, users) => {
   for (let i = 0; i < users.length; i++) {
     if (user._id === users[i]._id) {
-      return i;
+      return users[i]._id;
     }
   }
   return -1;
@@ -51,7 +51,7 @@ const Bug = () => {
     const copy = { ...updatedBug };
     const name = e.currentTarget.id || e.currentTarget.name;
     if (name === "assignedTo") {
-      value = +value;
+      // value = value;
       setIndex(value);
     }
     copy[name] = value;
@@ -68,13 +68,13 @@ const Bug = () => {
     if (index < 0) {
       updatedBug.assignedTo = undefined;
     } else {
-      updatedBug.assignedTo = users[index]._id;
+      updatedBug.assignedTo = index;
     }
 
     bug.assignedTo = bug?.assignedTo?._id || undefined;
     try {
       await api.tickets.updateTicket(user, bug, updatedBug);
-      updatedBug.assignedTo = users[index];
+      updatedBug.assignedTo = users.find((user)=> user._id === index);
       setEditMode(false);
       setBug(updatedBug);
       messageInfo.dispatch({
