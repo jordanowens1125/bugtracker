@@ -1,11 +1,11 @@
 import dayjs from "dayjs";
-import BugComments from '../Bugs/BugComments'
+import BugComments from "./BugComments";
 
 const BugInfo = ({ bug, canEdit, setEditMode }) => {
   return (
     <>
       <section className="p-md gap-md flex-column mobile-column jcc">
-        <a href={`/projects/${bug.projectID?._id || "-"}`} id='p-none'>
+        <a href={`/projects/${bug.projectID?._id || "-"}`} id="p-none">
           To Ticket Project
         </a>
 
@@ -32,7 +32,7 @@ const BugInfo = ({ bug, canEdit, setEditMode }) => {
           </span>
         </>
       </section>
-      <div className="h-xl overflow-y comments-section">
+      <div className="h-xl overflow-y comments-section full-width">
         <BugComments bug={bug} />
       </div>
     </>

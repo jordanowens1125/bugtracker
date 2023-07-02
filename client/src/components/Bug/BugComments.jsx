@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import api from "../../api/index";
-import Comment from "./Comment";
+import Comment from "../Bugs/Comment";
 import useAuthContext from "../../hooks/useAuthContext";
 import Buttons from "../Shared/Buttons";
 
@@ -70,7 +70,7 @@ const BugComments = ({ bug }) => {
     <>
       {bug && (
         <>
-          <span className="message-heading flex aic space-between">
+          <span className="message-heading flex aic space-between mobile-column">
             <p className="p-l-md">Comments:</p>
             <button onClick={scrollToBottom} className="button-secondary">
               Bottom

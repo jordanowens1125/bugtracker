@@ -47,7 +47,7 @@ const Bugs = () => {
   }, [user]);
   return (
     <>
-      <div className="flex-column gap-md page mobile-column">
+      <div className="flex-column gap-md page">
         <h1>Tickets</h1>
 
         <div className="flex-column gap-md mobile-column">
