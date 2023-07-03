@@ -164,8 +164,10 @@ const ProjectDashboard = ({
                 setEditMode={setEditMode}
               />
             )}
+            <div className="mobile-column p-md">
+              <i className="secondary">Project Manager</i>
+            </div>
             <div className="flex-column mobile-column secondary-bg b-radius">
-              <b>Project Manager</b>
               <p className="p-md ">
                 Name: {project.projectManager.name || "No PM"}
               </p>

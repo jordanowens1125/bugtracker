@@ -52,11 +52,13 @@ const EditProjectModal = ({
           id={"deadline"}
           type={"date"}
         />
-        {/* <Select
-          // value={edit.status}
-          listOfOptions={statusList}
-          label={'Status'}
-        /> */}
+        <Select
+          value={edit.status}
+          listofOptions={statusList}
+          label={"Status"}
+          onChange={handleChange}
+          id={'status'}
+        />
         <MultiSelect
           listOfOptions={developers}
           label={"Developers"}

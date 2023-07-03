@@ -14,7 +14,9 @@ const DemoUserSignin = () => {
       if (response.ok) {
         navigate("/");
       }
-    } catch (error) {}
+    } catch (err) {
+      console.log(error);
+    }
   };
 
   const SignInAsDemoAdmin = async () => {

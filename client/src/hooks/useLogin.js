@@ -18,7 +18,6 @@ export const useLogin = () => {
       }
     );
     const json = await response.json();
-
     if (!response.ok) {
       setIsLoading(false);
       setError(json.message);

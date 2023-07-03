@@ -3,6 +3,7 @@ import { useLogin } from "../hooks/useLogin";
 import Eye from "../assets/Eye";
 import EyeHide from "../assets/EyeHide";
 import Input from "../components/Shared/GeneralInput";
+import Error from "../components/Shared/Error";
 
 const Button = ({ onClick, content, submit, disabled }) => {
   return (
@@ -23,7 +24,10 @@ const SignIn = () => {
   const [viewPassword, setViewPassword] = useState(false);
   const submit = async (e) => {
     e.preventDefault();
-    await signIn(email, password);
+    try {
+      await signIn(email, password);
+    } catch (err) {
+    }
   };
   return (
     <>
@@ -55,9 +59,7 @@ const SignIn = () => {
             />
           </div>
 
-          {error && (
-            <span className="error full-width text-align">{error}</span>
-          )}
+          {error && <Error text={error} />}
 
           <button
             className="button-primary full-width"

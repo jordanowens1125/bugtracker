@@ -8,6 +8,7 @@ const Select = ({
   required = true,
   placeholder,
 }) => {
+  console.log(listofOptions);
   return (
     <>
       <label htmlFor={id || label}>{label}:</label>

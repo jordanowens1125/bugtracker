@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ProjectsTable from "../components/Projects/ProjectsTable";
 import api from "../api/index";
 import useAuthContext from "../hooks/useAuthContext";
+
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const { user } = useAuthContext();

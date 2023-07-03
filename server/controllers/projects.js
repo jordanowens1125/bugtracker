@@ -16,7 +16,7 @@ const getProjects = async (req, res) => {
 const createProject = async (req, res) => {
   try {
     const project = await Project.create(req.body);
-    console.log(project);
+    
     await User.updateMany(
       { _id: { $in: [...req.body.members, req.body.projectManager] } },
       {
