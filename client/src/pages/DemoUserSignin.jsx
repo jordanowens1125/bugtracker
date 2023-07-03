@@ -57,13 +57,6 @@ const DemoUserSignin = () => {
       <div className="max-w-lg flex mobile-column">
         <button
           className="button-secondary"
-          onClick={SignInAsDemoDeveloper}
-          disabled={isLoading}
-        >
-          Demo Developer
-        </button>
-        <button
-          className="button-secondary"
           onClick={SignInAsDemoAdmin}
           disabled={isLoading}
         >
@@ -71,10 +64,18 @@ const DemoUserSignin = () => {
         </button>
         <button
           className="button-secondary"
+          onClick={SignInAsDemoDeveloper}
+          disabled={isLoading}
+        >
+          Demo Developer
+        </button>
+
+        <button
+          className="button-secondary"
           onClick={SignInAsDemoPM}
           disabled={isLoading}
         >
-          Project Manager
+          Demo Project Manager
         </button>
         {/* <button onClick={SignInAsDemoReviewer} disabled={isLoading}>
           Reviewer
