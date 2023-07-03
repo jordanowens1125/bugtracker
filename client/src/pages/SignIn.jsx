@@ -26,8 +26,7 @@ const SignIn = () => {
     e.preventDefault();
     try {
       await signIn(email, password);
-    } catch (err) {
-    }
+    } catch (err) {}
   };
   return (
     <>
@@ -74,6 +73,13 @@ const SignIn = () => {
           {/* <a href="/signup" className="button-ghost full-width text-align">
             Sign Up
           </a> */}
+          <p className="secondary">
+            *When logging in please give the app a moment to load up on{" "}
+            <a href="https://render.com/" id="p-none">
+              render.com
+            </a>
+            .
+          </p>
         </form>
       </div>
     </>

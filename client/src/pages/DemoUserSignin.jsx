@@ -53,38 +53,47 @@ const DemoUserSignin = () => {
   // };
 
   return (
-    <div className="full-height page text-align flex-column aic jcc gap-xl">
-      <h1 className="primary ">Login as Demo User</h1>
+    <div className="flex-column aic jcc full-height page">
+      <div className="  text-align flex-column aic jcc gap-lg cover">
+        <h1 className="primary ">Login as Demo User</h1>
 
-      <div className="max-w-lg flex mobile-column">
-        <button
-          className="button-secondary"
-          onClick={SignInAsDemoAdmin}
-          disabled={isLoading}
-        >
-          Demo Admin
-        </button>
-        <button
-          className="button-secondary"
-          onClick={SignInAsDemoDeveloper}
-          disabled={isLoading}
-        >
-          Demo Developer
-        </button>
+        <div className="max-w-lg flex mobile-column">
+          <button
+            className="button-secondary"
+            onClick={SignInAsDemoAdmin}
+            disabled={isLoading}
+          >
+            Demo Admin
+          </button>
+          <button
+            className="button-secondary"
+            onClick={SignInAsDemoDeveloper}
+            disabled={isLoading}
+          >
+            Demo Developer
+          </button>
 
-        <button
-          className="button-secondary"
-          onClick={SignInAsDemoPM}
-          disabled={isLoading}
-        >
-          Demo Project Manager
-        </button>
-        {/* <button onClick={SignInAsDemoReviewer} disabled={isLoading}>
+          <button
+            className="button-secondary"
+            onClick={SignInAsDemoPM}
+            disabled={isLoading}
+          >
+            Demo Project Manager
+          </button>
+          {/* <button onClick={SignInAsDemoReviewer} disabled={isLoading}>
           Reviewer
         </button> */}
+        </div>
+        <p className="secondary">
+          *When logging in please give the app a moment to load up on{" "}
+          <a href="https://render.com/" id="p-none">
+            render.com
+          </a>
+          .
+        </p>
+        {error && <span className="error full-width text-align">{error}</span>}
+        <a href="/login">Back To Login Page</a>
       </div>
-      {error && <span className="error full-width text-align">{error}</span>}
-      <a href="/login">Back To Login Page</a>
     </div>
   );
 };
