@@ -111,11 +111,12 @@ const Navbar = () => {
 
               <div className="flex-column gap-lg">
                 {/* <a href="/Profile">My Profile</a> */}
-
+                <a href="/Chat">Chats</a>
                 {/* <label className="switch">
                   <input type="checkbox" aria-label="Change Color Theme" />
                   <span className="slider round" onClick={changeTheme}></span>
                 </label> */}
+
                 <span onClick={logOut}>
                   <p className="primary a">Log Out</p>
                 </span>

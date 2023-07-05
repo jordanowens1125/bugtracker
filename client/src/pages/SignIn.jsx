@@ -73,13 +73,7 @@ const SignIn = () => {
           {/* <a href="/signup" className="button-ghost full-width text-align">
             Sign Up
           </a> */}
-          <p className="secondary">
-            *When logging in please give the app a moment to load up on{" "}
-            <a href="https://render.com/" id="p-none">
-              render.com
-            </a>
-            .
-          </p>
+          <p className="secondary">*Please give the app a moment to load up.</p>
         </form>
       </div>
     </>

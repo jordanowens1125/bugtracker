@@ -85,11 +85,7 @@ const DemoUserSignin = () => {
         </button> */}
         </div>
         <p className="secondary">
-          *When logging in please give the app a moment to load up on{" "}
-          <a href="https://render.com/" id="p-none">
-            render.com
-          </a>
-          .
+          *When logging in please give the app a moment to load up.
         </p>
         {error && <span className="error full-width text-align">{error}</span>}
         <a href="/login">Back To Login Page</a>

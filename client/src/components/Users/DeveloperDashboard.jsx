@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PieChart from "../Charts/PieChart";
 import api from "../../api/index";
-import dayjs from "dayjs";
 import useAuthContext from "../../hooks/useAuthContext";
 import NoData from "../Shared/NoData";
 import NoProject from "../Shared/NoProject";

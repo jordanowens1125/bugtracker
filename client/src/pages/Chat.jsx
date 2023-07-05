@@ -1,8 +1,7 @@
-import React from 'react'
-
 const Chat = () => {
+  
   return (
-    <div className='border full-height'>Chat</div>
+    <div className='page border full-height'>Chat</div>
   )
 }
 

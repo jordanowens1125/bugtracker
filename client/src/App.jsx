@@ -26,11 +26,11 @@ import DevOnly from "./pages/DevOnly";
 import Profile from "./pages/Profile";
 // import Settings from "./pages/Settings";
 //import SignUp from "./pages/SignUp";
-// import Chat from "./pages/Chat";
+import Chat from "./pages/Chat";
 
 function App() {
   return (
-    <main className="light-mode" id="App">
+    <main className="dark-mode" id="App">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -45,7 +45,7 @@ function App() {
               <Route path="tickets/:id" element={<Ticket />} />
               <Route path="createticket" element={<CreateTicket />} />
               {/* <Route path="settings" element={<Settings />} /> */}
-              {/* <Route path="chat" element={<Chat />} /> */}
+              <Route path="chat" element={<Chat />} />
 
               <Route element={<ProjectManagerRoute />}>
                 {/* Admin/Project Managers only */}

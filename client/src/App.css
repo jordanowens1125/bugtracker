@@ -25,16 +25,26 @@ body {
   --bg-6: #9555da;
   --bg-7: #3c6899;
   background-color: var(--bg-color);
+  --font-color: #000;
+  color: var(--font-color);
 }
 
 .dark-mode {
-  --bg-color: #211e49;
-  --secondary-bg-color: #a3a0be;
-  --primary-color: #a3a0be;
+  --bg-color: #0f1014;
+  --primary-color: #7661e2;
+  --secondary-bg-color: #17181c;
   --secondary-color: #ba9cf7;
-  --tri-bg-color: #a3a0be;
-  --tri-color: #3c4aa3;
+  --tri-bg-color: #292b31;
+  --tri-color: #907cf3;
+  --urg-bg-color: #f9e8e8;
+  --urg-color: #d53a3a;
+  --bg-4: #7f55da;
+  --bg-5: #5594da;
+  --bg-6: #9555da;
+  --bg-7: #3c6899;
   background-color: var(--bg-color);
+  --font-color: #c5c6d2;
+  color: var(--font-color);
 }
 
 html {
@@ -411,7 +421,7 @@ button,
   padding: 10px;
   background-color: inherit;
   border-radius: 5px;
-  color: inherit;
+  color: var(--font-color);
   border: none;
   transition: 0.5s;
   font-weight: bold;
@@ -460,7 +470,7 @@ button:disabled {
 
 .button-urgent {
   background-color: var(--urg-color);
-  color: var(--secondary-bg-color);
+  color: var(--font-color);
 }
 
 button:disabled:hover {
@@ -693,6 +703,7 @@ button:disabled:hover {
 
 .page {
   width: 100%;
+  background-color: var(--bg-color);
 }
 
 /* bug  */
@@ -769,8 +780,8 @@ button:disabled:hover {
   flex-direction: column;
   gap: 10px;
   padding: 15px;
-  width: 95vw;
-  height: 95vh;
+  width: 97vw;
+  height: 99vh;
   border-radius: 0.3rem;
   overflow-y: auto;
   position: fixed;
@@ -871,7 +882,7 @@ svg {
 
 .loader {
   margin: 15em 38em;
-  border: 16px solid #e2eaff;
+  border: 16px solid var(--tri-bg-color);
   border-radius: 50%;
   border-top: 16px solid var(--primary-color);
   width: 140px;

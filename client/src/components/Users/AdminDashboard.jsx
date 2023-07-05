@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import PieChart from "../Charts/PieChart";
 import api from "../../api/index";
 import useAuthContext from "../../hooks/useAuthContext";
-import NoData from "../Shared/NoData";
 import {
   byDevs,
   groupedByProjects,
@@ -22,8 +21,6 @@ const AdminDashboard = () => {
   const [bugs, setBugs] = useState([]);
   const [projects, setProjects] = useState([]);
   const [users, setUsers] = useState([]);
-  
-
 
   useEffect(() => {
     const fetchBug = async () => {

@@ -18,7 +18,7 @@ const PieChart = ({ data, header }) => {
             modifiers: [["darker", 0.2]],
           }}
           arcLinkLabelsSkipAngle={10}
-          arcLinkLabelsTextColor="#333333"
+          arcLinkLabelsTextColor="inherit"
           arcLinkLabelsThickness={2}
           arcLinkLabelsStraightLength={9}
           arcLinkLabelsDiagonalLength={9}
@@ -34,7 +34,7 @@ const PieChart = ({ data, header }) => {
               id: "dots",
               type: "patternDots",
               background: "inherit",
-              color: "rgba(255, 255, 255, 0.3)",
+              color: "inherit",
               size: 4,
               padding: 1,
               stagger: true,
