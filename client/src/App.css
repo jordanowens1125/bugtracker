@@ -69,6 +69,29 @@ a:-webkit-any-link {
   font-weight: 600;
 }
 
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) var(--secondary-bg-color);
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 13px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--secondary-bg-color);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 7px;
+    border: 4px solid var(--secondary-bg-color);
+  }
+
+
 /* Width and Height */
 .full-width {
   width: 100%;
@@ -212,11 +235,16 @@ a:-webkit-any-link {
   padding-left: 10px;
 }
 
+.p-md-hz {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .p-l-lg {
   padding-left: 20px;
 }
 
-.p-right-md {
+.p-r-md {
   padding-right: 10px;
 }
 
@@ -377,8 +405,7 @@ textarea {
   color: inherit;
 }
 
-
-.dark-mode input{
+.dark-mode input {
   color-scheme: dark;
 }
 
@@ -462,7 +489,7 @@ button:disabled {
 }
 
 .button-secondary {
-  color: var(--tri-color);
+  color: var(--primary-color);
   background-color: var(--tri-bg-color);
 }
 
@@ -782,7 +809,7 @@ button:disabled:hover {
 
 .modal-content {
   /* background-color: var(--light-bg-color); */
-  background-color: var(--secondary-bg-color);
+  background-color: var(--bg-color);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -792,6 +819,7 @@ button:disabled:hover {
   border-radius: 0.3rem;
   overflow-y: auto;
   position: fixed;
+  overflow-x: hidden;
   /* top: 50%;
   left: 50%; */
 }
@@ -807,7 +835,7 @@ button:disabled:hover {
   align-items: center;
   justify-content: center;
   height: 10%;
-  right: 8px;
+  right: 10px;
   border-radius: 10px;
   z-index: 6;
 }
@@ -842,8 +870,8 @@ button:disabled:hover {
   bottom: 0;
   background-color: var(--primary-color);
   -webkit-transition: 0.4s;
-  transition: 1s;padding: 10px;
-  
+  transition: 1s;
+  padding: 10px;
 }
 
 .slider:before {
@@ -853,7 +881,7 @@ button:disabled:hover {
   width: 18px;
   left: 4px;
   bottom: 4px;
-  background-color: var(--bg-color);
+  background-color: var(--secondary-bg-color);
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }

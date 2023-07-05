@@ -5,7 +5,7 @@ import { useLogOut } from "../hooks/useLogOut.js";
 import Hamburger from "../assets/Hamburger";
 import useMessageContext from "../hooks/messageContext";
 
-const Navbar = ({theme, setTheme}) => {
+const Navbar = ({ theme, setTheme }) => {
   const { signOut } = useLogOut();
   const { user } = useAuthContext();
   const messageInfo = useMessageContext();
@@ -114,10 +114,12 @@ const Navbar = ({theme, setTheme}) => {
               <div className="flex-column gap-lg">
                 {/* <a href="/Profile">My Profile</a> */}
                 <a href="/Chat">Chats</a>
-                <label className="switch">
-                  <input type="checkbox" aria-label="Change Color Theme" />
-                  <span className="slider round" onClick={changeTheme}></span>
-                </label>
+                <div className="p-md-hz">
+                  <label className="switch">
+                    <input type="checkbox" aria-label="Change Color Theme" />
+                    <span className="slider round" onClick={changeTheme}></span>
+                  </label>
+                </div>
 
                 <span onClick={logOut}>
                   <p className="primary a">Log Out</p>

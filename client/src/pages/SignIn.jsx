@@ -5,12 +5,13 @@ import EyeHide from "../assets/EyeHide";
 import Input from "../components/Shared/GeneralInput";
 import Error from "../components/Shared/Error";
 
-const Button = ({ onClick, content, submit, disabled }) => {
+const Button = ({ onClick, content, submit, disabled, accessible }) => {
   return (
     <button
       type={submit ? "submit" : "button"}
       onClick={onClick}
       className="password-view flex aic jcc"
+      aria-label={accessible}
     >
       {content}
     </button>
@@ -53,6 +54,7 @@ const SignIn = () => {
                   type="button"
                   onClick={() => setViewPassword(!viewPassword)}
                   content={viewPassword ? <Eye /> : <EyeHide />}
+                  accessible={viewPassword}
                 />
               }
             />

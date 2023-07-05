@@ -36,7 +36,7 @@ const BarChart = ({ data, column, title }) => {
             role="application"
             isFocusable={false}
             ariaLabel="Nivo bar chart demo"
-            barAriaLabel={(e) => e.id + ": " + e.role + e.indexValue}
+            barAriaLabel={(e) => e.indexValue}
           />
         </div>
       </div>

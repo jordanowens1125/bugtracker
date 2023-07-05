@@ -15,7 +15,7 @@ const DemoUserSignin = () => {
         navigate("/");
       }
     } catch (err) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
