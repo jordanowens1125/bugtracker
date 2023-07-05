@@ -7,8 +7,8 @@ const Select = ({
   disabled,
   required = true,
   placeholder,
+  disablePlaceholder = false
 }) => {
-  console.log(listofOptions);
   return (
     <>
       <label htmlFor={id || label}>{label}:</label>
@@ -21,7 +21,7 @@ const Select = ({
         disabled={disabled}
         required={required}
       >
-        <option value={""} key={placeholder}>
+        <option value={""} key={placeholder} disabled={disablePlaceholder}>
           {placeholder}
         </option>
         {listofOptions.map((option) => (

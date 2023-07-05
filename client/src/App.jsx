@@ -27,13 +27,19 @@ import Profile from "./pages/Profile";
 // import Settings from "./pages/Settings";
 //import SignUp from "./pages/SignUp";
 import Chat from "./pages/Chat";
+import { useState } from "react";
 
 function App() {
+  const [theme, setTheme] = useState(localStorage.getItem("theme"));
+
   return (
-    <main className="dark-mode" id="App">
+    <main className={theme} id="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout />}>
+          <Route
+            path="/"
+            element={<Layout theme={theme} setTheme={setTheme} />}
+          >
             {/*We want to protect these routes */}
             <Route element={<RequireAuth />}>
               <Route index element={<Home />} />

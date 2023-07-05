@@ -21,19 +21,13 @@ const ManageUsersPage = ({
           <i className="primary">*</i>Demo users can not be altered
         </p>
       </div>
-
-      {/* <span className="flex gap-md search mobile-column">
-            <input type="text" placeholder="Search for member" />
-            <button className="button-secondary" type="button">
-              Clear
-            </button>
-          </span> */}
       <span className="flex mobile-column w-content">
         <Select
           label={" New role to be assigned to selected users:"}
           onChange={(e) => setRole(e.currentTarget.value)}
           value={role}
           listofOptions={roles}
+          disablePlaceholder={true}
         />
       </span>
       <span className="flex gap-md space-between mobile-column">

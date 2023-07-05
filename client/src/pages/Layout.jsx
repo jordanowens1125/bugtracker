@@ -5,13 +5,13 @@ import { useLogOut } from "../hooks/useLogOut.js";
 import Hamburger from "../assets/Hamburger";
 import useMessageContext from "../hooks/messageContext";
 
-const Navbar = () => {
+const Navbar = ({theme, setTheme}) => {
   const { signOut } = useLogOut();
-  const [theme, setTheme] = useState("light-mode");
   const { user } = useAuthContext();
   const messageInfo = useMessageContext();
   const [mobile, setMobileOpen] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
     if (messageInfo.display) {
       setTimeout(() => {
@@ -26,10 +26,12 @@ const Navbar = () => {
       element?.classList.remove("dark-mode");
       setTheme("light-mode");
       element?.classList.add("light-mode");
+      localStorage.setItem("theme", "light-mode");
     } else {
       element?.classList.remove("light-mode");
       setTheme("dark-mode");
       element?.classList.add("dark-mode");
+      localStorage.setItem("theme", "dark-mode");
     }
   };
 
@@ -112,10 +114,10 @@ const Navbar = () => {
               <div className="flex-column gap-lg">
                 {/* <a href="/Profile">My Profile</a> */}
                 <a href="/Chat">Chats</a>
-                {/* <label className="switch">
+                <label className="switch">
                   <input type="checkbox" aria-label="Change Color Theme" />
                   <span className="slider round" onClick={changeTheme}></span>
-                </label> */}
+                </label>
 
                 <span onClick={logOut}>
                   <p className="primary a">Log Out</p>
@@ -170,9 +172,19 @@ const Navbar = () => {
                           </>
                         )}
                         <a href="/createticket">Create Ticket</a>
-                        {user.role === "Project Manager" && (
-                          <a href="/createproject">Create Project</a>
-                        )}
+
+                        <a href="/Chat">Chats</a>
+
+                        <label className="switch">
+                          <input
+                            type="checkbox"
+                            aria-label="Change Color Theme"
+                          />
+                          <span
+                            className="slider round"
+                            onClick={changeTheme}
+                          ></span>
+                        </label>
                         {/* <a href="/Profile">My Profile</a> */}
                         <span onClick={logOut}>
                           <p className="primary a">Log Out</p>
@@ -195,7 +207,7 @@ const Navbar = () => {
           <Outlet />
           {messageInfo.open && (
             <>
-              <div className="noti border">
+              <div className="noti ">
                 <button className="button-primary" onClick={handleAlertClose}>
                   Close
                 </button>

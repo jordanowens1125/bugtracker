@@ -30,7 +30,7 @@ const SignIn = () => {
   };
   return (
     <>
-      <div className="flex-column jcc full-height aic page">
+      <div className="flex-column jcc full-height aic secondary-bg">
         <form
           className="flex-column aic jcc cover full-width"
           onSubmit={submit}

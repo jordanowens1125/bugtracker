@@ -15,6 +15,7 @@ body {
   --bg-color: #fff;
   --secondary-bg-color: #f4f6fa;
   --primary-color: #6e62e5;
+  --primary-submit: #fff;
   --secondary-color: #ba9cf7;
   --tri-bg-color: #e2eaff;
   --tri-color: #3c4aa3;
@@ -31,6 +32,7 @@ body {
 
 .dark-mode {
   --bg-color: #0f1014;
+  --primary-submit: #fff;
   --primary-color: #7661e2;
   --secondary-bg-color: #17181c;
   --secondary-color: #ba9cf7;
@@ -43,7 +45,7 @@ body {
   --bg-6: #9555da;
   --bg-7: #3c6899;
   background-color: var(--bg-color);
-  --font-color: #c5c6d2;
+  --font-color: #fff;
   color: var(--font-color);
 }
 
@@ -64,6 +66,7 @@ a:-webkit-any-link {
   color: var(--primary-color);
   cursor: pointer;
   padding: 10px;
+  font-weight: 600;
 }
 
 /* Width and Height */
@@ -161,7 +164,7 @@ a:-webkit-any-link {
 }
 
 .border-bottom {
-  border-bottom: 5px solid var(--bg-color);
+  border-bottom: 5px solid var(--primary-color);
 }
 
 .grey-border {
@@ -370,6 +373,13 @@ textarea {
   border-radius: 10px;
   outline: none;
   margin: 2px;
+  background-color: var(--secondary-bg-color);
+  color: inherit;
+}
+
+
+.dark-mode input{
+  color-scheme: dark;
 }
 
 .select-modal {
@@ -390,7 +400,7 @@ select[multiple]:focus option:checked,
 .selected {
   background: var(--primary-color)
     linear-gradient(0deg, var(--primary-color) 0%, var(--primary-color) 100%);
-  color: var(--bg-color);
+  color: #fff;
 }
 
 .selected:hover {
@@ -400,7 +410,7 @@ select[multiple]:focus option:checked,
 input[type="text"]:focus,
 textarea:focus {
   /* //outline: solid 2px #ba9cf7; */
-  outline: var(--secondary-color) solid 2px;
+  outline: var(--primary-color) solid 2px;
 }
 
 .no-outline:focus,
@@ -443,13 +453,11 @@ a:hover {
 }
 
 button:disabled {
-  background-color: var(--secondary-bg-color);
-  color: black;
-  opacity: 0.6;
+  opacity: 0.4;
 }
 
 .button-primary {
-  color: var(--bg-color);
+  color: var(--primary-submit);
   background-color: var(--primary-color);
 }
 
@@ -753,8 +761,7 @@ button:disabled:hover {
   border-radius: 20px;
   width: 800px;
   max-width: 100%;
-  border: 5px solid var(--secondary-bg-color);
-  background-color: var(--secondary-bg-color);
+  background-color: var(--bg-color);
 }
 
 /* Modal styling */
@@ -833,9 +840,10 @@ button:disabled:hover {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--secondary-color);
+  background-color: var(--primary-color);
   -webkit-transition: 0.4s;
-  transition: 1s;
+  transition: 1s;padding: 10px;
+  
 }
 
 .slider:before {
@@ -851,7 +859,7 @@ button:disabled:hover {
 }
 
 input:checked + .slider {
-  background-color: var(--secondary-color);
+  background-color: var(--primary-color);
 }
 
 input:checked + .slider:before {
@@ -871,8 +879,8 @@ input:checked + .slider:before {
 /* End of Toggle Switch */
 
 svg {
-  fill: inherit;
-  color: var(--primary-color);
+  fill: var(--font-color);
+  /* color: var(--primary-color); */
   transition: 1s;
 }
 
