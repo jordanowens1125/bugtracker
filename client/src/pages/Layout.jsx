@@ -113,7 +113,7 @@ const Navbar = ({ theme, setTheme }) => {
 
               <div className="flex-column gap-lg">
                 {/* <a href="/Profile">My Profile</a> */}
-                <a href="/Chat">Chats</a>
+                {/* <a href="/Chat">Chats</a> */}
                 <div className="p-md-hz">
                   <label className="switch">
                     <input type="checkbox" aria-label="Change Color Theme" />
@@ -175,7 +175,7 @@ const Navbar = ({ theme, setTheme }) => {
                         )}
                         <a href="/createticket">Create Ticket</a>
 
-                        <a href="/Chat">Chats</a>
+                        {/* <a href="/Chat">Chats</a> */}
 
                         <label className="switch">
                           <input
