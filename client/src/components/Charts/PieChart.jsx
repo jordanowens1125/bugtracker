@@ -4,7 +4,7 @@ const PieChart = ({ data, header }) => {
   return (
     <div className="chart-container mobile-full-width">
       <i className="chart-header">{header}</i>
-      <div className="chart full-width">
+      <div className="chart full-width primary">
         <ResponsivePie
           data={data}
           margin={{ top: 30, right: 10, bottom: 30, left: 10 }}
@@ -28,18 +28,8 @@ const PieChart = ({ data, header }) => {
             from: "color",
             modifiers: [["darker", 2]],
           }}
+          labelTextColor="inherit:darker(1.4)"
           colors={["#7f55da", "#4d4599", "#5594da", "#9555da", "#3c6899"]}
-          defs={[
-            {
-              id: "dots",
-              type: "patternDots",
-              background: "inherit",
-              color: "inherit",
-              size: 4,
-              padding: 1,
-              stagger: true,
-            },
-          ]}
         />
       </div>
     </div>

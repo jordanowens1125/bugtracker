@@ -378,6 +378,10 @@ th,
 td {
   text-align: left;
 }
+
+th{
+  border-right:  1px solid var(--bg-color);
+}
 /* End of table css */
 
 /* Radio css */

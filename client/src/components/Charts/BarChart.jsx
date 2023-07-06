@@ -13,7 +13,7 @@ const BarChart = ({ data, column, title }) => {
     <>
       <div className="chart-container">
         <i className="chart-header">{title}</i>
-        <div className="chart full-width">
+        <div className="chart full-width primary">
           <ResponsiveBar
             data={coloredData}
             keys={["value"]}
@@ -25,18 +25,11 @@ const BarChart = ({ data, column, title }) => {
             colors={getBarColor}
             borderColor={{
               from: "color",
-              modifiers: [["darker", 1.6]],
+              modifiers: [["darker", 0.8]],
             }}
-            
-            labelTextColor={{
-              from: "color",
-              modifiers: [["darker", 1.6]],
-            }}
-            tooltip={() => {}}
+            labelTextColor="inherit"
             role="application"
             isFocusable={false}
-            ariaLabel="Nivo bar chart demo"
-            barAriaLabel={(e) => e.indexValue}
           />
         </div>
       </div>
