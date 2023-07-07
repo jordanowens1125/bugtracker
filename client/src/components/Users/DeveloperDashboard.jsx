@@ -7,6 +7,7 @@ import NoProject from "../Shared/NoProject";
 import { byPriority, byStatus } from "../DeveloperDashboard/Tickets";
 import Table from "../Shared/Table";
 import DevDashboardTable from "../DeveloperDashboard/DevDashboardTable";
+import Error from "../Shared/Error";
 
 const DeveloperDashboard = () => {
   const { user } = useAuthContext();
@@ -14,21 +15,30 @@ const DeveloperDashboard = () => {
   const [priority, setPriority] = useState([]);
   const [status, setStatus] = useState([]);
   const [project, setProject] = useState();
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchBug = async () => {
-      const request = await api.users.fetchUser(user, user._id);
-      setProject(request.project);
-      setBugs(request.assignedBugs);
-      byPriority(request.assignedBugs, setPriority);
-      byStatus(request.assignedBugs, setStatus);
+      try {
+        const request = await api.users.fetchUser(user, user._id);
+        setProject(request.project);
+        setBugs(request.assignedBugs);
+        byPriority(request.assignedBugs, setPriority);
+        byStatus(request.assignedBugs, setStatus);
+      } catch (error) {
+        setError(
+          `Unable to load dashboard because of the following error: ${error.message}`
+        );
+      }
     };
+
     fetchBug();
   }, [user]);
 
   return (
     <main className="page flex-column text-align">
       <h1>Welcome, {user.name}</h1>
+      {error && <Error text={error} />}
       {project && (
         <>
           <i>

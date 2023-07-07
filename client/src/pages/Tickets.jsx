@@ -5,6 +5,7 @@ import useAuthContext from "../hooks/useAuthContext";
 import Table from "../components/Shared/Table";
 import BugsTableBody from "../components/Bugs/BugsTableBody";
 import Select from "../components/Shared/Select";
+import Error from "../components/Shared/Error";
 
 const Bugs = () => {
   const [bugs, setBugs] = useState([]);
@@ -12,6 +13,7 @@ const Bugs = () => {
   const [input, setInput] = useState("");
   const [priority, setPriority] = useState("");
   const [status, setStatus] = useState("");
+  const [error, setError] = useState(null);
 
   const handleInputChange = (e) => {
     setInput(e.currentTarget.value);
@@ -41,7 +43,9 @@ const Bugs = () => {
       try {
         const response = await api.tickets.fetchTickets(user);
         setBugs(response);
-      } catch (error) {}
+      } catch (error) {setError(
+        `Unable to get tickets because of the following error: ${error.message}`
+      );}
     };
     fetchData();
   }, [user]);
@@ -49,7 +53,7 @@ const Bugs = () => {
     <>
       <div className="flex-column gap-md page">
         <h1>Tickets</h1>
-
+        {error && <Error text={error} />}
         <div className="flex-column gap-md mobile-column">
           <div className="flex space-between mobile-column">
             <span className="flex aic jcc">

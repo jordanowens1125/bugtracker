@@ -6,6 +6,8 @@ import NoData from "../Shared/NoData";
 import NoProject from "../Shared/NoProject";
 import PMTableContent from "../ProjectManager/PMTableContent";
 import Table from "../Shared/Table";
+import { byDevs, byPriority, byStatus } from "../ProjectManager/Tickets";
+import Error from "../Shared/Error";
 
 const ProjectManagerDashboard = () => {
   const { user } = useAuthContext();
@@ -14,92 +16,27 @@ const ProjectManagerDashboard = () => {
   const [status, setStatus] = useState([]);
   const [project, setProject] = useState();
   const [dev, setDev] = useState([]);
-
-  const byPriority = (bugs) => {
-    const projects = {};
-    const result = [];
-    bugs.map((bug) => {
-      if (projects[bug.priority]) {
-        projects[bug.priority] += 1;
-        return bug;
-      } else {
-        projects[bug.priority] = 1;
-        return 1;
-      }
-    });
-    Object.keys(projects).map((project) =>
-      result.push({
-        id: project,
-        label: project,
-        value: projects[project],
-      })
-    );
-    setPriority(result);
-  };
-
-  const byStatus = (bugs) => {
-    const projects = {};
-    const result = [];
-    bugs.map((bug) => {
-      if (projects[bug.status]) {
-        projects[bug.status] += 1;
-        return bug;
-      } else {
-        projects[bug.status] = 1;
-        return 1;
-      }
-    });
-    Object.keys(projects).map((project) =>
-      result.push({
-        id: project,
-        label: project,
-        value: projects[project],
-      })
-    );
-    setStatus(result);
-  };
-
-  const byDevs = (bugs) => {
-    const devs = {};
-    const result = [];
-    devs["Unassigned"] = 0;
-    bugs.map((bug) => {
-      if (bug.assignedTo) {
-        if (devs[bug.assignedTo.name]) {
-          devs[bug.assignedTo.name] += 1;
-          return bug;
-        } else {
-          devs[bug.assignedTo.name] = 1;
-          return 1;
-        }
-      } else {
-        devs["Unassigned"] += 1;
-        return 0;
-      }
-    });
-    Object.keys(devs).map((dev) =>
-      result.push({
-        id: dev,
-        label: dev,
-        value: devs[dev],
-      })
-    );
-    setDev(result);
-  };
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchBug = async () => {
-      const request = await api.users.fetchPM(user, user._id);
-      if (request.project) {
-        setProject(request.project);
-        if (request.project.bugs) {
-          if (request.project.bugs.length > 0) {
-            setBugs(request.project.bugs);
-            byPriority(request.project.bugs);
-            byStatus(request.project.bugs);
-            byDevs(request.project.bugs);
+      try {
+        const request = await api.users.fetchPM(user, user._id);
+        if (request.project) {
+          setProject(request.project);
+          if (request.project.bugs) {
+            if (request.project.bugs.length > 0) {
+              setBugs(request.project.bugs, setBugs);
+              byPriority(request.project.bugs, setPriority);
+              byStatus(request.project.bugs, setStatus);
+              byDevs(request.project.bugs, setDev);
+            }
           }
         }
+      } catch (error) {
+        setError(
+          `Unable to load dashboard because of the following error: ${error.message}`
+        );
       }
     };
     fetchBug();
@@ -107,7 +44,7 @@ const ProjectManagerDashboard = () => {
   return (
     <div className="page flex-column text-align">
       <h1>Welcome, {user.name}</h1>
-
+      {error && <Error text={error} />}
       {project && (
         <>
           <i>

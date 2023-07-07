@@ -16,6 +16,8 @@ const ManageUsers = () => {
   const messageInfo = useMessageContext();
   const [createMode, setCreateMode] = useState(false);
   const [deleteMode, setDeleteMode] = useState(false);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     const fetchData = async (user) => {
       try {
@@ -24,7 +26,11 @@ const ManageUsers = () => {
           (user) => user.role !== "Deleted" && user.role !== "Admin"
         );
         setFiltered(users);
-      } catch (error) {}
+      } catch (error) {
+        setError(
+          `Unable to get users because of the following error: ${error.message}`
+        );
+      }
     };
     fetchData(user);
   }, [user]);
@@ -109,6 +115,7 @@ const ManageUsers = () => {
         setDeleteMode={setDeleteMode}
         filtered={filtered}
         handleSubmit={handleSubmit}
+        error={error}
       />
     </main>
   );

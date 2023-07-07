@@ -3,6 +3,8 @@ import NoData from "../Shared/NoData";
 import Table from "../Shared/Table";
 import UserTableBody from "./UserTableBody";
 import { roles } from "../../constants/user";
+import Error from "../Shared/Error";
+
 const ManageUsersPage = ({
   setRole,
   handleSubmit,
@@ -12,11 +14,13 @@ const ManageUsersPage = ({
   filtered,
   role,
   handleRowClick,
+  error
 }) => {
   return (
     <div className="page flex-column">
       <div className="flex-column">
         <h1>Manage Users</h1>
+        {error && <Error text={error} />}
         <p className="secondary">* Demo users can not be altered</p>
       </div>
       <span className="flex gap-md space-between mobile-column">

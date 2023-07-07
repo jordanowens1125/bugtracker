@@ -12,12 +12,14 @@ import TextArea from "../components/Shared/TextArea";
 import Buttons from "../components/Shared/Buttons";
 import SelectByField from "../components/Shared/SelectByField";
 import SelectedDevelopers from "../components/CreateProject/SelectedDevelopers";
+import Error from "../components/Shared/Error";
 
 const CreateProject = () => {
   const [available, setAvailable] = useState([]);
   const messageInfo = useMessageContext();
   const [formInputData, setFormInputData] = useState(initialState);
   const { user } = useAuthContext();
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async (user) => {
@@ -27,7 +29,11 @@ const CreateProject = () => {
           (user) => user.role !== "Deleted" && user.role !== "Admin"
         );
         setAvailable(filtered);
-      } catch (error) {}
+      } catch (error) {
+        setError(
+          `Currently unable to create projects because the following error occurred when getting project managers : ${error.message}`
+        );
+      }
     };
     fetchData(user);
   }, [user]);
@@ -97,6 +103,7 @@ const CreateProject = () => {
         onSubmit={handleFormSubmit}
       >
         <h1>Create Project</h1>
+        {error && <Error text={error}/>}
         <Input
           value={formInputData.title}
           onChange={handleInputChange}

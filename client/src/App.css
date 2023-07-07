@@ -212,7 +212,7 @@ a:-webkit-any-link {
   background-color: var(--secondary-bg-color);
   color: var(--urg-color);
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 /* Padding */
 #p-none,
