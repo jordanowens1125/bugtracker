@@ -27,10 +27,9 @@ const SignIn = () => {
 
   const submit = async (e) => {
     e.preventDefault();
-    try {
-      await signIn(email, password);
-    } catch (err) {}
+    await signIn(email, password);
   };
+
   return (
     <>
       <div className="flex-column jcc full-height aic secondary-bg">
@@ -59,6 +58,7 @@ const SignIn = () => {
                   onClick={() => setViewPassword(!viewPassword)}
                   content={viewPassword ? <Eye /> : <EyeHide />}
                   accessible={viewPassword}
+                  disabled={isLoading}
                 />
               }
             />

@@ -20,22 +20,17 @@ export const useLogin = () => {
             body: JSON.stringify({ email, password }),
           }
         );
-        return response;
+        const json = await response.json();
+        if (response.ok) {
+          localStorage.setItem("user", JSON.stringify(json));
+          dispatch({ type: "LOGIN", payload: json });
+          return response;
+        }
       } catch (error) {
         setError(error.message);
-        setIsLoading(false)
       }
     };
-
-    const response = await getResponse();
-
-    const json = await response.json();
-    if (response) {
-      localStorage.setItem("user", JSON.stringify(json));
-      dispatch({ type: "LOGIN", payload: json });
-      return response;
-    }
-
+    await getResponse();
     setIsLoading(false);
   };
   return { signIn, isLoading, error };

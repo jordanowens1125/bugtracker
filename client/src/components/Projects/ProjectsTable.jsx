@@ -22,12 +22,9 @@ const TableBodyElement = (projects) => {
 };
 
 const ProjectsTable = ({ projects }) => {
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
   const [input, setInput] = useState("");
   const [status, setStatus] = useState("");
-
-  const CanManageMembers =
-    user.role === "Admin" || user.role === "Project Manager";
   
   let filtered = projects.filter((project) => {
     const capitalizedTitle = project.title.toUpperCase();
