@@ -38,7 +38,7 @@ const SignIn = () => {
           className="flex-column aic jcc cover full-width"
           onSubmit={submit}
         >
-          {isLoading && <Loading />}
+          <Loading isLoading={isLoading} />
 
           <h1>Log In</h1>
           <Input

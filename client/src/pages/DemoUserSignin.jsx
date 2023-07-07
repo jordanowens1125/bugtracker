@@ -57,7 +57,7 @@ const DemoUserSignin = () => {
   return (
     <div className="flex-column aic jcc full-height page">
       <div className=" text-align flex-column aic jcc gap-lg cover">
-        {isLoading && <Loading />}
+        <Loading isLoading={isLoading} />
         <h1 className="primary ">Login as Demo User</h1>
 
         <div className="max-w-lg flex mobile-column">

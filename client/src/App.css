@@ -125,6 +125,10 @@ a:-webkit-any-link {
   height: 100vh;
 }
 
+.h-xs{
+  height: 75px;
+}
+
 .full-vw {
   width: 100vw;
 }
