@@ -17,7 +17,7 @@ const initialTicketState = {
   priority: "Low",
   status: "Open",
   deadline: dayjs(new Date()).format("YYYY-MM-DD"),
-  projectID: '',
+  projectID: "",
 };
 
 const CreateTicket = () => {
@@ -51,9 +51,7 @@ const CreateTicket = () => {
       setTicket(initialTicketState);
       document.getElementById("projectID").value = -1;
     } catch (error) {
-      setError(
-        `Ticket Creation Unsuccessful: ${error.message}`
-      );
+      setError(`Ticket Creation Unsuccessful: ${error.message}`);
     }
   };
 
@@ -77,52 +75,54 @@ const CreateTicket = () => {
   }, [user]);
 
   return (
-    <form className="page flex-column" onSubmit={handleSubmit}>
-      <h1>Create Ticket</h1>
-      {error && <Error text={error} />}
-      <Input
-        value={ticket.title}
-        label={"Title"}
-        onChange={handleInputChange}
-        id={"title"}
-        disabled={noprojects}
-      />
-      <TextArea
-        value={ticket.description}
-        onChange={handleInputChange}
-        id={"description"}
-        label={"Description"}
-        disabled={noprojects}
-      />
-      <Select
-        value={ticket.priority}
-        id={"priority"}
-        onChange={handleInputChange}
-        listofOptions={priorities}
-        disabled={noprojects}
-        label={"Priority"}
-      />
-      <Input
-        value={dayjs(ticket.deadline).format("YYYY-MM-DD")}
-        label={"Deadline"}
-        onChange={handleInputChange}
-        type={"date"}
-        id={"deadline"}
-        disabled={noprojects}
-      />
-      <SelectByField
-        label={"Project"}
-        value={ticket.projectID}
-        onChange={handleInputChange}
-        disabled={noprojects}
-        field={"_id"}
-        displayfield={"title"}
-        id={"projectID"}
-        listofOptions={projects}
-        placeholder={'No Project Selected'}
-      />
-      <Buttons submit={"Submit"} disabled={projects.length === 0} />
-    </form>
+    <main className="full-height">
+      <form className="full-height flex-column page" onSubmit={handleSubmit}>
+        <h1>Create Ticket</h1>
+        {error && <Error text={error} />}
+        <Input
+          value={ticket.title}
+          label={"Title"}
+          onChange={handleInputChange}
+          id={"title"}
+          disabled={noprojects}
+        />
+        <TextArea
+          value={ticket.description}
+          onChange={handleInputChange}
+          id={"description"}
+          label={"Description"}
+          disabled={noprojects}
+        />
+        <Select
+          value={ticket.priority}
+          id={"priority"}
+          onChange={handleInputChange}
+          listofOptions={priorities}
+          disabled={noprojects}
+          label={"Priority"}
+        />
+        <Input
+          value={dayjs(ticket.deadline).format("YYYY-MM-DD")}
+          label={"Deadline"}
+          onChange={handleInputChange}
+          type={"date"}
+          id={"deadline"}
+          disabled={noprojects}
+        />
+        <SelectByField
+          label={"Project"}
+          value={ticket.projectID}
+          onChange={handleInputChange}
+          disabled={noprojects}
+          field={"_id"}
+          displayfield={"title"}
+          id={"projectID"}
+          listofOptions={projects}
+          placeholder={"No Project Selected"}
+        />
+        <Buttons submit={"Submit"} disabled={projects.length === 0} />
+      </form>
+    </main>
   );
 };
 

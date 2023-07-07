@@ -577,7 +577,7 @@ button:disabled:hover {
 }
 
 .chart {
-  height: 215px;
+  height: 250px;
   aspect-ratio: 1;
   border: 3px solid var(--secondary-bg-color);
   overflow: hidden;
@@ -744,9 +744,10 @@ button:disabled:hover {
   background-color: var(--secondary-bg-color);
 }
 
-.page {
+.page, main {
   width: 100%;
   background-color: var(--bg-color);
+  height: fit-content;
 }
 
 /* bug  */

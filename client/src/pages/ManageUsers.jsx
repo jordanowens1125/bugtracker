@@ -83,7 +83,7 @@ const ManageUsers = () => {
   };
 
   return (
-    <>
+    <main>
       {createMode && (
         <CreateUserModal
           cancel={() => setCreateMode(false)}
@@ -110,7 +110,7 @@ const ManageUsers = () => {
         filtered={filtered}
         handleSubmit={handleSubmit}
       />
-    </>
+    </main>
   );
 };
 

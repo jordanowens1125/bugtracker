@@ -91,52 +91,57 @@ const CreateProject = () => {
   };
 
   return (
-    <form className="page flex-column" onSubmit={handleFormSubmit}>
-      <h1>Create Project</h1>
-      <Input
-        value={formInputData.title}
-        onChange={handleInputChange}
-        placeholder={`Character limit is ${MAX_TITLE_LENGTH}...`}
-        label={"Title"}
-        id={"title"}
-      />
-      <TextArea
-        value={formInputData.description}
-        onChange={handleInputChange}
-        placeholder={`Character limit is ${MAX_DESCRIPTION_LENGTH}...`}
-        label={"Description"}
-        id={"description"}
-      />
-      <Input
-        type="date"
-        name="deadline"
-        id="deadline"
-        label={"Deadline Date"}
-        value={formInputData.deadline}
-        onChange={handleInputChange}
-      />
-      <SelectByField
-        label={"Project Manager"}
-        value={formInputData.projectManager}
-        onChange={handleInputChange}
-        field={"_id"}
-        displayfield={"name"}
-        id={"projectManager"}
-        placeholder={"Select a Project Manager"}
-        listofOptions={available.filter(
-          (user) => user.role === "Project Manager"
-        )}
-      />
-      <SelectedDevelopers
-        developers={available.filter((user) => user.role === "Developer")}
-        handleDeveloperSelect={handleDeveloperSelect}
-      />
-      <Buttons
-        secondary={"Reset"}
-        secondaryFunction={reset}
-        submit={"Submit"}
-      />
-    </form>
+    <main className="full-height">
+      <form
+        className="flex-column full-height space-between page"
+        onSubmit={handleFormSubmit}
+      >
+        <h1>Create Project</h1>
+        <Input
+          value={formInputData.title}
+          onChange={handleInputChange}
+          placeholder={`Character limit is ${MAX_TITLE_LENGTH}...`}
+          label={"Title"}
+          id={"title"}
+        />
+        <TextArea
+          value={formInputData.description}
+          onChange={handleInputChange}
+          placeholder={`Character limit is ${MAX_DESCRIPTION_LENGTH}...`}
+          label={"Description"}
+          id={"description"}
+        />
+        <Input
+          type="date"
+          name="deadline"
+          id="deadline"
+          label={"Deadline Date"}
+          value={formInputData.deadline}
+          onChange={handleInputChange}
+        />
+        <SelectByField
+          label={"Project Manager"}
+          value={formInputData.projectManager}
+          onChange={handleInputChange}
+          field={"_id"}
+          displayfield={"name"}
+          id={"projectManager"}
+          placeholder={"Select a Project Manager"}
+          listofOptions={available.filter(
+            (user) => user.role === "Project Manager"
+          )}
+        />
+        <SelectedDevelopers
+          developers={available.filter((user) => user.role === "Developer")}
+          handleDeveloperSelect={handleDeveloperSelect}
+        />
+        <Buttons
+          secondary={"Reset"}
+          secondaryFunction={reset}
+          submit={"Submit"}
+        />
+      </form>
+    </main>
   );
 };
 

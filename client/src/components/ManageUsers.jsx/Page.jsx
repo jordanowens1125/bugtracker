@@ -15,21 +15,10 @@ const ManageUsersPage = ({
 }) => {
   return (
     <div className="page flex-column">
-      <div className="flex aic mobile-column">
+      <div className="flex-column">
         <h1>Manage Users</h1>
-        <p>
-          <i className="primary">*</i>Demo users can not be altered
-        </p>
+        <p className="secondary">* Demo users can not be altered</p>
       </div>
-      <span className="flex mobile-column w-content">
-        <Select
-          label={" New role to be assigned to selected users:"}
-          onChange={(e) => setRole(e.currentTarget.value)}
-          value={role}
-          listofOptions={roles}
-          disablePlaceholder={true}
-        />
-      </span>
       <span className="flex gap-md space-between mobile-column">
         <span className="flex mobile-column">
           <button
@@ -57,6 +46,15 @@ const ManageUsersPage = ({
         >
           Delete Users
         </button>
+      </span>
+      <span className="flex mobile-column w-content">
+        <Select
+          label={" New role to be assigned to selected users"}
+          onChange={(e) => setRole(e.currentTarget.value)}
+          value={role}
+          listofOptions={roles}
+          disablePlaceholder={true}
+        />
       </span>
 
       <div className="overflow-x only-full-width">
