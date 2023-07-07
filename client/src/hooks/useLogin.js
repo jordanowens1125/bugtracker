@@ -8,7 +8,6 @@ export const useLogin = () => {
   const signIn = async (email, password) => {
     setIsLoading(true);
     setError(null);
-    //const response = await createUser({ email, password })
 
     const getResponse = async () => {
       try {
