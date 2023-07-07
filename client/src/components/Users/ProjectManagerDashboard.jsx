@@ -26,7 +26,7 @@ const ProjectManagerDashboard = () => {
           setProject(request.project);
           if (request.project.bugs) {
             if (request.project.bugs.length > 0) {
-              setBugs(request.project.bugs, setBugs);
+              setBugs(request.project.bugs);
               byPriority(request.project.bugs, setPriority);
               byStatus(request.project.bugs, setStatus);
               byDevs(request.project.bugs, setDev);

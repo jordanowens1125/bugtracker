@@ -926,11 +926,11 @@ svg {
 }
 
 .loader {
-  margin: 15em 38em;
-  border: 16px solid var(--tri-bg-color);
+  padding: 5px;
+  border: 8px solid var(--tri-bg-color);
   border-radius: 50%;
-  border-top: 16px solid var(--primary-color);
-  width: 140px;
+  border-top: 8px solid var(--primary-color);
+  width: 70px;
   aspect-ratio: 1;
   animation: spin 1s linear infinite;
 }

@@ -1,10 +1,12 @@
 import React from "react";
 import { useLogin } from "../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Shared/Loading";
 
 const DemoUserSignin = () => {
   const { signIn, error, isLoading } = useLogin();
   const navigate = useNavigate();
+
   const SignInAsDemoDeveloper = async () => {
     try {
       let response = await signIn(
@@ -54,7 +56,8 @@ const DemoUserSignin = () => {
 
   return (
     <div className="flex-column aic jcc full-height page">
-      <div className="  text-align flex-column aic jcc gap-lg cover">
+      <div className=" text-align flex-column aic jcc gap-lg cover">
+        {isLoading && <Loading />}
         <h1 className="primary ">Login as Demo User</h1>
 
         <div className="max-w-lg flex mobile-column">
@@ -84,6 +87,7 @@ const DemoUserSignin = () => {
           Reviewer
         </button> */}
         </div>
+
         <p className="secondary">
           *When logging in please give the app a moment to load up.
         </p>

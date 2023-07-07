@@ -4,6 +4,7 @@ import Eye from "../assets/Eye";
 import EyeHide from "../assets/EyeHide";
 import Input from "../components/Shared/GeneralInput";
 import Error from "../components/Shared/Error";
+import Loading from "../components/Shared/Loading";
 
 const Button = ({ onClick, content, submit, disabled, accessible }) => {
   return (
@@ -23,6 +24,7 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const { signIn, error, isLoading } = useLogin();
   const [viewPassword, setViewPassword] = useState(false);
+
   const submit = async (e) => {
     e.preventDefault();
     try {
@@ -36,6 +38,8 @@ const SignIn = () => {
           className="flex-column aic jcc cover full-width"
           onSubmit={submit}
         >
+          {isLoading && <Loading />}
+
           <h1>Log In</h1>
           <Input
             value={email}
@@ -60,8 +64,6 @@ const SignIn = () => {
             />
           </div>
 
-          {error && <Error text={error} />}
-
           <button
             className="button-primary full-width"
             type="submit"
@@ -75,6 +77,8 @@ const SignIn = () => {
           {/* <a href="/signup" className="button-ghost full-width text-align">
             Sign Up
           </a> */}
+          <div className="text-align">{error && <Error text={error} />}</div>
+
           <p className="secondary">*Please give the app a moment to load up.</p>
         </form>
       </div>

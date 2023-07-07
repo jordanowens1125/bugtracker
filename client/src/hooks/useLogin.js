@@ -9,25 +9,35 @@ export const useLogin = () => {
     setIsLoading(true);
     setError(null);
     //const response = await createUser({ email, password })
-    const response = await fetch(
-      `${process.env.REACT_APP_BASELINE_URL}users/login`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+
+    const getResponse = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_BASELINE_URL}users/login`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          }
+        );
+        return response;
+      } catch (error) {
+        setError(error.message);
+        setIsLoading(false)
       }
-    );
+    };
+
+    const response = await getResponse();
+
     const json = await response.json();
-    if (!response.ok) {
-      setIsLoading(false);
-      setError(json.message);
-    } else {
+    if (response) {
       //save user to local storage
       localStorage.setItem("user", JSON.stringify(json));
       dispatch({ type: "LOGIN", payload: json });
-      setIsLoading(false);
+      return response;
     }
-    return response
+
+    setIsLoading(false);
   };
   return { signIn, isLoading, error };
 };
