@@ -43,7 +43,7 @@ const AdminDashboard = () => {
   }, [user]);
 
   return (
-    <main className="flex-column aic page">
+    <main className="flex-column aic page full-height space-between">
       <h1>Welcome, {user.name}</h1>
       <>
         <div className="full-width flex mobile-column-reverse">

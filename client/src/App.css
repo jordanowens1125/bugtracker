@@ -372,15 +372,19 @@ table,
 
 tr {
   padding: 10px;
-  border-bottom: 3px solid var(--bg-color);
+  border-bottom: 4px solid var(--bg-color);
 }
 th,
 td {
   text-align: left;
 }
 
+th, td{
+  border-right:  2px solid var(--bg-color);
+}
+
 th{
-  border-right:  1px solid var(--bg-color);
+  color: var(--secondary-color);
 }
 /* End of table css */
 
