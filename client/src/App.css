@@ -12,8 +12,8 @@ body {
 }
 
 .light-mode {
-  --bg-color: #fff;
-  --secondary-bg-color: #f4f6fa;
+  --bg-color: #f4f6fa;
+  --secondary-bg-color: #fff;
   --primary-color: #6e62e5;
   --primary-submit: #fff;
   --secondary-color: #ba9cf7;
