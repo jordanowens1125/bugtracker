@@ -10,7 +10,7 @@ export const useSignup = () => {
     setIsLoading(true);
     setError(null);
     const response = await fetch(
-      `${process.env.REACT_APP_BASELINE_URL}users/signup`,
+      `${process.env.REACT_APP_BASELINE_URL}auth/signup`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

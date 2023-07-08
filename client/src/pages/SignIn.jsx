@@ -77,9 +77,8 @@ const SignIn = () => {
           {/* <a href="/signup" className="button-ghost full-width text-align">
             Sign Up
           </a> */}
-          <div className="text-align">{error && <Error text={error} />}</div>
-
-          <p className="secondary">*Please give the app a moment to load up.</p>
+          <Error text={error} textAlign={true}/>
+          <p className="secondary text-align">*Please give the app a moment to load up.</p>
         </form>
       </div>
     </>

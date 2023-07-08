@@ -10,7 +10,7 @@ const Table = ({ headings, content, caption, alignAlways, fullHeight = true }) =
       <div
         className={`mobile-text-align flex-column overflow-x only-full-width ${heightClass}`}
       >
-        <table className="p-md full-width mobile-text-align h-lg overflow-y overflow-x ">
+        <table className="p-md full-width mobile-text-align h-lg overflow-y overflow-x relative">
           <thead>
             <tr>
               {headings.map((heading) => (

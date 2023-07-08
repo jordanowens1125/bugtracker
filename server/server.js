@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // app.use('/', require('./routes/index'));
 //add jwt tokens to calls
-// app.use("/auth", require("./routes/auth"));
+app.use("/auth", require("./routes/auth"));
 app.use("/users", require("./routes/users"));
 app.use("/projects", require("./routes/projects"));
 app.use("/bugs", require("./routes/bugs"));

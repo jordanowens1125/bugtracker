@@ -10,20 +10,13 @@ const {
   unAssignUsersFromProject,
   unAssignUserFromProject,
   assignBugToUser,
-  signUp,
   updateRoles,
-  loginUser,
   deleteUsers,
   getPM,
   getAdmin,
   getAvailableUsers,
 } = require("../controllers/users");
 
-//login
-router.post("/login", loginUser);
-
-//signup
-router.post("/signup", signUp);
 
 //require auth
 const requireAuth = require("../middleware/requireAuth");
