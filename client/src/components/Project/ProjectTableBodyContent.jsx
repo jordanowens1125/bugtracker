@@ -9,9 +9,11 @@ const ProjectTable = (members, isUserAdmin) => {
           <td>{member.name}</td>
           <td>{member.email}</td>
           <td>{member.role}</td>
-          <td>
-            {isUserAdmin && <a href={`/profile/${member._id}`}>Details</a>}
-          </td>
+          {isUserAdmin && (
+            <td>
+              {isUserAdmin && <a href={`/profile/${member._id}`}>Details</a>}
+            </td>
+          )}
         </tr>
       ))}
     </>
@@ -26,6 +28,7 @@ const ProjectTableBodyContent = (members, isUserAdmin) => {
         headings={["Name", "Email", "Role"]}
         content={ProjectTable(members, isUserAdmin)}
         caption={"Developers"}
+        fullHeight={false}
       />
     ),
   };

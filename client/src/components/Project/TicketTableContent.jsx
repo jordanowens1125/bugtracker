@@ -26,6 +26,7 @@ const TicketTableContent = (tickets) => {
         headings={["Title", "Status", "Priority"]}
         content={TicketTable(tickets)}
         caption={"Tickets"}
+        fullHeight={false}
       />
     ),
   };

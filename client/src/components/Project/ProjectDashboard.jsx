@@ -5,7 +5,7 @@ import useAuthContext from "../../hooks/useAuthContext";
 import useMessageContext from "../../hooks/messageContext";
 import EditProjectModal from "./EditProjectModal";
 import ProjectTableBodyContent from "./ProjectTableBodyContent";
-import TicketTableContent from "./BugTableContent";
+import TicketTableContent from "./TicketTableContent";
 import EditProjectButtons from "./EditProjectButtons";
 
 function checkProject(project) {
@@ -180,9 +180,9 @@ const ProjectDashboard = ({
             <div className="h-md">
               {ProjectTableBodyContent(project.members, user.role === "Admin")}
             </div>
-            <div className="h-md">
+            {/* <div className="h-md"> */}
               {TicketTableContent(project.bugs, "Tickets")}
-            </div>
+            {/* </div> */}
           </div>
         </>
       ) : (

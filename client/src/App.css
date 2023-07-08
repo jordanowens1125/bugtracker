@@ -61,6 +61,14 @@ html {
   position: relative;
 }
 
+.absolute{
+  position: absolute;
+}
+
+.sticky{
+  position: sticky;
+}
+
 a:-webkit-any-link {
   text-decoration: none;
   color: var(--primary-color);
