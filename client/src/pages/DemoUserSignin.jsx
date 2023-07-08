@@ -2,6 +2,7 @@ import React from "react";
 import { useLogin } from "../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Shared/Loading";
+import Error from "../components/Shared/Error";
 
 const DemoUserSignin = () => {
   const { signIn, error, isLoading } = useLogin();
@@ -55,7 +56,7 @@ const DemoUserSignin = () => {
   // };
 
   return (
-    <div className="flex-column aic jcc full-height page">
+    <div className="flex-column aic jcc full-height secondary-bg">
       <div className=" text-align flex-column aic jcc gap-lg cover">
         <Loading isLoading={isLoading} />
         <h1 className="primary ">Login as Demo User</h1>
@@ -87,11 +88,8 @@ const DemoUserSignin = () => {
           Reviewer
         </button> */}
         </div>
-
-        <p className="secondary">
-          *When logging in please give the app a moment to load up.
-        </p>
-        {error && <span className="error full-width text-align">{error}</span>}
+        <Error text={error} />
+        <p className="secondary">*Please give the app a moment to load up.</p>
         <a href="/login">Back To Login Page</a>
       </div>
     </div>

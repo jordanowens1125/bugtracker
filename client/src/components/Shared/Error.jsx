@@ -1,15 +1,24 @@
 import React from "react";
 
-const Error = ({ text, textAlign }) => {
+const Error = ({ text, textAlign, fullWidth}) => {
   const errorClasses = {
     false: "",
     true: "text-align",
   };
 
-  const errorClass = errorClasses[textAlign];
+  let errorClass = errorClasses[textAlign];
+
+  const widthClasses = {
+    false: "",
+    true: "full-width",
+  };
+  let widthClass = widthClasses[fullWidth];
+
   return (
-    <div className="h-xs aic flex-column jcc full-width">
-      {text && <div className={`error full-width ${errorClass}`}>{text}</div>}
+    <div className={`h-xs aic flex-column jcc ${widthClass}`}>
+      {text && (
+        <div className={`error ${widthClass} ${errorClass}`}>{text}</div>
+      )}
     </div>
   );
 };

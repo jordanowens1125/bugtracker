@@ -134,7 +134,7 @@ a:-webkit-any-link {
 }
 
 .h-xs{
-  height: 75px;
+  height: 50px;
 }
 
 .full-vw {
@@ -805,7 +805,7 @@ button:disabled:hover {
 /* End of manage users page */
 
 .cover {
-  padding: 10%;
+  padding: 50px;
   border-radius: 20px;
   width: 800px;
   max-width: 100%;
@@ -939,10 +939,10 @@ svg {
 
 .loader {
   padding: 5px;
-  border: 8px solid var(--tri-bg-color);
+  border: 7px solid var(--tri-bg-color);
   border-radius: 50%;
-  border-top: 8px solid var(--primary-color);
-  width: 70px;
+  border-top: 7px solid var(--primary-color);
+  width: 50px;
   aspect-ratio: 1;
   animation: spin 1s linear infinite;
 }
