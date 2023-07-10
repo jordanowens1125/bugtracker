@@ -21,7 +21,6 @@ const ManageUsersPage = ({
       <div className="flex-column">
         <h1>Manage Users</h1>
         <Error text={error} />
-        <p className="secondary">* Demo users can not be altered</p>
       </div>
       <span className="flex gap-md space-between mobile-column">
         <span className="flex mobile-column">
@@ -53,7 +52,7 @@ const ManageUsersPage = ({
       </span>
       <span className="flex mobile-column w-content">
         <Select
-          label={" New role to be assigned to selected users"}
+          label={"New role to be assigned to selected users"}
           onChange={(e) => setRole(e.currentTarget.value)}
           value={role}
           listofOptions={roles}
@@ -66,7 +65,7 @@ const ManageUsersPage = ({
           <Table
             headings={["", "Name", "Email", "Role", "More"]}
             content={UserTableBody(filtered, handleRowClick)}
-            caption={"Select Users to Edit"}
+            caption={"Select Users to Edit (Demo users can not be altered)"}
           />
         ) : (
           <NoData title={"Users"} />

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import api from "../../api/index";
-import Comment from "../Bugs/Comment";
+import Comment from "./Comment";
 import useAuthContext from "../../hooks/useAuthContext";
 import Buttons from "../Shared/Buttons";
 
