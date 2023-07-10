@@ -15,7 +15,7 @@ const Project = () => {
   const [ticket, setTicket] = useState(initialTicketState);
   const { user } = useAuthContext();
   const messageInfo = useMessageContext();
-  
+
   const addNewTicket = async (e) => {
     e.preventDefault();
     ticket.projectID = projectID;
@@ -44,14 +44,21 @@ const Project = () => {
     copy[name] = value;
     setTicket(copy);
   };
-  
+
   useEffect(() => {
+    try {
+    } catch (error) {}
     if (projectID && projectID !== "") {
       const fetchProjectDetails = async () => {
-        const fetchedproject = await api.projects.fetchProject(user, projectID);
-        //return 1 project
-        setProject(fetchedproject.project);
-        setAvailable(fetchedproject.availableMembers);
+        try {
+          const fetchedproject = await api.projects.fetchProject(
+            user,
+            projectID
+          );
+          //return 1 project
+          setProject(fetchedproject.project);
+          setAvailable(fetchedproject.availableMembers);
+        } catch (error) {}
       };
       fetchProjectDetails();
     }

@@ -25,7 +25,7 @@ const Projects = () => {
     <>
       <div className="flex-column gap-md page">
         <h1>Projects</h1>
-        {error && <Error text={error} />}
+        <Error text={error} />
         <ProjectsTable projects={projects} />
       </div>
     </>
