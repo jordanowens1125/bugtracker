@@ -46,6 +46,8 @@ const EditTicketModal = ({
           value={updatedBug.priority}
           onChange={handleInputChange}
           listofOptions={priorities}
+          placeholder={"Select a priority"}
+          disablePlaceholder={true}
         />
         <Select
           label={"Status"}
@@ -53,6 +55,8 @@ const EditTicketModal = ({
           value={updatedBug.status}
           onChange={handleInputChange}
           listofOptions={statusList}
+          placeholder={"Select a status"}
+          disablePlaceholder={true}
         />
         <Input
           value={dayjs(updatedBug.deadline).format("YYYY-MM-DD")}
