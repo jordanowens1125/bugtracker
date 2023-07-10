@@ -24,11 +24,9 @@ const Projects = () => {
   return (
     <>
       <div className="flex-column gap-md page">
-        <>
-          <h1>Projects</h1>
-          {error && <Error text={error} />}
-          <ProjectsTable projects={projects} />
-        </>
+        <h1>Projects</h1>
+        {error && <Error text={error} />}
+        <ProjectsTable projects={projects} />
       </div>
     </>
   );

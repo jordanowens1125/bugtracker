@@ -31,7 +31,7 @@ const CreateProject = () => {
         setAvailable(filtered);
       } catch (error) {
         setError(
-          `Currently unable to create projects because the following error occurred when getting project managers : ${error.message}`
+          `Currently unable to load project managers info because of the following error : ${error.message}`
         );
       }
     };
@@ -39,7 +39,11 @@ const CreateProject = () => {
   }, [user]);
 
   const reset = () => {
-    setFormInputData(initialState);
+    setFormInputData({ ...initialState, members:{} });
+    const selectedElements = document.getElementsByClassName("selected");
+    for (let i = 0; i < selectedElements.length; i++) {
+      selectedElements[i].classList.remove("selected");
+    }
   };
 
   const handleInputChange = (e) => {
@@ -62,10 +66,10 @@ const CreateProject = () => {
   const handleDeveloperSelect = (e, userID) => {
     const copy = { ...formInputData };
     if (e.target.classList.contains("selected")) {
-      e.target.classList.remove("selected");
+      // e.target.classList.remove("selected");
       delete copy.members[userID];
     } else {
-      e.target.classList.add("selected");
+      // e.target.classList.add("selected");
       copy.members[userID] = true;
     }
     setFormInputData(copy);
@@ -103,7 +107,8 @@ const CreateProject = () => {
         onSubmit={handleFormSubmit}
       >
         <h1>Create Project</h1>
-        {error && <Error text={error}/>}
+        <Error text={error} />
+
         <Input
           value={formInputData.title}
           onChange={handleInputChange}
@@ -141,11 +146,13 @@ const CreateProject = () => {
         <SelectedDevelopers
           developers={available.filter((user) => user.role === "Developer")}
           handleDeveloperSelect={handleDeveloperSelect}
+          selectedDevelopersObj={formInputData.members}
         />
         <Buttons
           secondary={"Reset"}
           secondaryFunction={reset}
           submit={"Submit"}
+          disabled={error}
         />
       </form>
     </main>

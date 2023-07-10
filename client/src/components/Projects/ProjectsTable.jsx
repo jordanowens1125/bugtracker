@@ -48,7 +48,6 @@ const ProjectsTable = ({ projects }) => {
 
   return (
     <>
-      <div className="flex-column gap-md mobile-column page">
         <span className="flex gap-md mobile-column space-between">
           <div className="flex aic jcc">
             <input
@@ -85,7 +84,6 @@ const ProjectsTable = ({ projects }) => {
         ) : (
           <NoData title={"Projects"} />
         )}
-      </div>
     </>
   );
 };

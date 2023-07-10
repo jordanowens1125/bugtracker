@@ -15,7 +15,7 @@ const Error = ({ text, textAlign, fullWidth}) => {
   let widthClass = widthClasses[fullWidth];
 
   return (
-    <div className={`h-xs aic flex-column jcc ${widthClass}`}>
+    <div className={`h-xs flex-column jcc ${widthClass}`}>
       {text && (
         <div className={`error ${widthClass} ${errorClass}`}>{text}</div>
       )}

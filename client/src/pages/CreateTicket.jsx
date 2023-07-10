@@ -78,7 +78,7 @@ const CreateTicket = () => {
     <main className="full-height">
       <form className="full-height flex-column page" onSubmit={handleSubmit}>
         <h1>Create Ticket</h1>
-        {error && <Error text={error} />}
+        <Error text={error} />
         <Input
           value={ticket.title}
           label={"Title"}
@@ -100,6 +100,8 @@ const CreateTicket = () => {
           listofOptions={priorities}
           disabled={noprojects}
           label={"Priority"}
+          disablePlaceholder={true}
+          placeholder={'Select priority'}
         />
         <Input
           value={dayjs(ticket.deadline).format("YYYY-MM-DD")}

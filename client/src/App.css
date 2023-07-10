@@ -134,7 +134,7 @@ a:-webkit-any-link {
 }
 
 .h-xs{
-  height: 50px;
+  min-height: 50px;
 }
 
 .full-vw {
@@ -525,7 +525,7 @@ button:disabled {
 
 .button-urgent {
   background-color: var(--urg-color);
-  color: var(--font-color);
+  color: #fff;
 }
 
 button:disabled:hover {
@@ -1019,5 +1019,8 @@ svg {
   .mobile-column-reverse {
     display: flex;
     flex-direction: column-reverse;
+  }
+  .mobile-justify-right{
+    justify-content: flex-end;
   }
 }

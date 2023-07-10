@@ -14,13 +14,13 @@ const ManageUsersPage = ({
   filtered,
   role,
   handleRowClick,
-  error
+  error,
 }) => {
   return (
     <div className="page flex-column">
       <div className="flex-column">
         <h1>Manage Users</h1>
-        {error && <Error text={error} />}
+        <Error text={error} />
         <p className="secondary">* Demo users can not be altered</p>
       </div>
       <span className="flex gap-md space-between mobile-column">

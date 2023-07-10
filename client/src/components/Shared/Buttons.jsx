@@ -1,6 +1,6 @@
 const Buttons = ({ secondary, submit, secondaryFunction, disabled }) => {
   return (
-    <div className="flex">
+    <div className="flex mobile-justify-right">
       {secondary && (
         <button
           className="button-secondary"
