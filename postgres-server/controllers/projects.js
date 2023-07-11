@@ -72,29 +72,58 @@ const deleteProject = async (req, res) => {
 const getProject = async (req, res) => {
   try {
     let id = req.params.id;
-    const project = await Project.findById(id)
-      .populate("bugs")
-      .populate("projectManager")
-      .populate("members");
-    const unAssignedMembers = await User.find({
-      $or: [
-        {
-          role: "Project Manager",
-        },
-        {
-          role: "Developer",
-        },
-      ],
-      $and: [
-        {
-          project: null,
-        },
-      ],
-    });
-    const availableMembers = unAssignedMembers;
+    const { data: project } = await supabase
+      .from("Projects")
+      .select()
+      .eq("_id", id)
+      .limit(1)
+      .maybeSingle();
+
+    if (!project) {
+      throw Error("New Project found");
+    }
+
+    const { data: members } = await supabase
+      .from("Users")
+      .select()
+      .eq("project", id);
+
+    const { data: bugs } = await supabase
+      .from("Bugs")
+      .select()
+      .eq("projectID", id);
+
+    project.members = members.filter((user) => user.role === "Developer");
+    project.projectManager = members.filter(
+      (user) => user.role === "Project Manager"
+    )[0];
+    
+    project.bugs = bugs;
+
+    // const project = await Project.findById(id)
+    //   .populate("bugs")
+    //   .populate("projectManager")
+    //   .populate("members");
+    // const unAssignedMembers = await User.find({
+    //   $or: [
+    //     {
+    //       role: "Project Manager",
+    //     },
+    //     {
+    //       role: "Developer",
+    //     },
+    //   ],
+    //   $and: [
+    //     {
+    //       project: null,
+    //     },
+    //   ],
+    // });
+    // const availableMembers = unAssignedMembers;
+    const availableMembers = [];
     res.status(200).json({ project, availableMembers });
   } catch (error) {
-    res.status(404).json({ message: error });
+    res.status(404).json({ message: error.message });
   }
 };
 

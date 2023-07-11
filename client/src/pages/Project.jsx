@@ -46,8 +46,6 @@ const Project = () => {
   };
 
   useEffect(() => {
-    try {
-    } catch (error) {}
     if (projectID && projectID !== "") {
       const fetchProjectDetails = async () => {
         try {

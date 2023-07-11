@@ -3,7 +3,7 @@ const supabase = require("../config/db");
 const getUsers = async (req, res) => {
   try {
     const users = await supabase.from("Users").select();
-    console.log(users);
+
     res.status(200).json(users.data);
   } catch (error) {
     res.status(404).json({ message: error });

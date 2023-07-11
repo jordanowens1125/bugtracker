@@ -118,6 +118,7 @@ const ProjectDashboard = ({
 
   useEffect(() => {
     if (project) {
+      
       setEdit(project);
       setProjectDisplay(project);
       setSelected(
@@ -169,11 +170,11 @@ const ProjectDashboard = ({
             </div>
             <div className="flex-column mobile-column secondary-bg b-radius">
               <p className="p-md ">
-                Name: {project.projectManager.name || "No PM"}
+                Name: {project?.projectManager?.name || "No PM"}
               </p>
-              <p className="p-md">Email : {project.projectManager.email}</p>
+              <p className="p-md">Email : {project?.projectManager?.email}</p>
               {user.role === "Admin" && (
-                <a href={`/profile/${project.projectManager._id}`}>Details</a>
+                <a href={`/profile/${project.projectManager?._id}`}>Details</a>
               )}
             </div>
 

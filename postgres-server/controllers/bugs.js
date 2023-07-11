@@ -1,12 +1,13 @@
-const sql = require("../config/db");
-
+const supabase = require("../config/db");
 
 const getBugs = async (req, res) => {
   try {
-    const bugs = await Bug.find().populate("projectID").populate("assignedTo");
+    const { data: bugs } = await supabase.from("Bugs").select();
+    console.log(bugs);
+    //const bugs = await Bug.find().populate("projectID").populate("assignedTo");
     res.status(200).json(bugs);
   } catch (error) {
-    res.status(404).json({ message: error });
+    res.status(404).json({ message: error.message });
   }
 };
 
