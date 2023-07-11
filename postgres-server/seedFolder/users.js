@@ -70,8 +70,6 @@ const generatedUsers = [
   ...unassignedpms
 ];
 
-console.log(generatedUsers);
-
 const seedUsers = [
   // {
   //   _id: 0,

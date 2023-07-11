@@ -3,8 +3,7 @@ const supabase = require("../config/db");
 const getBugs = async (req, res) => {
   try {
     const { data: bugs } = await supabase.from("Bugs").select();
-    console.log(bugs);
-    //const bugs = await Bug.find().populate("projectID").populate("assignedTo");
+
     res.status(200).json(bugs);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -94,17 +93,51 @@ const deleteBug = async (req, res) => {
 const getBug = async (req, res) => {
   try {
     let id = req.params.id;
-    const bug = await Bug.findById(id)
-      //linking bug comments info while also getting the comments creator/user info
-      .populate([{ path: "comments", populate: [{ path: "creator" }] }])
-      .populate("projectID")
-      .populate("assignedTo");
-    const members = await User.find({
-      project: bug.projectID._id,
-    });
+
+    const { data: bug } = await supabase
+      .from("Bugs")
+      .select()
+      .eq("_id", id)
+      .limit(1)
+      .maybeSingle();
+
+    if (!bug) {
+      throw Error("New bug found");
+    }
+
+    const { data: project } = await supabase
+      .from("Projects")
+      .select()
+      .eq("_id", bug.projectID)
+      .limit(1)
+      .maybeSingle();
+
+    if (!project) {
+      throw Error("New project found associated with bug");
+    }
+
+    // const bug = await Bug.findById(id)
+    //   //linking bug comments info while also getting the comments creator/user info
+    //   .populate([{ path: "comments", populate: [{ path: "creator" }] }])
+    //   .populate("projectID")
+    //   .populate("assignedTo");
+    const { data: members } = await supabase
+      .from("Users")
+      .select()
+      .eq("project", bug.projectID);
+
+    bug.projectID = project;
+    const { data: comments } = await supabase
+      .from("Comments")
+      .select()
+      .eq("bugID", id);
+
+    bug.comments = comments;
+
     res.status(200).json({ bug, members });
   } catch (error) {
-    res.status(404).json({ message: error });
+    console.log(error);
+    res.status(404).json({ message: error.message });
   }
 };
 
