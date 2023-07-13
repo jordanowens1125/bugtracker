@@ -53,7 +53,7 @@ const Bugs = () => {
     <>
       <div className="flex-column gap-md page">
         <h1>Tickets</h1>
-        {error && <Error text={error} />}
+       <Error text={error} />
         <div className="flex-column gap-md mobile-column">
           <div className="flex space-between mobile-column">
             <span className="flex aic jcc">
