@@ -24,8 +24,11 @@ const Projects = () => {
   return (
     <>
       <div className="flex-column gap-md page">
-        <h1>Projects</h1>
-        <Error text={error} />
+        <div className="flex mobile-column">
+          <h1>Projects</h1>
+          <Error text={error} textAlign={true} />
+        </div>
+
         <ProjectsTable projects={projects} />
       </div>
     </>

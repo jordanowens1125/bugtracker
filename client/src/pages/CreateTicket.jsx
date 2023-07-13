@@ -67,7 +67,7 @@ const CreateTicket = () => {
         }
       } catch (error) {
         setError(
-          `Currently unable to create tickets because of the following error: ${error.message}`
+          `Unable to get data for projects because of the following error: ${error.message}`
         );
       }
     };
@@ -77,8 +77,11 @@ const CreateTicket = () => {
   return (
     <main className="full-height">
       <form className="full-height flex-column page" onSubmit={handleSubmit}>
-        <h1>Create Ticket</h1>
-        <Error text={error} />
+        <div className="flex mobile-column">
+          <h1>Create Ticket</h1>
+          <Error text={error} textAlign={true} />
+        </div>
+
         <Input
           value={ticket.title}
           label={"Title"}
@@ -101,7 +104,7 @@ const CreateTicket = () => {
           disabled={noprojects}
           label={"Priority"}
           disablePlaceholder={true}
-          placeholder={'Select priority'}
+          placeholder={"Select priority"}
         />
         <Input
           value={dayjs(ticket.deadline).format("YYYY-MM-DD")}

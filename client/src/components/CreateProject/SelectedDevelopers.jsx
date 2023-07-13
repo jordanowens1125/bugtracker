@@ -2,10 +2,11 @@ const SelectedDevelopers = ({
   developers,
   handleDeveloperSelect,
   selectedDevelopersObj,
+  developerCount
 }) => {
   return (
     <div className="flex mobile-column mobile-text-align full-width">
-      <label htmlFor="Select">Developers:</label>
+      <label htmlFor="Select">Developers: {developerCount}</label>
       <div className="h-sm primary-border overflow-y p-md b-radius full-width">
         {developers.map((user) => {
           const classObj = {

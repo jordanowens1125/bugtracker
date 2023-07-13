@@ -19,8 +19,10 @@ const ManageUsersPage = ({
   return (
     <div className="page flex-column">
       <div className="flex-column">
-        <h1>Manage Users</h1>
-        <Error text={error} />
+        <div className="flex mobile-column">
+          <h1>Manage Users</h1>
+          <Error text={error} textAlign={true} />
+        </div>
       </div>
       <span className="flex gap-md space-between mobile-column">
         <span className="flex mobile-column">

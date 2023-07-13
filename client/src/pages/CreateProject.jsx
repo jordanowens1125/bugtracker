@@ -20,6 +20,7 @@ const CreateProject = () => {
   const [formInputData, setFormInputData] = useState(initialState);
   const { user } = useAuthContext();
   const [error, setError] = useState(null);
+  const [developerCount, setDeveloperCount] = useState(0);
 
   useEffect(() => {
     const fetchData = async (user) => {
@@ -31,7 +32,7 @@ const CreateProject = () => {
         setAvailable(filtered);
       } catch (error) {
         setError(
-          `Currently unable to load project managers info because of the following error : ${error.message}`
+          `Unable to load user info because of the following error : ${error.message}`
         );
       }
     };
@@ -39,7 +40,8 @@ const CreateProject = () => {
   }, [user]);
 
   const reset = () => {
-    setFormInputData({ ...initialState, members:{} });
+    setFormInputData({ ...initialState, members: {} });
+    setDeveloperCount(0)
     const selectedElements = document.getElementsByClassName("selected");
     for (let i = 0; i < selectedElements.length; i++) {
       selectedElements[i].classList.remove("selected");
@@ -66,10 +68,11 @@ const CreateProject = () => {
   const handleDeveloperSelect = (e, userID) => {
     const copy = { ...formInputData };
     if (e.target.classList.contains("selected")) {
-      // e.target.classList.remove("selected");
+      setDeveloperCount(developerCount-1)
       delete copy.members[userID];
     } else {
       // e.target.classList.add("selected");
+      setDeveloperCount(developerCount + 1);
       copy.members[userID] = true;
     }
     setFormInputData(copy);
@@ -106,8 +109,10 @@ const CreateProject = () => {
         className="flex-column full-height space-between page"
         onSubmit={handleFormSubmit}
       >
-        <h1>Create Project</h1>
-        <Error text={error} />
+        <div className="flex mobile-column">
+          <h1>Create Project</h1>
+          <Error text={error} textAlign={true} />
+        </div>
 
         <Input
           value={formInputData.title}
@@ -147,6 +152,7 @@ const CreateProject = () => {
           developers={available.filter((user) => user.role === "Developer")}
           handleDeveloperSelect={handleDeveloperSelect}
           selectedDevelopersObj={formInputData.members}
+          developerCount={developerCount}
         />
         <Buttons
           secondary={"Reset"}
