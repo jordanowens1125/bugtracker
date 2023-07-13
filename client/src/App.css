@@ -597,6 +597,7 @@ button:disabled:hover {
     var(--primary-color),
     var(--tri-color),
     var(--tri-bg-color),
+    var(--primary-color),
     var(--primary-submit),
     var(--primary-color)
   );
