@@ -23,7 +23,14 @@ const EditTicketModal = ({
           id={"title"}
           label={"Title"}
         />
-        <label htmlFor="title">Assigned To: </label>
+
+        <TextArea
+          label={"Description"}
+          value={updatedBug.description}
+          onChange={handleInputChange}
+          id={"description"}
+        />
+        <label htmlFor="assignedTo">Assigned To: </label>
         <select name="assignedTo" value={index} onChange={handleInputChange}>
           <option value={-1}>Not Assigned</option>
           {users.map((user) => {
@@ -34,12 +41,6 @@ const EditTicketModal = ({
             );
           })}
         </select>
-        <TextArea
-          label={"Description"}
-          value={updatedBug.description}
-          onChange={handleInputChange}
-          id={"description"}
-        />
         <Select
           label={"Priority"}
           id={"priority"}

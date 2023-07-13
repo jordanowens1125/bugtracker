@@ -17,8 +17,6 @@ const EditProjectModal = ({
   projectManagers,
   selected,
 }) => {
-
-  
   return (
     <div className="modal">
       <form className="modal-content" onSubmit={handleSubmit}>
@@ -35,16 +33,7 @@ const EditProjectModal = ({
           value={edit.description}
           onChange={handleChange}
         />
-        <SelectByField
-          label={"Project Manager"}
-          id={"projectManager"}
-          listofOptions={projectManagers}
-          value={edit.projectManager}
-          field={"_id"}
-          displayfield={"name"}
-          placeholder={"Select a project manager"}
-          onChange={handleChange}
-        />
+
         <Input
           label={"Deadline"}
           value={dayjs(edit.deadline).format("YYYY-MM-DD")}
@@ -57,7 +46,17 @@ const EditProjectModal = ({
           listofOptions={statusList}
           label={"Status"}
           onChange={handleChange}
-          id={'status'}
+          id={"status"}
+        />
+        <SelectByField
+          label={"Project Manager"}
+          id={"projectManager"}
+          listofOptions={projectManagers}
+          value={edit.projectManager}
+          field={"_id"}
+          displayfield={"name"}
+          placeholder={"Select a project manager"}
+          onChange={handleChange}
         />
         <MultiSelect
           listOfOptions={developers}

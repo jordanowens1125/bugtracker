@@ -99,8 +99,8 @@ const Navbar = ({ theme, setTheme }) => {
               <div className="flex-column gap-lg">
                 {user.role === "Admin" && (
                   <>
-                    <a href="/createproject">Create Project</a>
                     <a href="/manageusers">Manage Users</a>
+                    <a href="/createproject">Create Project</a>
                   </>
                 )}
 
