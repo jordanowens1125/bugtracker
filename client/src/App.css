@@ -61,11 +61,11 @@ html {
   position: relative;
 }
 
-.absolute{
+.absolute {
   position: absolute;
 }
 
-.sticky{
+.sticky {
   position: sticky;
 }
 
@@ -78,27 +78,26 @@ a:-webkit-any-link {
 }
 
 /* ===== Scrollbar CSS ===== */
-  /* Firefox */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary-color) var(--secondary-bg-color);
-  }
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) var(--secondary-bg-color);
+}
 
-  /* Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
-    width: 13px;
-  }
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 13px;
+}
 
-  *::-webkit-scrollbar-track {
-    background: var(--secondary-bg-color);
-  }
+*::-webkit-scrollbar-track {
+  background: var(--secondary-bg-color);
+}
 
-  *::-webkit-scrollbar-thumb {
-    background-color: var(--primary-color);
-    border-radius: 7px;
-    border: 4px solid var(--secondary-bg-color);
-  }
-
+*::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 7px;
+  border: 4px solid var(--secondary-bg-color);
+}
 
 /* Width and Height */
 .full-width {
@@ -133,7 +132,7 @@ a:-webkit-any-link {
   height: 100vh;
 }
 
-.h-xs{
+.h-xs {
   min-height: 50px;
 }
 
@@ -391,11 +390,12 @@ td {
   text-align: left;
 }
 
-th, td{
-  border-right:  2px solid var(--bg-color);
+th,
+td {
+  border-right: 2px solid var(--bg-color);
 }
 
-th{
+th {
   color: var(--secondary-color);
 }
 /* End of table css */
@@ -490,6 +490,7 @@ a,
   padding: 10px;
   border-radius: 8px;
   width: fit-content;
+  font-weight: bold;
 }
 
 button:not(.password-view):hover,
@@ -575,6 +576,35 @@ button:disabled:hover {
 
 .secondary {
   color: var(--tri-color);
+}
+
+.primary-glow {
+  color: transparent;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--tri-color),
+    var(--tri-bg-color),
+    /* aqua, */
+    var(--bg-5),
+    var(--bg-7),
+    var(--primary-submit),
+    var(--primary-color)
+  );
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: glow 8s linear infinite;
+  background-size: 400% 400%;
+}
+
+@keyframes glow {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 400%;
+  }
 }
 /* Color */
 
@@ -756,7 +786,8 @@ button:disabled:hover {
   background-color: var(--secondary-bg-color);
 }
 
-.page, main {
+.page,
+main {
   width: 100%;
   background-color: var(--bg-color);
   height: fit-content;
@@ -1020,7 +1051,7 @@ svg {
     display: flex;
     flex-direction: column-reverse;
   }
-  .mobile-justify-right{
+  .mobile-justify-right {
     justify-content: flex-end;
   }
 }

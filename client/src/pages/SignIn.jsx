@@ -25,6 +25,8 @@ const SignIn = () => {
   const { signIn, error, isLoading } = useLogin();
   const [viewPassword, setViewPassword] = useState(false);
 
+  const glow = isLoading ? 'primary-glow' : ''
+
   const submit = async (e) => {
     e.preventDefault();
     await signIn(email, password);
@@ -78,7 +80,7 @@ const SignIn = () => {
             Sign Up
           </a> */}
           <Error text={error} textAlign={true} fullWidth={true}/>
-          <p className="secondary text-align">*Please give the app a moment to load up.</p>
+          <b className={`secondary text-align ${glow}`}>*Please give the app a moment to load up.</b>
         </form>
       </div>
     </>

@@ -8,6 +8,8 @@ const DemoUserSignin = () => {
   const { signIn, error, isLoading } = useLogin();
   const navigate = useNavigate();
 
+  const glow = isLoading ? "primary-glow" : "";
+  
   const SignInAsDemoDeveloper = async () => {
     try {
       let response = await signIn(
@@ -89,7 +91,9 @@ const DemoUserSignin = () => {
         </button> */}
         </div>
         <Error text={error} />
-        <p className="secondary">*Please give the app a moment to load up.</p>
+        <b className={`secondary ${glow}`}>
+          *Please give the app a moment to load up.
+        </b>
         <a href="/login">Back To Login Page</a>
       </div>
     </div>
