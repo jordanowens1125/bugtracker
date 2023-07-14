@@ -12,18 +12,6 @@ const Navbar = ({ theme, setTheme }) => {
   const [mobile, setMobileOpen] = useState(false);
   const navigate = useNavigate();
 
-  window.onbeforeunload = function () {
-    signOut();
-  };
-  // OR
-  window.addEventListener(
-    "beforeunload",
-    function (e) {
-      signOut();
-    },
-    false
-  );
-
   useEffect(() => {
     if (messageInfo.display) {
       setTimeout(() => {
