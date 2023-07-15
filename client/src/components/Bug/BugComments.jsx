@@ -100,6 +100,7 @@ const BugComments = ({ bug }) => {
                 className="full-height grow no-outline"
                 id="text"
               />
+              
               <Buttons submit={"Submit"} />
             </form>
           )}

@@ -156,7 +156,7 @@ const ProjectDashboard = ({
         <>
           <div className="flex-column only-full-width">
             <h1>{projectDisplay.title}</h1>
-            <p>Description: {projectDisplay.description}</p>
+            <p >Description: {projectDisplay.description}</p>
             {userCanEdit && (
               <EditProjectButtons
                 setTicketMode={setTicketMode}

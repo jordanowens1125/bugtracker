@@ -20,7 +20,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Rokkit", 'serif';
+  font-family: "Rokkit", "serif";
 }
 
 .light-mode {
@@ -731,11 +731,13 @@ button:disabled:hover {
   height: 700px;
   border: solid 3px var(--secondary-bg-color);
   border-radius: 10px;
+  overflow: hidden;
 }
 
 .comments {
   grid-area: comments;
   min-height: 600px;
+  overflow-y: auto;
 }
 
 .message-heading {
