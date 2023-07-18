@@ -32,8 +32,6 @@ import { useState } from "react";
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || 'light-mode');
 
-  
-
   return (
     <main className={theme} id="App">
       <BrowserRouter>

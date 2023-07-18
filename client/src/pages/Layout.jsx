@@ -17,8 +17,12 @@ const Navbar = ({ theme, setTheme }) => {
       setTimeout(() => {
         messageInfo.dispatch({ type: "CLEAR" });
       }, 5000);
+
+      // if (!user) {
+      //   signOut()
+      // }
     }
-  }, [messageInfo]);
+  }, [messageInfo, user]);
 
   const changeTheme = () => {
     const element = document.getElementById("App");
