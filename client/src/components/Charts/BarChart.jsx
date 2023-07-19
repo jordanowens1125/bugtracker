@@ -8,7 +8,13 @@ const BarChart = ({ data, column, title }) => {
     color: colors[index],
   }));
 
-  const getBarColor = (bar) => bar.data.color;
+  const theme = {
+    labels: { text: { fontSize: 11 } },
+    axis: {
+      ticks: { text: { fontSize: 11, fill: "pink" } },
+    },
+  };
+
   return (
     <>
       <div className="chart-container">
@@ -22,14 +28,16 @@ const BarChart = ({ data, column, title }) => {
             padding={0.05}
             valueScale={{ type: "linear" }}
             indexScale={{ type: "band", round: true }}
-            colors={getBarColor}
-            borderColor={{
-              from: "color",
-              modifiers: [["darker", 0.8]],
-            }}
-            labelTextColor="inherit"
+            colors={colors}
+            labelTextColor="#ffffff"s
+            theme={theme}
             role="application"
             isFocusable={false}
+            tooltip={(data) => (
+              <div className="primary">
+                {`${data.indexValue} `} : {data.value}
+              </div>
+            )}
           />
         </div>
       </div>

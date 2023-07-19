@@ -209,6 +209,10 @@ a:-webkit-any-link {
   border: 2px solid var(--secondary-bg-color);
 }
 
+.chart-border {
+  border: 2px solid var(--bg-4);
+}
+
 .border-bottom {
   border-bottom: 5px solid var(--primary-color);
 }
@@ -221,6 +225,10 @@ a:-webkit-any-link {
 .b-radius {
   border-radius: 15px;
   padding: 10px;
+}
+
+.b-radius-sm {
+  border-radius: 3px;
 }
 
 .text-align {
@@ -556,6 +564,14 @@ button:disabled:hover {
   background-color: var(--primary-color);
 }
 
+.white-bg {
+  background-color: #fff;
+}
+
+.font-bg {
+  background-color: var(--font-color);
+}
+
 .background-bg {
   background-color: var(--bg-color);
 }
@@ -588,6 +604,10 @@ button:disabled:hover {
 
 .secondary {
   color: var(--tri-color);
+}
+
+.font-color {
+  color: var(--font-color);
 }
 
 .primary-glow {
@@ -638,6 +658,7 @@ button:disabled:hover {
   align-items: center;
   justify-content: center;
   flex-grow: 1;
+  color: inherit;
 }
 
 .chart-header {
@@ -925,8 +946,6 @@ main {
   height: 0;
 }
 
-
-
 .slider {
   position: absolute;
   cursor: pointer;
@@ -973,8 +992,7 @@ input:checked + .slider:before {
 /* End of Toggle Switch */
 
 svg {
-  fill: var(--font-color);
-  /* color: var(--primary-color); */
+  /* fill: var(--font-color); */
   transition: 1s;
 }
 
