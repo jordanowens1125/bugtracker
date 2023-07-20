@@ -59,6 +59,7 @@ const ManageUsersPage = ({
           value={role}
           listofOptions={roles}
           disablePlaceholder={true}
+          placeholder={'Select a role'}
         />
       </span>
 

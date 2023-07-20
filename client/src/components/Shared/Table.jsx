@@ -1,12 +1,19 @@
-const Table = ({ headings, content, caption, alignAlways, fullHeight = true }) => {
+const Table = ({
+  headings,
+  content,
+  caption,
+  alignAlways,
+  fullHeight = true,
+}) => {
   const height = {
-    false: 'h-md',
-    true: '',
-  }
-  const heightClass = height[fullHeight]
+    false: "h-md",
+    true: "",
+  };
+  const heightClass = height[fullHeight];
   return (
     <div className="relative">
       <p className="caption">{caption}</p>
+
       <div
         className={`mobile-text-align flex-column overflow-x only-full-width ${heightClass}`}
       >

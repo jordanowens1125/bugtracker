@@ -47,6 +47,8 @@ const EditProjectModal = ({
           label={"Status"}
           onChange={handleChange}
           id={"status"}
+          placeholder={"Select a status"}
+          disablePlaceholder={true}
         />
         <SelectByField
           label={"Project Manager"}
