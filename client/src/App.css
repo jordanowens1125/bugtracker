@@ -45,7 +45,7 @@ h6 {
 .dark-mode {
   --bg-color: #0f1014;
   --primary-submit: #fff;
-  --primary-color: #7661e2;
+  --primary-color: #8495f8;
   --secondary-bg-color: #17181c;
   --secondary-color: #ba9cf7;
   --tri-bg-color: #292b31;
@@ -582,17 +582,17 @@ button:disabled:hover {
 
 .bg-4 {
   background-color: var(--bg-4);
-  color: var(--bg-color);
+  color: white;
 }
 
 .bg-5 {
   background-color: var(--bg-5);
-  color: var(--bg-color);
+  color: white;
 }
 
 .bg-6 {
   background-color: var(--bg-6);
-  color: var(--bg-color);
+  color: white;
 }
 
 /*end of background*/
@@ -658,7 +658,6 @@ button:disabled:hover {
   align-items: center;
   justify-content: center;
   flex-grow: 1;
-  color: inherit;
 }
 
 .chart-header {
@@ -992,8 +991,13 @@ input:checked + .slider:before {
 /* End of Toggle Switch */
 
 svg {
-  /* fill: var(--font-color); */
+  fill: var(--font-color);
   transition: 1s;
+  color: var(--font-color);
+}
+
+form svg {
+  fill: var(--font-color);
 }
 
 .mobile-text-align {

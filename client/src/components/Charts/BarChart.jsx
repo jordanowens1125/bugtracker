@@ -9,9 +9,8 @@ const BarChart = ({ data, column, title }) => {
   }));
 
   const theme = {
-    labels: { text: { fontSize: 11 } },
     axis: {
-      ticks: { text: { fontSize: 11, fill: "pink" } },
+      textColor :'inherit'
     },
   };
 
@@ -29,13 +28,15 @@ const BarChart = ({ data, column, title }) => {
             valueScale={{ type: "linear" }}
             indexScale={{ type: "band", round: true }}
             colors={colors}
-            labelTextColor="#ffffff"s
+            labelTextColor="#ffffff"
             theme={theme}
             role="application"
             isFocusable={false}
             tooltip={(data) => (
               <div className="primary">
-                {`${data.indexValue} `} : {data.value}
+                <b>
+                  {`${data.indexValue} `} : {data.value}
+                </b>
               </div>
             )}
           />

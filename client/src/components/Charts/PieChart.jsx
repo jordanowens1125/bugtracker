@@ -30,8 +30,11 @@ const PieChart = ({ data, header }) => {
           arcLabelsSkipAngle={20}
           arcLabelsTextColor={"#fff"}
           tooltip={(data) => (
-            <div className="primary p-sm white-bg b-radius-sm">
-              {`${data.datum.label} `} : {data.datum.value}
+            <div className="primary p-sm white-bg b-radius-sm ">
+              <b>
+                {`${data.datum.label} `} : {data.datum.value}
+              </b>
+              
             </div>
           )}
           labelTextColor="#6e62e5"
