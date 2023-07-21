@@ -23,6 +23,7 @@ h6 {
   font-family: "Rokkit", "serif";
 }
 
+
 .light-mode {
   --bg-color: #f4f6fa;
   --secondary-bg-color: #fff;
@@ -165,6 +166,10 @@ a:-webkit-any-link {
   max-width: 600px;
 }
 
+.max-w-xl {
+  /* max-width: 1600px; */
+}
+
 .w-content {
   width: fit-content;
 }
@@ -269,6 +274,9 @@ a:-webkit-any-link {
 .p-md-hz {
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.p-md-v {
 }
 
 .p-l-lg {
@@ -518,6 +526,8 @@ button:not(.password-view):hover,
 a:hover {
   transform: scale(1.03);
   cursor: pointer;
+  background-color: var(--secondary-bg-color);
+  padding: 10px;
 }
 
 button:disabled {
@@ -679,19 +689,34 @@ button:disabled:hover {
   overflow-y: scroll;
 }
 
+.right {
+  max-width: 1600px;
+}
+
 .desktop-nav {
   border-right: 3px solid var(--secondary-bg-color);
   color: black;
   padding: 10px;
   flex: 10%;
+  align-items: flex-end;
+  max-width: 200px;
 }
+
+/* .desktop-nav div{
+  align-items: flex-end;
+} */
 
 #mobile-display {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   position: sticky;
+  background-color: var(--bg-color);
+  align-items: center;
+
+   
+
 }
 
 .open-mobile-nav {
@@ -714,6 +739,7 @@ button:disabled:hover {
   justify-content: center;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .mobile-nav {
@@ -726,8 +752,16 @@ button:disabled:hover {
   height: 100vh;
   width: 100vw;
   z-index: 100;
-  background-color: var(--secondary-bg-color);
+  background-color: var(--bg-color);
   padding: 10px;
+  padding-top: 30px;
+}
+
+.mobile-nav a {
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .mobile-nav button {

@@ -75,7 +75,7 @@ const Navbar = ({ theme, setTheme }) => {
 
   return (
     <>
-      <div className="flex desktop desktop-display">
+      <div className="flex desktop desktop-display aic jcc">
         {user && (
           <nav className="full-vh flex-column desktop-nav primary">
             <div className="flex-column space-around full-height ">
@@ -146,7 +146,7 @@ const Navbar = ({ theme, setTheme }) => {
           </>
         )}
 
-        <div className="right flex-column p-md">
+        <div className="right flex-column">
           <Outlet />
         </div>
       </div>
@@ -157,7 +157,7 @@ const Navbar = ({ theme, setTheme }) => {
           <>
             {mobile ? (
               <>
-                <nav className="mobile-nav" onClick={handleMobileClose}>
+                <nav className="mobile-nav" >
                   {user && (
                     <>
                       <div className="flex-column space-around aic jcc full-height full-width">
