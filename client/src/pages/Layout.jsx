@@ -53,12 +53,12 @@ const Navbar = ({ theme, setTheme }) => {
     display.style.position = "fixed";
   };
 
-  const handleMobileClose = () => {
-    setMobileOpen(false);
-    document.body.style.overflow = "unset";
-    const display = document.getElementById("mobile-display");
-    display.style.position = "unset";
-  };
+  // const handleMobileClose = () => {
+  //   setMobileOpen(false);
+  //   document.body.style.overflow = "unset";
+  //   const display = document.getElementById("mobile-display");
+  //   display.style.position = "unset";
+  // };
 
   const logOut = async () => {
     try {

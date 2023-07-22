@@ -698,8 +698,7 @@ button:disabled:hover {
   color: black;
   padding: 10px;
   flex: 10%;
-  align-items: flex-end;
-  max-width: 200px;
+  max-width: 300px;
 }
 
 /* .desktop-nav div{
