@@ -23,7 +23,6 @@ h6 {
   font-family: "Rokkit", "serif";
 }
 
-
 .light-mode {
   --bg-color: #f4f6fa;
   --secondary-bg-color: #fff;
@@ -709,13 +708,9 @@ button:disabled:hover {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 100%;
+  width: 100vw;
   position: sticky;
   background-color: var(--bg-color);
-  align-items: center;
-
-   
-
 }
 
 .open-mobile-nav {
@@ -738,7 +733,7 @@ button:disabled:hover {
   justify-content: center;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 100vw;
 }
 
 .mobile-nav {
