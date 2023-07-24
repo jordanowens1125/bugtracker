@@ -525,8 +525,12 @@ button:not(.password-view):hover,
 a:hover {
   transform: scale(1.03);
   cursor: pointer;
-  background-color: var(--secondary-bg-color);
   padding: 10px;
+}
+
+.a:hover,
+a:hover {
+  background-color: var(--secondary-bg-color);
 }
 
 button:disabled {
