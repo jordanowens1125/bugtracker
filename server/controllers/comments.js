@@ -2,11 +2,11 @@ const { default: mongoose } = require("mongoose");
 const Comment = require("../models/comment");
 const Project = require("../models/project");
 const User = require("../models/user");
-const Bug = require("../models/bug");
+const Ticket = require("../models/ticket");
 
 const getComments = async (req, res) => {
   try {
-    const comments = await Comment.find({ bugID: req.params.bugID }).populate(
+    const comments = await Comment.find({ ticketID: req.params.ticketID }).populate(
       "creator"
     );
     res.status(200).json(comments);
@@ -23,7 +23,7 @@ const createComment = async (req, res) => {
         comments: newComment._id,
       },
     });
-    await Bug.findByIdAndUpdate(req.body.bugID, {
+    await Ticket.findByIdAndUpdate(req.body.ticketID, {
       $push: {
         comments: newComment._id,
       },
@@ -43,8 +43,8 @@ const deleteComment = async (req, res) => {
       },
     });
 
-    //remove comment from bug
-    await Bug.findByIdAndUpdate(req.body.bugID, {
+    //remove comment from ticket
+    await Ticket.findByIdAndUpdate(req.body.ticketID, {
       $pull: {
         comments: req.params.id,
       },

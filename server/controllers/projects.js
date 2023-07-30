@@ -1,12 +1,12 @@
 const { default: mongoose } = require("mongoose");
 const Project = require("../models/project");
 const User = require("../models/user");
-const Bug = require("../models/bug");
+const Ticket = require("../models/ticket");
 const Comment = require("../models/comment");
 
 const getProjects = async (req, res) => {
   try {
-    const projects = await Project.find().populate("bugs").populate("members");
+    const projects = await Project.find().populate("tickets").populate("members");
     res.status(200).json(projects);
   } catch (error) {
     res.status(404).json({ message: error });
@@ -39,8 +39,8 @@ const deleteProject = async (req, res) => {
       {},
       {
         $pull: {
-          //remove bugs from this project
-          assignedBugs: { $in: project.bugs },
+          //remove tickets from this project
+          assignedTickets: { $in: project.tickets },
         },
         assignable: true,
         project: undefined,
@@ -49,8 +49,8 @@ const deleteProject = async (req, res) => {
         multi: true,
       }
     );
-    //delete bugs associated with this project
-    await Bug.deleteMany({
+    //delete tickets associated with this project
+    await Ticket.deleteMany({
       projectID: req.params.id,
     });
     await Comment.deleteMany({
@@ -67,7 +67,7 @@ const getProject = async (req, res) => {
   try {
     let id = req.params.id;
     const project = await Project.findById(id)
-      .populate("bugs")
+      .populate("tickets")
       .populate("projectManager")
       .populate("members");
     const unAssignedMembers = await User.find({

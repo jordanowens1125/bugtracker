@@ -4,9 +4,9 @@ const { Schema } = mongoose;
 const CommentSchema = new Schema({
   text: { type: String, required: true },
   date: { type: Date, default: Date.now },
-  bugID: {
+  ticketID: {
     type: Schema.Types.ObjectId,
-    ref: "Bug",
+    ref: "Ticket",
     required: true,
   },
   projectID: {

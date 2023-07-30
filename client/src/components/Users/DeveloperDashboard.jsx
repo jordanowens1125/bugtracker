@@ -11,20 +11,20 @@ import Error from "../Shared/Error";
 
 const DeveloperDashboard = () => {
   const { user } = useAuthContext();
-  const [bugs, setBugs] = useState([]);
+  const [tickets, setTickets] = useState([]);
   const [priority, setPriority] = useState([]);
   const [status, setStatus] = useState([]);
   const [project, setProject] = useState();
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchBug = async () => {
+    const fetchTicket = async () => {
       try {
         const request = await api.users.fetchUser(user, user._id);
         setProject(request.project);
-        setBugs(request.assignedBugs);
-        byPriority(request.assignedBugs, setPriority);
-        byStatus(request.assignedBugs, setStatus);
+        setTickets(request.assignedTickets);
+        byPriority(request.assignedTickets, setPriority);
+        byStatus(request.assignedTickets, setStatus);
       } catch (error) {
         setError(
           `Unable to load dashboard because of the following error: ${error.message}`
@@ -32,7 +32,7 @@ const DeveloperDashboard = () => {
       }
     };
 
-    fetchBug();
+    fetchTicket();
   }, [user]);
 
   return (
@@ -48,7 +48,7 @@ const DeveloperDashboard = () => {
             </h2>
           </i>
 
-          {bugs.length > 0 ? (
+          {tickets.length > 0 ? (
             <>
               <div className="flex mobile-column full-width">
                 <PieChart data={priority} header={"Priority"} />
@@ -64,7 +64,7 @@ const DeveloperDashboard = () => {
                   "Deadline",
                 ]}
                 caption={"Assigned Tickets"}
-                content={DevDashboardTable(bugs, project)}
+                content={DevDashboardTable(tickets, project)}
               />
             </>
           ) : (

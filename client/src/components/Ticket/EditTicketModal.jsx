@@ -6,7 +6,7 @@ import Buttons from "../Shared/Buttons";
 import { statusList, priorities } from "../../constants/ticket";
 
 const EditTicketModal = ({
-  updatedBug,
+  updatedTicket,
   handleInputChange,
   reset,
   users,
@@ -18,7 +18,7 @@ const EditTicketModal = ({
       <form className="modal-content" onSubmit={handleSubmit}>
         <h1>Edit Ticket</h1>
         <Input
-          value={updatedBug.title}
+          value={updatedTicket.title}
           onChange={handleInputChange}
           id={"title"}
           label={"Title"}
@@ -26,7 +26,7 @@ const EditTicketModal = ({
 
         <TextArea
           label={"Description"}
-          value={updatedBug.description}
+          value={updatedTicket.description}
           onChange={handleInputChange}
           id={"description"}
         />
@@ -44,7 +44,7 @@ const EditTicketModal = ({
         <Select
           label={"Priority"}
           id={"priority"}
-          value={updatedBug.priority}
+          value={updatedTicket.priority}
           onChange={handleInputChange}
           listofOptions={priorities}
           placeholder={"Select a priority"}
@@ -53,14 +53,14 @@ const EditTicketModal = ({
         <Select
           label={"Status"}
           id={"status"}
-          value={updatedBug.status}
+          value={updatedTicket.status}
           onChange={handleInputChange}
           listofOptions={statusList}
           placeholder={"Select a status"}
           disablePlaceholder={true}
         />
         <Input
-          value={dayjs(updatedBug.deadline).format("YYYY-MM-DD")}
+          value={dayjs(updatedTicket.deadline).format("YYYY-MM-DD")}
           onChange={handleInputChange}
           label={"Deadline"}
           type="date"

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const BugSchema = new Schema({
+const TicketSchema = new Schema({
   title: { type: String, required: true },
   creator: { type: Schema.Types.ObjectId, ref: "User" },
   description: String,
@@ -23,7 +23,7 @@ const BugSchema = new Schema({
     default: "Low",
   },
   assignedTo: { type: Schema.Types.ObjectId, ref: "User" },
-  relatedBugs: [{ type: Schema.Types.ObjectId, ref: "Bug" }],
+  relatedTickets: [{ type: Schema.Types.ObjectId, ref: "Ticket" }],
   projectID: {
     type: Schema.Types.ObjectId,
     ref: "Project",
@@ -36,4 +36,4 @@ const BugSchema = new Schema({
   tags: [],
 });
 
-module.exports = mongoose.model("Bug", BugSchema);
+module.exports = mongoose.model("Ticket", TicketSchema);

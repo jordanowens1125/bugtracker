@@ -16,7 +16,7 @@ const ProjectSchema = new Schema({
   client: String,
   members: [{ type: Schema.Types.ObjectId, ref: "User" }],
   projectManager: { type: Schema.Types.ObjectId, ref: "User" },
-  bugs: [{ type: Schema.Types.ObjectId, ref: "Bug" }],
+  tickets: [{ type: Schema.Types.ObjectId, ref: "Ticket" }],
   comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
   public: { type: Boolean, default: false },
 });

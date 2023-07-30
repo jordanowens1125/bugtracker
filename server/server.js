@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use("/auth", require("./routes/auth"));
 app.use("/users", require("./routes/users"));
 app.use("/projects", require("./routes/projects"));
-app.use("/bugs", require("./routes/bugs"));
+app.use("/tickets", require("./routes/tickets"));
 app.use("/comments", require("./routes/comments"));
 app.use("/persist", require("./routes/persist"));
 

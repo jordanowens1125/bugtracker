@@ -24,7 +24,7 @@ const seedProjects = [
     history: [],
     client: "",
     members: [],
-    bugs: [],
+    tickets: [],
     public: true,
   }),
   new Project({
@@ -38,7 +38,7 @@ const seedProjects = [
     history: [],
     client: "",
     members: [],
-    bugs: [],
+    tickets: [],
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b54ebd9c511b8b3d141"),
@@ -51,7 +51,7 @@ const seedProjects = [
     history: [],
     client: "",
     members: [],
-    bugs: [],
+    tickets: [],
     public: true,
   }),
   new Project({
@@ -65,7 +65,7 @@ const seedProjects = [
     history: [],
     client: "",
     members: [],
-    bugs: [],
+    tickets: [],
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b648a07b772c2bbdade"),
@@ -78,7 +78,7 @@ const seedProjects = [
     history: [],
     client: "",
     members: [],
-    bugs: [],
+    tickets: [],
     public: true,
   }),
   new Project({
@@ -92,7 +92,7 @@ const seedProjects = [
     history: [],
     client: "",
     members: [],
-    bugs: [],
+    tickets: [],
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b759ff366538007353e"),
@@ -105,7 +105,7 @@ const seedProjects = [
     history: [],
     client: "",
     members: [],
-    bugs: [],
+    tickets: [],
     public: true,
   }),
   new Project({
@@ -119,7 +119,7 @@ const seedProjects = [
     history: [],
     client: "",
     members: [],
-    bugs: [],
+    tickets: [],
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b8526c52518a266d934"),
@@ -132,7 +132,7 @@ const seedProjects = [
     history: [],
     client: "",
     members: [],
-    bugs: [],
+    tickets: [],
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b8ddee3668fbd9429a1"),
@@ -145,7 +145,7 @@ const seedProjects = [
     history: [],
     client: "",
     members: [],
-    bugs: [],
+    tickets: [],
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b950da91f090593d81f"),
@@ -158,7 +158,7 @@ const seedProjects = [
     history: [],
     client: "",
     members: [],
-    bugs: [],
+    tickets: [],
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7b9bf017f7b415156ea7"),
@@ -171,7 +171,7 @@ const seedProjects = [
     history: [],
     client: "",
     members: [],
-    bugs: [],
+    tickets: [],
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7ba3906128dbe6e18d43"),
@@ -184,7 +184,7 @@ const seedProjects = [
     history: [],
     client: "",
     members: [],
-    bugs: [],
+    tickets: [],
   }),
   new Project({
     _id: mongoose.Types.ObjectId("63ab7baa8f1d56a3b78bda15"),
@@ -197,7 +197,7 @@ const seedProjects = [
     history: [],
     client: "",
     members: [],
-    bugs: [],
+    tickets: [],
   }),
 ];
 

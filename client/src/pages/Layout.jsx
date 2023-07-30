@@ -97,7 +97,7 @@ const Navbar = ({ theme, setTheme }) => {
                     <a href="/tickets">Tickets</a>
                   </div>
                 )}
-                {/* <a href="/Bugs">Schedule</a> */}
+                {/* <a href="/Tickets">Schedule</a> */}
               </div>
 
               <div className="flex-column gap-lg">
@@ -157,7 +157,7 @@ const Navbar = ({ theme, setTheme }) => {
           <>
             {mobile ? (
               <>
-                <nav className="mobile-nav" >
+                <nav className="mobile-nav">
                   {user && (
                     <>
                       <div className="flex-column space-around aic jcc full-height full-width">

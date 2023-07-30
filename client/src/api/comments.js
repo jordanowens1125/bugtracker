@@ -1,9 +1,9 @@
 import axios from "axios";
 const baseURL = process.env.REACT_APP_BASELINE_URL + "comments";
 
-export const fetchBugComments = async (loggedInUser, bugID) =>
+export const fetchTicketComments = async (loggedInUser, ticketID) =>
   await axios
-    .get(`${baseURL}/${bugID}`, {
+    .get(`${baseURL}/${ticketID}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${loggedInUser.token}`,

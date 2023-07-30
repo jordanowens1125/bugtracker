@@ -6,10 +6,10 @@ const {
   getUser,
   updateUser,
   assignUserToProject,
-  unAssignBugFromUser,
+  unAssignTicketFromUser,
   unAssignUsersFromProject,
   unAssignUserFromProject,
-  assignBugToUser,
+  assignTicketToUser,
   updateRoles,
   deleteUsers,
   getPM,
@@ -31,8 +31,8 @@ router.put("/project/:id", assignUserToProject);
 router.get("/projectmanager/:id", getPM);
 router.get("/admin", getAdmin);
 router.put("/removeproject", unAssignUsersFromProject);
-router.put("/assignbugtouser/:id", assignBugToUser);
-router.put("/unassignbugfromuser/:id", unAssignBugFromUser);
+router.put("/assigntickettouser/:id", assignTicketToUser);
+router.put("/unassignticketfromuser/:id", unAssignTicketFromUser);
 router.put("/unassignuserfromproject", unAssignUserFromProject);
 router.put("/updateroles", updateRoles);
 router.get("/:id", getUser);

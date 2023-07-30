@@ -17,13 +17,13 @@ const scrollToBottom = () => {
   }
 };
 
-const BugComments = ({ bug }) => {
-  const [comments, setComments] = useState(bug.comments);
+const TicketComments = ({ ticket }) => {
+  const [comments, setComments] = useState(ticket.comments);
 
   const { user } = useAuthContext();
 
-  const userCanCommentsOnThisBug =
-    (bug.assignedTo && bug.assignedTo._id === user._id) ||
+  const userCanCommentsOnThisTicket =
+    (ticket.assignedTo && ticket.assignedTo._id === user._id) ||
     user.role === "Admin" ||
     user.role === "Project Manager";
 
@@ -34,7 +34,7 @@ const BugComments = ({ bug }) => {
 
   const handleChange = (e) => {
     const inputFieldValue = e.target.value;
-    const inputFieldName = e.target.id || e.target.name; //target name for the bugs select
+    const inputFieldName = e.target.id || e.target.name; //target name for the tickets select
     //if name is start or deadline change format to string
     const newInputValue = { ...chatInput, [inputFieldName]: inputFieldValue };
     setChatInput(newInputValue);
@@ -45,9 +45,9 @@ const BugComments = ({ bug }) => {
     if (chatInput.text !== "") {
       const newComment = { ...chatInput };
       newComment.creator = user._id;
-      newComment.bugID = bug._id;
-      //bug projectID property is a project object so get id
-      newComment.projectID = bug.projectID;
+      newComment.ticketID = ticket._id;
+      //ticket projectID property is a project object so get id
+      newComment.projectID = ticket.projectID;
       const commentTime = new Date(Date.now());
       newComment.date = commentTime.getTime();
       try {
@@ -65,10 +65,10 @@ const BugComments = ({ bug }) => {
     }
   };
 
-  useEffect(() => {}, [bug]);
+  useEffect(() => {}, [ticket]);
   return (
     <>
-      {bug && (
+      {ticket && (
         <>
           <span className="message-heading flex aic space-between mobile-column">
             <p className="p-l-md">Comments:</p>
@@ -90,7 +90,7 @@ const BugComments = ({ bug }) => {
               <div className="comments p-lg"> No Comments</div>
             </>
           )}
-          {userCanCommentsOnThisBug && (
+          {userCanCommentsOnThisTicket && (
             <form className="message-input flex" onSubmit={sendComment}>
               <input
                 type="text"
@@ -110,4 +110,4 @@ const BugComments = ({ bug }) => {
   );
 };
 
-export default BugComments;
+export default TicketComments;

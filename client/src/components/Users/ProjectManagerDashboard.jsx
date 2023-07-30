@@ -11,7 +11,7 @@ import Error from "../Shared/Error";
 
 const ProjectManagerDashboard = () => {
   const { user } = useAuthContext();
-  const [bugs, setBugs] = useState([]);
+  const [tickets, setTickets] = useState([]);
   const [priority, setPriority] = useState([]);
   const [status, setStatus] = useState([]);
   const [project, setProject] = useState();
@@ -19,17 +19,17 @@ const ProjectManagerDashboard = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchBug = async () => {
+    const fetchTicket = async () => {
       try {
         const request = await api.users.fetchPM(user, user._id);
         if (request.project) {
           setProject(request.project);
-          if (request.project.bugs) {
-            if (request.project.bugs.length > 0) {
-              setBugs(request.project.bugs);
-              byPriority(request.project.bugs, setPriority);
-              byStatus(request.project.bugs, setStatus);
-              byDevs(request.project.bugs, setDev);
+          if (request.project.tickets) {
+            if (request.project.tickets.length > 0) {
+              setTickets(request.project.tickets);
+              byPriority(request.project.tickets, setPriority);
+              byStatus(request.project.tickets, setStatus);
+              byDevs(request.project.tickets, setDev);
             }
           }
         }
@@ -39,7 +39,7 @@ const ProjectManagerDashboard = () => {
         );
       }
     };
-    fetchBug();
+    fetchTicket();
   }, [user]);
   return (
     <div className="page flex-column text-align">
@@ -60,7 +60,7 @@ const ProjectManagerDashboard = () => {
 
             <PieChart data={dev} header={"Tickets By Dev"} />
           </div>
-          {bugs.length > 0 ? (
+          {tickets.length > 0 ? (
             <>
               <Table
                 headings={[
@@ -71,7 +71,7 @@ const ProjectManagerDashboard = () => {
                   "Project",
                   "Assigned To",
                 ]}
-                content={PMTableContent(bugs, project)}
+                content={PMTableContent(tickets, project)}
                 caption={"Project Tickets"}
                 alignAlways={true}
               />

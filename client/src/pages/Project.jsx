@@ -22,7 +22,7 @@ const Project = () => {
     try {
       const newticket = await api.tickets.createTicket(user, ticket);
       const copiedProject = { ...project };
-      copiedProject.bugs.push(newticket);
+      copiedProject.tickets.push(newticket);
       setProject(copiedProject);
       cancel();
       messageInfo.dispatch({

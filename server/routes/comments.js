@@ -13,7 +13,7 @@ const requireAuth = require('../middleware/requireAuth')
 router.use(requireAuth)
 
 /* GET users listing. */
-router.get("/:bugID", getComments);
+router.get("/:ticketID", getComments);
 router.post("/create", createComment);
 router.delete("/:id", deleteComment);
 router.get("/:id", getComment);

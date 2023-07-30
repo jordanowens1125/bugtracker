@@ -1,6 +1,6 @@
 const { default: mongoose } = require("mongoose");
 const User = require("../models/user");
-const Bug = require("../models/bug");
+const Ticket = require("../models/ticket");
 const Comment = require("../models/comment");
 const Project = require("../models/project");
 
@@ -8,7 +8,7 @@ const getUsers = async (req, res) => {
   try {
     const users = await User.find()
       .populate("project")
-      .populate("assignedBugs");
+      .populate("assignedTickets");
     res.status(200).json(users);
   } catch (error) {
     res.status(404).json({ message: error });
@@ -28,8 +28,8 @@ const deleteUser = async (req, res) => {
         },
       }
     );
-    //delete user from bugs
-    await Bug.updateMany(
+    //delete user from tickets
+    await Ticket.updateMany(
       {},
       {
         $pull: {
@@ -40,7 +40,7 @@ const deleteUser = async (req, res) => {
     //update user comments to deleted user
     // we want to keep the comments in case there is some useful
     await Comment.updateMany(
-      { bugID: req.params.id },
+      { ticketID: req.params.id },
       {
         creator: mongoose.Types.ObjectId("000000000000000000000000"),
       }
@@ -71,7 +71,7 @@ const deleteUsers = async (req, res) => {
       }
     );
 
-    await Bug.updateMany(
+    await Ticket.updateMany(
       { assignedTo: { $in: userIDs } },
       {
         assignedTo: undefined,
@@ -90,7 +90,7 @@ const getUser = async (req, res) => {
     let id = req.params.id;
     const user = await User.findById(id)
       .populate("project")
-      .populate("assignedBugs");
+      .populate("assignedTickets");
     res.status(200).json(user);
   } catch (error) {
     res.status(404).json({ message: error });
@@ -103,7 +103,7 @@ const getPM = async (req, res) => {
     const user = await User.findById(id).populate([
       {
         path: "project",
-        populate: [{ path: "bugs", populate: [{ path: "assignedTo" }] }],
+        populate: [{ path: "tickets", populate: [{ path: "assignedTo" }] }],
       },
     ]);
     res.status(200).json(user);
@@ -115,9 +115,9 @@ const getPM = async (req, res) => {
 const getAdmin = async (req, res) => {
   try {
     const users = await User.find();
-    const bugs = await Bug.find().populate("projectID").populate("assignedTo");
+    const tickets = await Ticket.find().populate("projectID").populate("assignedTo");
     const projects = await Project.find();
-    res.status(200).json({ users, bugs, projects });
+    res.status(200).json({ users, tickets, projects });
   } catch (error) {
     res.status(404).json({ message: error });
   }
@@ -152,12 +152,12 @@ const updateRoles = async (req, res) => {
   }
 };
 
-const assignBugToUser = async (req, res) => {
+const assignTicketToUser = async (req, res) => {
   try {
     const userID = req.body.userID;
-    const bugID = req.body.bugID;
+    const ticketID = req.body.ticketID;
 
-    await Bug.findByIdAndUpdate(bugID, {
+    await Ticket.findByIdAndUpdate(ticketID, {
       $addToSet: {
         assignedTo: userID,
       },
@@ -165,7 +165,7 @@ const assignBugToUser = async (req, res) => {
 
     await User.findByIdAndUpdate(userID, {
       $addToSet: {
-        assignedBugs: bugID,
+        assignedTickets: ticketID,
       },
     });
 
@@ -177,12 +177,12 @@ const assignBugToUser = async (req, res) => {
   }
 };
 
-const unAssignBugFromUser = async (req, res) => {
+const unAssignTicketFromUser = async (req, res) => {
   try {
     const userID = req.body.userID;
-    const bugID = req.body.bugID;
+    const ticketID = req.body.ticketID;
 
-    await Bug.findByIdAndUpdate(bugID, {
+    await Ticket.findByIdAndUpdate(ticketID, {
       $pull: {
         assignedTo: userID,
       },
@@ -190,7 +190,7 @@ const unAssignBugFromUser = async (req, res) => {
 
     await User.findByIdAndUpdate(userID, {
       $pull: {
-        assignedBugs: bugID,
+        assignedTickets: ticketID,
       },
     });
 
@@ -229,7 +229,7 @@ const unAssignUsersFromProject = async (req, res) => {
     const changedUsers = await User.updateMany(
       {},
       {
-        $pull: { project: projectID, assignedBugs: [], assignable: true },
+        $pull: { project: projectID, assignedTickets: [], assignable: true },
       }
     );
 
@@ -248,17 +248,17 @@ const unAssignUserFromProject = async (req, res) => {
     });
     const user = await User.findByIdAndUpdate(req.body.userID, {
       $pull: {
-        //remove project bugs from user
-        assignedBugs: {
-          $in: project.bugs,
+        //remove project tickets from user
+        assignedTickets: {
+          $in: project.tickets,
         },
       },
       assignable: true,
       project: undefined,
     });
-    //remove the user from the project bugs
-    const bugs = await Bug.updateMany(
-      { $in: project.bugs },
+    //remove the user from the project tickets
+    const tickets = await Ticket.updateMany(
+      { $in: project.tickets },
       {
         $pull: {
           assignedTo: req.body.userID,
@@ -298,10 +298,10 @@ module.exports = {
   getUsers,
   deleteUser,
   getUser,
-  unAssignBugFromUser,
+  unAssignTicketFromUser,
   updateUser,
   assignUserToProject,
-  assignBugToUser,
+  assignTicketToUser,
   unAssignUserFromProject,
   unAssignUsersFromProject,
   updateRoles,

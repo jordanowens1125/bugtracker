@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-const BugsTableBody = ({ tickets }) => {
+const TicketsTableBody = ({ tickets }) => {
   return (
     <>
       {tickets.map((ticket) => (
@@ -18,4 +18,4 @@ const BugsTableBody = ({ tickets }) => {
   );
 };
 
-export default BugsTableBody;
+export default TicketsTableBody;

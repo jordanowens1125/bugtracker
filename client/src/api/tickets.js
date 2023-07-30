@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = process.env.REACT_APP_BASELINE_URL + "bugs";
+const baseURL = process.env.REACT_APP_BASELINE_URL + "tickets";
 
 export const fetchTickets = async (loggedInUser) =>
   await axios

@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const User = require("./models/user");
 const Project = require("./models/project");
-const Bug = require("./models/bug");
+const Ticket = require("./models/ticket");
 const Comment = require("./models/comment");
 require("dotenv").config({ path: "./config/.env" });
 const connectDB = require("./config/db");
 const seedProjects = require("./seedFolder/projects");
 const seedUsers = require("./seedFolder/users");
-const seedBugs = require("./seedFolder/bugs");
+const seedTickets = require("./seedFolder/tickets");
 const seedComments = require("./seedFolder/comments");
 
 const saltRounds = 10;
@@ -29,8 +29,8 @@ const seedDB = async () => {
     await User.deleteMany({});
     await User.insertMany(usersWithHashedPasswords);
 
-    await Bug.deleteMany({});
-    await Bug.insertMany(seedBugs);
+    await Ticket.deleteMany({});
+    await Ticket.insertMany(seedTickets);
 
     await Project.deleteMany({});
     await Project.insertMany(seedProjects);

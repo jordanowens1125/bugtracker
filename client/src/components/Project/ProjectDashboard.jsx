@@ -9,7 +9,7 @@ import TicketTableContent from "./TicketTableContent";
 import EditProjectButtons from "./EditProjectButtons";
 
 function checkProject(project) {
-  if (project.bugs) {
+  if (project.tickets) {
     return true;
   } else {
     return false;
@@ -68,7 +68,7 @@ const ProjectDashboard = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const bugIds = edit.bugs.map((bug) => bug._id);
+    const ticketIds = edit.tickets.map((ticket) => ticket._id);
     let pmID = edit.projectManager._id;
     let pm = edit.projectManager;
     if (PMChanged) {
@@ -86,7 +86,7 @@ const ProjectDashboard = ({
 
     const updatedProject = {
       ...edit,
-      bugs: bugIds,
+      tickets: ticketIds,
       projectManager: pmID,
       members: devIDs,
     };
@@ -182,7 +182,7 @@ const ProjectDashboard = ({
               {ProjectTableBodyContent(project.members, user.role === "Admin")}
             </div>
             {/* <div className="h-md"> */}
-              {TicketTableContent(project.bugs, "Tickets")}
+              {TicketTableContent(project.tickets, "Tickets")}
             {/* </div> */}
           </div>
         </>

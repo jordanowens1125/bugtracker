@@ -857,13 +857,13 @@ main {
   height: fit-content;
 }
 
-/* bug  */
-.bug-page {
+/* ticket  */
+.ticket-page {
   display: grid;
   height: 90vh;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
-/* End of bug */
+/* End of ticket */
 
 .manage-members {
   display: grid;
@@ -1093,7 +1093,7 @@ form svg {
     width: 100%;
     max-width: unset;
   }
-  .bug-page,
+  .ticket-page,
   .page {
     display: flex;
     flex-direction: column;

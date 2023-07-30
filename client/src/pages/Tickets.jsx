@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import NoData from "../components/Shared/NoData";
 import useAuthContext from "../hooks/useAuthContext";
 import Table from "../components/Shared/Table";
-import BugsTableBody from "../components/Bugs/BugsTableBody";
+import TicketsTableBody from "../components/Tickets/TicketsTableBody";
 import Select from "../components/Shared/Select";
 import Error from "../components/Shared/Error";
 
-const Bugs = () => {
-  const [bugs, setBugs] = useState([]);
+const Tickets = () => {
+  const [tickets, setTickets] = useState([]);
   const { user } = useAuthContext();
   const [input, setInput] = useState("");
   const [priority, setPriority] = useState("");
@@ -19,7 +19,7 @@ const Bugs = () => {
     setInput(e.currentTarget.value);
   };
 
-  let filtered = bugs.filter((project) => {
+  let filtered = tickets.filter((project) => {
     const capitalizedTitle = project.title.toUpperCase();
     return capitalizedTitle.includes(input.toUpperCase());
   });
@@ -36,13 +36,13 @@ const Bugs = () => {
     });
   }
 
-  const hasBugs = filtered.length > 0;
+  const hasTickets = filtered.length > 0;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await api.tickets.fetchTickets(user);
-        setBugs(response);
+        setTickets(response);
       } catch (error) {
         setError(
           `Unable to get tickets because of the following error: ${error.message}`
@@ -94,7 +94,7 @@ const Bugs = () => {
             </div>
           </div>
 
-          {hasBugs ? (
+          {hasTickets ? (
             <>
               <div className="overflow-x only-full-width">
                 <Table
@@ -106,7 +106,7 @@ const Bugs = () => {
                     "Deadline",
                     "More",
                   ]}
-                  content={<BugsTableBody tickets={filtered} />}
+                  content={<TicketsTableBody tickets={filtered} />}
                 />
               </div>
             </>
@@ -119,4 +119,4 @@ const Bugs = () => {
   );
 };
 
-export default Bugs;
+export default Tickets;

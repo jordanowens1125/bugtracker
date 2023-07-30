@@ -1,14 +1,14 @@
-export const byDevs = (bugs, setDev) => {
+export const byDevs = (tickets, setDev) => {
   const devs = {};
   const result = [];
   devs["Unassigned"] = 0;
-  bugs.map((bug) => {
-    if (bug.assignedTo) {
-      if (devs[bug.assignedTo.name]) {
-        devs[bug.assignedTo.name] += 1;
-        return bug;
+  tickets.map((ticket) => {
+    if (ticket.assignedTo) {
+      if (devs[ticket.assignedTo.name]) {
+        devs[ticket.assignedTo.name] += 1;
+        return ticket;
       } else {
-        devs[bug.assignedTo.name] = 1;
+        devs[ticket.assignedTo.name] = 1;
         return 1;
       }
     } else {
@@ -26,15 +26,15 @@ export const byDevs = (bugs, setDev) => {
   setDev(result);
 };
 
-export const groupedByProjects = (bugs, setBugsByProject) => {
+export const groupedByProjects = (tickets, setTicketsByProject) => {
   const projects = {};
   const result = [];
-  bugs.map((bug) => {
-    if (projects[bug.projectID.title]) {
-      projects[bug.projectID.title] += 1;
-      return bug;
+  tickets.map((ticket) => {
+    if (projects[ticket.projectID.title]) {
+      projects[ticket.projectID.title] += 1;
+      return ticket;
     } else {
-      projects[bug.projectID.title] = 1;
+      projects[ticket.projectID.title] = 1;
       return 1;
     }
   });
@@ -45,18 +45,18 @@ export const groupedByProjects = (bugs, setBugsByProject) => {
       value: projects[project],
     })
   );
-  setBugsByProject(result);
+  setTicketsByProject(result);
 };
 
-export const byPriority = (bugs, setPriority) => {
+export const byPriority = (tickets, setPriority) => {
   const projects = {};
   const result = [];
-  bugs.map((bug) => {
-    if (projects[bug.priority]) {
-      projects[bug.priority] += 1;
-      return bug;
+  tickets.map((ticket) => {
+    if (projects[ticket.priority]) {
+      projects[ticket.priority] += 1;
+      return ticket;
     } else {
-      projects[bug.priority] = 1;
+      projects[ticket.priority] = 1;
       return 1;
     }
   });
@@ -70,15 +70,15 @@ export const byPriority = (bugs, setPriority) => {
   setPriority(result);
 };
 
-export const byStatus = (bugs,setStatus) => {
+export const byStatus = (tickets,setStatus) => {
   const projects = {};
   const result = [];
-  bugs.map((bug) => {
-    if (projects[bug.status]) {
-      projects[bug.status] += 1;
-      return bug;
+  tickets.map((ticket) => {
+    if (projects[ticket.status]) {
+      projects[ticket.status] += 1;
+      return ticket;
     } else {
-      projects[bug.status] = 1;
+      projects[ticket.status] = 1;
       return 1;
     }
   });
