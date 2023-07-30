@@ -34,6 +34,8 @@ const seedDB = async () => {
 
     await Project.deleteMany({});
     await Project.insertMany(seedProjects);
+
+    await Comment.deleteMany({});
   } catch (err) {
     console.log(err);
   }
