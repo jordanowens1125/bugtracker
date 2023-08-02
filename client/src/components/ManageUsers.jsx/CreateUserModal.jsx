@@ -87,6 +87,8 @@ const CreateUserModal = ({ cancel, users, setUsers }) => {
           value={role}
           onChange={(e) => setRole(e.currentTarget.value)}
           listofOptions={roles}
+          disablePlaceholder={true}
+          placeholder={'Select role for new user'}
         />
         {error && <span className="error full-width text-align">{error}</span>}
         <Buttons
