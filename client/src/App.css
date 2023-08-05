@@ -447,6 +447,7 @@ textarea {
   padding: 8px;
   border-radius: 10px;
   outline: none;
+  margin: 1px;
   background-color: var(--secondary-bg-color);
   color: inherit;
 }
@@ -871,6 +872,10 @@ main {
   width: 100%;
   background-color: var(--bg-color);
   height: fit-content;
+}
+
+.page{
+  padding: 5px;
 }
 
 /* ticket  */
