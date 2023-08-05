@@ -8,7 +8,7 @@ const TextArea = ({
   disabled,
 }) => {
   return (
-    <div className="flex-column full-width">
+    <div className="flex-column full-width p-sm">
       <label htmlFor={id || label}>{label}:</label>
       <textarea
         id={id}

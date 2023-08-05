@@ -11,7 +11,7 @@ const SelectByField = ({
   disabled
 }) => {
   return (
-    <div className="flex-column full-width">
+    <div className="flex-column full-width p-sm">
       <label htmlFor={id || label}>{label}:</label>
       <select
         name={id}

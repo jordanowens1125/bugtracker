@@ -8,10 +8,18 @@ const Input = ({
   content,
   placeholder,
   disabled = false,
+  column = false,
 }) => {
+  let classes = "";
+  if (column) {
+    classes += "flex-column ";
+  } else {
+    classes += "flex aic";
+  }
+
   return (
     <>
-      <div className="flex-column full-width">
+      <div className={`${classes} full-width p-sm mobile-column`}>
         <label htmlFor={label}>{label}:</label>
         <div className="flex full-width gap-0 jcc">
           <input

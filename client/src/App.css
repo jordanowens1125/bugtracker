@@ -443,7 +443,7 @@ option,
 .option-modal,
 .select-modal,
 textarea {
-  border: 2px solid var(--secondary-bg-color);
+  border: 1px solid var(--secondary-bg-color);
   padding: 8px;
   border-radius: 10px;
   outline: none;

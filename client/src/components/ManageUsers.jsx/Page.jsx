@@ -52,16 +52,16 @@ const ManageUsersPage = ({
           Delete Users
         </button>
       </span>
-      <span className="flex mobile-column w-content">
         <Select
           label={"New role to be assigned to selected users"}
           onChange={(e) => setRole(e.currentTarget.value)}
           value={role}
           listofOptions={roles}
           disablePlaceholder={true}
-          placeholder={'Select a role'}
+          placeholder={"Select a role"}
+          column={true}
+          contentWidth={true}
         />
-      </span>
 
       <div className="overflow-x only-full-width">
         {filtered.length > 0 ? (

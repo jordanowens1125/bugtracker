@@ -15,7 +15,7 @@ const Table = ({
       <p className="caption">{caption}</p>
 
       <div
-        className={`mobile-text-align flex-column overflow-x only-full-width ${heightClass}`}
+        className={`mobile-text-align flex-column overflow-x only-full-width ${heightClass} p-sm`}
       >
         <table className="p-md full-width mobile-text-align h-lg overflow-y overflow-x relative">
           <thead>

@@ -105,6 +105,7 @@ const CreateTicket = () => {
           label={"Priority"}
           disablePlaceholder={true}
           placeholder={"Select priority"}
+          column={true}
         />
         <Input
           value={dayjs(ticket.deadline).format("YYYY-MM-DD")}
