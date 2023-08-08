@@ -8,7 +8,7 @@ https://github.com/jordanowens1125/bugtracker/assets/60613533/dcbedfee-84c3-4a51
 
 ## How It's Made:
 
-**Tech used:** HTML, CSS, JavaScript, React, Express, Nivo, JWT, MongoDB
+**Tech used:** HTML, CSS, JavaScript, React, Express, Nivo Pie and Bar Chart, JWT, MongoDB
 
 This application is centered around projects, which can have a variety of tickets/tasks. Admin and project managers are gifted the ability to update and edit these projects and their respective tasks as they see fit. This includes assigning and unassigning users to a given project. 
 
@@ -30,4 +30,4 @@ Developers are shown the tasks assigned to them and are able to make comments on
 
 ## Lesson Learned
 
-By working on this project I was able to get very comfortable with setting up a backend. I was also able to implement JWT to ensure that only authorized users could receive data for specific api requests
+By working on this project I was able to get very comfortable with setting up a backend. I was also able to implement JWT to ensure that only authorized users could receive data for specific api requests.
