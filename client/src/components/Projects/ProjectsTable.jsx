@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import NoData from "../Shared/NoData";
 import Table from "../Shared/Table";
 import Select from "../Shared/Select";
+import ProjectsSkeleton from "./ProjectsSkeletons";
 
 const TableBodyElement = (projects) => {
   return (
@@ -25,12 +26,12 @@ const ProjectsTable = ({ projects }) => {
   // const { user } = useAuthContext();
   const [input, setInput] = useState("");
   const [status, setStatus] = useState("");
-  
+
   let filtered = projects.filter((project) => {
     const capitalizedTitle = project.title.toUpperCase();
     return capitalizedTitle.includes(input.toUpperCase());
   });
-  
+
   const hasProjects = filtered.length > 0;
   const handleInputChange = (e) => {
     setInput(e.currentTarget.value);
@@ -48,42 +49,43 @@ const ProjectsTable = ({ projects }) => {
 
   return (
     <>
-        <span className="flex gap-md mobile-column space-between">
-          <div className="flex aic jcc">
-            <input
-              type="text"
-              placeholder="Search By Project Title"
-              value={input}
-              onChange={handleInputChange}
-            />
-            <button className="button-secondary" onClick={Reset}>
-              Reset
-            </button>
-          </div>
+      <span className="flex gap-md mobile-column space-between">
+        <div className="flex aic jcc">
+          <input
+            type="text"
+            placeholder="Search By Project Title"
+            value={input}
+            onChange={handleInputChange}
+          />
+          <button className="button-secondary" onClick={Reset}>
+            Reset
+          </button>
+        </div>
 
-          <div className="flex aic jcc no-wrap mobile-column">
-            <Select
-              label={"Status"}
-              value={status}
-              placeholder={"Any Status"}
-              listofOptions={["Production", "Development"]}
-              onChange={(e) => setStatus(e.target.value)}
+        <div className="flex aic jcc no-wrap mobile-column">
+          <Select
+            label={"Status"}
+            value={status}
+            placeholder={"Any Status"}
+            listofOptions={["Production", "Development"]}
+            onChange={(e) => setStatus(e.target.value)}
+          />
+        </div>
+      </span>
+
+      {hasProjects ? (
+        <>
+          <div className="overflow-x only-full-width">
+            
+            <Table
+              headings={["Title", "Description", "Status", "More"]}
+              content={TableBodyElement(filtered)}
             />
           </div>
-        </span>
-
-        {hasProjects ? (
-          <>
-            <div className="overflow-x only-full-width">
-              <Table
-                headings={["Title", "Description", "Status", "More"]}
-                content={TableBodyElement(filtered)}
-              />
-            </div>
-          </>
-        ) : (
-          <NoData title={"Projects"} />
-        )}
+        </>
+      ) : (
+        <NoData title={"Projects"} />
+      )}
     </>
   );
 };

@@ -1,0 +1,35 @@
+.row {
+  width: 100%;
+  min-height: 5rem;
+}
+
+.skeleton {
+  padding: 20px;
+  min-height: 5rem;
+  height: 100%;
+  animation: skeleton-loading 1s linear infinite alternate;
+  background-color: var(--secondary-bg-color);
+}
+
+@keyframes skeleton-loading {
+  from {
+    background-color: var(--secondary-bg-color);
+  }
+  to {
+    background-color: rgb(245, 245, 245);
+  }
+}
+
+.dark-mode .skeleton {
+  animation: skeleton-loading-dark 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading-dark {
+  from {
+    background-color: var(--secondary-bg-color);
+  }
+
+  to {
+    background-color: #272727;
+  }
+}
